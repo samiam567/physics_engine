@@ -2,7 +2,7 @@ package Physics_engine;
 
 import java.awt.Graphics;
 
-public class Vector extends physics_object{
+public class Vector extends Physics_shape{
 
 	protected double r,xComponent,yComponent,zComponent;
 	private double thetaXY, thetaZX, thetaZY;

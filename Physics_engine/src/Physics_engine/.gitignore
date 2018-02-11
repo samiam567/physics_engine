@@ -37,3 +37,11 @@
 /physics_runner.class
 /point.class
 /rectangle.class
+/drawable.class
+/pointed.class
+/Shape.class
+/Polygon.class
+/Physics_polygon.class
+/movable.class
+/Physics_shape.class
+/rotatable.class

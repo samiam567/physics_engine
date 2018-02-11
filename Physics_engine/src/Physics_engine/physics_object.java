@@ -1,36 +1,30 @@
 package Physics_engine;
 
 import java.awt.Color;
-
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
-
 
 public abstract class physics_object {
 	
-	public boolean isVisible = true, isTangible = true, isAnchored = false, isFilled = false, affectedByBorder = true,        isRotatable = true;
-	//				will the object |will the object	|if it's anchored  | is it an outline | will the object be affected |  can the object be rotated?
-	//				be drawn		|collide with others|it  wont move	   | or is it filled? | by a border_bounce?         |   
+	public boolean  isTangible = true, isAnchored = false,  affectedByBorder = true,       isRotatable = true;
+	//				|will the object	|if it's anchored  | will the object be affected |  can the object be rotated?
+	//				|collide with others|it  wont move	   | by a border_bounce?         |   
 	
 	public String name = "unNamed"; //the name of the object
 	protected int x,y,z; 
-	protected double xReal,yReal,zReal; //x, y, and z SizeAppearance is the how big the object would appear to be (taking into account how far away it is)
+	protected double xReal,yReal,zReal; 
 
 	protected double centerX,centerY, centerZ,xSpeed,ySpeed,zSpeed,xAccel,yAccel,zAccel,xSize, ySize, zSize,xSizeAppearance, ySizeAppearance, zSizeAppearance, axisThetaXY = 0,axisThetaZX = 0, axisThetaZY = 0,mass,friction_coefficient;
-	protected double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
-	protected point center;
+	
+	
 	
 	protected point pointOfRotation; //the point that the object rotates around
 	private pointOfRotationPlaces pointOfRotationPlace = pointOfRotationPlaces.center;  //the place that that point is
 	public enum pointOfRotationPlaces {center,parentCenter,parentsPlace,custom};
-	
-	public String drawMethod = "paint"; //the method the drawer (object_draw) will use to render the object
-	
+
 	public point[] points = {}; //all of the points in the object
 	protected int[] pointXs = {}; //all of the x coordinates of the points in the object
 	protected int[] pointYs = {}; //all of the y coordinates of the points in the object
@@ -50,37 +44,14 @@ public abstract class physics_object {
 	
 	private physics_object parent_object; //this object will move and act relative to it's parent object (usefull for making complex objects out of multiple shapes)
 	private boolean hasParentObject = false; //if the object is linked to a parent object
-	protected Color color = Color.BLACK; //the color of the object
+	
 	protected Coordinate_Axis axis;
 	
 	public enum faces {left,right,top,bottom,far,near,none};
 	
 	
 	
-	public void paint(Graphics page) {
-		
-		if (Settings.displayObjectNames) page.drawString(name,(int) Math.round(points[0].getXReal()), (int) Math.round(points[0].getYReal())); //displaying the name of the object
-		
-		
-		if (Settings.showPointNumbers) {
-			point current_point;
-			for (int i = 0; i < points.length; i++) {
-				current_point = points[i];
-				page.drawString("" + i, current_point.getX(), current_point.getY()); //display the point numbers
-			}
-		}		
-		
-		updatePointXsYsAndZs();
-		updateAreas();
 	
-		if (isFilled) {
-			page.fillPolygon(pointXs, pointYs, points.length);
-		}else {
-			page.drawPolygon(pointXs, pointYs, points.length);
-		}
-		
-
-	}
 
 	
 	public void checkForCollisions(ArrayList<physics_object> objects) { // calls the checkForCollision method for every object in the objects list

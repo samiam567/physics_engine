@@ -9,7 +9,9 @@ import java.util.ConcurrentModificationException;
 
 public class object_draw extends Canvas {
 	
-	public static ArrayList<physics_object> objects = new ArrayList<physics_object>();
+	public static ArrayList<physics_object> update_objects = new ArrayList<physics_object>();
+	
+	public static ArrayList<drawable> draw_objects = new ArrayList<drawable>();
 	
 	public static ArrayList<force> scheduled_forces = new ArrayList<force>(); //list of forces for the maintenance bot to apply
 	
@@ -54,10 +56,18 @@ public class object_draw extends Canvas {
 		threader.state = 1;
 	}
 	
+	public void add(physics_object newOb) {
+		update_objects.add(newOb);
+		
+		try {
+			draw_objects.add((drawable) newOb);
+		}catch(ClassCastException c) {};
+	}
+	
 	private void updateObjects() {
 
-		for (physics_object current_object : objects) {				
-			current_object.Update(objects);
+		for (physics_object current_object : update_objects) {				
+			current_object.Update(update_objects);
 		}
 
 		for (force current_force : scheduled_forces) { //applying the scheduled forces
@@ -67,8 +77,8 @@ public class object_draw extends Canvas {
 	}
 	
 	private void updateObjects(double frames) {
-		for (physics_object current_object : objects) {				
-			current_object.Update(objects,frames);
+		for (physics_object current_object : update_objects) {				
+			current_object.Update(update_objects,frames);
 		}
 		
 		if ( Math.abs(current_frame - (int)current_frame ) < 0.00001) {
@@ -167,29 +177,28 @@ public class object_draw extends Canvas {
 	public void paint(Graphics page)  {
 		
 		//sorting objects by z distance ----------------------------------
-		Collections.sort(objects, new Comparator<physics_object>() {
+		Collections.sort(draw_objects, new Comparator<drawable>() {
 	     
-	        public int compare(physics_object o1, physics_object o2) {
+	        public int compare(drawable o1, drawable o2) {
 	            return Double.compare(o2.getZReal(), o1.getZReal());
 	        }
+
+	
 	    });
 		//----------------------------------------------------------------
 		
 		
-		point[] points;
-		point current_point;
-		point next_point;
+		
+		
 		
 		try {
-			for (physics_object current_object : objects) {
+			for (drawable current_object : draw_objects) {
 				
 				if (current_object.isVisible) {
 					
 					page.setColor(current_object.getColor());
 					
-				
-				
-					points = current_object.getPoints();
+					
 					
 					switch (current_object.drawMethod) {
 					
@@ -199,44 +208,43 @@ public class object_draw extends Canvas {
 							break;
 						
 						case("ListedPointAlgorithm"):
-							int pointKey;
-							int next_pointKey;
-							if (Settings.displayObjectNames) page.drawString(current_object.name,(int) Math.round(current_object.getCenterX()), (int) Math.round(current_object.getCenterY()));
-							for (int i = 0; i < current_object.pointRenderOrder.length-1 ; i++) {
-							
-								//calculate the pointkeys
-								pointKey = current_object.pointRenderOrder[i];
+							try {
+								current_object = (pointed) current_object;
 								
-								if (i == current_object.pointRenderOrder.length-1) {
-									next_pointKey = 0;
+								int pointKey;
+								int next_pointKey;
+								point current_point;
+								point next_point;
+								point[] points = current_object.getPoints();
+								if (Settings.displayObjectNames) page.drawString(current_object.name,(int) Math.round(current_object.getCenterX()), (int) Math.round(current_object.getCenterY()));
+								for (int i = 0; i < current_object.pointRenderOrder.length-1 ; i++) {
+								
+									//calculate the pointkeys
+									pointKey = current_object.pointRenderOrder[i];
 									
-								}else {
-									next_pointKey = current_object.pointRenderOrder[i+1];
+									if (i == current_object.pointRenderOrder.length-1) {
+										next_pointKey = 0;
+										
+									}else {
+										next_pointKey = current_object.pointRenderOrder[i+1];
+									}
+									
+									
+							//		System.out.println(pointKey + "," + next_pointKey);
+									
+									//get the points
+									current_point = points[pointKey];
+									next_point = points[next_pointKey];
+									
+									if (Settings.showPointNumbers) page.drawString("" + i, current_point.getX(), current_point.getY()); //display the point numbers								
+								
+									//draw line between points
+									page.drawLine(current_point.x, current_point.y, next_point.x, next_point.y);
 								}
-								
-								
-						//		System.out.println(pointKey + "," + next_pointKey);
-								
-								//get the points
-								current_point = points[pointKey];
-								next_point = points[next_pointKey];
-								
-								if (Settings.showPointNumbers) page.drawString("" + i, current_point.getX(), current_point.getY()); //display the point numbers
-								
-						//		System.out.println(pointKey + "," + next_pointKey);
-								
-								/*
-								System.out.print("Point" + i + ": (");
-								System.out.print(current_point.x);
-								System.out.print(",");
-								System.out.print(current_point.x);
-								System.out.println(")");
-								*/
-							
-								//draw line between points
-								page.drawLine(current_point.x, current_point.y, next_point.x, next_point.y);
+								break;
+							}catch(ClassCastException c) {
+								System.out.println("Drawable not a pointed object");
 							}
-							break;
 						
 						case("paint"):
 							current_object.paint(page);
