@@ -68,16 +68,11 @@ public abstract class physics_object {
 				current_point = points[i];
 				page.drawString("" + i, current_point.getX(), current_point.getY()); //display the point numbers
 			}
-		}
-		
-		
-		
+		}		
 		
 		updatePointXsYsAndZs();
 		updateAreas();
-		
-
-		
+	
 		if (isFilled) {
 			page.fillPolygon(pointXs, pointYs, points.length);
 		}else {
@@ -578,13 +573,10 @@ public abstract class physics_object {
 		
 	}
 	
-	public void setPos(double xReal1,double yReal1,double zReal1) {
-		centerX = xReal1;
-		centerY = yReal1;
-		centerZ = zReal1;
-		x = (int) Math.round(xReal);
-		y = (int) Math.round(yReal);
-		z = (int) Math.round(zReal);
+	public void setPos(double centerX1,double centerY1,double centerZ1) {
+		centerX = centerX1;
+		centerY = centerY1;
+		centerZ = centerZ1;
 		updatePos();
 	}
 	
@@ -677,21 +669,6 @@ public abstract class physics_object {
 		
 	}
 	
-	public void rotateX(double rotation) {
-		
-	}
-	
-	public void rotateY(double rotation) {
-		
-	}
-
-	public void rotateZ(double rotation) {
-	
-	}
-	
-	public void rotate(double xRadians, double yRadians, double zRadians, String order) {
-		
-	}
 
 
 	public void setColor(Color color1) {
@@ -699,9 +676,7 @@ public abstract class physics_object {
 	}
 	
 	
-	protected void updatePoints() {
-		
-		
+	protected void updatePoints() {				
 		if (isRotatable){
 			double r;
 			

@@ -15,7 +15,7 @@ public class Settings {
 	public static final long frameTime = 7000000; 
 	public static final int timeOutTime = 500000;
 	
-	public static final Color frameColor = Color.GREEN;
+	public static final Color frameColor = Color.GRAY;
 	
 	public static final double elasticity = 1; //a number between 0 and 1
 	

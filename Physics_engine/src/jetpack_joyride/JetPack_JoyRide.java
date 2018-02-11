@@ -149,13 +149,14 @@ public class JetPack_JoyRide {
 				MouseAdapter mouse =  new MouseAdapter() {
 
 				public void mouseClicked(MouseEvent arg0) {
-			
+					drawer.inactivity_timer = 0;
 				}
 				
 				public void mousePressed(MouseEvent arg0) {
 
 					jetpack.applyComponentForce(0, -25, 0);
 					jetpack.fireSize = 0.75;
+					drawer.inactivity_timer = 0;
 				}
 
 
@@ -163,6 +164,7 @@ public class JetPack_JoyRide {
 				
 					jetpack.applyComponentForce(0, 25, 0);
 					jetpack.fireSize = 0.35;
+					drawer.inactivity_timer = 0;
 			
 				}};
 				
@@ -180,6 +182,7 @@ public class JetPack_JoyRide {
 	            	  jetpack.setAccel(0, 0, 0);
 	            	  jetpack.applyComponentForce(0, -jetpack.power, 0);
 	            	  jetpack.fireSize = 0.75;
+	            	  drawer.inactivity_timer = 0;
 	              }
 
 				@Override
@@ -189,11 +192,12 @@ public class JetPack_JoyRide {
 					jetpack.applyComponentForce(0, jetpack.power, 0);
 					jetpack.applyComponentForce(0, 9.8, 0);
 					jetpack.fireSize = 0.35;
+					drawer.inactivity_timer = 0;
 					
 				}
 				@Override
 				public void keyTyped(KeyEvent arg0) {
-			
+					drawer.inactivity_timer = 0;
 				}
 	          });
 

@@ -974,15 +974,23 @@ public class Vector extends physics_object{
 		}
 	}
 	
+
 	public void updatePoints() {
 		
 		vectorTip.setPos(xReal + xComponent, yReal + yComponent, zReal + zComponent);
 		
-		points = new point[2];
-		points[0] = new point(xReal,yReal,zReal);
-		points[1] = vectorTip;
-		
-		setPoints(points);
+		try {
+			points[0].setPos(xReal, yReal, zReal);
+			points[1] = vectorTip;
+		}catch(NullPointerException n) {
+			points = new point[2];
+			points[0] = new point(xReal,yReal,zReal);
+			points[1] = vectorTip;
+		}catch(ArrayIndexOutOfBoundsException a) {
+			points = new point[2];
+			points[0] = new point(xReal,yReal,zReal);
+			points[1] = vectorTip;
+		}
 	}
 	
 	public double getYComponent() {
@@ -1014,8 +1022,8 @@ public class Vector extends physics_object{
 	}
 	
 	public void paint(Graphics page) {
-	//	page.drawLine(points[0].getX(),points[0].getY(),vectorTip.getX(),vectorTip.getY());  //these two lines should do the same thing
-		page.drawLine(x, y , x + (int) Math.round(xComponent),y + (int) Math.round(yComponent));
+		page.drawLine(points[0].getX(),points[0].getY(),vectorTip.getX(),vectorTip.getY());  //these two lines should do the same thing
+//		page.drawLine(x, y , x + (int) Math.round(xComponent),y + (int) Math.round(yComponent));
 	}
 }
 	
