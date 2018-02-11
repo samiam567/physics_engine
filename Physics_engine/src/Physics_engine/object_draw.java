@@ -64,17 +64,7 @@ public class object_draw extends Canvas {
 		}catch(ClassCastException c) {};
 	}
 	
-	private void updateObjects() {
 
-		for (physics_object current_object : update_objects) {				
-			current_object.Update(update_objects);
-		}
-
-		for (force current_force : scheduled_forces) { //applying the scheduled forces
-			current_force.apply();
-		}
-	
-	}
 	
 	private void updateObjects(double frames) {
 		for (physics_object current_object : update_objects) {				
@@ -116,7 +106,7 @@ public class object_draw extends Canvas {
 	public void doFrame() {
 		frameStartTime = System.nanoTime();
 		current_frame++;
-		updateObjects();
+		updateObjects(1);
 		repaint();
 		frameEndTime = System.nanoTime();
 		wait_time = Settings.frameTime - (frameEndTime - frameStartTime);

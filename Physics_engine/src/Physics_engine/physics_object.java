@@ -7,9 +7,12 @@ import java.awt.geom.Area;
 import java.util.ArrayList;
 
 
-public abstract class physics_object {
+public abstract class physics_object implements physics_engine_compatible{
 	
-	public boolean  isTangible = true,   affectedByBorder = true,       isRotatable = true;
+	public enum object_types {physics_object,drawable,movable,massive,pointed,rotatable};
+
+	
+	public boolean  isTangible = true,   affectedByBorder = true;
 	//				|will the object	|if it's anchored  | will the object be affected |  can the object be rotated?
 	//				|collide with others|it  wont move	   | by a border_bounce?         |   
 	
@@ -17,7 +20,7 @@ public abstract class physics_object {
 	protected int x,y,z; 
 	protected double xReal,yReal,zReal; 
 
-	protected double centerX,centerY, centerZ,xSpeed,ySpeed,zSpeed,xAccel,yAccel,zAccel,xSize, ySize, zSize,xSizeAppearance, ySizeAppearance, zSizeAppearance, axisThetaXY = 0,axisThetaZX = 0, axisThetaZY = 0,mass,friction_coefficient;
+	protected double centerX,centerY, centerZ,xSize, ySize, zSize,xSizeAppearance, ySizeAppearance, zSizeAppearance, axisThetaXY = 0,axisThetaZX = 0, axisThetaZY = 0,mass,friction_coefficient;
 	
 	public enum pointOfRotationPlaces {center,parentCenter,parentsPlace,custom};
 

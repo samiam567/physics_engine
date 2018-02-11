@@ -45,3 +45,5 @@
 /movable.class
 /Physics_shape.class
 /rotatable.class
+/physics_engine_compatible.class
+/physics_object$object_types.class

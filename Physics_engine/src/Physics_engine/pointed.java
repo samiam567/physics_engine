@@ -1,7 +1,9 @@
 package Physics_engine;
 
+import Physics_engine.physics_object.object_types;
+
 public interface pointed extends movable { //made up of points
-	
+	public object_types object_type = object_types.pointed;
 	public point[] points = {}; //all of the points in the object
 	int[] pointXs = {}; //all of the x coordinates of the points in the object
 	int[] pointYs = {}; //all of the y coordinates of the points in the object

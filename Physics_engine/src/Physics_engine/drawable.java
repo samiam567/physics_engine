@@ -3,13 +3,17 @@ package Physics_engine;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public interface drawable { //the ability to be drawn on the screen
+import Physics_engine.physics_object.object_types;
+
+public interface drawable extends physics_engine_compatible { //the ability to be drawn on the screen
+	public object_types object_type = object_types.drawable;
 	int x=0,y=0,z=0;
 	double xReal=0,yReal=0,zReal=0;
 	boolean isVisible = true,isFilled = false;
 	Color color = Color.BLACK;
 	public String drawMethod = "paint";
 	public String name = "unnamed";
+	public object_draw drawer = null;
 	
 	public void paint(Graphics Page);
 	
