@@ -10,7 +10,7 @@ import Physics_engine.rectangle;
 
 public class Missile extends rectangle {
 
-	public static final int missileHomingSpeed = 1;
+	public static final int missileHomingSpeed = 10;
 	
 	public Missile(double d, double y) {
 		super(d, y, 0, 20, 5, 0);
