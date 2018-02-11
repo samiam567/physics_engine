@@ -3,8 +3,19 @@ package Physics_engine;
 import java.awt.Graphics;
 
 public class Physics_polygon extends Physics_shape implements pointed{
-	public void paint(Graphics page) {
-			
+	
+	public point[] points = {}; //all of the points in the object
+	int[] pointXs = {}; //all of the x coordinates of the points in the object
+	int[] pointYs = {}; //all of the y coordinates of the points in the object
+	int[] pointZs = {}; //all of the y coordinates of the points in the object
+	
+	double[] pointXReals = {}; //all of the x coordinates of the points in the object
+	double[] pointYReals = {}; //all of the y coordinates of the points in the object
+	double[] pointZReals = {}; //all of the y coordinates of the points in the object
+	
+	int[] pointRenderOrder = {}; //the order in which lines will be drawn from point to point (for listedPointAlgorithm)
+	
+	public void paint(Graphics page) {	
 			if (Settings.displayObjectNames) page.drawString(name,(int) Math.round(points[0].getXReal()), (int) Math.round(points[0].getYReal())); //displaying the name of the object
 			
 			

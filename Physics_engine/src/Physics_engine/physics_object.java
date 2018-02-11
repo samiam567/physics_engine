@@ -19,6 +19,8 @@ public abstract class physics_object implements physics_engine_compatible{
 	public String name = "unNamed"; //the name of the object
 	protected int x,y,z; 
 	protected double xReal,yReal,zReal; 
+	
+	public object_draw drawer;
 
 	protected double centerX,centerY, centerZ,xSize, ySize, zSize,xSizeAppearance, ySizeAppearance, zSizeAppearance, axisThetaXY = 0,axisThetaZX = 0, axisThetaZY = 0,mass,friction_coefficient;
 	
@@ -41,7 +43,9 @@ public abstract class physics_object implements physics_engine_compatible{
 	
 	
 	
-	
+	public physics_object(object_draw drawer1) {
+		drawer = drawer1;
+	}
 
 	
 	public void checkForCollisions(ArrayList<physics_object> objects) { // calls the checkForCollision method for every object in the objects list
@@ -93,98 +97,15 @@ public abstract class physics_object implements physics_engine_compatible{
 	//for v1-4 collision
 		return null;
 	}
-
-	public void Update(ArrayList<physics_object> objects) {	//updates all of the objects values 	
-		if (hasParentObject) {
-			xSpeed = parent_object.xSpeed;
-			ySpeed = parent_object.ySpeed;
-			zSpeed = parent_object.zSpeed;
-			xAccel = parent_object.xAccel;
-			yAccel = parent_object.yAccel;
-			zAccel = parent_object.zAccel;
-			angularVelocityX = parent_object.angularVelocityX;
-			angularVelocityY = parent_object.angularVelocityY;
-			angularVelocityZ = parent_object.angularVelocityZ;
-			axisThetaXY = parent_object.axisThetaXY;
-			axisThetaZX = parent_object.axisThetaZX;
-			axisThetaZY = parent_object.axisThetaZY;
-			mass = parent_object.mass;
-			friction_coefficient = parent_object.friction_coefficient;
-			
-			//update real pos
-			centerX += (xSpeed);
-			centerY += (ySpeed);
-			centerZ += (zSpeed);
-			
-			xRotation += angularVelocityX;
-			yRotation += angularVelocityY;
-			zRotation += angularVelocityZ;
-			
-			//updating relative values
-			updateSize(); //calculate the size of the object based on how far away it is
-			updatePos();//update the xReal,yReal,zReal and x,y,z values
-			updatePoints();//set the points based on the x and y values and calculate rotation
-			updateCenter(); //update the  "center" point
-			
-			
-			
-			try {
-				axis.UpdateAxis();
-			}catch(NullPointerException e) {}
-			
-		}else {
-			if (! isAnchored) { //updating the pos and speed based on the accel
-				//update speed
-				xSpeed += xAccel;
-				ySpeed += yAccel;
-				zSpeed += zAccel;
-				
-				checkForCollisions(objects);
-				
-				//update real pos
-				centerX += xSpeed;
-				centerY += ySpeed;
-				centerZ += zSpeed;
-			}else { //object is anchored and shouldn't move
-				xSpeed = 0;
-				ySpeed = 0;
-				zSpeed = 0;
-			}
-			
-			if (isRotatable) { //rotation shouldn't be updated if the object isn't rotatable
-				//updating angular velocity
-				angularVelocityX += angularAccelX;
-				angularVelocityY += angularAccelY;
-				angularVelocityZ += angularAccelZ;
-				
-				//updating rotation
-				xRotation += angularVelocityX;
-				yRotation += angularVelocityY;
-				zRotation += angularVelocityZ;
-				
-			}
-				
-			
-				
-			//updating relative values
-			updateSize(); //calculate the size of the object based on how far away it is
-			updatePos();//update the xReal,yReal,zReal and x,y,z values
-			updatePoints();//set the points based on the x and y values and calculate rotation
-			updateCenter(); //update the  "center" point
-			
-			try {
-				axis.UpdateAxis();
-			}catch(NullPointerException e) {}
-		}
-		
-		updatePointXsYsAndZs();
-		
-		secondaryUpdate(); //this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently
-	}
 	
 	
 	public void Update(ArrayList<physics_object> objects,double frames) { //frames is the number of frames the object should update (can be a decimal)
-
+		
+		//this switch statement is supposed to fall through
+		switch()
+		
+		
+		
 		if (hasParentObject) {
 			xSpeed = parent_object.xSpeed;
 			ySpeed = parent_object.ySpeed;
@@ -258,84 +179,6 @@ public abstract class physics_object implements physics_engine_compatible{
 			}	
 			
 			
-				
-			//updating relative values
-			updateSize(); //calculate the size of the object based on how far away it is
-			updatePos();//update the xReal,yReal,zReal and x,y,z values
-			updatePoints();//set the points based on the x and y values and calculate rotation
-			updateCenter(); //update the  "center" point
-			
-			try {
-				axis.UpdateAxis();
-			}catch(NullPointerException e) {}
-		}
-		
-		updatePointXsYsAndZs();
-		
-		secondaryUpdate(); //this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently
-	}
-	
-	public void UpdateWithoutCollision(ArrayList<physics_object> objects) { //updates all of the objects values without checking for collisions
-		
-		if (hasParentObject) {
-			xSpeed = parent_object.xSpeed;
-			ySpeed = parent_object.ySpeed;
-			zSpeed = parent_object.zSpeed;
-			xAccel = parent_object.xAccel;
-			yAccel = parent_object.yAccel;
-			zAccel = parent_object.zAccel;
-			angularVelocityX = parent_object.angularVelocityX;
-			angularVelocityY = parent_object.angularVelocityY;
-			angularVelocityZ = parent_object.angularVelocityZ;
-			axisThetaXY = parent_object.axisThetaXY;
-			axisThetaZX = parent_object.axisThetaZX;
-			axisThetaZY = parent_object.axisThetaZY;
-			mass = parent_object.mass;
-			friction_coefficient = parent_object.friction_coefficient;
-			
-			//update real pos
-			centerX += (xSpeed);
-			centerY += (ySpeed);
-			centerZ += (zSpeed);
-			
-			//updating relative values
-			updateSize(); //calculate the size of the object based on how far away it is
-			updatePos();//update the xReal,yReal,zReal and x,y,z values
-			updatePoints();//set the points based on the x and y values and calculate rotation
-			updateCenter(); //update the  "center" point
-			
-			try {
-				axis.UpdateAxis();
-			}catch(NullPointerException e) {}
-			
-		}else {
-			if (! isAnchored) { //updating the pos and speed based on the accel
-				//update speed
-				xSpeed += xAccel;
-				ySpeed += yAccel;
-				zSpeed += zAccel;
-				
-				//update real pos
-				centerX += xSpeed;
-				centerY += ySpeed;
-				centerZ += zSpeed;
-			}else { //object is anchored and shouldn't move
-				xSpeed = 0;
-				ySpeed = 0;
-				zSpeed = 0;
-			}
-			
-			if (isRotatable) { //rotation shouldn't be updated if the object isn't rotatable
-				//updating angular velocity
-				angularVelocityX += angularAccelX;
-				angularVelocityY += angularAccelY;
-				angularVelocityZ += angularAccelZ;
-			
-				//updating rotation
-				xRotation += angularVelocityX;
-				yRotation += angularVelocityY;
-				zRotation += angularVelocityZ;	
-			}
 				
 			//updating relative values
 			updateSize(); //calculate the size of the object based on how far away it is
