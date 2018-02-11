@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public abstract class physics_object {
 	
-	public boolean  isTangible = true, isAnchored = false,  affectedByBorder = true,       isRotatable = true;
+	public boolean  isTangible = true,   affectedByBorder = true,       isRotatable = true;
 	//				|will the object	|if it's anchored  | will the object be affected |  can the object be rotated?
 	//				|collide with others|it  wont move	   | by a border_bounce?         |   
 	
@@ -19,28 +19,15 @@ public abstract class physics_object {
 
 	protected double centerX,centerY, centerZ,xSpeed,ySpeed,zSpeed,xAccel,yAccel,zAccel,xSize, ySize, zSize,xSizeAppearance, ySizeAppearance, zSizeAppearance, axisThetaXY = 0,axisThetaZX = 0, axisThetaZY = 0,mass,friction_coefficient;
 	
-	
-	
-	protected point pointOfRotation; //the point that the object rotates around
-	private pointOfRotationPlaces pointOfRotationPlace = pointOfRotationPlaces.center;  //the place that that point is
 	public enum pointOfRotationPlaces {center,parentCenter,parentsPlace,custom};
 
-	public point[] points = {}; //all of the points in the object
-	protected int[] pointXs = {}; //all of the x coordinates of the points in the object
-	protected int[] pointYs = {}; //all of the y coordinates of the points in the object
-	protected int[] pointZs = {}; //all of the y coordinates of the points in the object
 	
-	protected double[] pointXReals = {}; //all of the x coordinates of the points in the object
-	protected double[] pointYReals = {}; //all of the y coordinates of the points in the object
-	protected double[] pointZReals = {}; //all of the y coordinates of the points in the object
-	
-	protected int[] pointRenderOrder = {}; //the order in which lines will be drawn from point to point (for listedPointAlgorithm)
 	
 	private Polygon polyXY, polyZY;
 	
 	private Area areaXY,areaZY;
 	
-	public object_draw drawer;
+	
 	
 	private physics_object parent_object; //this object will move and act relative to it's parent object (usefull for making complex objects out of multiple shapes)
 	private boolean hasParentObject = false; //if the object is linked to a parent object
