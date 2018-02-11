@@ -114,6 +114,7 @@ public class JetPack_JoyRide {
 		boundries.setColor(Color.black);
 		boundries.setPos(boundries.getXReal(),boundries.getYReal()-100,10);
 		boundries.setSize(Settings.width *1.06, Settings.height*1.15,10);
+		boundries.isVisible = false;
 		
 		coinScore = new ScoreBoard();
 		coinScore.setScore(coins);

@@ -39,6 +39,11 @@ public class JetPack extends rectangle {
 			    Coin coin = (Coin) object;
 			    JetPack_JoyRide.coins++;
 			    coin.coinReLocate();
+			    
+			    if (side.equals(faces.top) || side.equals(faces.bottom)) {
+			    	setSpeed(xSpeed,-ySpeed,zSpeed);
+			    }
+			    
 			} catch (ClassCastException e) {}
 			
 	
