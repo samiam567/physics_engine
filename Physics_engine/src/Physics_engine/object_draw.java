@@ -68,7 +68,7 @@ public class object_draw extends Canvas {
 	
 	private void updateObjects(double frames) {
 		for (physics_object current_object : update_objects) {				
-			current_object.Update(update_objects,frames);
+			Physics_engine_toolbox.Update(current_object,frames);
 		}
 		
 		if ( Math.abs(current_frame - (int)current_frame ) < 0.00001) {

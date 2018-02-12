@@ -47,3 +47,7 @@
 /rotatable.class
 /physics_engine_compatible.class
 /physics_object$object_types.class
+/Physics_engine_toolbox.class
+/massive.class
+/Physics_engine_toolbox$faces.class
+/Physics_engine_toolbox$pointOfRotationPlaces.class

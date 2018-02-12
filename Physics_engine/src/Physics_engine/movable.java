@@ -9,4 +9,6 @@ public interface movable extends drawable { // the ability to be moved
 	public boolean isAnchored = false;
 	double xSpeed=0,ySpeed=0,zSpeed=0,xAccel=0,yAccel=0,zAccel=0;
 	*/
+	
+	public boolean getIsAnchored();
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public abstract class physics_object implements physics_engine_compatible{
 	
-	public enum object_types {physics_object,drawable,movable,massive,pointed,rotatable};
+	public enum object_types {none,physics_object,drawable,movable,massive,pointed,rotatable};
 
 	
 	public boolean  isTangible = true,   affectedByBorder = true;
@@ -17,29 +17,24 @@ public abstract class physics_object implements physics_engine_compatible{
 	//				|collide with others|it  wont move	   | by a border_bounce?         |   
 	
 	public String name = "unNamed"; //the name of the object
-	protected int x,y,z; 
-	protected double xReal,yReal,zReal; 
+
 	
 	public object_draw drawer;
 
-	protected double centerX,centerY, centerZ,xSize, ySize, zSize,xSizeAppearance, ySizeAppearance, zSizeAppearance, axisThetaXY = 0,axisThetaZX = 0, axisThetaZY = 0,mass,friction_coefficient;
+	protected double centerX,centerY, centerZ,xSize, ySize, zSize,xSizeAppearance, ySizeAppearance, zSizeAppearance, mass,friction_coefficient;
 	
-	public enum pointOfRotationPlaces {center,parentCenter,parentsPlace,custom};
+	
 
 	
 	
-	private Polygon polyXY, polyZY;
-	
-	private Area areaXY,areaZY;
 	
 	
 	
-	private physics_object parent_object; //this object will move and act relative to it's parent object (usefull for making complex objects out of multiple shapes)
-	private boolean hasParentObject = false; //if the object is linked to a parent object
 	
-	protected Coordinate_Axis axis;
 	
-	public enum faces {left,right,top,bottom,far,near,none};
+
+	
+
 	
 	
 	
@@ -99,188 +94,13 @@ public abstract class physics_object implements physics_engine_compatible{
 	}
 	
 	
-	public void Update(ArrayList<physics_object> objects,double frames) { //frames is the number of frames the object should update (can be a decimal)
-		
-		//this switch statement is supposed to fall through
-		switch()
-		
-		
-		
-		if (hasParentObject) {
-			xSpeed = parent_object.xSpeed;
-			ySpeed = parent_object.ySpeed;
-			zSpeed = parent_object.zSpeed;
-			xAccel = parent_object.xAccel;
-			yAccel = parent_object.yAccel;
-			zAccel = parent_object.zAccel;
-			angularVelocityX = parent_object.angularVelocityX;
-			angularVelocityY = parent_object.angularVelocityY;
-			angularVelocityZ = parent_object.angularVelocityZ;
-			axisThetaXY = parent_object.axisThetaXY;
-			axisThetaZX = parent_object.axisThetaZX;
-			axisThetaZY = parent_object.axisThetaZY;
-			mass = parent_object.mass;
-			friction_coefficient = parent_object.friction_coefficient;
-			
-			//update real pos
-			centerX += (xSpeed * frames);
-			centerY += (ySpeed * frames);
-			centerZ += (zSpeed * frames);
-			
-			//updating angular velocity
-			angularVelocityX += (angularAccelX * frames);
-			angularVelocityY += (angularAccelY * frames);
-			angularVelocityZ += (angularAccelZ * frames);
-			
-			//updating rotation
-			xRotation += (angularVelocityX * frames);
-			yRotation += (angularVelocityY * frames);
-			zRotation += (angularVelocityZ * frames);
-			 
-			//updating relative values
-			updateSize(); //calculate the size of the object based on how far away it is
-			updatePos();//update the xReal,yReal,zReal and x,y,z values
-			updatePoints();//set the points based on the x and y values and calculate rotation
-			updateCenter(); //update the  "center" point
-			
-			try {
-				axis.UpdateAxis();
-			}catch(NullPointerException e) {}
-			
-		}else {
-			if (! isAnchored) { //updating the pos and speed based on the accel
-				//update speed
-				xSpeed += (xAccel * frames);
-				ySpeed += (yAccel * frames);
-				zSpeed += (zAccel * frames);
-				
-				checkForCollisions(objects);
-				
-				//update real pos
-				centerX += (xSpeed * frames);
-				centerY += (ySpeed * frames);
-				centerZ += (zSpeed * frames);
-			}else { //object is anchored and shouldn't move
-				xSpeed = 0;
-				ySpeed = 0;
-				zSpeed = 0;
-			}
-			
-			if (isRotatable) { //rotation shouldn't be updated if the object isn't rotatable
-				//updating angular velocity
-				angularVelocityX += (angularAccelX * frames);
-				angularVelocityY += (angularAccelY * frames);
-				angularVelocityZ += (angularAccelZ * frames);
-				
-				//updating rotation
-				xRotation += (angularVelocityX * frames);
-				yRotation += (angularVelocityY * frames);
-				zRotation += (angularVelocityZ * frames);
-			}	
-			
-			
-				
-			//updating relative values
-			updateSize(); //calculate the size of the object based on how far away it is
-			updatePos();//update the xReal,yReal,zReal and x,y,z values
-			updatePoints();//set the points based on the x and y values and calculate rotation
-			updateCenter(); //update the  "center" point
-			
-			try {
-				axis.UpdateAxis();
-			}catch(NullPointerException e) {}
-		}
-		
-		updatePointXsYsAndZs();
-		
-		secondaryUpdate(); //this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently
-	}
 	
-	protected void UpdateWithoutCollision(ArrayList<physics_object> objects, double frames) { //updates all of the objects values without checking for collisions
-		//frame fraction is the number of frames we should update by (including by a fraction of a frame) for instance if you only want to update the object for half a frame of time, frames would be 0.5
-		
-		if (hasParentObject) {
-			xSpeed = parent_object.xSpeed;
-			ySpeed = parent_object.ySpeed;
-			zSpeed = parent_object.zSpeed;
-			xAccel = parent_object.xAccel;
-			yAccel = parent_object.yAccel;
-			zAccel = parent_object.zAccel;
-			angularVelocityX = parent_object.angularVelocityX;
-			angularVelocityY = parent_object.angularVelocityY;
-			angularVelocityZ = parent_object.angularVelocityZ;
-			axisThetaXY = parent_object.axisThetaXY;
-			axisThetaZX = parent_object.axisThetaZX;
-			axisThetaZY = parent_object.axisThetaZY;
-			mass = parent_object.mass;
-			friction_coefficient = parent_object.friction_coefficient;
-			
-			//update real pos
-			centerX += (xSpeed * frames);
-			centerY += (ySpeed * frames);
-			centerZ += (zSpeed * frames);
-			
-			//updating relative values
-			updatePoints(); //does the whole rotation thing and updates the positions of the point
-			updatePos();//update int values of pos
-			updateCenter(); //calculates where the center of the object is
-			updateSize(); //calculates the size of the object
-			
-			
-			try {
-				axis.UpdateAxis();
-			}catch(NullPointerException e) {}
-			
-		}else {
-			if (! isAnchored) { //updating the pos and speed based on the accel
-				//update speed
-				xSpeed += (xAccel*frames);
-				ySpeed += (yAccel*frames);
-				zSpeed += (zAccel*frames);
-				
-				//update real pos
-				centerX += (xSpeed*frames);
-				centerY += (ySpeed*frames);
-				centerZ += (zSpeed*frames);
-				
-			}else { //object is anchored and shouldn't move
-				xSpeed = 0;
-				ySpeed = 0;
-				zSpeed = 0;
-			}
-			
-			if (isRotatable) {
-				//updating angular velocity
-				angularVelocityX += (angularAccelX * frames);
-				angularVelocityY += (angularAccelY * frames);
-				angularVelocityZ += (angularAccelZ * frames);
-				
-				//updating rotation
-				xRotation += (angularVelocityX * frames);
-				yRotation += (angularVelocityY * frames);
-				zRotation += (angularVelocityZ * frames);
-			}	
-				
-			
-		
-
-			updatePos();	//update int values of pos
-			updatePoints();		 //does the whole rotation thing and updates the positions of the point
-			updateCenter();//calculates where the center of the object is
-			updateSize();//calculates the size of the object
-			
-			try {
-				axis.UpdateAxis();
-			}catch(NullPointerException e) {}			
-		}
-		
-		updatePointXsYsAndZs();
-		
-		secondaryUpdate(); //this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently
-	}
-	
-	protected void secondaryUpdate() {
+	public void secondaryUpdate() {
 		//this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently
+	}
+	
+	public void tertiaryUpdate() {
+		
 	}
 	
 	public void applyForce(double r, double theta, double z_magn) { //theta is an angle from the eastward direction
@@ -344,33 +164,9 @@ public abstract class physics_object implements physics_engine_compatible{
 		
 	}
 	
-	protected void calculatePointValues() {  //this method has BIGG issues
-		Vector tempVec;
-		for (point cPoint : points) {
-		
-			try {
-				cPoint.setR(distance(cPoint,pointOfRotation));
-			}catch(NullPointerException n) { //this will be caught if pointOfRotation doesn't exist yet.
-				pointOfRotation = new point(centerX,centerY,centerZ); //create pointOfRotation and set it to the center of the object using the default method
-				cPoint.setR(distance(cPoint,pointOfRotation));
-			}
-		
-			
-			tempVec = new Vector(cPoint,pointOfRotation);
-			
-			System.out.println("-");
-			System.out.println("point: " + cPoint.getThetaXY() + "," + cPoint.getThetaZX() + "," + cPoint.getThetaZY() );
-		//	cPoint.setAngle(tempVec.getThetaXY(), tempVec.getThetaZX(), tempVec.getThetaZY());  //this line is what makes this method not work!!
-			
-			System.out.println("point: " + cPoint.getThetaXY() + "," + cPoint.getThetaZX() + "," + cPoint.getThetaZY() );
-			System.out.println("-");
 	
-		}
-	}
 	
-	public double distance(point point1, point point2) {
-		return Math.sqrt( Math.pow(( point2.getXReal() - point1.getXReal() ), 2) + Math.pow(( point2.getYReal() - point1.getYReal() ), 2) + Math.pow(( point2.getZReal() - point1.getZReal() ), 2) );
-	}
+	
 
 
 	public void isCollided(physics_object object, faces side) { //method that gets called when the object hits something. Useful for things like spikes or bullets in a game
@@ -384,9 +180,7 @@ public abstract class physics_object implements physics_engine_compatible{
 		updatePos();
 	}
 	
-	public void setPoints(point[] points1) {
-		points = points1;
-	}
+	
 	
 	public void setSpeed(double xSpeed1, double ySpeed1, double zSpeed1) { //sets the speed of the object
 		xSpeed = xSpeed1;
@@ -400,17 +194,7 @@ public abstract class physics_object implements physics_engine_compatible{
 		zAccel = zAccel1;
 	}
 	
-	public void setAngularVelocity(double angVX, double angVY, double angVZ) {
-		angularVelocityX = angVX;
-		angularVelocityY = angVY;
-		angularVelocityZ = angVZ;
-	}
-	
-	public void setAngularAccel(double angAccelX, double angAccelY, double angAccelZ) {
-		angularAccelX = angAccelX;
-		angularAccelY = angAccelY;
-		angularAccelZ = angAccelZ;
-	}
+
 	
 	public void setSize(double xSize1,double ySize1,double zSize1) { //sets the size of the object
 		xSize = xSize1;
@@ -433,45 +217,8 @@ public abstract class physics_object implements physics_engine_compatible{
 		}catch(NullPointerException e) {}	
 	}
 	
-	public void setParentObject(physics_object newParent) { //links this object to the object passed into this method (by setting it as the parent_object)
-		parent_object = newParent;
-		hasParentObject = true;
-	}
-	
-	public void setRotation(double xRotation1, double yRotation1, double zRotation1) { //this is not a wise method to use as it frequently results in impossible rotations.
-		xRotation = xRotation1;
-		yRotation = yRotation1;
-		zRotation = zRotation1;
-	}
-	
-	public void setPointOfRotation(point newPointOfRotation) {
-		pointOfRotation = newPointOfRotation;
-		
-		pointOfRotationPlace = pointOfRotationPlaces.custom;
-		
-		calculatePointValues();
-		
-		
-		
-	}
-	
-	public void setPointOfRotationPlace(pointOfRotationPlaces newPlace) {
-		pointOfRotationPlace = newPlace;
 
-		updatePointOfRotation();
-	}
 	
-	public void updatePointOfRotation() { //this doesn't need to be updated every time the pointOfRotation changes because the pointOfRotation is an alias of the original point. (unless it's a custom pointOfRotation)
-		if (pointOfRotationPlace.equals(pointOfRotationPlaces.center)) {
-			pointOfRotation = center;
-		}else if(pointOfRotationPlace.equals(pointOfRotationPlaces.parentCenter)) {
-			pointOfRotation = parent_object.center;
-		}else if(pointOfRotationPlace.equals(pointOfRotationPlaces.parentsPlace)) {
-			pointOfRotation = parent_object.pointOfRotation;
-		}
-		
-		
-	}
 	
 
 
@@ -480,65 +227,9 @@ public abstract class physics_object implements physics_engine_compatible{
 	}
 	
 	
-	protected void updatePoints() {				
-		if (isRotatable){
-			double r;
-			
-			//creating a vector from the pointOfRotation to each point in the object
-			Vector pointVector;
-			point cPoint;
-			 
-			for (int i = 0; i < points.length ; i++) {
-				cPoint = points[i];
-				r = points[i].getR();
-				
-				pointVector = new Vector(r, cPoint.getThetaXY() + zRotation, cPoint.getThetaZX() + yRotation, cPoint.getThetaZY() + xRotation,"thetaZY",this);
-				
-				try {
-					pointVector.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());			
-				}catch(NullPointerException n) {} //this will throw if the object has not been finished being constructed yet
-						
-				points[i].setPointVector(pointVector); //sets the vector AND updates the point's pos automatically
-				
-			}
-		
-			
-		}
-		
-	}
 	
-	private void updatePointXsYsAndZs() {
-		
-		try {
-			for (int i = 0; i < points.length; i++) {
-				pointXs[i] = points[i].getX();
-				pointYs[i] = points[i].getY();
-				pointZs[i] = points[i].getZ();
-				
-				pointXReals[i] = points[i].getXReal();
-				pointYReals[i] = points[i].getYReal();
-				pointZReals[i] = points[i].getZReal();
-			}
-		}catch(ArrayIndexOutOfBoundsException a) {
-			pointXs = new int[points.length];
-			pointYs = new int[points.length];
-			pointZs = new int[points.length];
-			
-			pointXReals = new double[points.length];
-			pointYReals = new double[points.length];
-			pointZReals = new double[points.length];
-			
-			for (int i = 0; i < points.length; i++) {
-				pointXs[i] = points[i].getX();
-				pointYs[i] = points[i].getY();
-				pointZs[i] = points[i].getZ();
-				
-				pointXReals[i] = points[i].getXReal();
-				pointYReals[i] = points[i].getYReal();
-				pointZReals[i] = points[i].getZReal();
-			}
-		}
-	}
+	
+	
 	
 	protected void calculateCenter() {
 		
@@ -628,39 +319,9 @@ public abstract class physics_object implements physics_engine_compatible{
 		z = (int) Math.round(zReal);
 	}
 	
-	private void updatePolygons() {
-		
-		try {
-			polyXY.xpoints = pointXs;
-			polyXY.ypoints = pointYs;
-			polyXY.npoints = pointXs.length;
-			
-			polyZY.xpoints = pointZs;
-			polyZY.ypoints = pointYs;
-			polyXY.npoints = pointYs.length;
-			
-		
-		}catch(NullPointerException n) { //if the polys don't exist, then create them
-			polyXY = new Polygon();
-			polyZY = new Polygon();
-			
-			polyXY.xpoints = pointXs;
-			polyXY.ypoints = pointYs;
-			polyXY.npoints = pointXs.length;
-			
-			polyZY.xpoints = pointZs;
-			polyZY.ypoints = pointYs;
-			polyXY.npoints = pointYs.length;
-		}
-	}
 	
-	protected void updateAreas() {
-		updatePolygons();
-		
-		areaXY = new Area(polyXY);
-		areaZY = new Area(polyZY);
-		
-	}
+	
+	
 	
 	public String getObjectName() { //gets the name of the object
 		return name;
@@ -676,8 +337,10 @@ public abstract class physics_object implements physics_engine_compatible{
 	
 	
 	//Getter methods
-	public point[] getPoints() {
-		return points;
+	
+	
+	public object_draw getDrawer() {
+		return drawer;
 	}
 	
 	public double getCenterX() { //finds the x coordinate of the object's center
@@ -742,49 +405,10 @@ public abstract class physics_object implements physics_engine_compatible{
 		return color;
 	}
 	
-	public Polygon getPolyXY() {
-		return polyXY;
-	}
-	
-	public Polygon getPolyZY() {
-		return polyZY;
-	}
-	
-	public Area getAreaXY() {
-		
-		return areaXY;
-	}
 
 
-	public Area getAreaZY() {
-	
-		return areaZY;
-	}
 
-
-	public double getAxisThetaXY() {
-		return axisThetaXY;
-	}
 	
-	public double getAxisThetaZX() {
-		return axisThetaZX;
-	}
-	
-	public double getAxisThetaZY() {
-		return axisThetaZY;
-	}
-	
-	public double getXRotation() {
-		return xRotation;
-	}
-	
-	public double getYRotation() {
-		return yRotation;
-	}
-	
-	public double getZRotation() {
-		return zRotation;
-	}
 	
 	
 	public physics_object copy(physics_object new_object)  { //copies this physics_object to another

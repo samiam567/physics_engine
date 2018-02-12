@@ -1,7 +1,7 @@
 package Physics_engine;
 
 import Physics_engine.physics_object.object_types;
-import Physics_engine.physics_object.pointOfRotationPlaces;
+
 
 public interface rotatable extends pointed { //the ability to be rotated
 	public object_types object_type = object_types.rotatable;
@@ -17,7 +17,7 @@ public interface rotatable extends pointed { //the ability to be rotated
 	public void setAngularVelocity(double angVX, double angVY, double angVZ);
 	public void setAngularAccel(double angAccelX, double angAccelY, double angAccelZ);
 	public void setPointOfRotation(point newPointOfRotation);
-	public void setPointOfRotationPlace(pointOfRotationPlaces newPlace);
+	public void setPointOfRotationPlace(Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces newPlace);
 	public void updatePointOfRotation();
 	public double getXRotation();
 	public double getYRotation();
