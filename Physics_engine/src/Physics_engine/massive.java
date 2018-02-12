@@ -1,5 +1,12 @@
 package Physics_engine;
 
-public interface massive extends movable{
+import java.util.ArrayList;
 
+public interface massive extends movable{
+	
+	
+	public boolean getIsTangible();
+	public double getMass();
+	public double getFrictionCoefficient();
+	public void checkForCollision(massive physics_polygon, ArrayList<pointed> objects);
 }

@@ -2,7 +2,7 @@ package Physics_engine;
 
 import Physics_engine.physics_object.object_types;
 
-public abstract interface pointed extends movable { //made up of points
+public abstract interface pointed extends massive { //made up of points
 	public object_types object_type = object_types.pointed;
 	
 	/* vars needed:

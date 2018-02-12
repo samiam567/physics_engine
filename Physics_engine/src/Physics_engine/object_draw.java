@@ -9,13 +9,11 @@ import java.util.ConcurrentModificationException;
 
 public class object_draw extends Canvas {
 	
-	public static ArrayList<physics_object> update_objects = new ArrayList<physics_object>();
+	public ArrayList<physics_object> objects = new ArrayList<physics_object>();
 	
-	public static ArrayList<drawable> draw_objects = new ArrayList<drawable>();
+	public ArrayList<force> scheduled_forces = new ArrayList<force>(); //list of forces for the maintenance bot to apply
 	
-	public static ArrayList<force> scheduled_forces = new ArrayList<force>(); //list of forces for the maintenance bot to apply
-	
-	public static double current_frame = 0; //what frame we are on
+	public double current_frame = 0; //what frame we are on
 	private long frameStartTime;
 	private long frameEndTime;
 	private long wait_time;
@@ -57,17 +55,11 @@ public class object_draw extends Canvas {
 	}
 	
 	public void add(physics_object newOb) {
-		update_objects.add(newOb);
-		
-		try {
-			draw_objects.add((drawable) newOb);
-		}catch(ClassCastException c) {};
+		objects.add(newOb);
 	}
 	
-
-	
 	private void updateObjects(double frames) {
-		for (physics_object current_object : update_objects) {				
+		for (physics_object current_object : objects) {				
 			Physics_engine_toolbox.Update(current_object,frames);
 		}
 		
@@ -182,21 +174,15 @@ public class object_draw extends Canvas {
 		
 		
 		try {
-			for (drawable current_object : draw_objects) {
+			for (drawable current_object : objects) {
 				
-				if (current_object.isVisible) {
+				if (current_object.getIsVisible()) {
 					
 					page.setColor(current_object.getColor());
 					
 					
 					
-					switch (current_object.drawMethod) {
-					
-						case("fillRect"):
-							if (Settings.displayObjectNames) page.drawString(current_object.name,(int) Math.round(current_object.getCenterX()), (int) Math.round(current_object.getCenterY()));
-							page.fillRect(current_object.x,current_object.y, (int) Math.round(current_object.xSizeAppearance),(int) Math.round(current_object.ySizeAppearance));
-							break;
-						
+					switch (current_object.getDrawMethod()) {
 						case("ListedPointAlgorithm"):
 							try {
 								current_object = (pointed) current_object;
@@ -206,17 +192,17 @@ public class object_draw extends Canvas {
 								point current_point;
 								point next_point;
 								point[] points = current_object.getPoints();
-								if (Settings.displayObjectNames) page.drawString(current_object.name,(int) Math.round(current_object.getCenterX()), (int) Math.round(current_object.getCenterY()));
-								for (int i = 0; i < current_object.pointRenderOrder.length-1 ; i++) {
+								if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(current_object.getCenterX()), (int) Math.round(current_object.getCenterY()));
+								for (int i = 0; i < current_object.getPointRenderOrder().length-1 ; i++) {
 								
 									//calculate the pointkeys
-									pointKey = current_object.pointRenderOrder[i];
+									pointKey = current_object.getPointRenderOrder()[i];
 									
-									if (i == current_object.pointRenderOrder.length-1) {
+									if (i == current_object.getPointRenderOrder().length-1) {
 										next_pointKey = 0;
 										
 									}else {
-										next_pointKey = current_object.pointRenderOrder[i+1];
+										next_pointKey = current_object.getPointRenderOrder()[i+1];
 									}
 									
 									

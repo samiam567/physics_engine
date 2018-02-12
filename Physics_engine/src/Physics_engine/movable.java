@@ -11,4 +11,11 @@ public interface movable extends drawable { // the ability to be moved
 	*/
 	
 	public boolean getIsAnchored();
+	public double getXSpeed();
+	public double getYSpeed();
+	public double getZSpeed();
+	
+	public double getXAccel();
+	public double getYAccel();
+	public double getZAccel();
 }

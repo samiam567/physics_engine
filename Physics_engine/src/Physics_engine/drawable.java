@@ -33,6 +33,12 @@ public interface drawable extends physics_engine_compatible { //the ability to b
 	public void setName(String new_name, int i);
 	public String getObjectName();
 
+	public boolean getIsVisible();
+
+	public String getDrawMethod();
+
+	public int[] getPointRenderOrder();
+
 	
 	
 }

@@ -3,22 +3,22 @@ package Physics_engine;
 import java.awt.Polygon;
 import java.awt.geom.Area;
 
-public class point extends physics_object{
+public class point extends Physics_drawable {
 	private int id;
 	private double thetaXY, thetaZX, thetaZY; //angle relative to the center of rotation
 	private double r; //distance from the center of rotation
 	private Vector pointVector;
 	private int quadrant; //the quad this point is in (if applicable)
 	
-	public point(double[] dimensions,int id1) { //dimensions = {x,y,z}
-		isRotatable = false;
+	public point(object_draw drawer1,double[] dimensions,int id1) { //dimensions = {x,y,z}
+		super(drawer1);
 		setPos(dimensions[0],dimensions[1],dimensions[2]);
 		id = id1;
 		setSize(0,0,0);
 	}
 	
-	public point(double xReal1, double yReal1, double zReal1) {
-		isRotatable = false;
+	public point(object_draw drawer1,double xReal1, double yReal1, double zReal1) {
+		super(drawer1);
 		setPos(xReal1,yReal1,zReal1);
 		xSize = 0;
 		ySize = 0;
@@ -40,7 +40,7 @@ public class point extends physics_object{
 		updatePos();
 	}
 	
-	public boolean isIn(physics_object pObject) { //returns true if the point is inside the passed object
+	public boolean isIn(Physics_polygon pObject) { //returns true if the point is inside the passed object
 		
 		pObject.updateAreas();
 		

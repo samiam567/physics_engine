@@ -1,5 +1,6 @@
 package Physics_engine;
 
+import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 import Physics_engine.physics_object.object_types;
 
 
@@ -11,6 +12,7 @@ public interface rotatable extends pointed { //the ability to be rotated
 	public boolean isRotatable = true;
 	point pointOfRotation = null; //the point that the object rotates around
 	pointOfRotationPlaces pointOfRotationPlace = pointOfRotationPlaces.center;  //the place that that point is
+	& more
 	*/
 	
 	public void setRotation(double xRotation1, double yRotation1, double zRotation1);
@@ -22,5 +24,7 @@ public interface rotatable extends pointed { //the ability to be rotated
 	public double getXRotation();
 	public double getYRotation();
 	public double getZRotation();
+	public point getCenter();
+	public pointOfRotationPlaces getPointOfRotationPLace();
 	
 }
