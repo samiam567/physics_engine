@@ -1,9 +1,8 @@
 package Physics_engine;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
-public class Physics_drawable extends physics_object implements movable, drawable {
+public abstract class Physics_drawable extends physics_object implements movable, drawable {
 	
 	protected double centerX,centerY, centerZ;
 	
@@ -12,6 +11,7 @@ public class Physics_drawable extends physics_object implements movable, drawabl
 	double xSpeed,ySpeed,zSpeed,xAccel,yAccel,zAccel,xSize, ySize, zSize,xSizeAppearance, ySizeAppearance, zSizeAppearance;
 	
 	point[] points = null; //there are no points
+	int[] pointRenderOrder = null;
 	
 	int x,y,z;
 	double xReal,yReal,zReal;
@@ -226,5 +226,37 @@ public class Physics_drawable extends physics_object implements movable, drawabl
 	
 	public void setColor(Color color1) {
 		color = color1;
+	}
+
+
+	@Override
+	public double getXAccel() {
+		return xAccel;
+	}
+
+	@Override
+	public double getYAccel() {
+		return yAccel;
+	}
+
+	@Override
+	public double getZAccel() {
+		return zAccel;
+	}
+
+	@Override
+	public boolean getIsVisible() {
+		return isVisible;
+	}
+
+	@Override
+	public String getDrawMethod() {
+		return drawMethod;
+	}
+
+
+	@Override
+	public int[] getPointRenderOrder() {
+		return pointRenderOrder;
 	}
 }

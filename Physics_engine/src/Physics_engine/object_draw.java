@@ -9,7 +9,9 @@ import java.util.ConcurrentModificationException;
 
 public class object_draw extends Canvas {
 	
-	public ArrayList<physics_object> objects = new ArrayList<physics_object>();
+	private ArrayList<physics_object> objects = new ArrayList<physics_object>();
+	
+	public ArrayList<Physics_drawable> drawables = new ArrayList<Physics_drawable>();
 	
 	public ArrayList<force> scheduled_forces = new ArrayList<force>(); //list of forces for the maintenance bot to apply
 	
@@ -56,6 +58,12 @@ public class object_draw extends Canvas {
 	
 	public void add(physics_object newOb) {
 		objects.add(newOb);
+		
+		try {
+			drawables.add((Physics_drawable) newOb);
+		}catch(ClassCastException c) {
+			//ob is not drawable
+		}
 	}
 	
 	private void updateObjects(double frames) {
@@ -159,9 +167,9 @@ public class object_draw extends Canvas {
 	public void paint(Graphics page)  {
 		
 		//sorting objects by z distance ----------------------------------
-		Collections.sort(draw_objects, new Comparator<drawable>() {
+		Collections.sort( drawables, new Comparator<Physics_drawable>() {
 	     
-	        public int compare(drawable o1, drawable o2) {
+	        public int compare(Physics_drawable o1, Physics_drawable o2) {
 	            return Double.compare(o2.getZReal(), o1.getZReal());
 	        }
 
@@ -174,7 +182,7 @@ public class object_draw extends Canvas {
 		
 		
 		try {
-			for (drawable current_object : objects) {
+			for (drawable current_object : drawables) {
 				
 				if (current_object.getIsVisible()) {
 					
@@ -191,8 +199,8 @@ public class object_draw extends Canvas {
 								int next_pointKey;
 								point current_point;
 								point next_point;
-								point[] points = current_object.getPoints();
-								if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(current_object.getCenterX()), (int) Math.round(current_object.getCenterY()));
+								point[] points = ((pointed) current_object).getPoints();
+								if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(((Physics_drawable) current_object).getCenterX()), (int) Math.round(((Physics_drawable) current_object).getCenterY()));
 								for (int i = 0; i < current_object.getPointRenderOrder().length-1 ; i++) {
 								
 									//calculate the pointkeys

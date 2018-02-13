@@ -1,17 +1,11 @@
 package Physics_engine;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Collections;
 
-import Physics_engine.physics_object.faces;
-
-
-
-public class Square extends physics_object{
+public class Square extends Physics_polygon {
 	
-	public Square(double x, double y, double z, double size, double mass) {
-		
+	public Square(object_draw drawer1,double x, double y, double z, double size, double mass) {
+		super(drawer1);
 		setPos(x,y,z);
 		setSize(size,size,0);
 		setMass(mass);
@@ -22,16 +16,16 @@ public class Square extends physics_object{
 		pointRenderOrder = new int[] {0,1,2,3,0};
 		point[] points1 = new point[4];
 		
-		points1[0] = new point(xReal,yReal,zReal); 
+		points1[0] = new point(drawer,xReal,yReal,zReal); 
 		points1[0].setAngle(3*Math.PI/4, 0,Math.PI/2);
 		
-		points1[1] = new point(xReal+xSize,yReal,zReal);
+		points1[1] = new point(drawer,xReal+xSize,yReal,zReal);
 		points1[1].setAngle(Math.PI/4, Math.PI,Math.PI/2);
 		
-		points1[2] = new point(xReal+xSize,yReal+ySize,zReal);
+		points1[2] = new point(drawer,xReal+xSize,yReal+ySize,zReal);
 		points1[2].setAngle(-Math.PI/4, Math.PI,-Math.PI/2);
 		
-		points1[3] = new point(xReal,yReal+ySize,zReal);
+		points1[3] = new point(drawer,xReal,yReal+ySize,zReal);
 		points1[3].setAngle(-3*Math.PI/4, 0,-Math.PI/2);
 	
 		
@@ -57,24 +51,15 @@ public class Square extends physics_object{
 
 
 		setPos(x,y,z);
-		
-		if ( (Settings.rotationAlgorithm == 2) && (isRotatable) ) {
-			System.out.println("creatingAxis");
-			for (point p : points) {
-				p.setR(Math.sqrt(xSize + ySize));
-			}
-			axis = new Coordinate_Axis(this);
-			
-			object_draw.objects.add(axis);
-		}
+	
 		
 	}
 	
 	
-	public Object checkForCollision1(physics_object current_object,ArrayList<physics_object> objects) {
+	public Object checkForCollision1(Physics_polygon current_object,ArrayList<physics_object> objects) {
 			
 			if ((current_object.isTangible) && (! this.equals(current_object))) {
-				faces side = faces.none;
+				Physics_engine.Physics_engine_toolbox.faces side = Physics_engine.Physics_engine_toolbox.faces.none;
 				
 				if (Settings.collision_algorithm == 4) {// v 4.2 collision algorithm (simplified)
 					
@@ -91,30 +76,30 @@ public class Square extends physics_object{
 						
 						//which face did it collide with?
 						if (  Math.abs(getCenterX()+xSize/2 - current_object.x) < (xSize * 0.1)) { //object hit left face of object
-							side = faces.left;
+							side = Physics_engine.Physics_engine_toolbox.faces.left;
 						} else if (  Math.abs(getCenterY()+ySize/2 - current_object.y) < (ySize * 0.1)) { //object hit top face
-							side = faces.top;
+							side = Physics_engine.Physics_engine_toolbox.faces.top;
 						} else if (  Math.abs( (getCenterX() - xSize/2) - (current_object.x + current_object.xSize) ) < (xSize * 0.1 )) { //ball hit right face
-							side = faces.right;
+							side = Physics_engine.Physics_engine_toolbox.faces.right;
 						}else if (  Math.abs( (getCenterY() - ySize/2) - (current_object.y+current_object.ySize) ) < (ySize * 0.1) ) {
-						 side = faces.bottom;
+						 side = Physics_engine.Physics_engine_toolbox.faces.bottom;
 						}
 						
-						if ( !(side.equals(faces.none)) ) {
+						if ( !(side.equals(Physics_engine.Physics_engine_toolbox.faces.none)) ) {
 							isCollided(current_object,side);
 						}
 							
 					//output
-						if (! side.equals(faces.none)) System.out.println(side);
+						if (! side.equals(Physics_engine.Physics_engine_toolbox.faces.none)) System.out.println(side);
 					
 					if (Settings.forceMethod == 1) {
 						// sspeeed method
 						//bouncing!  this algorithm needs to be a lot more advanced. This just tests the collision algorithm
-						if (side.equals(faces.top) || side.equals(faces.bottom)) {
+						if (side.equals(Physics_engine.Physics_engine_toolbox.faces.top) || side.equals(Physics_engine.Physics_engine_toolbox.faces.bottom)) {
 							System.out.println("top/bottom");
 							ySpeed = - Settings.elasticity * ySpeed;
 							current_object.setSpeed(current_object.xSpeed,-current_object.ySpeed,current_object.zSpeed);
-						}else if (side.equals(faces.left) || side.equals(faces.right)) {
+						}else if (side.equals(Physics_engine.Physics_engine_toolbox.faces.left) || side.equals(Physics_engine.Physics_engine_toolbox.faces.right)) {
 							System.out.println("left/right");
 							xSpeed = -Settings.elasticity * xSpeed;
 							current_object.setSpeed(-current_object.xSpeed,current_object.ySpeed,current_object.zSpeed);
@@ -146,8 +131,8 @@ public class Square extends physics_object{
 							
 	//public force(physics_object object1, double r, double theta, double zComponent1, double time1, double frame1, boolean isPolar) {
 							
-							object_draw.scheduled_forces.add(new force(this,force,thisDeflectionAngle,thisZReflect,time,-1,true));
-							object_draw.scheduled_forces.add(new force(this,force,current_obDeflectionAngle,current_obZReflect,time,-1,true));
+							drawer.scheduled_forces.add(new force(this,force,thisDeflectionAngle,thisZReflect,time,-1,true));
+							drawer.scheduled_forces.add(new force(this,force,current_obDeflectionAngle,current_obZReflect,time,-1,true));
 						}	
 						
 						
@@ -207,8 +192,8 @@ public class Square extends physics_object{
 								current_obDeflectionAngle = current_obDeflectionAnglePack[0];
 								current_obZReflect = current_obDeflectionAnglePack[1];
 								
-								object_draw.objects.add(new SpeedTimer(time,force*Math.cos(thisDeflectionAngle), force*Math.sin(thisDeflectionAngle),thisZReflect,this));
-								object_draw.objects.add(new SpeedTimer(time,force*Math.cos(current_obDeflectionAngle), force*Math.sin(current_obDeflectionAngle),current_obZReflect,current_object));
+								drawer.objects.add(new SpeedTimer(time,force*Math.cos(thisDeflectionAngle), force*Math.sin(thisDeflectionAngle),thisZReflect,this));
+								drawer.objects.add(new SpeedTimer(time,force*Math.cos(current_obDeflectionAngle), force*Math.sin(current_obDeflectionAngle),current_obZReflect,current_object));
 								
 								
 								
@@ -254,15 +239,15 @@ public class Square extends physics_object{
 								
 									System.out.println("Force: " + force);
 									
-									object_draw.scheduled_forces.add(new force(this,-force,0,0,time,-1));
-									object_draw.scheduled_forces.add(new force(current_object,force,0,0,time,-1));
+									drawer.scheduled_forces.add(new force(this,-force,0,0,time,-1));
+									drawer.scheduled_forces.add(new force(current_object,force,0,0,time,-1));
 									
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									object_draw.scheduled_forces.add(new force(this,-Math.abs(current_object.xSpeed/mass),current_object.ySpeed/mass,current_object.zSpeed/mass,time,-1));
-									object_draw.scheduled_forces.add(new force(current_object,- Math.abs(xSpeed/current_object.mass),ySpeed/current_object.mass,zSpeed/current_object.mass,time,-1));
+									drawer.scheduled_forces.add(new force(this,-Math.abs(current_object.xSpeed/mass),current_object.ySpeed/mass,current_object.zSpeed/mass,time,-1));
+									drawer.scheduled_forces.add(new force(current_object,- Math.abs(xSpeed/current_object.mass),ySpeed/current_object.mass,zSpeed/current_object.mass,time,-1));
 									xReal += 1.1 * xSpeed;
 								}else {
 									assert Settings.forceMethod == 2;
@@ -290,14 +275,14 @@ public class Square extends physics_object{
 									double force = (momentum1+momentum2)/(2*time);
 									System.out.println("Force: " + force);
 									
-									object_draw.scheduled_forces.add(new force(this,0,-force,0,time,-1));
-									object_draw.scheduled_forces.add(new force(current_object,0, force, 0,time,-1));
+									drawer.scheduled_forces.add(new force(this,0,-force,0,time,-1));
+									drawer.scheduled_forces.add(new force(current_object,0, force, 0,time,-1));
 									
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									object_draw.scheduled_forces.add(new force(this,current_object.xSpeed/mass, - Math.abs(current_object.ySpeed/mass),-current_object.zSpeed/mass,time,-1));
-									object_draw.scheduled_forces.add(new force(current_object,xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
+									drawer.scheduled_forces.add(new force(this,current_object.xSpeed/mass, - Math.abs(current_object.ySpeed/mass),-current_object.zSpeed/mass,time,-1));
+									drawer.scheduled_forces.add(new force(current_object,xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
 									yReal += 1.1 * ySpeed;
 								}else {
 									assert Settings.forceMethod == 2;
@@ -320,15 +305,15 @@ public class Square extends physics_object{
 									double force = (momentum1+momentum2)/(2*time);
 									System.out.println("Force: " + force);
 									
-									object_draw.scheduled_forces.add(new force(this,force,0,0,time,-1));
-									object_draw.scheduled_forces.add(new force(current_object,-force,0,0,time,-1));
+									drawer.scheduled_forces.add(new force(this,force,0,0,time,-1));
+									drawer.scheduled_forces.add(new force(current_object,-force,0,0,time,-1));
 									xReal += 1.1 * xSpeed;
 									
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									object_draw.scheduled_forces.add(new force(this,-current_object.xSpeed/mass,current_object.ySpeed/mass,-current_object.zSpeed/mass,time,-1));
-									object_draw.scheduled_forces.add(new force(current_object,-xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
+									drawer.scheduled_forces.add(new force(this,-current_object.xSpeed/mass,current_object.ySpeed/mass,-current_object.zSpeed/mass,time,-1));
+									drawer.scheduled_forces.add(new force(current_object,-xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
 								
 								}else {
 									assert Settings.forceMethod == 2;	
@@ -353,15 +338,15 @@ public class Square extends physics_object{
 									double force = (momentum1+momentum2)/(2*time);
 									System.out.println("Force: " + force);
 									
-									object_draw.scheduled_forces.add(new force(this,0,force,0,time,-1));
-									object_draw.scheduled_forces.add(new force(current_object,0,-force,0,time,-1) );
+									drawer.scheduled_forces.add(new force(this,0,force,0,time,-1));
+									drawer.scheduled_forces.add(new force(current_object,0,-force,0,time,-1) );
 									
 									
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									object_draw.scheduled_forces.add(new force(this,-current_object.xSpeed/mass,current_object.ySpeed/mass,-current_object.zSpeed/mass,time,-1));
-									object_draw.scheduled_forces.add(new force(current_object,-xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
+									drawer.scheduled_forces.add(new force(this,-current_object.xSpeed/mass,current_object.ySpeed/mass,-current_object.zSpeed/mass,time,-1));
+									drawer.scheduled_forces.add(new force(current_object,-xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
 									yReal += 1.1 * ySpeed;
 								}else {
 									assert Settings.forceMethod == 2;

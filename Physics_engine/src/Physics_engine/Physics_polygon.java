@@ -35,7 +35,23 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	public Physics_polygon(object_draw drawer1) {
 		super(drawer1);
 	}
+	
+	public boolean getIsTangible() {
+		return isTangible;
+	}
 
+	public point getCenter() {
+		return center;
+	}
+	
+	public double getMass() {
+		return mass;
+	}
+	
+	public pointOfRotationPlaces getPointOfRotationPlace() {
+		return pointOfRotationPlace;
+	}
+	
 	public void paint(Graphics page) {	
 		if (Settings.displayObjectNames) page.drawString(name,(int) Math.round(points[0].getXReal()), (int) Math.round(points[0].getYReal())); //displaying the name of the object
 		
@@ -162,9 +178,9 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 			if (pointOfRotationPlace.equals(pointOfRotationPlaces.center)) {
 				pointOfRotation = center;
 			}else if(pointOfRotationPlace.equals(pointOfRotationPlaces.parentCenter)) {
-				pointOfRotation = parent_object.getCenter();
+				pointOfRotation = ((rotatable) parent_object).getCenter();
 			}else if(pointOfRotationPlace.equals(pointOfRotationPlaces.parentsPlace)) {
-				pointOfRotation = parent_object.getPointOfRotation();
+				pointOfRotation = ((rotatable) parent_object).getPointOfRotation();
 			}
 		}catch(ClassCastException c) {
 			System.out.println("Parent object not rotatable for child: " + name);
@@ -272,7 +288,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		}
 	}
 	
-	public void checkForCollision(pointed current_physics_object,ArrayList<pointed> objects) { //generic checkForCollisions method that is overriden by all tangible pObjects
+	public void checkForCollision(massive current_physics_object,ArrayList<physics_object> objects) { //generic checkForCollisions method that is overriden by all tangible pObjects
 		
 		if (Settings.collision_algorithm == 5) {
 			updatePointXsYsAndZs();
@@ -281,44 +297,45 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 			point cPoint;
 			double force, reflec_const, time = 0.1;	
 			
-			
-			for (int i = 0; i < current_physics_object.getPoints().length; i++) {
-
-				cPoint = current_physics_object.getPoints()[i];
-	
-				
-				if (cPoint.isIn(this)) {
-					System.out.println(name + "BOOM!" + current_physics_object.getObjectName());
-					isCollided(current_physics_object,Physics_engine_toolbox.faces.none);
-					Vector reflectionVector = new Vector(center,cPoint);
-					reflec_const = reflectionVector.r;
-					Vector momentumVector = new Vector(current_physics_object.getXSpeed(),current_physics_object.getYSpeed(),current_physics_object.getZSpeed());
-					force = momentumVector.r / time;
-					applyComponentForce(force * reflectionVector.getXComponent()/reflec_const ,force  * reflectionVector.getYComponent()/reflec_const,force * reflectionVector.getZComponent()/reflec_const,time);
+			try {
+				current_physics_object = (pointed) current_physics_object;
+				for (int i = 0; i < ((pointed) current_physics_object).getPoints().length; i++) {
+					cPoint = ((pointed) current_physics_object).getPoints()[i];
+		
+					
+					if (cPoint.isIn(this)) {
+						System.out.println(name + "BOOM!" + current_physics_object.getObjectName());
+						isCollided((physics_object) current_physics_object,Physics_engine_toolbox.faces.none);
+						Vector reflectionVector = new Vector(center,cPoint);
+						reflec_const = reflectionVector.r;
+						Vector momentumVector = new Vector(current_physics_object.getXSpeed(),current_physics_object.getYSpeed(),current_physics_object.getZSpeed());
+						force = momentumVector.r / time;
+						applyComponentForce(force * reflectionVector.getXComponent()/reflec_const ,force  * reflectionVector.getYComponent()/reflec_const,force * reflectionVector.getZComponent()/reflec_const,time);
+					}
 				}
-				
-			}
+			}catch(ClassCastException c) {}
+			
 			
 		}else {
-			checkForCollision1(current_physics_object, objects);
+			checkForCollision1((Physics_polygon) current_physics_object, objects);
 		}
 		
 	
 	}
 	
-	public void checkForCollisions(ArrayList<pointed> objects) { // calls the checkForCollision method for every object in the objects list
+	public void checkForCollisions(ArrayList<physics_object> objects) { // calls the checkForCollision method for every object in the objects list
 		
 		if (isTangible) {
-			for (massive current_pObject : objects) {
+			for (physics_object current_pObject : objects) {
 				
-				if ( (! equals(current_pObject) ) && (current_pObject.getIsTangible()) && (isTangible) ) current_pObject.checkForCollision(this,objects);
+				if ( (! equals(current_pObject) ) && (((Physics_polygon) current_pObject).getIsTangible()) && (isTangible) ) ((Physics_polygon) current_pObject).checkForCollision(this,objects);
 	
 			}	
 		}
 	}
 	
 
-	public Object checkForCollision1(pointed current_object,ArrayList<pointed> objects) {
+	public Object checkForCollision1(Physics_polygon current_object,ArrayList<physics_object> objects) {
 	//for v1-4 collision
 		return null;
 	}
@@ -391,6 +408,47 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	
 	public void setMass(double mass1) { //update the mass of the object (kg)
 		mass = mass1;
+	}
+
+	@Override
+	public double getXAccel() {
+		return xAccel;
+	}
+
+	@Override
+	public double getYAccel() {
+		return yAccel;
+	}
+
+	@Override
+	public double getZAccel() {
+		return zAccel;
+	}
+
+	@Override
+	public boolean getIsVisible() {
+		return isVisible;
+	}
+
+	@Override
+	public String getDrawMethod() {
+		return drawMethod;
+	}
+
+	@Override
+	public int[] getPointRenderOrder() {
+		return pointRenderOrder;
+	}
+
+	@Override
+	public double getFrictionCoefficient() {
+		return friction_coefficient;
+	}
+
+	@Override
+	public point getPointOfRotation() {
+
+		return pointOfRotation;
 	}
 	
 	

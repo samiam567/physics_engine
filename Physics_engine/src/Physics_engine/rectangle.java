@@ -4,15 +4,14 @@ package Physics_engine;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import Physics_engine.physics_object.faces;
+import Physics_engine.Physics_engine_toolbox.faces;
 
 
 
-public class rectangle extends physics_object{
+public class rectangle extends Physics_polygon{
 	
-	public rectangle(double x, double y, double z, double e, double f, double mass) {
-		
-		
+	public rectangle(object_draw drawer1,double x, double y, double z, double e, double f, double mass) {
+		super(drawer1);
 		setPos(x,y,z);
 		setSize(e,f,0);
 		setMass(mass);
@@ -24,16 +23,16 @@ public class rectangle extends physics_object{
 		pointRenderOrder = new int[] {0,1,2,0};
 		point[] points = new point[4];
 		
-		points[0] = new point(centerX-xSize/2,centerY-ySize/2,zReal); 
+		points[0] = new point(drawer,centerX-xSize/2,centerY-ySize/2,zReal); 
 		points[0].setAngle(3*Math.PI/4, Math.PI,Math.PI/2);
 		
-		points[1] = new point(centerX+xSize/2,centerY-ySize/2,zReal);
+		points[1] = new point(drawer,centerX+xSize/2,centerY-ySize/2,zReal);
 		points[1].setAngle(Math.PI/4, 0,Math.PI/2);
 		
-		points[2] = new point(centerX+xSize/2,centerY+ySize/2,zReal);
+		points[2] = new point(drawer,centerX+xSize/2,centerY+ySize/2,zReal);
 		points[2].setAngle(-Math.PI/4, 0,-Math.PI/2);
 		
-		points[3] = new point(centerX-xSize/2,centerY+ySize/2,zReal );
+		points[3] = new point(drawer,centerX-xSize/2,centerY+ySize/2,zReal );
 		points[3].setAngle(-3*Math.PI/4, Math.PI,-Math.PI/2);
 		
 		setPoints(points);
@@ -54,7 +53,7 @@ public class rectangle extends physics_object{
 	}
 	
 	
-	public Object checkForCollision1(physics_object current_object,ArrayList<physics_object> objects) {
+	public Object checkForCollision1(Physics_polygon current_object,ArrayList<physics_object> objects) {
 		if ((current_object.isTangible) && (! this.equals(current_object))) {
 			faces side = faces.none;
 			
@@ -129,8 +128,8 @@ public class rectangle extends physics_object{
 						
 //public force(physics_object object1, double r, double theta, double zComponent1, double time1, double frame1, boolean isPolar) {
 						
-						object_draw.scheduled_forces.add(new force(this,force,thisDeflectionAngle,thisZReflect,time,-1,true));
-						object_draw.scheduled_forces.add(new force(this,force,current_obDeflectionAngle,current_obZReflect,time,-1,true));
+						drawer.scheduled_forces.add(new force(this,force,thisDeflectionAngle,thisZReflect,time,-1,true));
+						drawer.scheduled_forces.add(new force(this,force,current_obDeflectionAngle,current_obZReflect,time,-1,true));
 					}	
 					
 					

@@ -25,6 +25,7 @@ public interface rotatable extends pointed { //the ability to be rotated
 	public double getYRotation();
 	public double getZRotation();
 	public point getCenter();
-	public pointOfRotationPlaces getPointOfRotationPLace();
+	public pointOfRotationPlaces getPointOfRotationPlace();
+	public point getPointOfRotation();
 	
 }
