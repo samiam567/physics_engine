@@ -41,6 +41,8 @@ public interface drawable extends physics_engine_compatible { //the ability to b
 	
 	public void setCenter(double centerX1,double centerY1, double centerZ1);
 
+	public boolean hasParentObject();
+
 	
 	
 }

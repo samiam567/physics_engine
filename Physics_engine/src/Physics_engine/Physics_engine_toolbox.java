@@ -24,7 +24,7 @@ public class Physics_engine_toolbox {
 			
 			if (! ((movable) current_object).getIsAnchored()) { //updating the pos and speed based on the accel
 				//update speed
-				current_object.setSpeed((((movable) current_object).getXAccel() * frames),(((movable) current_object).getYAccel() * frames),(((movable) current_object).getZAccel() * frames));
+				((movable) current_object).setSpeed((((movable) current_object).getXAccel() * frames),(((movable) current_object).getYAccel() * frames),(((movable) current_object).getZAccel() * frames));
 	
 				
 				
@@ -76,21 +76,21 @@ public class Physics_engine_toolbox {
 		
 		
 		
-		if (hasParentObject) {
-			xSpeed = parent_object.xSpeed;
-			ySpeed = parent_object.ySpeed;
-			zSpeed = parent_object.zSpeed;
+		if (((Physics_drawable) current_object).hasParentObject()) {
+			Physics_drawable parent_object = current_object.getParentObject();
+			current_object.setSpeed(parent_object.getXSpeed(),((movable) current_object).getYSpeed(), current_object.getZSpeed());
+
 			xAccel = parent_object.xAccel;
 			yAccel = parent_object.yAccel;
 			zAccel = parent_object.zAccel;
-			angularVelocityX = parent_object.angularVelocityX;
-			angularVelocityY = parent_object.angularVelocityY;
-			angularVelocityZ = parent_object.angularVelocityZ;
-			axisThetaXY = parent_object.axisThetaXY;
-			axisThetaZX = parent_object.axisThetaZX;
-			axisThetaZY = parent_object.axisThetaZY;
-			mass = parent_object.mass;
-			friction_coefficient = parent_object.friction_coefficient;
+			
+			
+			angularVelocityX = current_object.angularVelocityX;
+			angularVelocityY = current_object.angularVelocityY;
+			angularVelocityZ = current_object.angularVelocityZ;
+
+			mass = current_object.mass;
+			friction_coefficient = current_object.friction_coefficient;
 			
 			//update real pos
 			centerX += (xSpeed * frames);
@@ -113,9 +113,6 @@ public class Physics_engine_toolbox {
 			updatePoints();//set the points based on the x and y values and calculate rotation
 			updateCenter(); //update the  "center" point
 			
-			try {
-				axis.UpdateAxis();
-			}catch(NullPointerException e) {}
 			
 		}else {
 			
@@ -140,9 +137,7 @@ public class Physics_engine_toolbox {
 			updatePoints();//set the points based on the x and y values and calculate rotation
 			updateCenter(); //update the  "center" point
 			
-			try {
-				axis.UpdateAxis();
-			}catch(NullPointerException e) {}
+		
 		}
 		
 		current_object.updatePointXsYsAndZs();
