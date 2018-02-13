@@ -65,6 +65,71 @@ public class Physics_engine_toolbox {
 		try {
 			current_object = (rotatable) current_object;
 			
+			if (((Physics_drawable) current_object).hasParentObject()) {
+				Physics_drawable parent_object = (Physics_drawable) ((Physics_drawable)current_object).getParentObject();
+				((movable) current_object).setSpeed(parent_object.getXSpeed(),((movable) current_object).getYSpeed(), ((movable) current_object).getZSpeed());
+
+				((Physics_drawable)current_object).xAccel = parent_object.xAccel;
+				((Physics_drawable)current_object).yAccel = parent_object.yAccel;
+				((Physics_drawable)current_object).zAccel = parent_object.zAccel;
+				
+				
+				((Physics_polygon)current_object).angularVelocityX = ((Physics_polygon)parent_object).angularVelocityX;
+				((Physics_polygon)current_object).angularVelocityY = ((Physics_polygon)parent_object).angularVelocityY;
+				((Physics_polygon)current_object).angularVelocityZ = ((Physics_polygon)parent_object).angularVelocityZ;
+
+				((Physics_polygon)current_object).setMass(((Physics_polygon)parent_object).mass);
+				((Physics_polygon)current_object).friction_coefficient = ((Physics_polygon)parent_object).friction_coefficient;
+				
+				//update real pos
+				((Physics_drawable)current_object).centerX += (((Physics_drawable)current_object).xSpeed * frames);
+				((Physics_drawable)current_object).centerY += (((Physics_drawable)current_object).ySpeed * frames);
+				((Physics_drawable)current_object).centerZ += (((Physics_drawable)current_object).zSpeed * frames);
+				
+				//updating angular velocity
+				((Physics_polygon)current_object).angularVelocityX += (((Physics_polygon)current_object).angularAccelX * frames);
+				((Physics_polygon)current_object).angularVelocityY += (((Physics_polygon)current_object).angularAccelY * frames);
+				((Physics_polygon)current_object).angularVelocityZ += (((Physics_polygon)current_object).angularAccelZ * frames);
+				
+				//updating rotation
+				((Physics_polygon)current_object).xRotation += (((Physics_polygon)current_object).angularVelocityX * frames);
+				((Physics_polygon)current_object).yRotation += (((Physics_polygon)current_object).angularVelocityY * frames);
+				((Physics_polygon)current_object).zRotation += (((Physics_polygon)current_object).angularVelocityZ * frames);
+				 
+				//updating relative values
+				((Physics_drawable)current_object).updateSize(); //calculate the size of the object based on how far away it is
+				((Physics_drawable)current_object).updatePos();//update the xReal,yReal,zReal and x,y,z values
+				((Physics_polygon)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
+				((Physics_drawable)current_object).updateCenter(); //update the  "center" point
+				
+				
+			}else {
+		
+				
+				if (((Physics_polygon)current_object).isRotatable) { //rotation shouldn't be updated if the object isn't rotatable
+					//updating angular velocity
+					((Physics_polygon)current_object).angularVelocityX += (((Physics_polygon)current_object).angularAccelX * frames);
+					((Physics_polygon)current_object).angularVelocityY += (((Physics_polygon)current_object).angularAccelY * frames);
+					((Physics_polygon)current_object).angularVelocityZ += (((Physics_polygon)current_object).angularAccelZ * frames);
+					
+					//updating rotation
+					((Physics_polygon)current_object).xRotation += (((Physics_polygon)current_object).angularVelocityX * frames);
+					((Physics_polygon)current_object).yRotation += (((Physics_polygon)current_object).angularVelocityY * frames);
+					((Physics_polygon)current_object).zRotation += (((Physics_polygon)current_object).angularVelocityZ * frames);
+				}	
+				
+				
+					
+				//updating relative values
+				((Physics_drawable)current_object).updateSize(); //calculate the size of the object based on how far away it is
+				((Physics_drawable)current_object).updatePos();//update the xReal,yReal,zReal and x,y,z values
+				((Physics_polygon)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
+				((Physics_drawable)current_object).updateCenter(); //update the  "center" point
+				
+			
+			}
+			
+			((pointed) current_object).updatePointXsYsAndZs();
 			
 			current_object = (physics_engine_compatible) current_object;
 		}catch(ClassCastException c) {
@@ -76,74 +141,11 @@ public class Physics_engine_toolbox {
 		
 		
 		
-		if (((Physics_drawable) current_object).hasParentObject()) {
-			Physics_drawable parent_object = current_object.getParentObject();
-			current_object.setSpeed(parent_object.getXSpeed(),((movable) current_object).getYSpeed(), current_object.getZSpeed());
-
-			xAccel = parent_object.xAccel;
-			yAccel = parent_object.yAccel;
-			zAccel = parent_object.zAccel;
-			
-			
-			angularVelocityX = current_object.angularVelocityX;
-			angularVelocityY = current_object.angularVelocityY;
-			angularVelocityZ = current_object.angularVelocityZ;
-
-			mass = current_object.mass;
-			friction_coefficient = current_object.friction_coefficient;
-			
-			//update real pos
-			centerX += (xSpeed * frames);
-			centerY += (ySpeed * frames);
-			centerZ += (zSpeed * frames);
-			
-			//updating angular velocity
-			angularVelocityX += (angularAccelX * frames);
-			angularVelocityY += (angularAccelY * frames);
-			angularVelocityZ += (angularAccelZ * frames);
-			
-			//updating rotation
-			xRotation += (angularVelocityX * frames);
-			yRotation += (angularVelocityY * frames);
-			zRotation += (angularVelocityZ * frames);
-			 
-			//updating relative values
-			updateSize(); //calculate the size of the object based on how far away it is
-			updatePos();//update the xReal,yReal,zReal and x,y,z values
-			updatePoints();//set the points based on the x and y values and calculate rotation
-			updateCenter(); //update the  "center" point
-			
-			
-		}else {
-			
-			
-			if (isRotatable) { //rotation shouldn't be updated if the object isn't rotatable
-				//updating angular velocity
-				angularVelocityX += (angularAccelX * frames);
-				angularVelocityY += (angularAccelY * frames);
-				angularVelocityZ += (angularAccelZ * frames);
-				
-				//updating rotation
-				xRotation += (angularVelocityX * frames);
-				yRotation += (angularVelocityY * frames);
-				zRotation += (angularVelocityZ * frames);
-			}	
-			
-			
-				
-			//updating relative values
-			updateSize(); //calculate the size of the object based on how far away it is
-			updatePos();//update the xReal,yReal,zReal and x,y,z values
-			updatePoints();//set the points based on the x and y values and calculate rotation
-			updateCenter(); //update the  "center" point
-			
 		
-		}
-		
-		current_object.updatePointXsYsAndZs();
 		
 		current_object.secondaryUpdate(); //this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently
 		current_object.tertiaryUpdate();
+		
 	}
 	
 	public static double distance(point point1, point point2) {

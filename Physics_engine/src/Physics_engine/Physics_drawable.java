@@ -279,4 +279,8 @@ public abstract class Physics_drawable extends physics_object implements movable
 	public boolean hasParentObject() {
 		return hasParentObject;
 	}
+
+	public movable getParentObject() {
+		return parent_object;
+	}
 }
