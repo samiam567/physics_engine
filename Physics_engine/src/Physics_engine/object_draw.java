@@ -248,4 +248,8 @@ public class object_draw extends Canvas {
 	public Thread getThread() {
 		return threader;
 	}
+
+	public ArrayList<physics_object> getObjects() {
+		return objects;
+	}
 }

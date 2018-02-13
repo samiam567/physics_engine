@@ -129,6 +129,10 @@ public abstract class Physics_drawable extends physics_object implements movable
 		return centerY;
 	}
 	
+	public double getCenterZ() {
+		return centerZ;
+	}
+
 	protected void updatePos() {
 		xReal = centerX - xSize/2;
 		yReal = centerY - ySize/2;
@@ -165,6 +169,18 @@ public abstract class Physics_drawable extends physics_object implements movable
 		zAccel = zAccel1;
 	}
 	
+	
+	public void setCenter(double centerX1,double centerY1, double centerZ1) {
+		centerX = centerX1;
+		centerY = centerY1;
+		centerZ = centerZ1;
+		
+		try {
+			center.setPos(centerX1, centerY1, centerZ1);
+		}catch(NullPointerException n) {
+			center = new point(drawer,centerX1,centerY1,centerZ1);
+		}
+	}
 
 	
 	public int getX() {

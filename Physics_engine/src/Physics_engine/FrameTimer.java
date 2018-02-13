@@ -6,11 +6,9 @@ public class FrameTimer extends physics_object {
 	protected double timeLeft;
 	protected boolean timerDone = false,delete = false; //delete is for the garbage collector (not made yet)
 	
-	public FrameTimer(double timeLeft1) {
+	public FrameTimer(object_draw drawer1, double timeLeft1) {
+		super(drawer1);
 		timeLeft = timeLeft1;
-		isAnchored = true;
-		isTangible = false;
-		isVisible = false;
 	}
 	
 	public void updatePoints() {

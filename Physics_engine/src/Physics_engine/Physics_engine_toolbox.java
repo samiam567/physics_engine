@@ -9,35 +9,31 @@ public class Physics_engine_toolbox {
 	public static void Update(physics_engine_compatible current_object,double frames) { //frames is the number of frames the object should update (can be a decimal)
 		
 		//use try-catch to update each object depending on which interfaces it implements 
-		
+		physics_engine_compatible current_object1;
 		try {
-			current_object = (drawable) current_object;
+			current_object1 = (drawable) current_object;
 			
 			
 			current_object = (physics_engine_compatible) current_object;
 		}catch(ClassCastException c) {
 		
 		}
-		
+
 		
 		try {
-			current_object = (movable) current_object;
 			
-			if (! current_object.getIsAnchored()) { //updating the pos and speed based on the accel
+			if (! ((movable) current_object).getIsAnchored()) { //updating the pos and speed based on the accel
 				//update speed
-				current_object.setSpeed((current_object.getXAccel() * frames),(current_object.getYAccel() * frames),(current_object.getZAccel() * frames));
+				current_object.setSpeed((((movable) current_object).getXAccel() * frames),(((movable) current_object).getYAccel() * frames),(((movable) current_object).getZAccel() * frames));
 	
 				
-				current_object.checkForCollisions(current_object.getDrawer().objects);
+				
 				
 				//update pos
-				current_object.centerX += (current_object.xSpeed * frames);
-				current_object.centerY += (current_object.ySpeed * frames);
-				current_object.centerZ += (current_object.zSpeed * frames);
+				((movable) current_object).setCenter(((Physics_drawable) current_object).getCenterX() + (((movable) current_object).getYSpeed() * frames),((Physics_drawable) current_object).getCenterY() + (((movable) current_object).getYSpeed() * frames),((Physics_drawable) current_object).getCenterZ() + (((movable) current_object).getZSpeed() * frames));
+
 			}else { //object is anchored and shouldn't move
-				xSpeed = 0;
-				ySpeed = 0;
-				zSpeed = 0;
+				((movable) current_object).setSpeed(0,0,0);
 			}
 			
 			current_object = (physics_engine_compatible) current_object;
@@ -48,6 +44,7 @@ public class Physics_engine_toolbox {
 		try {
 			current_object = (massive) current_object;
 			
+			((massive) current_object).checkForCollisions(current_object.getDrawer().getObjects());
 			
 			current_object = (physics_engine_compatible) current_object;
 		}catch(ClassCastException c) {

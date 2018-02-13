@@ -53,7 +53,7 @@ public class rectangle extends Physics_polygon{
 	}
 	
 	
-	public Object checkForCollision1(Physics_polygon current_object,ArrayList<physics_object> objects) {
+	public Object checkForCollision1(Physics_polygon current_object,ArrayList<physics_object> objects) { 
 		if ((current_object.isTangible) && (! this.equals(current_object))) {
 			faces side = faces.none;
 			
@@ -91,22 +91,19 @@ public class rectangle extends Physics_polygon{
 					//output
 				//	if (! side.equals(faces.none)) System.out.println(side);
 				
-				if (Settings.forceMethod == 1) {
-					// sspeeed method
-					//bouncing!  this algorithm needs to be a lot more advanced. This just tests the collision algorithm
-					if (side.equals(faces.top) || side.equals(faces.bottom)) {
-						ySpeed = -Settings.elasticity *  ySpeed;
-						current_object.setSpeed(current_object.xSpeed,-current_object.ySpeed,current_object.zSpeed);
-					}else if (side.equals(faces.left) || side.equals(faces.right)) {
-						xSpeed = - Settings.elasticity * xSpeed;
-						current_object.setSpeed(-current_object.xSpeed,current_object.ySpeed,current_object.zSpeed);
-					}else {
-						
-					}
-					
-			
-					
-				}else if (Settings.forceMethod == 0) {
+					if (Settings.forceMethod == 1) {
+						// sspeeed method
+						//bouncing!  this algorithm needs to be a lot more advanced. This just tests the collision algorithm
+						if (side.equals(faces.top) || side.equals(faces.bottom)) {
+							ySpeed = -Settings.elasticity *  ySpeed;
+							current_object.setSpeed(current_object.xSpeed,-current_object.ySpeed,current_object.zSpeed);
+						}else if (side.equals(faces.left) || side.equals(faces.right)) {
+							xSpeed = - Settings.elasticity * xSpeed;
+							current_object.setSpeed(-current_object.xSpeed,current_object.ySpeed,current_object.zSpeed);
+						}else {
+							
+						}					
+					}else if (Settings.forceMethod == 0) {
 						//momentum method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 						double momentum1 = mass * xSpeed;
 						double momentum2 = current_object.mass * current_object.xSpeed;
@@ -126,10 +123,9 @@ public class rectangle extends Physics_polygon{
 						double current_obDeflectionAngle = current_obDeflectionAnglePack[0];
 						double current_obZReflect = current_obDeflectionAnglePack[1];
 						
-//public force(physics_object object1, double r, double theta, double zComponent1, double time1, double frame1, boolean isPolar) {
 						
-						drawer.scheduled_forces.add(new force(this,force,thisDeflectionAngle,thisZReflect,time,-1,true));
-						drawer.scheduled_forces.add(new force(this,force,current_obDeflectionAngle,current_obZReflect,time,-1,true));
+						drawer.scheduled_forces.add(new force(drawer,this,force,thisDeflectionAngle,thisZReflect,time,-1,true));
+						drawer.scheduled_forces.add(new force(drawer,this,force,current_obDeflectionAngle,current_obZReflect,time,-1,true));
 					}	
 					
 					
@@ -139,9 +135,9 @@ public class rectangle extends Physics_polygon{
 			}
 		}
 		return current_object;
-				
+	
 	}
 
-	
-	
 }
+	
+

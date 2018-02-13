@@ -1,7 +1,14 @@
 package Physics_engine;
 import java.awt.Graphics;
 
+
+//depretiated class  - NOT USED -
 public class Coordinate_Axis extends physics_object{
+
+	public Coordinate_Axis(object_draw drawer1) {
+		super(drawer1);
+	}
+	/*
 		public XAxis xAxis;
 		public YAxis yAxis;
 		public ZAxis zAxis;
@@ -296,4 +303,5 @@ public class Coordinate_Axis extends physics_object{
 			axisVector.paint(page);
 		}
 	}
+	*/
 }

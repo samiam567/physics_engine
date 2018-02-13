@@ -48,7 +48,7 @@
   </interface>  
   <class id="6" language="java" name="Physics_engine.physics_object" project="Physics_engine" 
     file="/Physics_engine/src/Physics_engine/physics_object.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="531" width="364" x="501" y="-188"/>    
+    <position height="195" width="364" x="420" y="-59"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="Physics_engine.Physics_polygon" project="Physics_engine" 
     file="/Physics_engine/src/Physics_engine/Physics_polygon.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="354" width="302" x="388" y="714"/>    
+    <position height="476" width="302" x="378" y="679"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="Physics_engine.Physics_drawable" project="Physics_engine" 
     file="/Physics_engine/src/Physics_engine/Physics_drawable.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="145" width="224" x="351" y="385"/>    
+    <position height="201" width="234" x="358" y="287"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

@@ -1,8 +1,9 @@
 package Physics_engine;
 
-public class Triangle extends physics_object {
+public class Triangle extends Physics_polygon {
 
-	public Triangle(double x, double y, double z, double width,double height, double mass) {
+	public Triangle(object_draw drawer1, double x, double y, double z, double width,double height, double mass) {
+		super(drawer1);
 		
 		setPos(x,y,z);
 		setSize(width,height,0);
@@ -12,13 +13,13 @@ public class Triangle extends physics_object {
 		pointRenderOrder = new int[] {0,1,2,0};
 		point[] points = new point[3];
 		
-		points[0] = new point(xReal,yReal,zReal); 
+		points[0] = new point(drawer,xReal,yReal,zReal); 
 		points[0].setAngle(Math.PI/2, 0,Math.PI/2);
 		
-		points[1] = new point(xReal+xSize/2,yReal + ySize,zReal);
+		points[1] = new point(drawer,xReal+xSize/2,yReal + ySize,zReal);
 		points[1].setAngle(0, 0,-Math.PI/2);
 		
-		points[2] = new point(xReal-xSize/2,yReal+ySize,zReal );
+		points[2] = new point(drawer,xReal-xSize/2,yReal+ySize,zReal );
 		points[2].setAngle(Math.PI, Math.PI,-Math.PI/2);
 		
 		setPoints(points);
@@ -36,14 +37,7 @@ public class Triangle extends physics_object {
 		
 		setPos(x,y,z);
 		
-		if ( (Settings.rotationAlgorithm == 2) && (isRotatable) ) {
-			for (point p : points) {
-				p.setR(Math.sqrt(xSize + ySize));
-			}
-			axis = new Coordinate_Axis(this);
-			
-			object_draw.objects.add(axis);
-		}
+	
 		
 	}
 }

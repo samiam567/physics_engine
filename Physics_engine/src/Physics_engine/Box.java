@@ -1,10 +1,11 @@
 package Physics_engine;
 
 
-public class Box extends physics_object  {
+public class Box extends Physics_polygon  {
 
 	
-	public Box(double ob_x, double ob_y, double ob_z, int size, int mass1) {
+	public Box(object_draw drawer1, double ob_x, double ob_y, double ob_z, int size, int mass1) {
+		super(drawer1);
 		xReal = ob_x;
 		yReal = ob_y;
 		zReal = ob_z;
@@ -22,16 +23,16 @@ public class Box extends physics_object  {
 		
 		point[] points = {
 				//front face
-				new point(new double[] {x,y,z},0), //0
-				new point(new double[] {x+xSize,y,z},0),//1 
-				new point(new double[] {x+xSize,y+ySize,z},0),//2 
-				new point(new double[] {x,y+ySize,z},0),//3
+				new point(drawer,new double[] {x,y,z},0), //0
+				new point(drawer,new double[] {x+xSize,y,z},0),//1 
+				new point(drawer,new double[] {x+xSize,y+ySize,z},0),//2 
+				new point(drawer,new double[] {x,y+ySize,z},0),//3
 				
 				//back face
-				new point(new double[] {x,y,z+zSize},0), //4
-				new point(new double[] {x+xSize,y,z+zSize},0), //5
-				new point(new double[] {x+xSize,y+ySize,z+zSize},0), //6
-				new point(new double[] {x,y+ySize,z+zSize},0)//7
+				new point(drawer,new double[] {x,y,z+zSize},0), //4
+				new point(drawer,new double[] {x+xSize,y,z+zSize},0), //5
+				new point(drawer,new double[] {x+xSize,y+ySize,z+zSize},0), //6
+				new point(drawer,new double[] {x,y+ySize,z+zSize},0)//7
 				};
 		
 		// These point angles are wrong  -_=- +- =_ = - =dg-r=g ga=g-a=g-=g-=z -=g-s=g-1=1- =-3=-2 = -4=3- =sa-f
@@ -61,14 +62,6 @@ public class Box extends physics_object  {
 		
 		calculatePointValues();  //THIS METHOD IS EVIL SPAWN OF SATAN! |:<
 	
-		
-	
-		
-		
-		
-		
-		axis = new Coordinate_Axis(this);
-		
 		updatePoints();
 	
 		pointRenderOrder = new int[] {0,1,2,3,0,4,5,6,7,4,1,2,5,6,2,3};

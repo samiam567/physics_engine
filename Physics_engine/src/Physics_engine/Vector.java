@@ -7,11 +7,12 @@ public class Vector extends Physics_shape{
 	protected double r,xComponent,yComponent,zComponent;
 	private double thetaXY, thetaZX, thetaZY;
 	private String valueAngle;
-	private point vectorTip = new point(xReal,yReal,zReal);;
+	private point vectorTip = new point(drawer,xReal,yReal,zReal);
 	private int quadrant = -1;
 	private physics_object parent;
 	
-	public Vector(double xComponent1, double yComponent1, double zComponent1) {
+	public Vector(object_draw drawer1, double xComponent1, double yComponent1, double zComponent1) {
+		super(drawer1);
 		xComponent = xComponent1;
 		yComponent = yComponent1;
 		zComponent = zComponent1;
@@ -24,7 +25,8 @@ public class Vector extends Physics_shape{
 		
 	}
 	
-	public Vector(double xComponent1, double yComponent1, double zComponent1, int quadrant1) {
+	public Vector(object_draw drawer1,double xComponent1, double yComponent1, double zComponent1, int quadrant1) {
+		super(drawer1);
 		quadrant = quadrant1;
 		
 		xComponent = xComponent1;
@@ -39,7 +41,8 @@ public class Vector extends Physics_shape{
 		
 	}
 	
-	public Vector (point point1, point point2) {
+	public Vector (object_draw drawer1,point point1, point point2) {
+		super(drawer1);
 		setPos(point1.getXReal(), point1.getYReal(), point1.getZReal());
 		vectorTip.setPos(point2.getXReal(), point2.getYReal(), point2.getZReal());
 		
@@ -52,7 +55,8 @@ public class Vector extends Physics_shape{
 		updatePos();
 	}
 	
-	public Vector (point point1, point point2,physics_object parent1) {
+	public Vector (object_draw drawer1,point point1, point point2,physics_object parent1) {
+		super(drawer1);
 		parent = parent1;
 		setPos(point1.getXReal(), point1.getYReal(), point1.getZReal());
 		vectorTip.setPos(point2.getXReal(), point2.getYReal(), point2.getZReal());
@@ -64,7 +68,8 @@ public class Vector extends Physics_shape{
 		calculateThetas();
 	}
 	
-	public Vector(double r1, double theta, double zComponent1, boolean isPolar) { //old angle system
+	public Vector(object_draw drawer1,double r1, double theta, double zComponent1, boolean isPolar) { //old angle system
+		super(drawer1);
 		assert isPolar == true;
 		r = r1;
 		xComponent = r * Math.cos(theta);
@@ -76,7 +81,8 @@ public class Vector extends Physics_shape{
 		
 	}
 	
-	public Vector(double r1, double thetaXY1, double thetaZX1, double thetaZY1, String valueAngle1)  {
+	public Vector(object_draw drawer1,double r1, double thetaXY1, double thetaZX1, double thetaZY1, String valueAngle1)  {
+		super(drawer1);
 		valueAngle = valueAngle1;
 		if (!( (valueAngle == "thetaZX") || (valueAngle == "thetaZY") ) ) {
 			
@@ -99,7 +105,8 @@ public class Vector extends Physics_shape{
 		
 	}
 
-	public Vector(double r1, double thetaXY1, double thetaZX1, double thetaZY1, String valueAngle1, physics_object parent1)  {
+	public Vector(object_draw drawer1,double r1, double thetaXY1, double thetaZX1, double thetaZY1, String valueAngle1, physics_object parent1)  {
+		super(drawer1);
 		valueAngle = valueAngle1;
 		parent = parent1;
 		if (!( (valueAngle == "thetaZX") || (valueAngle == "thetaZY") ) ) {
@@ -123,7 +130,8 @@ public class Vector extends Physics_shape{
 		
 	}
 	
-	public Vector(double r1, double thetaXY1, double thetaZX1, double thetaZY1, String valueAngle1, int quadrant1)  {
+	public Vector(object_draw drawer1,double r1, double thetaXY1, double thetaZX1, double thetaZY1, String valueAngle1, int quadrant1)  {
+		super(drawer1);
 		quadrant = quadrant1;
 		valueAngle = valueAngle1;
 		if (!( (valueAngle == "thetaZX") || (valueAngle == "thetaZY") ) ) {
@@ -147,7 +155,8 @@ public class Vector extends Physics_shape{
 		
 	}
 
-	public Vector(double r1, double thetaXY1, double thetaZX1, double thetaZY1, String valueAngle1, int quadrant1, physics_object parent1)  {
+	public Vector(object_draw drawer1,double r1, double thetaXY1, double thetaZX1, double thetaZY1, String valueAngle1, int quadrant1, physics_object parent1)  {
+		super(drawer1);
 		quadrant = quadrant1;
 		valueAngle = valueAngle1;
 		parent = parent1;
@@ -197,11 +206,11 @@ public class Vector extends Physics_shape{
 	}
 	
 	public Vector vectorAdd(Vector cVector)  { //adds two vectors together
-		return (new Vector(xComponent + cVector.getXComponent(),yComponent + cVector.getYComponent(), zComponent + cVector.getZComponent()));
+		return (new Vector(drawer,xComponent + cVector.getXComponent(),yComponent + cVector.getYComponent(), zComponent + cVector.getZComponent()));
 	}
 
 	public Vector vectorAdd(Vector[] vectors) { //adds together a list of vectors
-		Vector resultant = new Vector(0,0,0);	
+		Vector resultant = new Vector(drawer,0,0,0);	
 		for (Vector cVector : vectors) resultant.setComponents(resultant.xComponent + cVector.getXComponent(),resultant.yComponent + cVector.getYComponent(), resultant.zComponent + cVector.getZComponent());
 		resultant.calculateThetas();
 		resultant.setPos(vectors[0].xReal, vectors[0].yReal, vectors[0].zReal);
@@ -984,11 +993,11 @@ public class Vector extends Physics_shape{
 			points[1] = vectorTip;
 		}catch(NullPointerException n) {
 			points = new point[2];
-			points[0] = new point(xReal,yReal,zReal);
+			points[0] = new point(drawer,xReal,yReal,zReal);
 			points[1] = vectorTip;
 		}catch(ArrayIndexOutOfBoundsException a) {
 			points = new point[2];
-			points[0] = new point(xReal,yReal,zReal);
+			points[0] = new point(drawer,xReal,yReal,zReal);
 			points[1] = vectorTip;
 		}
 	}

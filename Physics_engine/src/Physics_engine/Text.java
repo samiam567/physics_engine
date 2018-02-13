@@ -3,20 +3,22 @@ package Physics_engine;
 import java.awt.Font;
 import java.awt.Graphics;
 
-public class Text extends physics_object {
+public class Text extends Physics_drawable {
 	private String text;
 	private Font font = new Font("TimesRoman", Font.BOLD,(int) Math.round(.01 * Settings.height) );
 	private double fontSize, textLength;
 	private String[] lines;
 	public boolean textWrapping = true;
 	
-	public Text(double x1, double y1, String text1) {
+	public Text(object_draw drawer1,double x1, double y1, String text1) {
+		super(drawer1);
 		setPos(x1,y1,0);
 		text = text1;
 		updateFont();
 	}
 	
-	public Text(double x1, double y1, String text1, Font font1) {
+	public Text(object_draw drawer1,double x1, double y1, String text1, Font font1) {
+		super(drawer1);
 		setPos(x1,y1,0);
 		font = font1;
 		text = text1;
@@ -30,7 +32,7 @@ public class Text extends physics_object {
 	
 	private void updateFont() {
 		
-		
+		//automatic text wrapping!!
 		if (textWrapping) {
 			fontSize = font.getSize();
 			

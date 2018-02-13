@@ -9,4 +9,5 @@ public interface massive extends movable{
 	public double getMass();
 	public double getFrictionCoefficient();
 	public void checkForCollision(massive physics_polygon, ArrayList<physics_object> objects);
+	public void applyComponentForce(double xComponent, double yComponent, double zComponent);
 }

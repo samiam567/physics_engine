@@ -2,25 +2,18 @@ package Physics_engine;
 
 import java.util.ArrayList;
 
-import Physics_engine.physics_object.faces;
+import Physics_engine.Physics_engine_toolbox.faces;
 
 
 
 public class border_bounce extends rectangle {
 	public Physics_frame frame;
 	
-	public border_bounce() {
-		super(-50, 0, 0, Settings.width *1.06, Settings.height * 0.975, 1);
+	public border_bounce(object_draw drawer1) {
+		super(drawer1,-50, 0, 0, Settings.width *1.06, Settings.height * 0.975, 1);
 		isAnchored = true;
 		isRotatable = false;
-		
-	}
-	
-	public border_bounce(Physics_frame frame1) {
-		super(-50, 0, 0, Settings.width * 1.06, Settings.height * 0.975, 1);
-		frame = frame1;
-		isAnchored = true;
-		isRotatable = false;
+		frame = drawer1.frame;
 		
 	}
 	
@@ -28,17 +21,7 @@ public class border_bounce extends rectangle {
 		
 	}
 	
-	public void checkForCollisions(ArrayList<physics_object> objects) {
-			
-		if (isTangible)  {
-			for (physics_object current_pObject : objects) {
-				
-				if (current_pObject.isTangible && current_pObject.affectedByBorder)	checkForCollision(current_pObject,objects);
-	
-			}	
-		}
-	}
-	
+
 	public void secondaryUpdate() {
 		if (Settings.autoResizeFrame) {
 			Settings.width = frame.getWidth();
@@ -47,7 +30,7 @@ public class border_bounce extends rectangle {
 		}
 	}
 	
-	public void checkForCollision(physics_object current_object, ArrayList<physics_object> objects) {
+	public Object checkForCollision1(Physics_polygon current_object,ArrayList<physics_object> objects) { 
 	
 		if ( (Math.abs(current_object.centerX - (Settings.width-20) )) < ( current_object.xSpeed + current_object.xSize/2 ) ) { //right side
 			current_object.setSpeed(-Settings.elasticity * Math.abs(current_object.xSpeed),current_object.ySpeed,current_object.zSpeed);
@@ -75,7 +58,7 @@ public class border_bounce extends rectangle {
 			current_object.isCollided(this,faces.near);
 		}
 
-
+		return current_object;
 		
 	}
 		

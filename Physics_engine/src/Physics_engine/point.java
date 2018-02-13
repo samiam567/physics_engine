@@ -1,5 +1,6 @@
 package Physics_engine;
 
+import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.geom.Area;
 
@@ -104,4 +105,9 @@ public class point extends Physics_drawable {
 		return r;
 	}
 	
+	public void paint(Graphics page) {
+		if (Settings.displayObjectNames) page.drawString(name, x, y); //display the name of the point
+		
+		page.drawLine(x, y, x, y); //draw the point
+	}
 }

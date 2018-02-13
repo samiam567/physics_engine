@@ -10,7 +10,7 @@ public interface drawable extends physics_engine_compatible { //the ability to b
 	
 	/*vars needed
 	int x=0,y=0,z=0;
-	double xReal=0,yReal=0,zReal=0;
+	double xReal=0,yReal=0,zReal=0,centerX=0,centerY=0,centerZ=0;
 	boolean isVisible = true,isFilled = false;
 	Color color = Color.BLACK;
 	public String drawMethod = "paint";
@@ -38,6 +38,8 @@ public interface drawable extends physics_engine_compatible { //the ability to b
 	public String getDrawMethod();
 
 	public int[] getPointRenderOrder();
+	
+	public void setCenter(double centerX1,double centerY1, double centerZ1);
 
 	
 	

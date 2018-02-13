@@ -2,18 +2,18 @@ package Physics_engine;
 
 import java.awt.Graphics;
 
-public class ScoreBoard extends physics_object {
+public class ScoreBoard extends Physics_drawable {
 	
 	private String score_phrase,end_phrase = "";
 	private double score;
 	private double scoreSpeed;
 	private double targetScore;
 	
-	public ScoreBoard(double x, double y, String score_phrase1, double score1) {
+	public ScoreBoard(object_draw drawer1, double x, double y, String score_phrase1, double score1) {
+		super(drawer1);
 		setPos(x,y,0);
 		drawMethod = "paint";
 		score_phrase = score_phrase1;
-		isTangible = false;
 		isAnchored = true;
 	}
 	
@@ -23,26 +23,23 @@ public class ScoreBoard extends physics_object {
 	}
 	
 
-	public ScoreBoard() {
+	public ScoreBoard(object_draw drawer1) {
+		super(drawer1);
 		setPos(0.05 * Settings.width,Settings.height-100,0);
 		score_phrase = "Score:";
 		score = 0;
 		drawMethod = "paint";
 		
-		isTangible = false;
 		isAnchored = true;
 	}
 	
-	protected void secondaryUpdate() {
+	public void secondaryUpdate() {
 		if (Math.abs(score - targetScore) > 0.01 * Settings.frameStep) {
 			if (score < targetScore) {
 				score += scoreSpeed * Settings.frameStep;
 			}else {
 				score -= scoreSpeed * Settings.frameStep;
-			}
-			
-		
-			
+			}		
 		}
 	}
 	

@@ -16,11 +16,15 @@ public class physics_runner {
 	private static int mouseStartX;
 	private static int mouseStartY;
 	
+	private static object_draw drawer;
+	
 	public static void main(String[] args) {
 	
-		border_bounce boundries = new border_bounce();
+		drawer = new object_draw(frame);
+		
+		border_bounce boundries = new border_bounce(drawer);
 
-		object_draw drawer = new object_draw(frame);
+		
 	
 		
 		//mouseListener +==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+
@@ -78,37 +82,37 @@ public class physics_runner {
 		
 	
 		
-     	Square square1 = new Square(400,400,0,100,1);
+     	Square square1 = new Square(drawer,400,400,0,100,1);
 		square1.setName("square1", 1);
 		square1.setPos(400, 200, 0);
 	//	square1.setAngularVelocity(0.01, 0, 0);
 		
 		
-		Square square2 = new Square(400,400,0,100,1);
+		Square square2 = new Square(drawer,400,400,0,100,1);
 		square2.setName("square2", 1);
 		square2.setPos(600, 200, 0);
 		square2.setAngularVelocity(0, 0, 0.01);
 		
-		Triangle tri1 = new Triangle(400,8000,0,50,100,1);
+		Triangle tri1 = new Triangle(drawer,400,8000,0,50,100,1);
 		tri1.setName("tri1", 1);
 		tri1.setPos(600, 400, 0);
 		tri1.setAngularVelocity(0, 0, 0);
-		object_draw.objects.add(tri1);
+		drawer.add(tri1);
 		
-		object_draw.objects.add(square2);
+		drawer.add(square2);
 	
-		Vector vec1 = new Vector(40,50,50,0,"thetaZX");
+		Vector vec1 = new Vector(drawer,40,50,50,0,"thetaZX");
 		vec1.setPos(300, 300, 0);
-		object_draw.objects.add(vec1);
+		drawer.add(vec1);
 		
 		
 		
 
 		
-//		object_draw.objects.add(boundries);
+//		drawer.objects.add(boundries);
 
-		object_draw.objects.add(vec1);
-		object_draw.objects.add(square1);
+		drawer.add(vec1);
+		drawer.add(square1);
 
 		
 		

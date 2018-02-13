@@ -131,8 +131,8 @@ public class Square extends Physics_polygon {
 							
 	//public force(physics_object object1, double r, double theta, double zComponent1, double time1, double frame1, boolean isPolar) {
 							
-							drawer.scheduled_forces.add(new force(this,force,thisDeflectionAngle,thisZReflect,time,-1,true));
-							drawer.scheduled_forces.add(new force(this,force,current_obDeflectionAngle,current_obZReflect,time,-1,true));
+							drawer.scheduled_forces.add(new force(drawer,this,force,thisDeflectionAngle,thisZReflect,time,-1,true));
+							drawer.scheduled_forces.add(new force(drawer,this,force,current_obDeflectionAngle,current_obZReflect,time,-1,true));
 						}	
 						
 						
@@ -192,8 +192,8 @@ public class Square extends Physics_polygon {
 								current_obDeflectionAngle = current_obDeflectionAnglePack[0];
 								current_obZReflect = current_obDeflectionAnglePack[1];
 								
-								drawer.objects.add(new SpeedTimer(time,force*Math.cos(thisDeflectionAngle), force*Math.sin(thisDeflectionAngle),thisZReflect,this));
-								drawer.objects.add(new SpeedTimer(time,force*Math.cos(current_obDeflectionAngle), force*Math.sin(current_obDeflectionAngle),current_obZReflect,current_object));
+								drawer.add(new SpeedTimer(drawer,time,force*Math.cos(thisDeflectionAngle), force*Math.sin(thisDeflectionAngle),thisZReflect,this));
+								drawer.add(new SpeedTimer(drawer,time,force*Math.cos(current_obDeflectionAngle), force*Math.sin(current_obDeflectionAngle),current_obZReflect,current_object));
 								
 								
 								
@@ -239,15 +239,15 @@ public class Square extends Physics_polygon {
 								
 									System.out.println("Force: " + force);
 									
-									drawer.scheduled_forces.add(new force(this,-force,0,0,time,-1));
-									drawer.scheduled_forces.add(new force(current_object,force,0,0,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,this,-force,0,0,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,force,0,0,time,-1));
 									
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									drawer.scheduled_forces.add(new force(this,-Math.abs(current_object.xSpeed/mass),current_object.ySpeed/mass,current_object.zSpeed/mass,time,-1));
-									drawer.scheduled_forces.add(new force(current_object,- Math.abs(xSpeed/current_object.mass),ySpeed/current_object.mass,zSpeed/current_object.mass,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,this,-Math.abs(current_object.xSpeed/mass),current_object.ySpeed/mass,current_object.zSpeed/mass,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,- Math.abs(xSpeed/current_object.mass),ySpeed/current_object.mass,zSpeed/current_object.mass,time,-1));
 									xReal += 1.1 * xSpeed;
 								}else {
 									assert Settings.forceMethod == 2;
@@ -275,14 +275,14 @@ public class Square extends Physics_polygon {
 									double force = (momentum1+momentum2)/(2*time);
 									System.out.println("Force: " + force);
 									
-									drawer.scheduled_forces.add(new force(this,0,-force,0,time,-1));
-									drawer.scheduled_forces.add(new force(current_object,0, force, 0,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,this,0,-force,0,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,0, force, 0,time,-1));
 									
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									drawer.scheduled_forces.add(new force(this,current_object.xSpeed/mass, - Math.abs(current_object.ySpeed/mass),-current_object.zSpeed/mass,time,-1));
-									drawer.scheduled_forces.add(new force(current_object,xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,this,current_object.xSpeed/mass, - Math.abs(current_object.ySpeed/mass),-current_object.zSpeed/mass,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
 									yReal += 1.1 * ySpeed;
 								}else {
 									assert Settings.forceMethod == 2;
@@ -305,15 +305,15 @@ public class Square extends Physics_polygon {
 									double force = (momentum1+momentum2)/(2*time);
 									System.out.println("Force: " + force);
 									
-									drawer.scheduled_forces.add(new force(this,force,0,0,time,-1));
-									drawer.scheduled_forces.add(new force(current_object,-force,0,0,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,this,force,0,0,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,-force,0,0,time,-1));
 									xReal += 1.1 * xSpeed;
 									
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									drawer.scheduled_forces.add(new force(this,-current_object.xSpeed/mass,current_object.ySpeed/mass,-current_object.zSpeed/mass,time,-1));
-									drawer.scheduled_forces.add(new force(current_object,-xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,this,-current_object.xSpeed/mass,current_object.ySpeed/mass,-current_object.zSpeed/mass,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,-xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
 								
 								}else {
 									assert Settings.forceMethod == 2;	
@@ -338,15 +338,15 @@ public class Square extends Physics_polygon {
 									double force = (momentum1+momentum2)/(2*time);
 									System.out.println("Force: " + force);
 									
-									drawer.scheduled_forces.add(new force(this,0,force,0,time,-1));
-									drawer.scheduled_forces.add(new force(current_object,0,-force,0,time,-1) );
+									drawer.scheduled_forces.add(new force(drawer,this,0,force,0,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,0,-force,0,time,-1) );
 									
 									
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									drawer.scheduled_forces.add(new force(this,-current_object.xSpeed/mass,current_object.ySpeed/mass,-current_object.zSpeed/mass,time,-1));
-									drawer.scheduled_forces.add(new force(current_object,-xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,this,-current_object.xSpeed/mass,current_object.ySpeed/mass,-current_object.zSpeed/mass,time,-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,-xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,-1));
 									yReal += 1.1 * ySpeed;
 								}else {
 									assert Settings.forceMethod == 2;
