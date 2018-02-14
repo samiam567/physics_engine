@@ -53,7 +53,8 @@ public class rectangle extends Physics_polygon{
 	}
 	
 	
-	public Object checkForCollision1(Physics_polygon current_object,ArrayList<physics_object> objects) { 
+	public Object checkForCollision1 (massive current_object1,ArrayList<massive> objects) { 
+		Physics_polygon current_object = (Physics_polygon) current_object1;
 		if ((current_object.isTangible) && (! this.equals(current_object))) {
 			faces side = faces.none;
 			

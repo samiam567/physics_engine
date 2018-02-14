@@ -1,8 +1,11 @@
 package Physics_engine;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
-public class Vector extends Physics_shape{
+import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
+
+public class Vector extends Physics_shape {
 
 	protected double r,xComponent,yComponent,zComponent;
 	private double thetaXY, thetaZX, thetaZY;
@@ -1034,5 +1037,6 @@ public class Vector extends Physics_shape{
 		page.drawLine(points[0].getX(),points[0].getY(),vectorTip.getX(),vectorTip.getY());  //these two lines should do the same thing
 //		page.drawLine(x, y , x + (int) Math.round(xComponent),y + (int) Math.round(yComponent));
 	}
+
 }
 	

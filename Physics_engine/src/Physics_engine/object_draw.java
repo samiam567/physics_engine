@@ -13,6 +13,8 @@ public class object_draw extends Canvas {
 	
 	public ArrayList<Physics_drawable> drawables = new ArrayList<Physics_drawable>();
 	
+	public ArrayList<massive> tangibles = new ArrayList<massive>();
+	
 	public ArrayList<force> scheduled_forces = new ArrayList<force>(); //list of forces for the maintenance bot to apply
 	
 	public double current_frame = 0; //what frame we are on
@@ -64,6 +66,13 @@ public class object_draw extends Canvas {
 		}catch(ClassCastException c) {
 			//ob is not drawable
 		}
+		
+		try {
+			tangibles.add((massive)newOb);
+		}catch(ClassCastException e) {
+			//ob is not tangible
+		}
+		
 	}
 	
 	private void updateObjects(double frames) {
@@ -251,5 +260,9 @@ public class object_draw extends Canvas {
 
 	public ArrayList<physics_object> getObjects() {
 		return objects;
+	}
+	
+	public ArrayList<massive> getTangibles() {
+		return tangibles;
 	}
 }

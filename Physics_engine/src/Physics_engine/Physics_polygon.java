@@ -10,6 +10,7 @@ import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 
 public class Physics_polygon extends Physics_shape implements pointed, rotatable, massive {
 	
+
 	public point[] points = {}; //all of the points in the object
 	int[] pointXs = {}; //all of the x coordinates of the points in the object
 	int[] pointYs = {}; //all of the y coordinates of the points in the object
@@ -288,7 +289,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		}
 	}
 	
-	public void checkForCollision(massive current_physics_object,ArrayList<physics_object> objects) { //generic checkForCollisions method that is overriden by all tangible pObjects
+	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { //generic checkForCollisions method that is overriden by all tangible pObjects
 		
 		if (Settings.collision_algorithm == 5) {
 			updatePointXsYsAndZs();
@@ -298,7 +299,6 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 			double force, reflec_const, time = 0.1;	
 			
 			try {
-				current_physics_object = (pointed) current_physics_object;
 				for (int i = 0; i < ((pointed) current_physics_object).getPoints().length; i++) {
 					cPoint = ((pointed) current_physics_object).getPoints()[i];
 		
@@ -317,25 +317,32 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 			
 			
 		}else {
-			checkForCollision1((Physics_polygon) current_physics_object, objects);
+			checkForCollision1((massive) current_physics_object, objects);
 		}
 		
 	
 	}
 	
-	public void checkForCollisions(ArrayList<physics_object> objects) { // calls the checkForCollision method for every object in the objects list
+	public void checkForCollisions(ArrayList<massive> objects) { // calls the checkForCollision method for every object in the objects list
 		
 		if (isTangible) {
-			for (physics_object current_pObject : objects) {
+			for (massive current_pObject : objects) {
 				
-				if ( (! equals(current_pObject) ) && (((Physics_polygon) current_pObject).getIsTangible()) && (isTangible) ) ((Physics_polygon) current_pObject).checkForCollision(this,objects);
-	
+				try {
+					if ( (! equals(current_pObject) ) && (((Physics_polygon) current_pObject).getIsTangible()) && (isTangible) ) ((Physics_polygon) current_pObject).checkForCollision(this,objects);
+				}catch(ClassCastException c) {
+					try {
+						System.out.println(((drawable) current_pObject).getObjectName() + " is not massive");
+					}catch(ClassCastException q) {
+						System.out.println("not drawable");
+					}
+				}
 			}	
 		}
 	}
 	
 
-	public Object checkForCollision1(Physics_polygon current_object,ArrayList<physics_object> objects) {
+	public Object checkForCollision1(massive current_object,ArrayList<massive> objects) {
 	//for v1-4 collision
 		return null;
 	}

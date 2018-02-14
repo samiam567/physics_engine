@@ -56,9 +56,12 @@ public class Square extends Physics_polygon {
 	}
 	
 	
-	public Object checkForCollision1(Physics_polygon current_object,ArrayList<physics_object> objects) {
+	public Object checkForCollision1(massive current_object1,ArrayList<massive> objects) {
+		
+		try {
+			Physics_polygon current_object = (Physics_polygon) current_object1;
 			
-			if ((current_object.isTangible) && (! this.equals(current_object))) {
+			if ((current_object.getIsTangible()) && (! this.equals(current_object))) {
 				Physics_engine.Physics_engine_toolbox.faces side = Physics_engine.Physics_engine_toolbox.faces.none;
 				
 				if (Settings.collision_algorithm == 4) {// v 4.2 collision algorithm (simplified)
@@ -366,8 +369,11 @@ public class Square extends Physics_polygon {
 			}//end of V1 collison algoritm
 			
 		}
-			return current_object;
-				
+			
+		}catch(ClassCastException c) {
+			
+		}
+		return current_object1;
 	}
 	
 	

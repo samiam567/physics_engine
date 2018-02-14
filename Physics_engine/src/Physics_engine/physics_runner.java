@@ -85,7 +85,9 @@ public class physics_runner {
      	Square square1 = new Square(drawer,400,400,0,100,1);
 		square1.setName("square1", 1);
 		square1.setPos(400, 200, 0);
-	//	square1.setAngularVelocity(0.01, 0, 0);
+		square1.setSpeed(1, 1, 0);
+	//	square1.setAngularVelocity(0.01, 0, 0);\
+	
 		
 		
 		Square square2 = new Square(drawer,400,400,0,100,1);
@@ -103,6 +105,7 @@ public class physics_runner {
 	
 		Vector vec1 = new Vector(drawer,40,50,50,0,"thetaZX");
 		vec1.setPos(300, 300, 0);
+		vec1.setName("vec1", 1);
 		drawer.add(vec1);
 		
 		

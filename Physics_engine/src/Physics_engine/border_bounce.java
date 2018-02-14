@@ -30,8 +30,8 @@ public class border_bounce extends rectangle {
 		}
 	}
 	
-	public Object checkForCollision1(Physics_polygon current_object,ArrayList<physics_object> objects) { 
-	
+	public Object checkForCollision1 (massive current_object1,ArrayList<massive> objects) { 
+		Physics_polygon current_object = (Physics_polygon) current_object1;
 		if ( (Math.abs(current_object.centerX - (Settings.width-20) )) < ( current_object.xSpeed + current_object.xSize/2 ) ) { //right side
 			current_object.setSpeed(-Settings.elasticity * Math.abs(current_object.xSpeed),current_object.ySpeed,current_object.zSpeed);
 			current_object.isCollided(this,faces.right);
