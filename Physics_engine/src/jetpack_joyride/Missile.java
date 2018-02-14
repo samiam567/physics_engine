@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import Physics_engine.Settings;
+import Physics_engine.object_draw;
 import Physics_engine.physics_object;
 import Physics_engine.rectangle;
 
@@ -12,8 +13,8 @@ public class Missile extends rectangle {
 
 	public static final int missileHomingSpeed = 2;
 	
-	public Missile(double d, double y) {
-		super(d, y, 0, 20, 5, 0);
+	public Missile(object_draw drawer1,double d, double y) {
+		super(drawer1,d, y, 0, 20, 5, 0);
 		drawMethod = "paint";
 		setColor(Color.red);
 		affectedByBorder = false;

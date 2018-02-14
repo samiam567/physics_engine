@@ -8,20 +8,21 @@ public abstract class Physics_drawable extends physics_object implements movable
 	
 	protected point center;
 	
-	double xSpeed,ySpeed,zSpeed,xAccel,yAccel,zAccel,xSize, ySize, zSize,xSizeAppearance, ySizeAppearance, zSizeAppearance;
+	protected double xSpeed,ySpeed,zSpeed,xAccel,yAccel,zAccel,xSize,ySize, zSize,xSizeAppearance,ySizeAppearance,zSizeAppearance;
 	
 	point[] points = null; //there are no points
 	int[] pointRenderOrder = null;
 	
-	int x,y,z;
-	double xReal,yReal,zReal;
-	boolean isVisible = true,isFilled = false;
-	Color color = Color.BLACK;
+	protected int x,y,z;
+	protected double xReal,yReal,zReal;
+
+
+	protected Color color = Color.BLACK;
 	public String drawMethod = "paint";
 	
 	protected movable parent_object; //this object will move and act relative to it's parent object (usefull for making complex objects out of multiple shapes)
 	
-	protected boolean hasParentObject = false, isAnchored = false;; //if the object is linked to a parent object
+	public boolean hasParentObject = false, isAnchored = false,isFilled = false, isVisible = true; 
 	 
 	
 	public Physics_drawable(object_draw drawer1) {

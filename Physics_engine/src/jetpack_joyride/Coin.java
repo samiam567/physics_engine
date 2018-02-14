@@ -8,8 +8,8 @@ import Physics_engine.*;
 
 public class Coin extends Square {
 	
-	public Coin(int x, int y) {
-		super(x, y, 1, 20, 0.1);
+	public Coin(object_draw drawer1, int x, int y) {
+		super(drawer1, x, y, 1, 20, 0.1);
 		affectedByBorder = false;
 		name = "thing";
 		setColor(Color.YELLOW);
@@ -23,7 +23,7 @@ public class Coin extends Square {
 	}
 	
 	public void checkForCollision(physics_object current_object,ArrayList<physics_object> objects) {
-		if ( (Math.abs(getCenterX() - current_object.getCenterX()) < (current_object.getXSize()/2+xSize/2)) && (Math.abs(getCenterY() - current_object.getCenterY()) < (current_object.getYSize()/2+ySize/2)) /* && (Math.abs(centerZ - current_object.centerZ) < (current_object.getZSize()/2+zSize/2))*/ ) {	
+		if ( (Math.abs(getCenterX() - ((Physics_drawable) current_object).getCenterX()) < (((Physics_drawable) current_object).getXSize()/2+xSize/2)) && (Math.abs(getCenterY() - ((Physics_drawable) current_object).getCenterY()) < (((Physics_drawable) current_object).getYSize()/2+ySize/2)) /* && (Math.abs(centerZ - current_object.centerZ) < (current_object.getZSize()/2+zSize/2))*/ ) {	
 			if (current_object.name == "jetpack") {
 				coinReLocate();
 				JetPack_JoyRide.coins++;

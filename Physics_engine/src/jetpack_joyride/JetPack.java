@@ -2,9 +2,8 @@ package jetpack_joyride;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
-
 import Physics_engine.*;
+import Physics_engine.Physics_engine_toolbox.faces;
 
 
 public class JetPack extends rectangle {
@@ -12,8 +11,8 @@ public class JetPack extends rectangle {
 	public double fireSize = 0.4;
 	public double power = 40;
 	
-	public JetPack(int x, int y, int z, int size, double mass) {
-		super(x, y, z, size*2,size, mass);
+	public JetPack(object_draw drawer1, int x, int y, int z, int size, double mass) {
+		super(drawer1,x, y, z, size*2,size, mass);
 		drawMethod = "paint";
 		
 	}

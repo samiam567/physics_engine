@@ -26,6 +26,12 @@ public class JPJR_Shop extends JFrame {
 	private final JButton[] boughtButtons1 = {};
 	public ArrayList<JButton> boughtButtons = new ArrayList<JButton>(Arrays.asList(boughtButtons1));
 	
+	private object_draw drawer;
+	
+	public JPJR_Shop(object_draw drawer1) {
+		drawer = drawer1;
+	}
+	
 	public void transferPurchases() {
 		
 		//settings all buttons to default state
@@ -61,9 +67,9 @@ public class JPJR_Shop extends JFrame {
 			//double coins
 			if (current_button.getText() != "Double Coins! \n (200 coins)")  {
 				doubleCoinsButton.setText("Double coins already bought");
-				object_draw.objects.add( new Coin(960, 300) );
-				object_draw.objects.add( new Coin(1060, 350) );
-				object_draw.objects.add( new Coin(1160, 400) );
+				drawer.add( new Coin(drawer,960, 300) );
+				drawer.add( new Coin(drawer,1060, 350) );
+				drawer.add( new Coin(drawer,1160, 400) );
 			}
 			
 		}
@@ -195,9 +201,9 @@ public class JPJR_Shop extends JFrame {
 					JetPack_JoyRide.coins -= 200;	
 					JetPack_JoyRide.coinScore.setScore(JetPack_JoyRide.coins);
 					JetPack_JoyRide.drawer.repaint();
-					object_draw.objects.add( new Coin(960, 300) );
-					object_draw.objects.add( new Coin(1060, 350) );
-					object_draw.objects.add( new Coin(1160, 400) );
+					drawer.add( new Coin(drawer,960, 300) );
+					drawer.add( new Coin(drawer,1060, 350) );
+					drawer.add( new Coin(drawer,1160, 400) );
 				}else {
 					JOptionPane.showMessageDialog(JetPack_JoyRide.shop, "You don't have enough money for this", "insufficient funds", 1,JetPack_JoyRide.coin_img);	
 				}

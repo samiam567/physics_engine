@@ -5,12 +5,12 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import Physics_engine.*;
-import Physics_engine.physics_object.faces;
+import Physics_engine.Physics_engine_toolbox.faces;
 
 public class Laser extends rectangle{
 
-	public Laser(int x, int y, int xSize, int ySize, double xRotation1, double yRotation1, double zRotation1) {
-		super(x, y, 0, xSize, ySize, 1);
+	public Laser(object_draw drawer1, int x, int y, int xSize, int ySize, double xRotation1, double yRotation1, double zRotation1) {
+		super(drawer1,x, y, 0, xSize, ySize, 1);
 		setColor(Color.red);
 		drawMethod = "paint";
 		affectedByBorder = false;

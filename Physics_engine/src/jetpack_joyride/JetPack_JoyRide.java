@@ -27,9 +27,13 @@ public class JetPack_JoyRide {
 	public static final String version = "1.9";
 	
 	static JPJR_frame frame = new JPJR_frame();
+	
+	static object_draw drawer = new object_draw(frame);
+	
+	
 	private static JPJR_GUI GUI = new JPJR_GUI();
 	
-	static JPJR_Shop shop = new JPJR_Shop();
+	static JPJR_Shop shop = new JPJR_Shop(drawer);
 	
 	static int coins = 0, coinsEarned = 0, game_over = 0;  // 0 is false, 1 is true, and 2 & 3 are other
 	
@@ -41,7 +45,7 @@ public class JetPack_JoyRide {
 	
 	static boolean pause = false, error = false;
 	
-	static object_draw drawer = new object_draw(frame);
+	
 
 	static ImageIcon jetpack_img = new ImageIcon("jetpack.txt"), coin_img = new ImageIcon("coin.txt");
 	static border_bounce boundries;
@@ -107,7 +111,7 @@ public class JetPack_JoyRide {
 	
 	public static void init() throws FileNotFoundException, IOException, ClassNotFoundException {
 				
-		boundries = new border_bounce(frame);
+		boundries = new border_bounce(drawer);
 		
 		boundries.name = "boundries";
 		boundries.drawMethod = "listedPointsAlgorithm";
@@ -116,32 +120,32 @@ public class JetPack_JoyRide {
 		boundries.setSize(Settings.width *1.06, Settings.height*1.15,10);
 		boundries.isVisible = false;
 		
-		coinScore = new ScoreBoard();
+		coinScore = new ScoreBoard(drawer);
 		coinScore.setScore(coins);
 		coinScore.setScorePhrase("Coins:");
 		coinScore.setColor(Color.WHITE);
 		
-		distanceScore = new ScoreBoard(0.7 * Settings.width,Settings.height-100,"Distance:",distance);
+		distanceScore = new ScoreBoard(drawer,0.7 * Settings.width,Settings.height-100,"Distance:",distance);
 		distanceScore.setColor(Color.WHITE);
 		distanceScore.setEndPhrase("m");
 		
-		distanceHighScoreBoard = new ScoreBoard(0.4 * Settings.width,Settings.height-100,"HighScore:",distance);
+		distanceHighScoreBoard = new ScoreBoard(drawer,0.4 * Settings.width,Settings.height-100,"HighScore:",distance);
 		distanceHighScoreBoard.setColor(Color.WHITE);
 		distanceHighScoreBoard.setEndPhrase("m");
 		
-		jetpack = new JetPack(Settings.width/2,Settings.height-150, 0, 20,200);
+		jetpack = new JetPack(drawer,Settings.width/2,Settings.height-150, 0, 20,200);
 		jetpack.setColor(Color.blue);
 		jetpack.name = "jetpack";
 		
-		laser1 = new Laser(100,200,10,100,0,0,0);
-		laser2 = new Laser(2*Settings.width/3,200,10,100,0,0,0);
+		laser1 = new Laser(drawer,100,200,10,100,0,0,0);
+		laser2 = new Laser(drawer,2*Settings.width/3,200,10,100,0,0,0);
 	
-		Missile1 = new Missile(0,200);
+		Missile1 = new Missile(drawer,0,200);
 		Missile1.setName("thing",1);
 		
-		coin1 = new Coin(350, 270);
-		coin2 = new Coin(530, 300);
-		coin3 = new Coin(760, 230);
+		coin1 = new Coin(drawer,350, 270);
+		coin2 = new Coin(drawer,530, 300);
+		coin3 = new Coin(drawer,760, 230);
 		
 	
 		
@@ -207,17 +211,17 @@ public class JetPack_JoyRide {
 				
 		frame.cp.add(drawer);
 		
-		object_draw.objects.add(jetpack);
-		object_draw.objects.add(boundries);
-		object_draw.objects.add(coinScore);
-		object_draw.objects.add(distanceScore);
-		object_draw.objects.add(distanceHighScoreBoard);
-		object_draw.objects.add(laser1);
-		object_draw.objects.add(laser2);
-		object_draw.objects.add(Missile1);
-		object_draw.objects.add(coin1);
-		object_draw.objects.add(coin2);
-		object_draw.objects.add(coin3);
+		drawer.add(jetpack);
+		drawer.add(boundries);
+		drawer.add(coinScore);
+		drawer.add(distanceScore);
+		drawer.add(distanceHighScoreBoard);
+		drawer.add(laser1);
+		drawer.add(laser2);
+		drawer.add(Missile1);
+		drawer.add(coin1);
+		drawer.add(coin2);
+		drawer.add(coin3);
 	
 		
 		
@@ -250,10 +254,10 @@ public class JetPack_JoyRide {
 		distance = 0;	
 		game_over = 0;
 		
-		for (physics_object pObject : object_draw.objects) {
+		for (physics_object pObject : drawer.getObjects()) {
 			
 			if (pObject.getObjectName() == "thing") {
-				pObject.setSpeed(-jetpack_speed, pObject.getYSpeed(), 0);
+				((Physics_drawable) pObject).setSpeed(-jetpack_speed, ((Physics_drawable) pObject).getYSpeed(), 0);
 			}
 		}
 		
@@ -277,16 +281,16 @@ public class JetPack_JoyRide {
 					coinScore.setScore(coins);
 					distanceScore.setScore(Math.round(distance));
 					distance += jetpack_speed;
-					jetpack_speed += (Math.pow(object_draw.current_frame,1/100) / 900) * frames;
+					jetpack_speed += (Math.pow(drawer.current_frame,1/100) / 900) * frames;
 					
 					Settings.width = frame.getWidth();
 					Settings.height = frame.getHeight();
 					
 					try {
-						for (physics_object pObject : object_draw.objects) {
+						for (physics_object pObject : drawer.getObjects()) {
 							
 							if (pObject.getObjectName() == "thing") {
-								pObject.setSpeed(-jetpack_speed, pObject.getYSpeed(), 0);
+								((Physics_drawable) pObject).setSpeed(-jetpack_speed, ((Physics_drawable) pObject).getYSpeed(), 0);
 							}
 						}
 					}catch(ConcurrentModificationException c) {}

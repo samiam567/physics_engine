@@ -96,7 +96,7 @@ public class physics_runner {
 		Triangle tri1 = new Triangle(drawer,400,8000,0,50,100,1);
 		tri1.setName("tri1", 1);
 		tri1.setPos(600, 400, 0);
-		tri1.setAngularVelocity(0, 0, 0);
+		tri1.setAngularVelocity(0, 0, 0.1);
 		drawer.add(tri1);
 		
 		drawer.add(square2);
