@@ -110,6 +110,15 @@ public class object_draw extends Canvas {
 		}while ( (CurrentTime-StartTime) <= time);
 	}
 	
+	
+	public void checkForResize() {
+		if (Settings.autoResizeFrame) {
+			Settings.width = frame.getWidth();
+			Settings.height = frame.getHeight();
+			frame.resizeObjects();
+		}
+	}
+	
 
 	
 	public void doFrame() {

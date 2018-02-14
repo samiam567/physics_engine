@@ -23,5 +23,11 @@ public class Physics_frame extends JFrame{
 		setBackground(newColor);		
 		cp.setBackground(newColor);
 	}
+
+
+	public void resizeObjects() {
+		physics_runner.resize();
+		
+	}
 	
 }

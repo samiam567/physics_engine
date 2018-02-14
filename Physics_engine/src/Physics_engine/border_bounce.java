@@ -21,14 +21,10 @@ public class border_bounce extends rectangle {
 		
 	}
 	
-
-	public void secondaryUpdate() {
-		if (Settings.autoResizeFrame) {
-			Settings.width = frame.getWidth();
-			Settings.height = frame.getHeight();
-			setSize( Settings.width * 1.06, Settings.height * 0.975,Settings.depth);
-		}
+	public void resize() {
+		setSize( Settings.width * 1.06, Settings.height * 0.975,Settings.depth);
 	}
+
 	
 	public Object checkForCollision1 (massive current_object1,ArrayList<massive> objects) { 
 		Physics_polygon current_object = (Physics_polygon) current_object1;

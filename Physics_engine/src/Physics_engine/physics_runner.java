@@ -86,7 +86,7 @@ public class physics_runner {
 		square1.setName("square1", 1);
 		square1.setPos(400, 200, 0);
 		square1.setSpeed(1, 1, 0);
-	//	square1.setAngularVelocity(0.01, 0, 0);\
+//		square1.setAngularVelocity(0.01, 0, 0);
 	
 		
 		
@@ -123,6 +123,10 @@ public class physics_runner {
 		drawer.start();
 
 	//	frame.dispose();
+	}
+
+	public static void resize() {
+		//resize stuff
 	}
 
 }

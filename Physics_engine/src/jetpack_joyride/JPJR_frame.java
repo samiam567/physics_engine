@@ -19,4 +19,8 @@ public class JPJR_frame extends Physics_frame{
 		cp.setBackground(Color.BLACK);
 	
 	}
+	
+	public void resize() {
+		
+	}
 }

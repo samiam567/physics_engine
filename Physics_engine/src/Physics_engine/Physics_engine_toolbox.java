@@ -17,7 +17,7 @@ public class Physics_engine_toolbox {
 			
 
 		}catch(ClassCastException c) {
-			System.out.println(((drawable) current_object).getObjectName() + " is not massive");
+	//		System.out.println(((drawable) current_object).getObjectName() + " is not massive");
 		}
 		
 
@@ -106,7 +106,7 @@ public class Physics_engine_toolbox {
 						((Physics_drawable)current_object).zSpeed += ( ((Physics_drawable)current_object).zAccel * frames);
 						
 						//update pos
-						((movable) current_object).setCenter(((Physics_drawable) current_object).getCenterX() + (((movable) current_object).getYSpeed() * frames),((Physics_drawable) current_object).getCenterY() + (((movable) current_object).getYSpeed() * frames),((Physics_drawable) current_object).getCenterZ() + (((movable) current_object).getZSpeed() * frames));
+						((movable) current_object).setCenter(((Physics_drawable) current_object).getCenterX() + (((movable) current_object).getXSpeed() * frames),((Physics_drawable) current_object).getCenterY() + (((movable) current_object).getYSpeed() * frames),((Physics_drawable) current_object).getCenterZ() + (((movable) current_object).getZSpeed() * frames));
 
 						
 						
