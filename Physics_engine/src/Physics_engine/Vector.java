@@ -46,8 +46,7 @@ public class Vector extends Physics_shape {
 	
 	public Vector (object_draw drawer1,point point1, point point2) {
 		super(drawer1);
-		setPos(point1.getXReal(), point1.getYReal(), point1.getZReal());
-		vectorTip.setPos(point2.getXReal(), point2.getYReal(), point2.getZReal());
+//		vectorTip.setPos(point2.getXReal(), point2.getYReal(), point2.getZReal());
 		
 		xComponent = point2.getXReal() - point1.getXReal();
 		yComponent = point2.getYReal() - point1.getYReal();
@@ -55,20 +54,38 @@ public class Vector extends Physics_shape {
 		
 		calculateThetas();
 		
+		reduceThetas();
+		
 		updatePos();
+		
+		updatePoints();
+		
+		r = Physics_engine_toolbox.distance(points[0], points[1]);
+		
+		setPos(point1.getXReal(), point1.getYReal(), point1.getZReal());
 	}
 	
 	public Vector (object_draw drawer1,point point1, point point2,physics_object parent1) {
 		super(drawer1);
 		parent = parent1;
-		setPos(point1.getXReal(), point1.getYReal(), point1.getZReal());
-		vectorTip.setPos(point2.getXReal(), point2.getYReal(), point2.getZReal());
+//		vectorTip.setPos(point2.getXReal(), point2.getYReal(), point2.getZReal());
 		
 		xComponent = point2.getXReal() - point1.getXReal();
 		yComponent = point2.getYReal() - point1.getYReal();
 		zComponent = point2.getZReal() - point1.getZReal();
 		
 		calculateThetas();
+		
+		reduceThetas();
+		
+		updatePos();
+		
+		updatePoints();
+		
+		r = Physics_engine_toolbox.distance(points[0], points[1]);
+		
+		setPos(point1.getXReal(), point1.getYReal(), point1.getZReal());
+
 	}
 	
 	public Vector(object_draw drawer1,double r1, double theta, double zComponent1, boolean isPolar) { //old angle system
@@ -129,6 +146,7 @@ public class Vector extends Physics_shape {
 		setPos(0,0,0);
 		calculateComponents();		
 		updatePos();
+		
 		drawMethod = "paint";
 		
 	}
@@ -916,19 +934,19 @@ public class Vector extends Physics_shape {
 	
 	private void calculateThetasQuadKnown() { 
 		
-		if (Math.round(xComponent) < 0.001) { //atan won't work if xComp is 0 (division by 0)
+		if (Math.abs(xComponent) < 0.001) { //atan won't work if xComp is 0 (division by 0)
 			thetaXY = Math.PI/2;
 		}else {
 			thetaXY = Math.atan(yComponent/xComponent);
 		}
 		
-		if (Math.round(xComponent) < 0.001)  {
+		if (Math.abs(xComponent) < 0.001)  {
 			thetaZX = Math.PI/2;
 		}else {
 			thetaZX = Math.atan(zComponent/xComponent);	
 		}
 		
-		if (Math.round(zComponent) < 0.001) { 
+		if (Math.abs(zComponent) < 0.001) { 
 			thetaZY = Math.PI/2;
 		}else { //atan won't work if zComp is 0 (division by 0)
 			thetaZY = Math.atan(yComponent/zComponent);
@@ -1034,8 +1052,18 @@ public class Vector extends Physics_shape {
 	}
 	
 	public void paint(Graphics page) {
+		
+		
+		
+		int ovalSize = (int) ( r/10 );
+		page.fillOval(points[0].getX() - (int) (ovalSize/2), points[0].getY()- (int) (ovalSize/2), ovalSize, ovalSize ); //draw a point at the base of the vector
+		
 		page.drawLine(points[0].getX(),points[0].getY(),vectorTip.getX(),vectorTip.getY());  //these two lines should do the same thing
-//		page.drawLine(x, y , x + (int) Math.round(xComponent),y + (int) Math.round(yComponent));
+		//page.drawLine(x, y , x + (int) Math.round(xComponent),y + (int) Math.round(yComponent));
+	}
+
+	public double getR() {
+		return r;
 	}
 
 }

@@ -13,7 +13,7 @@ public class border_bounce extends rectangle {
 		super(drawer1,0, 0, 0, Settings.width *1.06, Settings.height * 0.975, 1);
 		isAnchored = true;
 		isRotatable = false;
-		isVisible = false;
+		isVisible = true;
 		frame = drawer1.frame;
 		
 	}

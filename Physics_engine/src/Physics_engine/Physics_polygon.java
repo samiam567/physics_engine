@@ -267,21 +267,34 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	
 	protected void calculatePointValues() {  //this method has BIGG issues
 		Vector tempVec;
-		for (point cPoint : points) {
-		
+		point cPoint;
+		for (int i = 0; i < points.length; i++) {
+			cPoint = points[i];
+			
+			cPoint.setId(i);
+			
 			try {
-				cPoint.setR(Physics_engine_toolbox.distance(cPoint,pointOfRotation));
+				tempVec = new Vector(drawer,pointOfRotation,cPoint);
+				cPoint.setR(tempVec.getR());
 			}catch(NullPointerException n) { //this will be caught if pointOfRotation doesn't exist yet.
 				pointOfRotation = new point(drawer,centerX,centerY,centerZ); //create pointOfRotation and set it to the center of the object using the default method
-				cPoint.setR(Physics_engine_toolbox.distance(cPoint,pointOfRotation));
+				tempVec = new Vector(drawer,pointOfRotation,cPoint);
+				cPoint.setR(tempVec.getR());
 			}
-		
 			
-			tempVec = new Vector(drawer,cPoint,pointOfRotation);
+			tempVec.setName(name + "_tempVec", 1);
+			
+	//		drawer.add(tempVec); // this will display the temp vecs
+		
+			//Physics_engine_toolbox.distance(cPoint,pointOfRotation)
+			
+			//tempVec.getR()
+			
 			
 			System.out.println("-");
 			System.out.println("point: " + cPoint.getThetaXY() + "," + cPoint.getThetaZX() + "," + cPoint.getThetaZY() );
-		//	cPoint.setAngle(tempVec.getThetaXY(), tempVec.getThetaZX(), tempVec.getThetaZY());  //this line is what makes this method not work!!
+			
+//			cPoint.setAngle(tempVec.getThetaXY(), tempVec.getThetaZX(), tempVec.getThetaZY());  //this line is what makes this method not work!!
 			
 			System.out.println("point: " + cPoint.getThetaXY() + "," + cPoint.getThetaZX() + "," + cPoint.getThetaZY() );
 			System.out.println("-");

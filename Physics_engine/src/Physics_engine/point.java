@@ -14,7 +14,7 @@ public class point extends Physics_drawable {
 	public point(object_draw drawer1,double[] dimensions,int id1) { //dimensions = {x,y,z}
 		super(drawer1);
 		setPos(dimensions[0],dimensions[1],dimensions[2]);
-		id = id1;
+		setId(id1);
 		setSize(0,0,0);
 	}
 	
@@ -105,6 +105,14 @@ public class point extends Physics_drawable {
 		return r;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public void paint(Graphics page) {
 		if (Settings.displayObjectNames) page.drawString(name, x, y); //display the name of the point
 		

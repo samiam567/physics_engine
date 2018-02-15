@@ -115,7 +115,7 @@ public abstract class Physics_drawable extends physics_object implements movable
 		return isAnchored;
 	}
 	
-	protected void updateSize() {
+	public void updateSize() {
 		//as z gets bigger, the object gets further away from the viewer, and the object appears to be smaller
 		xSizeAppearance = (Settings.distanceFromScreen * xSize ) / (zReal + Settings.distanceFromScreen);
 		ySizeAppearance = (Settings.distanceFromScreen * ySize ) / (zReal + Settings.distanceFromScreen);

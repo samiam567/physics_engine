@@ -16,6 +16,8 @@ public class physics_runner {
 	private static int mouseStartX;
 	private static int mouseStartY;
 	
+	public static Vector vec1;
+	
 	private static object_draw drawer;
 	
 	public static void main(String[] args) {
@@ -24,7 +26,11 @@ public class physics_runner {
 		
 		border_bounce boundries = new border_bounce(drawer);
 
-		
+
+		vec1 = new Vector(drawer,40,50,50,0,"thetaZX");
+		vec1.setPos(300, 300, 0);
+		vec1.setName("vec1", 1);
+		drawer.add(vec1);
 	
 		
 		//mouseListener +==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+
@@ -32,6 +38,8 @@ public class physics_runner {
 
 		public void mouseClicked(MouseEvent arg0) {
 			drawer.inactivity_timer = 0;
+			
+			
 			
 		}
 
@@ -60,6 +68,15 @@ public class physics_runner {
 			int xRotation = mouseStartX - arg0.getX();
 			int yRotation = mouseStartY - arg0.getY();
 			*/
+			drawer.remove(vec1);
+			
+	//		vec1 = new Vector(drawer,new point(drawer,300,300,0),new point(drawer,arg0.getX(),arg0.getY(),50));
+			
+			vec1 = new Vector(drawer,40,0,0,vec1.getThetaZY() + 0.1,"thetaZY");
+			vec1.setPos(300, 300, 0);
+			
+			
+			drawer.add(vec1);
 			
 			int xRotation = arg0.getX();
 			int yRotation = arg0.getY();
@@ -85,7 +102,7 @@ public class physics_runner {
      	Square square1 = new Square(drawer,400,400,0,100,1);
 		square1.setName("square1", 1);
 		square1.setPos(400, 200, 0);
-		square1.setSpeed(1, 0, 0);
+		square1.setSpeed(1, 0, 2);
 //		square1.setAngularVelocity(0.01, 0, 0);
 	
 		
@@ -94,7 +111,9 @@ public class physics_runner {
 		square2.setName("square2", 1);
 		square2.setPos(600, 200, 0);
 		square2.setAngularVelocity(0, 0, 0.01);
-		square2.setSpeed(0.5, 0, 0);
+		square2.setSpeed(0.5, 1, 0);
+		square2.calculatePointValues();
+		drawer.add(square2);
 		
 		Triangle tri1 = new Triangle(drawer,400,8000,0,50,100,1);
 		tri1.setName("tri1", 1);
@@ -103,23 +122,18 @@ public class physics_runner {
 		tri1.setSpeed(-1, 0, 0);
 		drawer.add(tri1);
 		
-		drawer.add(square2);
 		
-		rectangle rect1 = new rectangle(drawer, 400, 400, 0, 60, 80, 1);
+		
+		rectangle rect1 = new rectangle(drawer, 400, 400, 0, 10, 80, 1);
+		rect1.setName("rect1", 1);
 		drawer.add(rect1);
 	
-		Vector vec1 = new Vector(drawer,40,50,50,0,"thetaZX");
-		vec1.setPos(300, 300, 0);
-		vec1.setName("vec1", 1);
-		drawer.add(vec1);
 		
 		
 		
 
 		
-//		drawer.objects.add(boundries);
 
-		drawer.add(vec1);
 		drawer.add(square1);
 
 		

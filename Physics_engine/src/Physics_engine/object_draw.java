@@ -75,6 +75,22 @@ public class object_draw extends Canvas {
 		
 	}
 	
+	public void remove(physics_object removeOb) {
+		objects.remove(removeOb);
+		
+		try {
+			drawables.remove((Physics_drawable) removeOb);
+		}catch(ClassCastException c) {
+			//ob is not drawable
+		}
+		
+		try {
+			tangibles.remove((massive)removeOb);
+		}catch(ClassCastException e) {
+			//ob is not tangible
+		}
+	}
+	
 	private void updateObjects(double frames) {
 		for (physics_object current_object : objects) {				
 			Physics_engine_toolbox.Update(current_object,frames);
@@ -206,6 +222,8 @@ public class object_draw extends Canvas {
 		
 		try {
 			for (drawable current_object : drawables) {
+				
+				if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(current_object.getXReal()), (int) Math.round(current_object.getYReal())); //displaying the name of the object
 				
 				if (current_object.getIsVisible()) {
 					

@@ -53,6 +53,8 @@ public class Physics_engine_toolbox {
 					
 					((Physics_polygon)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
 					
+					
+					
 				}catch(ClassCastException c) {
 					
 				}
@@ -90,6 +92,8 @@ public class Physics_engine_toolbox {
 					}	
 					
 					((Physics_polygon)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
+					
+			
 				
 				}catch(ClassCastException c) {
 					
@@ -127,6 +131,7 @@ public class Physics_engine_toolbox {
 				
 				((Physics_drawable)current_object).updateCenter(); //update the  "center" point
 				
+			
 			
 			}
 			
