@@ -12,7 +12,7 @@ public class Settings {
 	public static final int depth = 1000;
 
 	public static final double frameStep = 0.1;
-	public static final long frameTime = 15000000; 
+	public static final long frameTime = 20000000; 
 	public static final int timeOutTime = 500000;
 	
 	public static final Color frameColor = Color.GRAY;

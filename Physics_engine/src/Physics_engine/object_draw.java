@@ -92,9 +92,11 @@ public class object_draw extends Canvas {
 	}
 	
 	private void updateObjects(double frames) {
-		for (physics_object current_object : objects) {				
-			Physics_engine_toolbox.Update(current_object,frames);
-		}
+		try {
+			for (physics_object current_object : objects) {				
+				Physics_engine_toolbox.Update(current_object,frames);
+			}
+		}catch(ConcurrentModificationException c) {}
 		
 		if ( Math.abs(current_frame - (int)current_frame ) < 0.00001) {
 			for (force current_force : scheduled_forces) { //applying the scheduled forces
