@@ -15,7 +15,7 @@ public class physics_runner {
 	private static boolean mouseIsPressed = false;
 	private static int mouseStartX;
 	private static int mouseStartY;
-	
+
 	public static Vector vec1;
 	
 	private static object_draw drawer;

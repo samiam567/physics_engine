@@ -129,7 +129,7 @@ public class object_draw extends Canvas {
 	
 	public void checkForResize() {		
 		
-		if ( (Settings.width != frame.getWidth()) && (Settings.height != frame.getHeight())) {
+		if ( (Settings.width != frame.getWidth()) || (Settings.height != frame.getHeight())) {
 			if (Settings.autoResizeFrame) {
 				Settings.width = frame.getWidth();
 				Settings.height = frame.getHeight();

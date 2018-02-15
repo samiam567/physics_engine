@@ -7,11 +7,11 @@ public class Settings {
 	public static final String version = "4.1.3";
 	
 	
-	public static int width = 1000;
-	public static int height = 600;
+	public static int width = 2000;
+	public static int height = 1200;
 	public static final int depth = 1000;
 
-	public static final double frameStep = 0.007;
+	public static final double frameStep = 0.1;
 	public static final long frameTime = 15000000; 
 	public static final int timeOutTime = 500000;
 	

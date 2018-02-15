@@ -24,13 +24,13 @@ import Physics_engine.*;
 
 public class JetPack_JoyRide {
 
-	public static final String version = "1.9";
+	public static final String version = "2.0";
 	
 	static JPJR_frame frame = new JPJR_frame();
 	
 	static object_draw drawer = new object_draw(frame);
 	
-	
+
 	private static JPJR_GUI GUI = new JPJR_GUI();
 	
 	static JPJR_Shop shop = new JPJR_Shop(drawer);
@@ -75,12 +75,37 @@ public class JetPack_JoyRide {
 	
 	public static void resize() { //resizes the objects for a changed frame size
 		System.out.println("resizing game...");
+		
+		double diagonal = Math.sqrt(Math.pow(Settings.width, 2) + Math.pow(Settings.height, 2));
+		
 		distanceHighScoreBoard.setPos(0.4 * Settings.width,Settings.height-100,0);
 		distanceScore.setPos(0.7 * Settings.width,Settings.height-100,0);		
 		coinScore.setPos(0.05 * Settings.width,Settings.height-100,0);
 		jetpack.setPos(Settings.width/2,Settings.height/2, 0);
+		jetpack.setSize(diagonal/50, diagonal/50, 0);
 //		GUI.setSize(Settings.width/4,Settings.height/2);
 		GUI.setLocation(Settings.width + 20, 20);
+		
+		for (Physics_drawable pOb : drawer.drawables) {
+			if (pOb.name == "thing") {
+				
+				try {
+					pOb = (Laser) pOb;
+					pOb.setSize(diagonal/100,diagonal/10,0);
+				}catch(ClassCastException c) {}
+				
+				try {
+					pOb = (Coin) pOb;
+					pOb.setSize(diagonal/60,diagonal/60,0);
+				}catch(ClassCastException c) {}
+				
+				try {
+					pOb = (Missile) pOb;
+					pOb.setSize(diagonal/35,diagonal/120,0);
+				}catch(ClassCastException c) {}
+
+			}
+		}
 		
 		shop.setLocation(Settings.width + 20, 25 + Settings.height/2);
 		shop.setSize(Settings.width/4,Settings.height/2);
@@ -147,8 +172,8 @@ public class JetPack_JoyRide {
 		jetpack.setColor(Color.blue);
 		jetpack.name = "jetpack";
 		
-		laser1 = new Laser(drawer,100,200,10,100,0,0,0);
-		laser2 = new Laser(drawer,2*Settings.width/3,200,10,100,0,0,0);
+		laser1 = new Laser(drawer,100,200,Settings.width/100,Settings.width/10,0,0,0);
+		laser2 = new Laser(drawer,2*Settings.width/3,200,Settings.width/100,Settings.width/10,0,0,0);
 	
 		Missile1 = new Missile(drawer,0,200);
 		Missile1.setName("thing",1);
@@ -197,6 +222,11 @@ public class JetPack_JoyRide {
 	            	  jetpack.applyComponentForce(0, -jetpack.power, 0);
 	            	  jetpack.fireSize = 0.75;
 	            	  drawer.inactivity_timer = 0;
+	            	  
+	            	  JetPack_fire jetPackFire = new JetPack_fire(drawer,jetpack.getX() + jetpack.getXSize()* 0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2 ,Math.random()/2);
+	            	  
+	            	  JetPack_fire jetPackFire2 = new JetPack_fire(drawer,(jetpack.getX() + jetpack.getXSize()) - jetpack.getXSize()*0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2,-Math.random()/2);
+		            	 
 	              }
 
 				@Override
@@ -270,6 +300,9 @@ public class JetPack_JoyRide {
 				((Physics_drawable) pObject).setSpeed(-jetpack_speed, ((Physics_drawable) pObject).getYSpeed(), 0);
 			}
 		}
+		
+		
+		resize();
 		
 		run();
 		

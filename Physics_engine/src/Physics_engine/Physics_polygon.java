@@ -291,13 +291,9 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 			//tempVec.getR()
 			
 			
-			System.out.println("-");
-			System.out.println("point: " + cPoint.getThetaXY() + "," + cPoint.getThetaZX() + "," + cPoint.getThetaZY() );
-			
+		
 //			cPoint.setAngle(tempVec.getThetaXY(), tempVec.getThetaZX(), tempVec.getThetaZY());  //this line is what makes this method not work!!
-			
-			System.out.println("point: " + cPoint.getThetaXY() + "," + cPoint.getThetaZX() + "," + cPoint.getThetaZY() );
-			System.out.println("-");
+	
 	
 		}
 	}

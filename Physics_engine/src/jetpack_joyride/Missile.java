@@ -52,7 +52,7 @@ public class Missile extends rectangle {
 	public void paint(Graphics page) {
 		page.fillRect(x, y, (int) Math.round(xSizeAppearance), (int)Math.round(ySizeAppearance) );
 		page.setColor(Color.orange);
-		page.fillRect(x + (int) Math.round(xSizeAppearance) , y + (int)Math.round(ySizeAppearance)/3, (int) Math.round(xSizeAppearance)/3, 2 * (int)Math.round(ySizeAppearance)/3 );
+		page.fillRect(x + (int) Math.round(xSizeAppearance) , y + (int)Math.round(ySizeAppearance)/5, (int) Math.round(xSizeAppearance)/3, 2 * (int)Math.round(ySizeAppearance)/3 );
 
 	}
 
