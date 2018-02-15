@@ -111,17 +111,21 @@ public class object_draw extends Canvas {
 	}
 	
 	
-	public void checkForResize() {
-		if (Settings.autoResizeFrame) {
-			Settings.width = frame.getWidth();
-			Settings.height = frame.getHeight();
-			frame.resizeObjects();
+	public void checkForResize() {		
+		
+		if ( (Settings.width != frame.getWidth()) && (Settings.height != frame.getHeight())) {
+			if (Settings.autoResizeFrame) {
+				Settings.width = frame.getWidth();
+				Settings.height = frame.getHeight();
+				frame.resizeObjects();
+			}
 		}
 	}
 	
 
 	
 	public void doFrame() {
+		checkForResize();
 		frameStartTime = System.nanoTime();
 		current_frame++;
 		updateObjects(1);
@@ -139,7 +143,7 @@ public class object_draw extends Canvas {
 		updateObjects(frames);
 		
 		if ( Math.abs(current_frame - (int)current_frame ) < Settings.frameStep) { 
-	
+			checkForResize();
 			repaint(); 
 			frameEndTime = System.nanoTime();
 			wait_time = Settings.frameTime - (frameEndTime - frameStartTime);
@@ -154,7 +158,7 @@ public class object_draw extends Canvas {
 	}
 	
 	public void doThreadedFrame(double frames) {
-		
+		checkForResize();
 		frameStartTime = System.nanoTime();
 		current_frame += frames;
 		updateObjects(frames);
@@ -178,6 +182,7 @@ public class object_draw extends Canvas {
 	public void doFrame(String key) {
 		assert key == "step";
 		for (double i = 0; i < 1; i+= Settings.frameStep) {
+			checkForResize();
 			doFrame(Settings.frameStep);
 		}
 	}

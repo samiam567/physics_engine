@@ -73,6 +73,22 @@ public class JetPack_JoyRide {
 		}
 	}
 	
+	public static void resize() { //resizes the objects for a changed frame size
+		System.out.println("resizing game...");
+		distanceHighScoreBoard.setPos(0.4 * Settings.width,Settings.height-100,0);
+		distanceScore.setPos(0.7 * Settings.width,Settings.height-100,0);		
+		coinScore.setPos(0.05 * Settings.width,Settings.height-100,0);
+		jetpack.setPos(Settings.width/2,Settings.height/2, 0);
+//		GUI.setSize(Settings.width/4,Settings.height/2);
+		GUI.setLocation(Settings.width + 20, 20);
+		
+		shop.setLocation(Settings.width + 20, 25 + Settings.height/2);
+		shop.setSize(Settings.width/4,Settings.height/2);
+	
+	
+	
+	}
+	
 	public static void resetGame() {
 		
 		jetpack.setPos(Settings.width/2,Settings.height/2, 0);
@@ -96,13 +112,7 @@ public class JetPack_JoyRide {
 		
 		
 		distanceHighScoreBoard.setScore(distanceHighScore);	
-		
-		//resetings positions of scoreboards incase the window was resized
-		distanceHighScoreBoard.setPos(0.4 * Settings.width,Settings.height-100,0);
-		
-		distanceScore.setPos(0.7 * Settings.width,Settings.height-100,0);
-		
-		coinScore.setPos(0.05 * Settings.width,Settings.height-100,0);
+	
 		
 		drawer.doFrame(50);
 		

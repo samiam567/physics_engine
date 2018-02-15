@@ -10,9 +10,10 @@ public class border_bounce extends rectangle {
 	public Physics_frame frame;
 	
 	public border_bounce(object_draw drawer1) {
-		super(drawer1,-50, 0, 0, Settings.width *1.06, Settings.height * 0.975, 1);
+		super(drawer1,0, 0, 0, Settings.width *1.06, Settings.height * 0.975, 1);
 		isAnchored = true;
 		isRotatable = false;
+		isVisible = false;
 		frame = drawer1.frame;
 		
 	}

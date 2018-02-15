@@ -80,12 +80,12 @@ public class physics_runner {
 		drawer.addMouseListener(mouse);
 		
 		
-	
+		drawer.add(boundries);
 		
      	Square square1 = new Square(drawer,400,400,0,100,1);
 		square1.setName("square1", 1);
 		square1.setPos(400, 200, 0);
-		square1.setSpeed(1, 1, 0);
+		square1.setSpeed(1, 0, 0);
 //		square1.setAngularVelocity(0.01, 0, 0);
 	
 		
@@ -94,14 +94,19 @@ public class physics_runner {
 		square2.setName("square2", 1);
 		square2.setPos(600, 200, 0);
 		square2.setAngularVelocity(0, 0, 0.01);
+		square2.setSpeed(0.5, 0, 0);
 		
 		Triangle tri1 = new Triangle(drawer,400,8000,0,50,100,1);
 		tri1.setName("tri1", 1);
 		tri1.setPos(600, 400, 0);
 		tri1.setAngularVelocity(0, 0, 0.1);
+		tri1.setSpeed(-1, 0, 0);
 		drawer.add(tri1);
 		
 		drawer.add(square2);
+		
+		rectangle rect1 = new rectangle(drawer, 400, 400, 0, 60, 80, 1);
+		drawer.add(rect1);
 	
 		Vector vec1 = new Vector(drawer,40,50,50,0,"thetaZX");
 		vec1.setPos(300, 300, 0);
@@ -127,6 +132,7 @@ public class physics_runner {
 
 	public static void resize() {
 		//resize stuff
+		System.out.println("Resizing");
 	}
 
 }

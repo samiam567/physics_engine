@@ -20,7 +20,8 @@ public class JPJR_frame extends Physics_frame{
 	
 	}
 	
-	public void resize() {
-		
+	public void resizeObjects() {
+		System.out.println("resize");
+		JetPack_JoyRide.resize();
 	}
 }
