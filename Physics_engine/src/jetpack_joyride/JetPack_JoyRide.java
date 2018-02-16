@@ -24,7 +24,7 @@ import Physics_engine.*;
 
 public class JetPack_JoyRide {
 
-	public static final String version = "2.0.1";
+	public static final String version = "2.0.2";
 	
 	static JPJR_frame frame = new JPJR_frame();
 	
@@ -336,7 +336,9 @@ public class JetPack_JoyRide {
 								((Physics_drawable) pObject).setSpeed(-jetpack_speed, ((Physics_drawable) pObject).getYSpeed(), 0);
 							}
 						}
-					}catch(ConcurrentModificationException c) {}
+					}catch(ConcurrentModificationException c) {
+					
+					}catch(NullPointerException n) {}
 					
 					try {
 						Thread.sleep(1);
