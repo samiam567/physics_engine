@@ -11,10 +11,16 @@ public class JetPack extends rectangle {
 	public double fireSize = 0.4;
 	public double power = 40;
 	
+	public double current_power = 40;
+	
 	public JetPack(object_draw drawer1, int x, int y, int z, int size, double mass) {
 		super(drawer1,x, y, z, size*2,size, mass);
 		drawMethod = "paint";
 		
+	}
+	
+	public void tertiaryUpdate() {
+		current_power = power + JetPack_JoyRide.jetpack_speed * 0.1;
 	}
 	
 	public void isCollided(physics_object object, faces side) {

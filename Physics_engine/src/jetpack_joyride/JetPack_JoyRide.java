@@ -24,7 +24,7 @@ import Physics_engine.*;
 
 public class JetPack_JoyRide {
 
-	public static final String version = "2.0";
+	public static final String version = "2.0.1";
 	
 	static JPJR_frame frame = new JPJR_frame();
 	
@@ -219,7 +219,7 @@ public class JetPack_JoyRide {
 	              public void keyPressed(KeyEvent e) {
 	            	 
 	            	  jetpack.setAccel(0, 0, 0);
-	            	  jetpack.applyComponentForce(0, -jetpack.power, 0);
+	            	  jetpack.applyComponentForce(0, -jetpack.current_power, 0);
 	            	  jetpack.fireSize = 0.75;
 	            	  drawer.inactivity_timer = 0;
 	            	  
@@ -233,7 +233,7 @@ public class JetPack_JoyRide {
 				public void keyReleased(KeyEvent arg0) {
 				
 					jetpack.setAccel(0, 0, 0);
-					jetpack.applyComponentForce(0, jetpack.power, 0);
+					jetpack.applyComponentForce(0, jetpack.current_power, 0);
 					jetpack.applyComponentForce(0, 9.8, 0);
 					jetpack.fireSize = 0.35;
 					drawer.inactivity_timer = 0;
