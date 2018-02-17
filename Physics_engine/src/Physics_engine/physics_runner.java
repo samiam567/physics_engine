@@ -15,6 +15,8 @@ public class physics_runner {
 	private static boolean mouseIsPressed = false;
 	private static int mouseStartX;
 	private static int mouseStartY;
+	
+	private static border_bounce boundries;
 
 	public static Vector vec1;
 	
@@ -24,7 +26,7 @@ public class physics_runner {
 	
 		drawer = new object_draw(frame);
 		
-		border_bounce boundries = new border_bounce(drawer);
+		boundries = new border_bounce(drawer);
 
 
 		vec1 = new Vector(drawer,40,50,50,0,"thetaZX");
@@ -138,6 +140,7 @@ public class physics_runner {
 
 		
 		
+		resize();
 		
 		drawer.start();
 
@@ -147,6 +150,7 @@ public class physics_runner {
 	public static void resize() {
 		//resize stuff
 		System.out.println("Resizing");
+		boundries.resize();
 	}
 
 }

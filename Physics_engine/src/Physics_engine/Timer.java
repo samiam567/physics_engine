@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Timer extends physics_object {
 	protected double magnatude;
-	protected boolean timerDone = false,delete = false; //delete is for the garbage collector (not made yet)
+	protected boolean timerDone = false; 
 	protected long startTime;
 	protected String type;
 	public Timer(object_draw drawer1, double magnatude1,String type1) {
@@ -28,34 +28,51 @@ public class Timer extends physics_object {
 		}
 	}
 	
+	protected void endTimer() {
+		//can be extended by child timers to do something when the timer ends
+	}
 	
-	
-	public void Update(ArrayList<physics_object> objects,double frames) {	
-		if (magnatude <= 0) {
-			timerDone = true;
-			delete = true;
-		}else {
-			switch(type) {
+	public void frameUpdate2(double frames) {
+		
+		switch(type) {
 			case("frames"):
-				timeLeft-= frames;
-				break;
+				if (magnatude <= 0) {
+					timerDone = true;
+					delete = true;
+				}else {
+					magnatude-= frames;
+				}
+			break;
+			
 			case("seconds"):
-				break;
+				if ((System.nanoTime() - startTime) >= magnatude*Math.pow(10,9)) {
+					timerDone = true;
+					delete = true;
+				}
+			break;
+			
+			case("nanoSeconds"):
+				if ((System.nanoTime() - startTime) >= magnatude) {
+					timerDone = true;
+					delete = true;
+				}
+			break;
+				
 			default:
 				Exception e = new Exception("" + type + " is not a vaid unit of time for forceTimer " + name);
 				e.printStackTrace();
-				break;
+			break;
 		}
-		}
+		
 	}
 
 	
-	public void setTimeLeft(int timeLeft1) {
-		timeLeft = timeLeft1;
+	public void setMagnatude(int timeLeft1) {
+		magnatude = timeLeft1;
 	}
 	
-	public double getTimeLeft() {
-		return timeLeft;
+	public double getMagnatude() {
+		return magnatude;
 	}
 	public boolean isDone() {
 		return timerDone;

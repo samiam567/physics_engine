@@ -13,6 +13,12 @@ public interface physics_engine_compatible {
 
 	public void tertiaryUpdate();
 
+	public void frameUpdate2(double frames);
+	
+	public void frameUpdate3(double frames);
+	
+	public String getObjectName();
+
 	
 	
 }

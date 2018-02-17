@@ -11,7 +11,7 @@ import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 public class Physics_polygon extends Physics_shape implements pointed, rotatable, massive {
 	
 
-	public point[] points = {}; //all of the points in the object
+
 	int[] pointXs = {}; //all of the x coordinates of the points in the object
 	int[] pointYs = {}; //all of the y coordinates of the points in the object
 	int[] pointZs = {}; //all of the y coordinates of the points in the object
@@ -20,10 +20,11 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	double[] pointYReals = {}; //all of the y coordinates of the points in the object
 	double[] pointZReals = {}; //all of the y coordinates of the points in the object
 	
-	int[] pointRenderOrder = {}; //the order in which lines will be drawn from point to point (for listedPointAlgorithm)
+	protected int[] pointRenderOrder = {}; //the order in which lines will be drawn from point to point (for listedPointAlgorithm)
 	
 	//for massive
-	double mass,friction_coefficient;
+	protected double mass;
+	double friction_coefficient;
 		
 	private Polygon polyXY, polyZY;
 	private Area areaXY,areaZY;
@@ -35,6 +36,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	
 	public Physics_polygon(object_draw drawer1) {
 		super(drawer1);
+		points = new point[0]; //all of the points in the object
 	}
 	
 	public boolean getIsTangible() {
@@ -68,12 +70,14 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		updatePointXsYsAndZs();
 		updateAreas();
 	
+		
 		if (isFilled) {
-			page.fillPolygon(pointXs, pointYs, points.length);
+			page.fillPolygon(polyXY);
 		}else {
-			page.drawPolygon(pointXs, pointYs, points.length);
+			page.drawPolygon(polyXY);
 		}
-			
+		
+	
 	
 	}
 	
@@ -86,7 +90,6 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		
 		areaXY = new Area(polyXY);
 		areaZY = new Area(polyZY);
-		
 	}
 	
 	private void updatePolygons() {
@@ -313,16 +316,24 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		
 					
 					if (cPoint.isIn(this)) {
-						System.out.println(name + "BOOM!" + current_physics_object.getObjectName());
-						isCollided((physics_object) current_physics_object,Physics_engine_toolbox.faces.none);
-						Vector reflectionVector = new Vector(drawer,center,cPoint);
-						reflec_const = reflectionVector.r;
-						Vector momentumVector = new Vector(drawer,current_physics_object.getXSpeed(),current_physics_object.getYSpeed(),current_physics_object.getZSpeed());
-						force = momentumVector.r / time;
-						applyComponentForce(force * reflectionVector.getXComponent()/reflec_const ,force  * reflectionVector.getYComponent()/reflec_const,force * reflectionVector.getZComponent()/reflec_const,time);
+						
+						try {
+							current_physics_object = (border_bounce) current_physics_object;
+						}catch(ClassCastException c) {
+							System.out.println(name + " has hit " + current_physics_object.getObjectName());
+							isCollided((physics_object) current_physics_object,Physics_engine_toolbox.faces.none);
+							Vector reflectionVector = new Vector(drawer,center,cPoint,this);
+							reflec_const = reflectionVector.r;
+							Vector momentumVector = new Vector(drawer,current_physics_object.getXSpeed(),current_physics_object.getYSpeed(),current_physics_object.getZSpeed());
+							force = momentumVector.r / time;
+							applyComponentImpulse(force * reflectionVector.getXComponent()/reflec_const ,force  * reflectionVector.getYComponent()/reflec_const,force * reflectionVector.getZComponent()/reflec_const,time,"seconds");
+							applyComponentImpulse(-force * reflectionVector.getXComponent()/reflec_const ,-force  * reflectionVector.getYComponent()/reflec_const,-force * reflectionVector.getZComponent()/reflec_const,time,"seconds");
+						}
 					}
 				}
-			}catch(ClassCastException c) {}
+			}catch(ClassCastException c) {
+				System.out.println("catch: " + name);
+			}
 			
 			
 		}else {
@@ -369,7 +380,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	
 	}
 	
-	public void applyForce(double r, double theta, double z_magn, double time) { //applies a force to the object
+	public void applyImpulse(double r, double theta, double z_magn, double time,String units) { //applies a force to the object
 		zAccel += z_magn/mass; //updating the zAccel with the z component of the force vector
 		
 		//calculating the components of the force vectors
@@ -379,7 +390,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		//updating the x and y Accel with the respective x and y components of the force vector
 		xAccel += xComponent/mass; 
 		yAccel += yComponent/mass;
-		drawer.add(new ForceTimer(drawer,time,xComponent,yComponent,z_magn,this));
+		drawer.add(new ForceTimer(drawer,time,units,xComponent,yComponent,z_magn,this));
 	}
 	
 	public void applyComponentForce(double x_magn, double y_magn, double z_magn) {
@@ -388,11 +399,11 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		zAccel += z_magn/mass; //updating the zAccel with the z component of the force vector
 	}
 	
-	public void applyComponentForce(double x_magn, double y_magn, double z_magn, double time) {
+	public void applyComponentImpulse(double x_magn, double y_magn, double z_magn, double time,String units) {
 		xAccel += x_magn/mass; //updating the xAccel with the x component of the force vector
 		yAccel += y_magn/mass; //updating the yAccel with the y component of the force vector
 		zAccel += z_magn/mass; //updating the zAccel with the z component of the force vector
-		drawer.add(new ForceTimer(drawer,time,x_magn,y_magn,z_magn,this));
+		drawer.add(new ForceTimer(drawer,time,units,x_magn,y_magn,z_magn,this));
 	}
 	
 

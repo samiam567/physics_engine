@@ -52,7 +52,7 @@ public class Vector extends Physics_shape {
 		yComponent = point2.getYReal() - point1.getYReal();
 		zComponent = point2.getZReal() - point1.getZReal();
 		
-		calculateThetas();
+
 		
 		reduceThetas();
 		

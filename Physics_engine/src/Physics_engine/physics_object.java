@@ -4,14 +4,13 @@ package Physics_engine;
 public abstract class physics_object implements physics_engine_compatible{
 	
 	public enum object_types {none,physics_object,drawable,movable,massive,pointed,rotatable};
-   
-	//				|will the object	|if it's anchored  | will the object be affected |  can the object be rotated?
-	//				|collide with others|it  wont move	   | by a border_bounce?         |   
 	
 	public String name = "unNamed"; //the name of the object
 
 	public object_draw drawer;
 
+	public boolean delete = false; //delete is for the garbage collector (not made yet)
+	
 	public physics_object(object_draw drawer1) {
 		drawer = drawer1;
 	}
@@ -21,11 +20,18 @@ public abstract class physics_object implements physics_engine_compatible{
 	}
 	
 	public void tertiaryUpdate() {
-		
+		//this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently
+	}
+	
+	public void frameUpdate2(double frames) {
+		//this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently
+	}
+	
+	public void frameUpdate3(double frames) {
+		//this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently
 	}
 
 	public void setName(String new_name, int i) { //sets the name of the object (this will be shown if Settings.displayNames is true)
-//		setName(new_name); //updates the name of the component
 		name = new_name;
 	
 	}

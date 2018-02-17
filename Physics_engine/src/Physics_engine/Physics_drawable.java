@@ -10,7 +10,7 @@ public abstract class Physics_drawable extends physics_object implements movable
 	
 	protected double xSpeed,ySpeed,zSpeed,xAccel,yAccel,zAccel,xSize,ySize, zSize,xSizeAppearance,ySizeAppearance,zSizeAppearance;
 	
-	point[] points = null; //there are no points
+	protected point[] points = null; //there are no points
 	int[] pointRenderOrder = null;
 	
 	protected int x,y,z;
@@ -55,24 +55,27 @@ public abstract class Physics_drawable extends physics_object implements movable
 			
 			double temp = points[0].getXReal(); //this will throw an error and trigger the catch statement if there are no points
 			
+			/*
 			System.out.println(">>>");
 			System.out.println(name);
+			*/
 			// the sums of all the x,y,and z coordinates of the points
 			double totalX = 0;
 			double totalY = 0;
 			double totalZ = 0;
 			
 			for (point cPoint : points) { //loop through the points and add their coordinates to the totals
-				System.out.println(cPoint.getXReal() + "," + cPoint.getYReal());
+				//System.out.println(cPoint.getXReal() + "," + cPoint.getYReal());
 				totalX += cPoint.getXReal();
 				totalY += cPoint.getYReal();
 				totalZ += cPoint.getZReal();
 			}
 			double centerXX = totalX/points.length;
 			double centerYY = totalY/points.length;
+			/*
 			System.out.println("cenXX: " + centerXX);
 			System.out.println("cenYY: " + centerYY);
-			
+			*/
 		
 			//divide by the number of points to get the average
 			centerX = totalX / points.length;

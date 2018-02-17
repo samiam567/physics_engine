@@ -23,11 +23,12 @@ public class border_bounce extends rectangle {
 	}
 	
 	public void resize() {
+		System.out.println("resizeborder");
 		setSize( Settings.width * 1.06, Settings.height * 0.975,Settings.depth);
 	}
 
 	
-	public Object checkForCollision1 (massive current_object1,ArrayList<massive> objects) { 
+	public void checkForCollision (massive current_object1,ArrayList<massive> objects) { 
 		Physics_polygon current_object = (Physics_polygon) current_object1;
 		if (current_object.affectedByBorder) {
 			if ( (Math.abs(current_object.centerX - (Settings.width-20) )) < ( current_object.xSpeed + current_object.xSize/2 ) ) { //right side
@@ -57,7 +58,7 @@ public class border_bounce extends rectangle {
 			}
 
 		}
-		return current_object;
+		
 		
 	}
 		

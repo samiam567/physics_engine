@@ -109,7 +109,7 @@ public class rectangle extends Physics_polygon{
 						double momentum1 = mass * xSpeed;
 						double momentum2 = current_object.mass * current_object.xSpeed;
 						
-						double time = 0.5;
+						double time = 0.1;
 						
 						double force = (momentum1+momentum2)/(4*time);
 						force *= Settings.elasticity;
@@ -125,8 +125,8 @@ public class rectangle extends Physics_polygon{
 						double current_obZReflect = current_obDeflectionAnglePack[1];
 						
 						
-						drawer.scheduled_forces.add(new force(drawer,this,force,thisDeflectionAngle,thisZReflect,time,-1,true));
-						drawer.scheduled_forces.add(new force(drawer,this,force,current_obDeflectionAngle,current_obZReflect,time,-1,true));
+						drawer.scheduled_forces.add(new force(drawer,this,force,thisDeflectionAngle,thisZReflect,time,"seconds",-1,true));
+						drawer.scheduled_forces.add(new force(drawer,this,force,current_obDeflectionAngle,current_obZReflect,time,"seconds",-1,true));
 					}	
 					
 					

@@ -139,12 +139,14 @@ public class Physics_engine_toolbox {
 			
 			current_object = (physics_engine_compatible) current_object;
 		}catch(ClassCastException c) {
-			System.out.println("catch: " + ((drawable) current_object).getObjectName());
+//			System.out.println("catch: " + current_object.getObjectName());
 		}
 		
-		
-		current_object.secondaryUpdate(); //this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently
+		//these are subclass-specific update methods that can be overridden to allow for each child class to be updated differently
+		current_object.secondaryUpdate(); 
 		current_object.tertiaryUpdate();
+		current_object.frameUpdate2(frames);
+		current_object.frameUpdate3(frames);
 		
 	}
 	

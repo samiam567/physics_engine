@@ -48,7 +48,7 @@ public class point extends Physics_drawable {
 		Area areaXY = pObject.getAreaXY();
 		Area areaZY = pObject.getAreaZY();
 		
-		if ( areaXY.contains(xReal,yReal) && areaZY.contains(zReal, yReal) ) {
+		if ( areaXY.contains(xReal,yReal) ) { //&& areaZY.contains(zReal, yReal) ) {
 			return true;
 		}
 		

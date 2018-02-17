@@ -29,9 +29,9 @@ public class Settings {
 	public static final boolean autoResizeFrame = true;
 	
 	//algorithm select
-	public static final int rotationAlgorithm = 0; // v1, v2, v3, and 0 disables --THIS SETTING IS DEPRECIATED--
+	public static final int rotationAlgorithm = 3; // v1, v2, v3, and 0 disables --THIS SETTING IS DEPRECIATED--
 	public static final int forceMethod = 1;
-	public static final int collision_algorithm = 4; //possibles are 1, 2, 3, and 4 as 2 was a complete failure (4 is wayyy better than the other ones)
+	public static final int collision_algorithm = 5; //possibles are 1, 2, 3, and 4 as 2 was a complete failure (4 is wayyy better than the other ones)
 	public static final double thetaStep = Math.PI/4;
 
 	
