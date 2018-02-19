@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.util.ConcurrentModificationException;
 import javax.swing.JFrame;
 
+import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
+
 public class physics_runner {
 	
 	private static Physics_frame frame = new Physics_frame();
@@ -101,23 +103,26 @@ public class physics_runner {
 		
 		drawer.add(boundries);
 		
-     	Square square1 = new Square(drawer,400,400,0,100,1);
+     	Square square1 = new Square(drawer,400,600,0,100,10);
 		square1.setName("square1", 1);
 		square1.setPos(400, 200, 0);
 		square1.setSpeed(1, 0, 2);
-//		square1.setAngularVelocity(0.01, 0, 0);
-	
+		square1.setAngularVelocity(0, 0, 0.01);
+		square1.isTangible = true;
+		drawer.add(square1);
 		
-		
-		Square square2 = new Square(drawer,400,400,0,100,1);
+		Square square2 = new Square(drawer,400,400,0,100,10);
 		square2.setName("square2", 1);
+		square2.setParentObject(square1);
+		square2.setPointOfRotationPlace(pointOfRotationPlaces.parentsPlace);
 		square2.setPos(600, 200, 0);
 		square2.setAngularVelocity(0, 0, 0.01);
-		square2.setSpeed(0.5, 1, 0);
+		square2.setSpeed(5, 3, 0);
 		square2.calculatePointValues();
+		square2.isTangible = false;
 		drawer.add(square2);
 		
-		Triangle tri1 = new Triangle(drawer,400,8000,0,50,100,1);
+		Triangle tri1 = new Triangle(drawer,400,800,0,50,100,10);
 		tri1.setName("tri1", 1);
 		tri1.setPos(600, 400, 0);
 		tri1.setAngularVelocity(0, 0, 0.1);
@@ -126,7 +131,7 @@ public class physics_runner {
 		
 		
 		
-		rectangle rect1 = new rectangle(drawer, 400, 400, 0, 10, 80, 1);
+		rectangle rect1 = new rectangle(drawer, 400, 400, 0, 10, 80, 10);
 		rect1.setName("rect1", 1);
 		drawer.add(rect1);
 	
@@ -136,7 +141,7 @@ public class physics_runner {
 
 		
 
-		drawer.add(square1);
+		
 
 		
 		

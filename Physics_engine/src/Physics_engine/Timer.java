@@ -33,12 +33,12 @@ public class Timer extends physics_object {
 	}
 	
 	public void frameUpdate2(double frames) {
-		
 		switch(type) {
 			case("frames"):
 				if (magnatude <= 0) {
 					timerDone = true;
 					delete = true;
+					endTimer();
 				}else {
 					magnatude-= frames;
 				}
@@ -48,6 +48,7 @@ public class Timer extends physics_object {
 				if ((System.nanoTime() - startTime) >= magnatude*Math.pow(10,9)) {
 					timerDone = true;
 					delete = true;
+					endTimer();
 				}
 			break;
 			
@@ -55,6 +56,7 @@ public class Timer extends physics_object {
 				if ((System.nanoTime() - startTime) >= magnatude) {
 					timerDone = true;
 					delete = true;
+					endTimer();
 				}
 			break;
 				
@@ -62,6 +64,10 @@ public class Timer extends physics_object {
 				Exception e = new Exception("" + type + " is not a vaid unit of time for forceTimer " + name);
 				e.printStackTrace();
 			break;
+		}
+		
+		if (delete) {
+			drawer.remove(this);
 		}
 		
 	}

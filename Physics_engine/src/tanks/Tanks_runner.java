@@ -1,4 +1,4 @@
-package ballistica;
+package tanks;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -6,30 +6,32 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import Physics_engine.Map_object_draw;
 import Physics_engine.Settings;
 import Physics_engine.SpeedTimer;
-import Physics_engine.Square;
 import Physics_engine.Vector;
 import Physics_engine.border_bounce;
 import Physics_engine.object_draw;
 import Physics_engine.point;
-import Physics_engine.rectangle;
-import jetpack_joyride.JetPack_fire;
+import ballistica.Ballistic_bullet;
+import ballistica.Ballistic_frame;
 
-public class Ballistica_runner{
+public class Tanks_runner {
 	
-	public static String version = "1.0.2";
+	public static String version = "1.0.3";
 	
-	public static Ballistic_frame frame = new Ballistic_frame();
-	public static Ballistic_frame map = new Ballistic_frame();
+	public static Tanks_frame frame = new Tanks_frame();
+	public static Tanks_frame map = new Tanks_frame();
 	
-	public static object_draw mapDrawer = new object_draw(map);
+	
 	public static object_draw frameDrawer = new object_draw(frame);
+	public static Map_object_draw mapDrawer;
+	
 	
 	public static border_bounce borders;
 
-	public static Ballistic_ship ship;
-	public static double shipSpeed = 10;
+	public static Tank tank;
+	public static double tankSpeed = 10;
 	
 	public static SpeedTimer keyStrokeTimer;
 	
@@ -38,17 +40,22 @@ public class Ballistica_runner{
 	}
 	
 	public static void init() {
-		ship = new Ballistic_ship(frameDrawer,200,200,50);
-		ship.isFilled = true;
-		ship.setColor(Color.LIGHT_GRAY);
-		ship.setName("ballistica_battleship", 1);
-		frameDrawer.add(ship);
+		frame.setTitle("Tanks V" + version);
+		
+		tank = new Tank(frameDrawer,200,200,50);
+		tank.isFilled = true;
+		tank.setColor(Color.green);
+		tank.setName("ballistica_battletank", 1);
+		frameDrawer.add(tank);
 		
 		borders = new border_bounce(frameDrawer);
 		frameDrawer.add(borders);
 		
-
 		
+		mapDrawer = new Map_object_draw(map,frameDrawer,tank,200,200);
+		
+
+		mapDrawer.start();
 		frameDrawer.start();
 		
 		
@@ -61,8 +68,8 @@ public class Ballistica_runner{
 			int mouseX = arg0.getX();
 			int mouseY = arg0.getY();
 			
-			Vector mouseAimVec = new Vector(frameDrawer,ship.getCenter(),new point(frameDrawer,mouseX,mouseY,0));
-			Ballistic_bullet bullet = new Ballistic_bullet(frameDrawer,ship);
+			Vector mouseAimVec = new Vector(frameDrawer,tank.getCenter(),new point(frameDrawer,mouseX,mouseY,0));
+			Tank_shell bullet = new Tank_shell(frameDrawer,tank);
 			bullet.setSpeed(mouseAimVec.getXComponent()/mouseAimVec.getR(), mouseAimVec.getYComponent()/mouseAimVec.getR(), 0);
 			
 		}
@@ -94,27 +101,27 @@ public class Ballistica_runner{
         	  switch (e.getKeyCode()) {
         	  	case(87):
         	  		System.out.println("w");
-        	  		ship.setSpeed(0, -shipSpeed, 0);
+        	  		tank.setSpeed(0, -tankSpeed, 0);
         	  	break;
         	  	
         	  	case(65):
         	  		System.out.println("a");
-        	  		ship.setSpeed(-shipSpeed, 0, 0);
+        	  		tank.setSpeed(-tankSpeed, 0, 0);
         	  	break;
         	  	
         	  	case(83):
         	  		System.out.println("s");
-        	  		ship.setSpeed(0, shipSpeed, 0);
+        	  		tank.setSpeed(0, tankSpeed, 0);
         	  	break;
         	  	
         	  	case(68):
         	  		System.out.println("d");
-        	  		ship.setSpeed(shipSpeed, 0, 0);
+        	  		tank.setSpeed(tankSpeed, 0, 0);
         	  	break;
         	  	
         	  	case(32):
         	  		System.out.println("space");
-        	  		Ballistic_bullet bullet = new Ballistic_bullet(frameDrawer,ship);
+        	  	Tank_shell bullet = new Tank_shell(frameDrawer,tank);
         	  	break;	  
         	  }
           }
@@ -123,7 +130,7 @@ public class Ballistica_runner{
 		public void keyReleased(KeyEvent arg0) {
 			frameDrawer.inactivity_timer = 0;
 			
-			keyStrokeTimer = new SpeedTimer(frameDrawer,0.2,"seconds",0,0,0,ship);
+			keyStrokeTimer = new SpeedTimer(frameDrawer,0.2,"seconds",0,0,0,tank);
 			frameDrawer.add(keyStrokeTimer);
 		}
 		
@@ -134,6 +141,15 @@ public class Ballistica_runner{
 		}
 		
       });
+	
+	while(true) {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 		
 		
 	}

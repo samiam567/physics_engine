@@ -2,11 +2,16 @@ package Physics_engine;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 
 public class Physics_frame extends JFrame{
 	public Container cp;
+	
+	public Rectangle boundingRectangle;
+
 	
 	public Physics_frame() {
 		setVisible(true);
@@ -16,6 +21,11 @@ public class Physics_frame extends JFrame{
 		
 		setBackground(Settings.frameColor);		
 		cp.setBackground(Settings.frameColor);
+		
+		boundingRectangle = new Rectangle(0,0,getWidth(),getHeight());
+		boundingRectangle.setRect(0,0,getWidth(),getHeight());
+
+		
 	}
 	
 	
@@ -27,7 +37,13 @@ public class Physics_frame extends JFrame{
 
 	public void resizeObjects() {
 		physics_runner.resize();
+		boundingRectangle.setRect(0,0,getWidth(),getHeight());
 		
+	}
+	
+	public boolean checkIsInFrame(Physics_drawable current_object) { //this dont work
+		 
+		return boundingRectangle.intersects(current_object.getX(), current_object.getY(),(int) current_object.getXSize(), (int) current_object.getZSize());
 	}
 	
 }

@@ -14,7 +14,7 @@ public class object_draw_thread extends Thread {
 		while (state != 0) {
 			if (state == 1) { //running
 				try {
-					objectDrawer.doThreadedFrame(Settings.frameStep);
+					objectDrawer.doThreadedFrame(objectDrawer.frameStep);
 					
 					if (objectDrawer.inactivity_timer < Settings.timeOutTime) {
 						objectDrawer.inactivity_timer++;

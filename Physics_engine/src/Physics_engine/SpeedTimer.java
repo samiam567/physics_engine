@@ -2,7 +2,7 @@ package Physics_engine;
 
 import java.util.ArrayList;
 
-public class SpeedTimer extends Timer{ //waits for a certain magnitude of time, then applies a speed
+public class SpeedTimer extends Timer { //waits for a certain magnitude of time, then applies a speed
 	double xComponent,yComponent,zComponent; 
 	movable object;
 	

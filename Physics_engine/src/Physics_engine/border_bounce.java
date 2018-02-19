@@ -10,7 +10,7 @@ public class border_bounce extends rectangle {
 	public Physics_frame frame;
 	
 	public border_bounce(object_draw drawer1) {
-		super(drawer1,0, 0, 0, Settings.width *1.06, Settings.height * 0.975, 1);
+		super(drawer1,Settings.width/2, Settings.height/2, 0, Settings.width *1.06, Settings.height * 0.975, 1);
 		isAnchored = true;
 		isRotatable = false;
 		isVisible = true;
@@ -25,6 +25,7 @@ public class border_bounce extends rectangle {
 	public void resize() {
 		System.out.println("resizeborder");
 		setSize( Settings.width * 1.06, Settings.height * 0.975,Settings.depth);
+		setPos(Settings.width/2, Settings.height/2, 0);
 	}
 
 	

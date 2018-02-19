@@ -239,6 +239,27 @@ public class Vector extends Physics_shape {
 		return resultant;
 	}
 	
+	public Vector vectorAdd(double r, Vector[] vectors) { //adds together a list of vectors and sets the r of the resultant to the passed parameter
+		Vector resultant = new Vector(drawer,0,0,0);	
+		for (Vector cVector : vectors) resultant.setComponents(resultant.xComponent + cVector.getXComponent(),resultant.yComponent + cVector.getYComponent(), resultant.zComponent + cVector.getZComponent());
+		resultant.calculateThetas();
+		resultant.setPos(vectors[0].xReal, vectors[0].yReal, vectors[0].zReal);
+		resultant.updatePoints();
+		
+		resultant.calculateR();
+		
+		double resizeFraction = r / resultant.getR(); //the ratio of r's (similar triangular prisms)
+	
+		//dividing the components to resize the vector
+		resultant.xComponent *= resizeFraction;
+		resultant.yComponent *= resizeFraction;
+		resultant.zComponent *= resizeFraction;
+		
+		resultant.updatePoints();
+		
+		return resultant;
+	}
+	
 	public void setPos(double xReal1, double yReal1, double zReal1 ) {
 		xReal = xReal1;
 		yReal = yReal1;
@@ -482,6 +503,15 @@ public class Vector extends Physics_shape {
 	
 	}
 	
+	private void calculateComponents1() {
+		if (valueAngle == "thetaZY") thetaZX = Math.atan(zComponent/xComponent);
+		zComponent =  Math.sqrt(r) * Math.cos(thetaXY) * Math.sin(thetaZX);
+		xComponent = (4/3) * Math.sqrt(r) * Math.sin(thetaXY) * Math.sin(thetaZX);
+		yComponent = Math.sqrt(r) * Math.cos(thetaZX);
+		
+		updatePoints();
+	}
+	
 	private void calculateComponents() { //calculating the x,y,and z components of the vector using the angles
 		
 		reduceThetas();
@@ -489,61 +519,61 @@ public class Vector extends Physics_shape {
 		if (valueAngle == "thetaZX") {
 			
 			
-			if ((thetaXY == 0) || (thetaXY == Math.PI)) {
-				yComponent = 0;
-			}else {
+//			if ((thetaXY == 0) || (thetaXY == Math.PI)) {
+//				yComponent = 0;
+//			}else {
 				yComponent = Math.sqrt( 
 						(Math.pow(r, 2) * Math.pow(Math.sin(thetaXY),2) * Math.pow(Math.cos(thetaZX),2)) /
 						(1 - Math.pow(Math.sin(thetaXY), 2) * Math.pow(Math.sin(thetaZX),2)));
-			}
+//			}
 			
-			if (thetaZX == 0 || thetaZX == Math.PI) {
-				zComponent = 0;
-			}else {
+//			if (thetaZX == 0 || thetaZX == Math.PI) {
+//				zComponent = 0;
+//			}else {
 				zComponent = Math.sin(thetaZX) * Math.sqrt(Math.pow(r, 2) - Math.pow(yComponent,2));
-			}
+//			}
 			
-			if ( (thetaXY == (Math.PI/2)) || (thetaXY == 3*Math.PI/2) ) {
-				xComponent = 0;
-			}else {
+//			if ( (thetaXY == (Math.PI/2)) || (thetaXY == 3*Math.PI/2) ) {
+//				xComponent = 0;
+//			}else {
 				xComponent = Math.sqrt(Math.pow(r, 2) - Math.pow(yComponent, 2) - Math.pow(zComponent, 2) );
-			}
+//			}
 			
-			if (zComponent == 0) { //atan won't work if zComponent is 0 (dividing by zero!)
-				thetaZY = Math.PI/2; //this is always true if zComp is 0 (think about it!)
-			}else {
+//			if (zComponent == 0) { //atan won't work if zComponent is 0 (dividing by zero!)
+//				thetaZY = Math.PI/2; //this is always true if zComp is 0 (think about it!)
+//			}else {
 				thetaZY = Math.atan(yComponent/zComponent);
-			}
+//			}
 	
 			
 		}else {
 			assert valueAngle == "thetaZY";
 			
-			if ( (thetaXY == (Math.PI/2)) || (thetaXY == 3*Math.PI/2) ) {
-				xComponent = 0;
-			}else {
+//			if ( (thetaXY == (Math.PI/2)) || (thetaXY == 3*Math.PI/2) ) {
+//				xComponent = 0;
+//			}else {
 				xComponent = Math.sqrt( 
 					(Math.pow(r, 2) * Math.pow(Math.cos(thetaXY),2) * Math.pow(Math.sin(thetaZY),2)) /
 					(1 + Math.pow(Math.sin(thetaXY), 2) * Math.pow(Math.sin(thetaZY),2)));
-			}
+//			}
 			
-			if (thetaZY == 0) {
-				zComponent = 0;
-			}else {
+//			if (thetaZY == 0) {
+//				zComponent = 0;
+//			}else {
 				zComponent = Math.cos(thetaZY) * Math.sqrt(Math.pow(r, 2) - Math.pow(xComponent,2));
-			}
+//			}
 			
-			if ((thetaXY == 0) || (thetaXY == Math.PI)) {
-				yComponent = 0;
-			}else {
+///			if ((thetaXY == 0) || (thetaXY == Math.PI)) {
+//				yComponent = 0;
+//			}else {
 				yComponent = Math.sqrt(Math.pow(r, 2) - Math.pow(xComponent, 2) - Math.pow(zComponent, 2) );
-			}
+//			}
 			
-			if (xComponent == 0) { //atan won't work if xComponent is 0 (dividing by zero!)
-				thetaZX = Math.PI/2; //this is always true if xComp is 0 (think about it!)
-			}else {
+//			if (xComponent == 0) { //atan won't work if xComponent is 0 (dividing by zero!)
+//				thetaZX = Math.PI/2; //this is always true if xComp is 0 (think about it!)
+//			}else {
 				thetaZX = Math.atan(zComponent/xComponent);
-			}
+//			}
 			
 			
 	
@@ -625,7 +655,7 @@ public class Vector extends Physics_shape {
 			}
 			
 			if (xComponent == 0) { //atan won't work if xComponent is 0 (dividing by zero!)
-				thetaZX = Math.PI/2; //this is always true if xComp is 0 (think about it!)
+				thetaZX = Math.PI/2; 
 			}else {
 				thetaZX = Math.atan(zComponent/xComponent);
 			}
@@ -808,42 +838,110 @@ public class Vector extends Physics_shape {
 	}
 	
 	public void quadCompAdjustments() {
-		switch(getQuadrantOfAngle(thetaXY)) {
-			case(0):
-				yComponent = -yComponent;
-				break;
+
+		if (thetaXY != 0) {
+			switch(getQuadrantOfAngle(thetaXY)) {
+				case(0):
+					yComponent = - Math.abs(yComponent);
+					break;
+				
+				case(1):
+					xComponent = - Math.abs(xComponent);
+					yComponent = - Math.abs(yComponent);
+					break;
+				
+				case(2):
+					xComponent = - Math.abs(xComponent);
+					break;
+				
+				case(3):
+					//do nothing in this quad
+					break;
+			}
 			
-			case(1):
-				xComponent = -xComponent;
-				yComponent = -yComponent;
-				break;
+			if ((valueAngle == "thetaZX") && (thetaZX != 0) ) { //if thetaZX is 0 it should be neglected
+				switch(getQuadrantOfAngle(thetaZX)) {
+				case(0):
+					//no zComp negate here
+					break;
+				
+				case(1):
+					zComponent = - Math.abs(zComponent);
+					break;
+				
+				case(2):
+					zComponent = - Math.abs(zComponent);
+					break;
+				
+				case(3):
+					//no zComp negate here
+					break;
+				
+				}
+			}else if (thetaZY != 0) { //if thetaZY is 0 it should be neglected
+				assert valueAngle == "thetaZY";
+				switch(getQuadrantOfAngle(thetaZY)) {
+				case(0):
+					//no zComp negate here
+					break;
+				
+				case(1):
+					
+					zComponent = - Math.abs(zComponent);
+					break;
+				
+				case(2):
+					zComponent = - Math.abs(zComponent);
+					break;
+				
+				case(3):
+					//no zComp negate here
+					break;
+				
+				}
+			}
+		}else { //thetaXY is 0 and should be neglected
+			if ((valueAngle == "thetaZX") && (thetaZX != 0) ) {
+				switch(getQuadrantOfAngle(thetaZX)) {
+					case(0):
+						//no zComp negate here
+						break;
+					
+					case(1):
+						xComponent = - Math.abs(xComponent);
+						break;
+					
+					case(2):
+						zComponent = - Math.abs(zComponent);
+						xComponent = - Math.abs(xComponent);
+						break;
+					
+					case(3):
+						zComponent = - Math.abs(zComponent);
+						break;
+					
+				}
+			}else if (thetaZY != 0) { //if thetaZY is 0 it should be neglected
+				assert valueAngle == "thetaZY";
+				switch(getQuadrantOfAngle(thetaZY)) {
+				case(0):
+					yComponent = - Math.abs(zComponent);
+					break;
+				
+				case(1):
+					yComponent = - Math.abs(zComponent);
+					break;
+				
+				case(2):
 			
-			case(2):
-				xComponent = -xComponent;
-				break;
-			
-			case(3):
-				//do nothing in this quad
-				break;
-		}
-		
-		switch(getQuadrantOfAngle(thetaZX)) {
-		case(0):
-			//no zComp negate here
-			break;
-		
-		case(1):
-			//no zComp negate here
-			break;
-		
-		case(2):
-			zComponent = -zComponent;
-			break;
-		
-		case(3):
-			zComponent = -zComponent;
-			break;
-		
+					break;
+				
+				case(3):
+					
+					break;
+				
+				}
+			}
 		}
 			
 		
@@ -908,23 +1006,27 @@ public class Vector extends Physics_shape {
 		calculateComponents();
 	}	
 	
+	private void calculateR() {
+		r = Physics_engine_toolbox.distance(points[0], points[1]);
+	}
+	
 	private void calculateThetas() { 
 		findQuadComp();
 		
 		if (Math.round(xComponent) < 0.001) { //atan won't work if xComp is 0 (division by 0)
-			thetaXY = Math.PI/2;
+			thetaXY = 0;
 		}else {
 			thetaXY = Math.atan(yComponent/xComponent);
 		}
 		
 		if (Math.round(xComponent) < 0.001)  {
-			thetaZX = Math.PI/2;
+			thetaZX = 0;
 		}else {
 			thetaZX = Math.atan(zComponent/xComponent);	
 		}
 		
 		if (Math.round(zComponent) < 0.001) { 
-			thetaZY = Math.PI/2;
+			thetaZY =0;
 		}else { //atan won't work if zComp is 0 (division by 0)
 			thetaZY = Math.atan(yComponent/zComponent);
 		}
@@ -935,19 +1037,19 @@ public class Vector extends Physics_shape {
 	private void calculateThetasQuadKnown() { 
 		
 		if (Math.abs(xComponent) < 0.001) { //atan won't work if xComp is 0 (division by 0)
-			thetaXY = Math.PI/2;
+			thetaXY = 0;
 		}else {
 			thetaXY = Math.atan(yComponent/xComponent);
 		}
 		
 		if (Math.abs(xComponent) < 0.001)  {
-			thetaZX = Math.PI/2;
+			thetaZX = 0;
 		}else {
 			thetaZX = Math.atan(zComponent/xComponent);	
 		}
 		
 		if (Math.abs(zComponent) < 0.001) { 
-			thetaZY = Math.PI/2;
+			thetaZY = 0;
 		}else { //atan won't work if zComp is 0 (division by 0)
 			thetaZY = Math.atan(yComponent/zComponent);
 		}
@@ -1052,18 +1154,33 @@ public class Vector extends Physics_shape {
 	}
 	
 	public void paint(Graphics page) {
-		
-		
-		
 		int ovalSize = (int) ( r/10 );
 		page.fillOval(points[0].getX() - (int) (ovalSize/2), points[0].getY()- (int) (ovalSize/2), ovalSize, ovalSize ); //draw a point at the base of the vector
 		
 		page.drawLine(points[0].getX(),points[0].getY(),vectorTip.getX(),vectorTip.getY());  //these two lines should do the same thing
 		//page.drawLine(x, y , x + (int) Math.round(xComponent),y + (int) Math.round(yComponent));
 	}
+	
 
 	public double getR() {
 		return r;
+	}
+
+	public void setR(double r1) {
+
+		updatePoints();
+		
+		calculateR();
+		
+		double resizeFraction = r/r1; //the ratio of r's (similar triangular prisms)
+	
+		//dividing the components to resize the vector
+		xComponent /= resizeFraction;
+		yComponent /= resizeFraction;
+		zComponent /= resizeFraction;
+		
+		updatePoints();
+		
 	}
 
 }
