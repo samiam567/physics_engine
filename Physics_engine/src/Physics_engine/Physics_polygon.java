@@ -168,15 +168,14 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 
 
 	
-	public void updatePoints() {				
+	public void updatePoints() { //creates a vector from the pointOfRotation to each point in the object			
 		if (isRotatable){
 			double r;
-			
-			//creating a vector from the pointOfRotation to each point in the object
+
 			Vector pointVector,rotateVecX,rotateVecY,rotateVecZ;
 			point cPoint;
 			 
-			for (int i = 0; i < points.length ; i++) {
+			for (int i = 0; i < points.length ; i++) { //cycle through the points in the object
 				cPoint = points[i];
 				r = points[i].getR();
 				
@@ -189,43 +188,30 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 					
 					points[i].setPointVector(pointVector); //sets the vector AND updates the point's pos automatically
 				}else if (Settings.rotationAlgorithm == 4) {
-					r = cPoint.getR();
+					r = cPoint.getR(); 
+					
+					//creating the rotation vectors
 					rotateVecX = new Vector(drawer,r,cPoint.getThetaXY() + zRotation,0,0,"thetaZX");
 					rotateVecY = new Vector(drawer,r,0,yRotation,0,"thetaZX");
 					rotateVecZ = new Vector(drawer,r,0,0,cPoint.getThetaZY() + xRotation,"thetaZY");
-				
-			
-					rotateVecY = new Vector(drawer,r,0,0,0,"thetaZX");
-			
-					try {
-						rotateVecX.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());			
-					}catch(NullPointerException n) {} //this will throw if the object has not been finished being constructed yet
 					
-					
-					
+					//add up the vectors
 					pointVector = rotateVecX.vectorAdd(new Vector[] {rotateVecX,rotateVecY,rotateVecZ} );
-				
+					
+					//set the postition of the pointvector
 					try {
 						pointVector.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());			
 					}catch(NullPointerException n) {} //this will throw if the object has not been finished being constructed yet
 					
 					
 				
-			//		drawer.add(pointVector);
+			//		drawer.add(pointVector); //this draws the pointVector on the screen (for debugging purposes)
 					
-					points[i].setPointVector(pointVector);
+					points[i].setPointVector(pointVector); //set the vector to the point
 					
-				}
-				
-				
-				
-				
-				
+				}	
 			}
-		
-			
-		}
-		
+		}	
 	}
 
 	public void setRotation(double xRotation1, double yRotation1, double zRotation1) { //this is not a wise method to use as it frequently results in impossible rotations.

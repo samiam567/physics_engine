@@ -21,9 +21,27 @@ The method that does most of the heavy lifting in this process is the calculateC
 This method uses three angles: thetaXY, thetaZX, and theta ZY, which are the angles from the positive xAxis toward the yAxis, the positive xAxis toward the zAxis, and 
 the positive zAxis toward the yAxis respectively. The method uses these angles to find the x,y,and z components of the vector. The problem is that the equations I derived for 
 this purpose only work in the first quadrant. This is where the findQuadrant() method comes in. It takes the three angles and finds based on each angle the two possibilities for
-which quadrant the vector is in. (based 8 quadrants for 3d)  The method then uses an array to cross-reference these possibilities to find which quadrant the vector is actually in. 
+which quadrant the vector is in. (based on the 8 3d quadrants)  The method then uses an array to cross-reference these possibilities to find which quadrant the vector is actually in. 
 Once the findQuadrant() method is finished with that, the calculateComponents() method takes over and uses a switch statement to apply the correct changes to the components 
 and put the vector into the correct quadrant. 
+	
+	rotation V3
+the V3 rotation algorithm uses the calculatePointValues() method to assign each point in an object a vector. The updatePoints methood uses 
+these vectors to translate angles of rotation (xRotation is ABOUT the x axis, yRotation is ABOUT the y axis, etc.) 
+to translate it into the distances in the x, y, and z directions that each point must move to create the rotation. 
+The method that does most of the heavy lifting in this process is the calculateComponents() method in the Vector class. 
+This method uses three angles: thetaXY, thetaZX, and theta ZY, which are the angles from the positive xAxis toward the yAxis, the positive xAxis toward the zAxis, and 
+the positive zAxis toward the yAxis respectively. The method uses these angles to find the x,y,and z components of the vector. The problem is that the equations I derived for 
+this purpose only work in the first quadrant. This is where the findQuadrant() method comes in. It takes the three angles and finds based on each angle the two possibilities for
+which quadrant the vector is in. (based on the 8 3d quadrants)  The method then uses an array to cross-reference these possibilities to find which quadrant the vector is actually in. 
+Once the findQuadrant() method is finished with that, the calculateComponents() method takes over and uses a switch statement to apply the correct changes to the components 
+and put the vector into the correct quadrant. 	
+
+	rotation V4
+the V4 rotation algorithm works much the same as the V3 algorithm, but it uses 3 vectors per point (one for each axis of rotation) which are summed using Vector.vectorADD(Vector[] vectors).
+I made this change to fix the error that was found during testing of 3d rotation that the vectors that are being created are impossible because of contradicting angle measurements.
+
+** This algorithm is not in use due to unexpected complications which are currently in the testing phase.
 	
 The reduceThetas() method just reduces the angle to a 0-2pi range (like how 4pi rad is the same as 2pi rad just it does around the circle twice)	
 
