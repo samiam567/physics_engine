@@ -329,7 +329,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 			updateAreas();
 			
 			point cPoint;
-			double force, reflec_const, time = 0.1;	
+			double force, reflec_const, time = 1;	
 			
 			try {
 				for (int i = 0; i < ((pointed) current_physics_object).getPoints().length; i++) {
@@ -345,6 +345,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 							System.out.println(name + " has hit " + current_physics_object.getObjectName());
 							
 							//perfectly inellastic
+							/*
 							Vector cOb_momentum_i = new Vector(drawer,current_physics_object.getXSpeed(),current_physics_object.getYSpeed(),current_physics_object.getZSpeed()); //create speed vector
 							cOb_momentum_i.setR(cOb_momentum_i.getR() * current_physics_object.getMass()); //convert that speed vector to a momentum vector by multiplying by mass (momentum = m * v)
 							cOb_momentum_i.setPos(cPoint.getX(), cPoint.getY(), cPoint.getZ());
@@ -355,20 +356,24 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 							Vector resultantVector = momentum_vector_i.vectorAdd(cOb_momentum_i);
 							
 							applyComponentImpulse(resultantVector.getXComponent(),resultantVector.getYComponent(),resultantVector.getZComponent(),1,"seconds");
-			
+							((Physics_polygon) current_physics_object).applyComponentImpulse(resultantVector.getXComponent(),resultantVector.getYComponent(),resultantVector.getZComponent(),1,"seconds");
+							*/
 							
 							isCollided((physics_object) current_physics_object,Physics_engine_toolbox.faces.none);
 							
+							Vector cOb_momentum_i = new Vector(drawer,current_physics_object.getXSpeed(),current_physics_object.getYSpeed(),current_physics_object.getZSpeed()); //create speed vector
+							cOb_momentum_i.setR(cOb_momentum_i.getR() * current_physics_object.getMass()); //convert that speed vector to a momentum vector by multiplying by mass (momentum = m * v)
 							
+							Vector momentum_vector_i = new Vector(drawer,xSpeed,ySpeed,zSpeed);
+							momentum_vector_i.setR(momentum_vector_i.getR() * mass);
 							
+							Vector resultantVector = momentum_vector_i.vectorAdd(cOb_momentum_i);
 							
-							Vector reflectionVector = new Vector(drawer,center,cPoint,this);
-							reflec_const = reflectionVector.r;
-							Vector momentumVector = new Vector(drawer,current_physics_object.getXSpeed(),current_physics_object.getYSpeed(),current_physics_object.getZSpeed());
-							force = momentumVector.r / time;
-							applyComponentImpulse(force * reflectionVector.getXComponent()/reflec_const ,force  * reflectionVector.getYComponent()/reflec_const,force * reflectionVector.getZComponent()/reflec_const,time,"seconds");
-							applyComponentImpulse(-force * reflectionVector.getXComponent()/reflec_const ,-force  * reflectionVector.getYComponent()/reflec_const,-force * reflectionVector.getZComponent()/reflec_const,time,"seconds");
+							Vector reflectionVector = new Vector(drawer,center,((Physics_polygon) current_physics_object).getCenter());
+							
+							applyComponentImpulse(-(reflectionVector.getXComponent() / reflectionVector.getR()) / 0.1,0,0,0.1,"seconds");
 						}
+						
 					}
 				}
 			}catch(ClassCastException c) {

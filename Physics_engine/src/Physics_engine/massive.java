@@ -11,4 +11,5 @@ public interface massive extends movable{
 	public void checkForCollision(massive physics_polygon, ArrayList<massive> objects);
 	public void applyComponentForce(double xComponent, double yComponent, double zComponent);
 	public void checkForCollisions(ArrayList<massive> objects);
+	public void applyComponentImpulse(double d, double e, double f, double time, String string);
 }
