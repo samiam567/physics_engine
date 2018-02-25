@@ -132,56 +132,59 @@ public class MultiStep_calc {
 		String ans_Str;
 		Simple_calc simp_calculator = new Simple_calc("");
 		String cOpSubStr = "";
-		for (int i = 0; i < ops.length; i++) {
-			cOp = (Calculator_runner.operations)[i];
-			if (debug) System.out.println("cOp: " + cOp);
-			for (int a = 0; a < ops[i].getArray(1).length; a++) {
-				opIndex = ops[i].getArray(1)[a];
-				getOperations(); //getting all the ops lists
-				if (debug) System.out.println("i: " + i +  " a: " + a);
-				
-				if (debug) System.out.println("Array " + ops[i]);
-
-				//finding the start and end of the sub calculation -=-=-=-=-=-=-=-=-=-
-				
-				
-				
-				try {					
-					opIndex = ops[i].getArray(1)[a];
-					opIndexInAllOps = allOps.indexOf(opIndex) - 1;
-					startOfSubCalc = allOps.getArray(1)[opIndexInAllOps] + 1;
-				}catch(ArrayIndexOutOfBoundsException e) {
-					startOfSubCalc = 0;
-				
-				}
-				
-				try {
-					opIndex = ops[i].getArray(1)[a];
-					opIndexInAllOps = allOps.indexOf(opIndex) + 1;
-					endOfSubCalc = (allOps.getArray(1)[opIndexInAllOps]);
-				}catch(ArrayIndexOutOfBoundsException q) {
-					endOfSubCalc = input.length();
-				}
-				
-				//-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=--=-=-=-=-=
-				
-				if (debug) System.out.println("StartIndex: " + startOfSubCalc + "  EndIndex: "  + endOfSubCalc);
-				cOpSubStr = input.substring(startOfSubCalc, endOfSubCalc); //getting the substring of input that contains the subCalculation
-				
-				if (debug) System.out.println("cOpSubStr: " + cOpSubStr);
-				simp_calculator.setInput(cOpSubStr);
-				
-				sub_calc_ans = simp_calculator.calculate();
-				
 		
-				ans_Str = (String)( "" + sub_calc_ans);
-				
-				if (debug) System.out.println("Replace " + cOpSubStr + " in " + input + " with " + ans_Str);
-				input = input.replace(cOpSubStr,ans_Str);
-				
-				if (debug) System.out.println("NewInp " + input);
+		do { //use as do while loop to make sure there are no residual ops that were missed
+			for (int i = 0; i < ops.length; i++) {
+				cOp = (Calculator_runner.operations)[i];
+				if (debug) System.out.println("cOp: " + cOp);
+				for (int a = 0; a < ops[i].getArray(1).length; a++) {
+					opIndex = ops[i].getArray(1)[a];
+					getOperations(); //getting all the ops lists
+					if (debug) System.out.println("i: " + i +  " a: " + a);
+					
+					if (debug) System.out.println("Array " + ops[i]);
+	
+					//finding the start and end of the sub calculation -=-=-=-=-=-=-=-=-=-
+					
+					
+					
+					try {					
+						opIndex = ops[i].getArray(1)[a];
+						opIndexInAllOps = allOps.indexOf(opIndex) - 1;
+						startOfSubCalc = allOps.getArray(1)[opIndexInAllOps] + 1;
+					}catch(ArrayIndexOutOfBoundsException e) {
+						startOfSubCalc = 0;
+					
+					}
+					
+					try {
+						opIndex = ops[i].getArray(1)[a];
+						opIndexInAllOps = allOps.indexOf(opIndex) + 1;
+						endOfSubCalc = (allOps.getArray(1)[opIndexInAllOps]);
+					}catch(ArrayIndexOutOfBoundsException q) {
+						endOfSubCalc = input.length();
+					}
+					
+					//-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=--=-=-=-=-=
+					
+					if (debug) System.out.println("StartIndex: " + startOfSubCalc + "  EndIndex: "  + endOfSubCalc);
+					cOpSubStr = input.substring(startOfSubCalc, endOfSubCalc); //getting the substring of input that contains the subCalculation
+					
+					if (debug) System.out.println("cOpSubStr: " + cOpSubStr);
+					simp_calculator.setInput(cOpSubStr);
+					
+					sub_calc_ans = simp_calculator.calculate();
+					
+			
+					ans_Str = (String)( "" + sub_calc_ans);
+					
+					if (debug) System.out.println("Replace " + cOpSubStr + " in " + input + " with " + ans_Str);
+					input = input.replace(cOpSubStr,ans_Str);
+					
+					if (debug) System.out.println("NewInp " + input);
+				}
 			}
-		}
+		}while (checkForMultiOp(input) > 0);
 		
 		answer = Double.parseDouble(input); // set the answer to the input (which now = the answer)
 		input = input_original; //reset the input

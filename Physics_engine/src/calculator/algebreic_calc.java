@@ -148,26 +148,36 @@ public class algebreic_calc {
 		
 		System.out.println("positives");
 		
-		/*
-		 //these don't work because the calculator recognizes negatives as minus signs
-		for (double x = 0; x > -bound; x -= xStep) {
+		for (double x = bound; x > 0; x -= xStep) {
+			
+			x = (Math.round(x / xStep) * xStep);
 			input_temp = input_exe;
 			if (debug) System.out.println("x: " + x);
 			while (input_temp.contains("x")) {
-				input_temp = input_temp.replace("x", "" + x);
+				input_temp = input_temp.replace("x", "_" + x);
 			}
 			if (debug) System.out.println("Input w/ x: " + input_temp);
+			
 			multiCalc.setInput(input_temp);
 			
 			testAns = multiCalc.calculate();
 			
-			if (Math.abs(testAns-yTarget) < xStep) {
-				answers.add(testAns);
+			ans_rounded = Math.round(testAns * 1/(xStep));
+			ans_rounded *= xStep;
+			
+			x_rounded =  Math.round(x * 1/(xStep));
+			x_rounded *= xStep;
+			x_rounded = Double.parseDouble("-" + x_rounded);
+			
+			if (Math.abs(testAns-yTarget) < 0.000001) {
+				answers.add(x_rounded);
 			}
 			
-		}
-		*/
-		
+			eqGraph.addPoint(new point(x_rounded,testAns));	
+			
+			if (debug) System.out.println("Ans: " + testAns);
+			
+		}	
 	}
 	
 	public graph getGraph() {

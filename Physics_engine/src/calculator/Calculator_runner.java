@@ -14,7 +14,7 @@ public class Calculator_runner {
 	public static eqTypes eqType = eqTypes.None;
 	public static String input;
 	public static double answer;
-	public static String[] operations = {"sqrt","pow","sq","sin","cos","tan","*","/","++","+","-"};
+	public static String[] operations = {"rev/min","rev/sec","sqrt","pow","sq","sin","cos","tan","*","/","++","+","-"};
 	public static String[] commands = {"/degRadMode","/help"};
 	public static int[] numbers = {1,2,3,4,5,6,7,8,9,0};
 	
@@ -31,8 +31,6 @@ public class Calculator_runner {
 		System.out.println("Input: " + input);
 		
 		Grapher.graphs.add(new Axis()); //adding the axis onto the graph screen
-	
-		
 		
 		if (input.substring(0,1).equals("/")) {
 			eqType = eqTypes.Command;

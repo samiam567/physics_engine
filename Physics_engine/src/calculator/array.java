@@ -228,21 +228,30 @@ public class array {
 		}else if (arrayType.equals(Type.Double)) {
 			calculateSize(value);
 			arrayListDouble = new double[length];
+			
+			
+			// dealing with negatives (ex: _1 = -1)
+			if (value.contains("_")) {
+				value = value.replaceFirst("_", "-");
+			}
+		
 			arrayListString = value.split(delimiter);
 			
+		
 			for (int i = 0; i < arrayListString.length; i++) {
 				do {
 					try {
 						arrayListDouble[a] = Double.parseDouble(arrayListString[i]);	
 						repeat = false;
 						a++;
-					}catch(NumberFormatException e) {				
+					}catch(NumberFormatException e) {	
 						System.out.println(arrayListString[i]);
 						length = length - 1;
 						repeat = true;
 						i++;
 					}catch(ArrayIndexOutOfBoundsException q) {
-						System.out.println("ERROR: BAD-INPUT in array.getValues");		
+						Exception e = new Exception("BAD-INPUT in array.getValues \n Input: " + value);	
+						e.printStackTrace();
 					}
 				}while (repeat);
 			}

@@ -129,6 +129,14 @@ public class Simple_calc implements Calculator{
 				answer = Math.tan(A);
 				break;
 				
+			case "rev/min": //revolutions to radians conversion
+				answer = (2 * Math.PI * A) / 60;
+				break;
+				
+			case "rev/sec": //revolutions to radians conversion
+				answer = 2 * Math.PI * A;
+				break;
+				
 			default:
 				System.out.println("\n ERROR: Operation " + op + " has not been programmed");
 				break;
