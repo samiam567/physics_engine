@@ -155,7 +155,9 @@ public class physics_runner {
 	public static void resize() {
 		//resize stuff
 		System.out.println("Resizing");
-		boundries.resize();
+		try {
+			boundries.resize();
+		}catch(NullPointerException n) {}
 	}
 
 }

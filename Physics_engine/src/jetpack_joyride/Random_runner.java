@@ -7,17 +7,37 @@ import java.awt.Polygon;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 
+import Physics_engine.Physics_frame;
+import Physics_engine.object_draw;
+
 public class Random_runner extends Applet{
 	
-	static Polygon polyXY = new Polygon();
+	public static Polygon polyXY = new Polygon();
+	public static Monster[] monsters = new Monster[500];
 	
-	public static void go(String[] args) {
+	public static Physics_frame frame = new Physics_frame();
+	
+	public static void main(String[] args) {
+		object_draw drawer = new object_draw(frame);
 		
-		polyXY.xpoints = new int[] {0,50,50,0};
-		polyXY.ypoints = new int[] {0,0,50,50};
-		polyXY.npoints = 4;
+		drawer.setFrameTime(1000000000); 
+		drawer.frameStep = 100;
 		
-		System.out.println(polyXY.contains(1, 1));
+		drawer.start();
+		
+		for (int i = 0; i < monsters.length; i++) {
+			monsters[i] = new Monster(drawer,i,-40*i,(int) Math.pow(i, 2));
+		}
+		System.out.println("Monsters created");
+		
+		for (Monster cMon : monsters) {
+			drawer.add(cMon);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 	
