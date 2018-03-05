@@ -209,7 +209,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 					points[i].setPointVector(pointVector); //set the vector to the point
 					
 				}else if (Settings.rotationAlgorithm == 5) {
-					pointVector3D = new Vector3D(drawer,cPoint.getR(),cPoint.getTheta(),cPoint.getPhi());
+					pointVector3D = new Vector3D(drawer,cPoint.getR(),cPoint.getTheta() + yRotation,cPoint.getPhi() + xRotation);
 					
 					try {
 						pointVector3D.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());			
