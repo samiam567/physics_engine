@@ -10,8 +10,6 @@ import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 
 public class Physics_polygon extends Physics_shape implements pointed, rotatable, massive {
 	
-
-
 	int[] pointXs = {}; //all of the x coordinates of the points in the object
 	int[] pointYs = {}; //all of the y coordinates of the points in the object
 	int[] pointZs = {}; //all of the y coordinates of the points in the object
@@ -172,7 +170,8 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		if (isRotatable){
 			double r;
 
-			Vector pointVector,rotateVecX,rotateVecY,rotateVecZ;
+			Vector pointVector,rotateVecX,rotateVecY,rotateVecZ; //for algors 1-4
+			Vector3D pointVector3D; //for algor 5
 			point cPoint;
 			 
 			for (int i = 0; i < points.length ; i++) { //cycle through the points in the object
@@ -209,7 +208,15 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 					
 					points[i].setPointVector(pointVector); //set the vector to the point
 					
-				}	
+				}else if (Settings.rotationAlgorithm == 5) {
+					pointVector3D = new Vector3D(drawer,cPoint.getR(),cPoint.getTheta() + yRotation,cPoint.getPhi() + xRotation);
+					
+					try {
+						pointVector3D.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());			
+					}catch(NullPointerException n) {} //this will throw if the object has not been finished being constructed yet
+					
+					cPoint.setPointVector(pointVector3D);
+				}
 			}
 		}	
 	}
@@ -290,35 +297,62 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	}
 	
 	protected void calculatePointValues() { 
-		Vector tempVec;
-		point cPoint;
-		for (int i = 0; i < points.length; i++) {
-			cPoint = points[i];
+		
+		if (Settings.rotationAlgorithm < 5) {
+			Vector tempVec;
+			point cPoint;
+			for (int i = 0; i < points.length; i++) {
+				cPoint = points[i];
+				
+				cPoint.setId(i);
+				
+				try {
+					tempVec = new Vector(drawer,pointOfRotation,cPoint);
+					cPoint.setR(tempVec.getR());
+				}catch(NullPointerException n) { //this will be caught if pointOfRotation doesn't exist yet.
+					pointOfRotation = new point(drawer,centerX,centerY,centerZ); //create pointOfRotation and set it to the center of the object using the default method
+					tempVec = new Vector(drawer,pointOfRotation,cPoint);
+					cPoint.setR(tempVec.getR());
+				}
+				
+				tempVec.setName(name + "_tempVec", 1);
+				
+	//			drawer.add(tempVec); // this will display the temp vecs
 			
-			cPoint.setId(i);
+				//Physics_engine_toolbox.distance(cPoint,pointOfRotation)
+				
+				//tempVec.getR()
+				
+				
 			
-			try {
-				tempVec = new Vector(drawer,pointOfRotation,cPoint);
-				cPoint.setR(tempVec.getR());
-			}catch(NullPointerException n) { //this will be caught if pointOfRotation doesn't exist yet.
-				pointOfRotation = new point(drawer,centerX,centerY,centerZ); //create pointOfRotation and set it to the center of the object using the default method
-				tempVec = new Vector(drawer,pointOfRotation,cPoint);
-				cPoint.setR(tempVec.getR());
+	//			cPoint.setAngle(tempVec.getThetaXY(), tempVec.getThetaZX(), tempVec.getThetaZY());  //this line is what makes this method not work!!
 			}
-			
-			tempVec.setName(name + "_tempVec", 1);
-			
-//			drawer.add(tempVec); // this will display the temp vecs
-		
-			//Physics_engine_toolbox.distance(cPoint,pointOfRotation)
-			
-			//tempVec.getR()
-			
-			
-		
-//			cPoint.setAngle(tempVec.getThetaXY(), tempVec.getThetaZX(), tempVec.getThetaZY());  //this line is what makes this method not work!!
 	
-	
+		}else {
+			Vector3D tempVec;
+			point cPoint;
+			for (int i = 0; i < points.length; i++) {
+				cPoint = points[i];
+				
+				cPoint.setId(i);
+				
+				try {
+					tempVec = new Vector3D(drawer,pointOfRotation,cPoint);
+					cPoint.setR(tempVec.getR());
+				}catch(NullPointerException n) { //this will be caught if pointOfRotation doesn't exist yet.
+					pointOfRotation = new point(drawer,centerX,centerY,centerZ); //create pointOfRotation and set it to the center of the object using the default method
+					tempVec = new Vector3D(drawer,pointOfRotation,cPoint);
+					cPoint.setR(tempVec.getR());
+				}
+				
+				tempVec.setName(name + "_tempVec", 1);
+				
+//				drawer.add(tempVec); // this will display the temp vecs
+			
+				//Physics_engine_toolbox.distance(cPoint,pointOfRotation)
+
+				cPoint.setAngle(tempVec.getTheta(), tempVec.getPhi()); 
+			}
 		}
 	}
 	

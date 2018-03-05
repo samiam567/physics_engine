@@ -2,7 +2,7 @@ package Physics_engine;
 
 import java.util.ArrayList;
 
-public interface massive extends movable{
+public interface massive extends pointed{
 	
 	
 	public boolean getIsTangible();

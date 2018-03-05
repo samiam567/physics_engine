@@ -34,7 +34,7 @@ public class Simple_calc implements Calculator{
 		}
 		
 		if (op == "") {
-			JOptionPane.showMessageDialog(null, "Either your calculation doesn't have an operation in it, or I have not been programmed to do that operation. \n you can use /help to get a list of commands and operations","No operation found", 0);
+			Calculator_runner.errors.add("Either your calculation doesn't have an operation in it, or I have not been programmed to do that operation. \n you can use /help to get a list of commands and operations eq: " + eq);
 		}
 		return op;
 	}
