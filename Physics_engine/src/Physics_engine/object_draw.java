@@ -14,7 +14,7 @@ public class object_draw extends Canvas {
 	public ArrayList<massive> tangibles = new ArrayList<massive>();
 	public ArrayList<resizable> resizables = new ArrayList<resizable>();
 	
-	protected long frameTime = Settings.frameTime;
+	private long frameTime = Settings.frameTime;
 	public double frameStep = Settings.frameStep;
 	
 	public ArrayList<force> scheduled_forces = new ArrayList<force>(); //list of forces for the maintenance bot to apply
@@ -165,7 +165,7 @@ public class object_draw extends Canvas {
 		updateObjects(1);
 		repaint();
 		frameEndTime = System.nanoTime();
-		wait_time = frameTime - (frameEndTime - frameStartTime);
+		wait_time = getFrameTime() - (frameEndTime - frameStartTime);
 		WaitNanotime(wait_time);
 	
 	}
@@ -180,7 +180,7 @@ public class object_draw extends Canvas {
 			checkForResize();
 			repaint(); 
 			frameEndTime = System.nanoTime();
-			wait_time = frameTime - (frameEndTime - frameStartTime);
+			wait_time = getFrameTime() - (frameEndTime - frameStartTime);
 			
 			if (wait_time < 0) {
 				Exception ex = new Exception("Wait time is less than 0! wait_time: " + wait_time);
@@ -201,7 +201,7 @@ public class object_draw extends Canvas {
 	
 			repaint(); 
 			frameEndTime = System.nanoTime();
-			wait_time = frameTime - (frameEndTime - frameStartTime);
+			wait_time = getFrameTime() - (frameEndTime - frameStartTime);
 			
 			if (wait_time < 0) {
 				Exception ex = new Exception("Wait time is less than 0! wait_time: " + wait_time);
@@ -321,5 +321,13 @@ public class object_draw extends Canvas {
 
 	public ArrayList<Physics_drawable> getDrawables() {
 		return drawables;
+	}
+
+	public long getFrameTime() {
+		return frameTime;
+	}
+
+	public void setFrameTime(long frameTime) {
+		this.frameTime = frameTime;
 	}
 }
