@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.5.3";
+	public static final String version = "4.5.4";
 	
 	
 	public static int width = 1000;
@@ -24,7 +24,7 @@ public class Settings {
 	
 	
 	public static final boolean displayObjectNames = true;
-	public static final boolean showPointNumbers = false;
+	public static final boolean showPointNumbers = true;
 	
 	public static final boolean autoResizeFrame = true;
 	

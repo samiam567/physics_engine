@@ -36,14 +36,14 @@ public class physics_runner {
 		vec1 = new Vector(drawer,40,50,50,0,"thetaZX");
 		vec1.setPos(300, 300, 0);
 		vec1.setName("vec1", 1);
+		vec1.isVisible = false;
 		drawer.add(vec1);
 	
-		Physics_frame secondaryFrame = new Physics_frame();
-		object_draw drawer2 = new object_draw(secondaryFrame);
+
 		
-		Vec = new Vector3D(drawer2,50,3,Math.PI/4);
-		Vec.setPos(200, 200, 0);
-		drawer2.add(Vec);
+		Box box1 = new Box(drawer,200,200,0,70,100);
+		drawer.add(box1);
+		
 		
 		
 		
@@ -151,19 +151,21 @@ public class physics_runner {
 		
 
 		
-
-		
 		
 		resize();
 		
 		drawer.start();
+		
+		while (true) {
+			square2.xRotation+= 0.00000001;
+		}
 
-	//	frame.dispose();
 	}
 
 	public static void resize() {
 		//resize stuff
 		System.out.println("Resizing");
+	
 		try {
 			boundries.resize();
 		}catch(NullPointerException n) {}

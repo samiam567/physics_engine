@@ -50,16 +50,16 @@ public class Vector3D extends Physics_shape implements pointed{  // like Vector 
 	
 //calculations	
 	public void sphericalToCartesian() {
-		xComponent = Math.cos(theta) * Math.cos(phi) * r;
-		yComponent = Math.sin(theta) * Math.cos(phi) * r;
-		zComponent = Math.sin(phi) * r;
+		zComponent = Math.cos(theta) * Math.cos(phi) * r;
+		xComponent = Math.sin(theta) * Math.cos(phi) * r;
+		yComponent = Math.sin(phi) * r;
 		updatePoints();
 	}
 	
 	public void cartesianToSpherical() {
 		r = Math.sqrt(Math.pow(xComponent, 2) + Math.pow(yComponent, 2) + Math.pow(zComponent, 2));
-		theta = Math.atan2(yComponent, xComponent);
-		phi = Math.acos(zComponent / r);
+		theta = Math.atan2(xComponent, zComponent);
+		phi = Math.acos(yComponent / r);
 	}
 
 	
