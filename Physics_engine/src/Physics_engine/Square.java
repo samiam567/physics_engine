@@ -12,58 +12,43 @@ public class Square extends Physics_polygon {
 		setRotation(0,0,0);
 		
 		
+		
 		pointRenderOrder = new int[] {0,1,2,3,0};
+		point[] points1 = new point[4];
 		
-		if (Settings.rotationAlgorithm < 5) {
-			point[] points1 = new point[4];
-			
-			points1[0] = new point(drawer,xReal,yReal,zReal); 
-			points1[0].setAngle(3*Math.PI/4, 0,Math.PI/2);
-			
-			points1[1] = new point(drawer,xReal+xSize,yReal,zReal);
-			points1[1].setAngle(Math.PI/4, Math.PI,Math.PI/2);
-			
-			points1[2] = new point(drawer,xReal+xSize,yReal+ySize,zReal);
-			points1[2].setAngle(-Math.PI/4, Math.PI,-Math.PI/2);
-			
-			points1[3] = new point(drawer,xReal,yReal+ySize,zReal);
-			points1[3].setAngle(-3*Math.PI/4, 0,-Math.PI/2);
+		points1[0] = new point(drawer,xReal,yReal,zReal); 
+		points1[0].setAngle(3*Math.PI/4, 0,Math.PI/2);
 		
-			
-			setPoints(points1);
-			
-
-			double r = Math.sqrt(Math.pow(xSize,2) + Math.pow(ySize,2) + Math.pow(zSize,2))/2;
-			for (point cP : points) {
-				cP.setR(r);
-			}
-			
-		}else if (Settings.rotationAlgorithm == 5) {		
-			points = new point[4];
-			
-			points[0] = new point(drawer,xReal,yReal,zReal); 
-			points[0].setAngle(Math.PI/2,0);
-			
-			points[1] = new point(drawer,xReal+xSize,yReal,zReal);
-			points[1].setAngle(Math.PI/2,Math.PI);
-			
-			points[2] = new point(drawer,xReal+xSize,yReal+ySize,zReal);
-			points[2].setAngle(-Math.PI/2,Math.PI);
-			
-			points[3] = new point(drawer,xReal,yReal+ySize,zReal);
-			points[3].setAngle(-Math.PI/2,0);
-		}
+		points1[1] = new point(drawer,xReal+xSize,yReal,zReal);
+		points1[1].setAngle(Math.PI/4, Math.PI,Math.PI/2);
+		
+		points1[2] = new point(drawer,xReal+xSize,yReal+ySize,zReal);
+		points1[2].setAngle(-Math.PI/4, Math.PI,-Math.PI/2);
+		
+		points1[3] = new point(drawer,xReal,yReal+ySize,zReal);
+		points1[3].setAngle(-3*Math.PI/4, 0,-Math.PI/2);
+	
+		
+		setPoints(points1);
 		
 	
 		
 		
 		
+		double r = Math.sqrt(Math.pow(xSize,2) + Math.pow(ySize,2) + Math.pow(zSize,2))/2;
+		for (point cP : points) {
+			cP.setR(r);
+		}
 		
 		calculateCenter();
-		
+	
 		updatePointOfRotation();
 		
-		calculatePointValues(); 
+		calculatePointValues();  //THIS METHOD IS EVIL SPAWN OF SATAN! |:<
+	
+		
+	
+
 
 		setPos(x,y,z);
 	

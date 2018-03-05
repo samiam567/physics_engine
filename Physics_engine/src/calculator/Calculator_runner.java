@@ -1,7 +1,6 @@
 package calculator;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -19,12 +18,9 @@ public class Calculator_runner {
 	public static String[] commands = {"/degRadMode","/help"};
 	public static int[] numbers = {1,2,3,4,5,6,7,8,9,0};
 	
-	public static ArrayList<String> errors = new ArrayList<String>();
-	
 	public static void main(String[] args) {
 		do {
 			run();
-			displayErrors();
 		}while (JOptionPane.showConfirmDialog(null,"Do you want to calculate something else?", "Another?", 1, 1, null) == 0);
 		
 		Grapher.frame.dispose();
@@ -75,17 +71,11 @@ public class Calculator_runner {
 			drawer.addEquation(new algebreic_calc(input,yValue,"calculate,output"));
 			drawer.updateGraph();
 		}else {
-			errors.add("I'm terribly sorry sir, but it appears that I have not been programmed to undertake that type of calculation yet.");
+			JOptionPane.showMessageDialog(null, "I'm terribly sorry sir, but it appears that I have not been programmed to undertake that type of calculation yet.","Error", 0);
 			return;
 		}
 		
 	
-	}
-	
-	private static void displayErrors() {
-		for (String error : errors) {
-			JOptionPane.showMessageDialog(Grapher.frame, error);
-		}
 	}
 	
 	public static void WaitNanotime(long time) { //more accurate wait method for nanotime

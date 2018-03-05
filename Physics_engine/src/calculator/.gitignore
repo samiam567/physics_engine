@@ -1,3 +1,20 @@
+<<<<<<< HEAD
 /Calculator_runner$eqTypes.class
 /Calculator_runner.class
 /Simple_calc.class
+=======
+/Axis.class
+/Calculator$eqTypes.class
+/Calculator.class
+/Calculator_runner$eqTypes.class
+/Calculator_runner.class
+/Grapher.class
+/MultiStep_calc.class
+/Settings.class
+/Simple_calc.class
+/algebreic_calc.class
+/array$Type.class
+/array.class
+/graph.class
+/point.class
+>>>>>>> parent of 37c5c6e... merge

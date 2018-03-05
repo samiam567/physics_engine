@@ -7,10 +7,8 @@ import java.awt.geom.Area;
 public class point extends Physics_drawable {
 	private int id;
 	private double thetaXY, thetaZX, thetaZY; //angle relative to the center of rotation
-	private double theta,phi;
 	private double r; //distance from the center of rotation
 	private Vector pointVector;
-	private Vector3D pointVector3D;
 	private int quadrant; //the quad this point is in (if applicable)
 	
 	public point(object_draw drawer1,double[] dimensions,int id1) { //dimensions = {x,y,z}
@@ -27,7 +25,6 @@ public class point extends Physics_drawable {
 		ySize = 0;
 		zSize = 0;
 	}
-	
 	
 	public void setX(double x1) {
 		xReal = x1;
@@ -64,11 +61,6 @@ public class point extends Physics_drawable {
 		thetaZY = thetaZY1;
 	}
 	
-	public void setAngle(double theta1, double phi1) {
-		theta = theta1;
-		phi = phi1;
-	}
-	
 	public void setPos(double x1, double y1, double z1) {
 		xReal = x1;
 		yReal = y1;
@@ -82,12 +74,6 @@ public class point extends Physics_drawable {
 	public void setPointVector(Vector vector) {
 		pointVector = vector;
 		point vectorTip = pointVector.getVectorTip();
-		setPos(vectorTip.getXReal(),vectorTip.getYReal(),vectorTip.getZReal());
-	}
-	
-	public void setPointVector(Vector3D vector3D) {
-		pointVector3D = vector3D;
-		point vectorTip = pointVector3D.getVectorTip();
 		setPos(vectorTip.getXReal(),vectorTip.getYReal(),vectorTip.getZReal());
 	}
 
@@ -118,12 +104,6 @@ public class point extends Physics_drawable {
 	public double getR() {
 		return r;
 	}
-	public double getTheta() {
-		return theta;
-	}
-	public double getPhi() {
-		return phi;
-	}
 	
 	public int getId() {
 		return id;
@@ -138,6 +118,4 @@ public class point extends Physics_drawable {
 		
 		page.drawLine(x, y, x, y); //draw the point
 	}
-
-	
 }

@@ -22,8 +22,6 @@ public class physics_runner {
 
 	public static Vector vec1;
 	
-	public static Vector3D Vec;
-	
 	private static object_draw drawer;
 	
 	public static void main(String[] args) {
@@ -38,14 +36,6 @@ public class physics_runner {
 		vec1.setName("vec1", 1);
 		drawer.add(vec1);
 	
-		Physics_frame secondaryFrame = new Physics_frame();
-		object_draw drawer2 = new object_draw(secondaryFrame);
-		
-		Vec = new Vector3D(drawer2,50,3,Math.PI/4);
-		Vec.setPos(200, 200, 0);
-		drawer2.add(Vec);
-		
-		
 		
 		//mouseListener +==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+
 		MouseAdapter mouse =  new MouseAdapter() {
@@ -84,6 +74,7 @@ public class physics_runner {
 			*/
 			drawer.remove(vec1);
 			
+	//		vec1 = new Vector(drawer,new point(drawer,300,300,0),new point(drawer,arg0.getX(),arg0.getY(),50));
 			
 			vec1 = new Vector(drawer,40,0,0,vec1.getThetaZY() + 0.1,"thetaZY");
 			vec1.setPos(300, 300, 0);
