@@ -209,13 +209,21 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 					points[i].setPointVector(pointVector); //set the vector to the point
 					
 				}else if (Settings.rotationAlgorithm == 5) {
-					pointVector3D = new Vector3D(drawer,cPoint.getR(),cPoint.getTheta() + yRotation,cPoint.getPhi() + xRotation);
 					
-					try {
-						pointVector3D.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());			
-					}catch(NullPointerException n) {} //this will throw if the object has not been finished being constructed yet
+					Vector3D vecX = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaZY() + xRotation,0);
+					Vector3D vecY = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaZX() + yRotation,0);
+					Vector3D vecZ = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaXY() + zRotation,0);
 					
-					cPoint.setPointVector(pointVector3D);
+					Vector3D[] vectors = {vecX,vecY,vecZ};
+					
+					double xComponent,yComponent,zComponent;
+					
+					xComponent = vecZ.getXComponent() + vecY.getXComponent();
+					yComponent = vecZ.getYComponent() + vecZ.getYComponent();
+					zComponent = vecX.getXComponent() + vecY.getYComponent();
+					
+					cPoint.setPos(pointOfRotation.getXReal() + xComponent, pointOfRotation.getYReal() + yComponent, pointOfRotation.getZReal() + zComponent);
+					
 				}
 			}
 		}	
@@ -329,29 +337,32 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 			}
 	
 		}else {
-			Vector3D tempVec;
+			Vector3D vecX,vecY,vecZ;
 			point cPoint;
 			for (int i = 0; i < points.length; i++) {
 				cPoint = points[i];
 				
-				cPoint.setId(i);
 				
 				try {
-					tempVec = new Vector3D(drawer,pointOfRotation,cPoint);
-					cPoint.setR(tempVec.getR());
-				}catch(NullPointerException n) { //this will be caught if pointOfRotation doesn't exist yet.
-					pointOfRotation = new point(drawer,centerX,centerY,centerZ); //create pointOfRotation and set it to the center of the object using the default method
-					tempVec = new Vector3D(drawer,pointOfRotation,cPoint);
-					cPoint.setR(tempVec.getR());
+					//check these
+					vecX = new Vector3D(drawer,cPoint.getZReal() - pointOfRotation.getZReal(),cPoint.getYReal()-pointOfRotation.getYReal(),0);
+					vecY = new Vector3D(drawer,cPoint.getXReal()-pointOfRotation.getXReal(),cPoint.getZReal() - pointOfRotation.getZReal(),0);
+					vecZ = new Vector3D(drawer,cPoint.getXReal() - pointOfRotation.getXReal(),cPoint.getYReal() - pointOfRotation.getYReal(),0);
+					
+					double xComponent,yComponent,zComponent;
+					
+					cPoint.setAngle(vecZ.getTheta(), vecY.getTheta(), vecX.getTheta());
+				}catch(NullPointerException n) {
+					pointOfRotation = center;
+					//check these
+					vecX = new Vector3D(drawer,cPoint.getZReal() - pointOfRotation.getZReal(),cPoint.getYReal()-pointOfRotation.getYReal(),0);
+					vecY = new Vector3D(drawer,cPoint.getXReal()-pointOfRotation.getXReal(),cPoint.getZReal() - pointOfRotation.getZReal(),0);
+					vecZ = new Vector3D(drawer,cPoint.getXReal() - pointOfRotation.getXReal(),cPoint.getYReal() - pointOfRotation.getYReal(),0);
+					
+					double xComponent,yComponent,zComponent;
+					
+					cPoint.setAngle(vecZ.getTheta(), vecY.getTheta(), vecX.getTheta());
 				}
-				
-				tempVec.setName(name + "_tempVec", 1);
-				
-//				drawer.add(tempVec); // this will display the temp vecs
-			
-				//Physics_engine_toolbox.distance(cPoint,pointOfRotation)
-
-				cPoint.setAngle(tempVec.getTheta(), tempVec.getPhi()); 
 			}
 		}
 	}

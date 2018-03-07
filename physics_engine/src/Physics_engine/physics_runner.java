@@ -125,7 +125,7 @@ public class physics_runner {
 		square2.setParentObject(square1);
 		square2.setPointOfRotationPlace(pointOfRotationPlaces.parentsPlace);
 		square2.setPos(600, 200, 0);
-		square2.setAngularVelocity(0, 0, 0.01);
+	
 		square2.setSpeed(5, 3, 0);
 		square2.calculatePointValues();
 		square2.isTangible = false;
@@ -157,9 +157,9 @@ public class physics_runner {
 		drawer.start();
 		
 		while (true) {
-			square2.xRotation+= 0.00000001;
+			square2.xRotation += 0.0001;
 		}
-
+		
 	}
 
 	public static void resize() {
