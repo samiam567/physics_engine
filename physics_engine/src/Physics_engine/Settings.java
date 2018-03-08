@@ -13,7 +13,7 @@ public class Settings {
 
 	public static final double frameStep = 0.01;
 	public static final long frameTime = 20000000; 
-	public static final int timeOutTime = 500000;
+	public static int timeOutTime = 500000;
 	
 	public static final Color frameColor = Color.GRAY;
 	
@@ -23,8 +23,7 @@ public class Settings {
 	public static final double distanceFromScreen = distanceFromScreenMeters / 0.000115; //should not be changed
 	
 	
-	public static final boolean displayObjectNames = false
-			;
+	public static final boolean displayObjectNames = false;
 	public static final boolean showPointNumbers = false;
 	
 	public static final boolean autoResizeFrame = true;
@@ -34,6 +33,8 @@ public class Settings {
 	public static final int forceMethod = 1;
 	public static int collision_algorithm = 5; //possibles are 1, 2, 3, 4, and 5  as 2 was a complete failure
 	public static final double thetaStep = Math.PI/4;
+
+
 		
 		
 }

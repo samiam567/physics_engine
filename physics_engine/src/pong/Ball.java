@@ -21,14 +21,14 @@ public class Ball extends Square{
 			direction = 1;
 		}
 		
-		setSpeed( Pong_runner.ballSpeed * direction,Pong_runner.ballSpeed *(Math.random() - 0.5),0);
+		setSpeed( Pong_runner.ballSpeed * direction,Pong_runner.ballSpeed/2 *(Math.random() - 0.5),0);
 	}
 	
 	public void isCollided (physics_object cOb,faces side) {
 		setAccel(0,0,0);
 		try {
 			Paddle cPad = (Paddle) cOb;
-			setAccel(0,(ySpeed - cPad.getYSpeed())/200,0);
+			setAccel(0,Pong_runner.gameSpeed * (ySpeed - cPad.getYSpeed())/200,0);
 		}catch(ClassCastException c) {
 			try {
 				border_bounce cBor = (border_bounce) cOb;
@@ -55,7 +55,7 @@ public class Ball extends Square{
 			direction = 1;
 		}
 		
-		setSpeed( Pong_runner.ballSpeed * direction,Pong_runner.ballSpeed *(Math.random() - 0.5),0);
+		setSpeed( Pong_runner.ballSpeed * direction,Pong_runner.ballSpeed/2 *(Math.random() - 0.5),0);
 	
 		try {
 			Thread.sleep(10);

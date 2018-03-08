@@ -32,6 +32,7 @@ public class Physics_frame extends JFrame{
 	public void setColor(Color newColor) { //doesn't work
 		setBackground(newColor);		
 		cp.setBackground(newColor);
+		
 	}
 
 

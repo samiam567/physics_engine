@@ -10,7 +10,7 @@ import Physics_engine.resizable;
 
 public class Paddle extends rectangle implements resizable {
 	public String side;
-	public double paddleHomingSpeed = 3;
+	public double paddleHomingSpeed = 3 * Pong_runner.gameSpeed;
 
 	
 	public Paddle(object_draw drawer, String side1) {
