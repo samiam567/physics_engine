@@ -40,9 +40,7 @@ public class physics_runner {
 		drawer.add(vec1);
 	
 
-		
-		Box box1 = new Box(drawer,200,200,0,70,100);
-		drawer.add(box1);
+
 		
 		
 		
@@ -118,23 +116,22 @@ public class physics_runner {
 		square1.setSpeed(1, 0, 2);
 		square1.setAngularVelocity(0, 0, 0.01);
 		square1.isTangible = true;
+		square1.isRotatable = false;
 		drawer.add(square1);
 		
 		Square square2 = new Square(drawer,400,400,0,100,10);
 		square2.setName("square2", 1);
-		square2.setParentObject(square1);
-		square2.setPointOfRotationPlace(pointOfRotationPlaces.parentsPlace);
 		square2.setPos(600, 200, 0);
-	
 		square2.setSpeed(5, 3, 0);
-		square2.calculatePointValues();
-		square2.isTangible = false;
+		square2.isTangible = true;
+		square2.isRotatable = false;
+		square2.setAngularVelocity(0.001, 0, 0);
 		drawer.add(square2);
 		
 		Triangle tri1 = new Triangle(drawer,400,800,0,50,100,10);
 		tri1.setName("tri1", 1);
 		tri1.setPos(600, 400, 0);
-		tri1.setAngularVelocity(0, 0, 0.1);
+		tri1.setAngularVelocity(0, 0.001, 0);
 		tri1.setSpeed(-1, 0, 0);
 		drawer.add(tri1);
 		

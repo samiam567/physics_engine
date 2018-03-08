@@ -14,7 +14,7 @@ public class Square extends Physics_polygon {
 		
 		pointRenderOrder = new int[] {0,1,2,3,0};
 		
-		if (true) {
+		if (Settings.rotationAlgorithm != 5) {
 			point[] points1 = new point[4];
 			
 			points1[0] = new point(drawer,xReal,yReal,zReal); 
@@ -29,10 +29,7 @@ public class Square extends Physics_polygon {
 			points1[3] = new point(drawer,xReal,yReal+ySize,zReal);
 			points1[3].setAngle(-3*Math.PI/4, 0,-Math.PI/2);
 		
-			double r = Math.sqrt(Math.pow(xSize,2) + Math.pow(ySize,2) + Math.pow(zSize,2))/2;
-			for (point cP : points1) {
-				cP.setR(r);
-			}
+			
 			setPoints(points1);
 			
 
@@ -55,8 +52,10 @@ public class Square extends Physics_polygon {
 		}
 		
 	
-		
-		
+		double r = Math.sqrt(Math.pow(xSize,2) + Math.pow(ySize,2) + Math.pow(zSize,2))/2;
+		for (point cP : points) {
+			cP.setR(r);
+		}
 		
 		
 		calculateCenter();

@@ -17,7 +17,10 @@ public class point extends Physics_drawable {
 		super(drawer1);
 		setPos(dimensions[0],dimensions[1],dimensions[2]);
 		setId(id1);
-		setSize(0,0,0);
+		xSize = 0;
+		ySize = 0;
+		zSize = 0;
+		center = this;
 	}
 	
 	public point(object_draw drawer1,double xReal1, double yReal1, double zReal1) {
@@ -26,6 +29,7 @@ public class point extends Physics_drawable {
 		xSize = 0;
 		ySize = 0;
 		zSize = 0;
+		center = this;
 	}
 	
 	
@@ -73,10 +77,7 @@ public class point extends Physics_drawable {
 		xReal = x1;
 		yReal = y1;
 		zReal = z1;
-		
-		x = (int) Math.round(xReal);
-		y = (int) Math.round(yReal);
-		z = (int) Math.round(zReal);
+		updatePos();
 	}
 	
 	public void setPointVector(Vector vector) {
@@ -89,6 +90,19 @@ public class point extends Physics_drawable {
 		pointVector3D = vector3D;
 		point vectorTip = pointVector3D.getVectorTip();
 		setPos(vectorTip.getXReal(),vectorTip.getYReal(),vectorTip.getZReal());
+	}
+	
+	protected void updateCenter() {
+		center = this;
+	}
+	
+	protected void updatePos() {
+		centerX = xReal;
+		centerY = yReal;
+		centerZ = zReal;
+		x = (int) Math.round(xReal);
+		y = (int) Math.round(yReal);
+		z = (int) Math.round(zReal);
 	}
 
 	public void setR(double r1) {

@@ -209,10 +209,10 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 					points[i].setPointVector(pointVector); //set the vector to the point
 					
 				}else if (Settings.rotationAlgorithm == 5) {
-					
-					Vector3D vecX = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaZY() + xRotation,0);
-					Vector3D vecY = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaZX() + yRotation,0);
-					Vector3D vecZ = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaXY() + zRotation,0);
+		
+					Vector3D vecX = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaZY() + xRotation,0,"polar");
+					Vector3D vecY = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaZX() + yRotation,0,"polar");
+					Vector3D vecZ = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaXY() + zRotation,0,"polar");
 					
 					Vector3D[] vectors = {vecX,vecY,vecZ};
 					
@@ -223,10 +223,19 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 					zComponent = vecX.getXComponent() + vecY.getYComponent();
 					
 					cPoint.setPos(pointOfRotation.getXReal() + xComponent, pointOfRotation.getYReal() + yComponent, pointOfRotation.getZReal() + zComponent);
-					
+				
 				}
 			}
-		}	
+		}else {
+			double xChange = xReal - points[0].getX();
+			double yChange = yReal - points[0].getY();
+			double zChange = zReal - points[0].getZ();
+			
+			for (int i = 0; i < points.length; i++) {
+				points[i].setPos(points[i].getXReal() + xChange, points[i].getYReal() + yChange, points[i].getZReal() + zChange);
+			}
+			
+		}
 	}
 
 	public void setRotation(double xRotation1, double yRotation1, double zRotation1) { //this is not a wise method to use as it frequently results in impossible rotations.
@@ -337,34 +346,47 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 			}
 	
 		}else {
-			Vector3D vecX,vecY,vecZ;
+			Vector2D vecX,vecY,vecZ;
+			
 			point cPoint;
 			for (int i = 0; i < points.length; i++) {
 				cPoint = points[i];
 				
 				
 				try {
-					//check these
-					vecX = new Vector3D(drawer,cPoint.getZReal() - pointOfRotation.getZReal(),cPoint.getYReal()-pointOfRotation.getYReal(),0);
-					vecY = new Vector3D(drawer,cPoint.getXReal()-pointOfRotation.getXReal(),cPoint.getZReal() - pointOfRotation.getZReal(),0);
-					vecZ = new Vector3D(drawer,cPoint.getXReal() - pointOfRotation.getXReal(),cPoint.getYReal() - pointOfRotation.getYReal(),0);
+	
+					vecX = new Vector2D(drawer,cPoint.getZReal() - pointOfRotation.getZReal(),cPoint.getYReal()-pointOfRotation.getYReal());
+					vecY = new Vector2D(drawer,cPoint.getXReal()-pointOfRotation.getXReal(),cPoint.getZReal() - pointOfRotation.getZReal());
+					vecZ = new Vector2D(drawer,cPoint.getXReal() - pointOfRotation.getXReal(),cPoint.getYReal() - pointOfRotation.getYReal());
 					
-					double xComponent,yComponent,zComponent;
+					Vector3D pointVec = new Vector3D(drawer,pointOfRotation, cPoint);
+					
+					pointVec.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());
+					drawer.add(pointVec);
 					
 					cPoint.setAngle(vecZ.getTheta(), vecY.getTheta(), vecX.getTheta());
+					cPoint.setPointVector(pointVec);
+					
 				}catch(NullPointerException n) {
 					pointOfRotation = center;
-					//check these
-					vecX = new Vector3D(drawer,cPoint.getZReal() - pointOfRotation.getZReal(),cPoint.getYReal()-pointOfRotation.getYReal(),0);
-					vecY = new Vector3D(drawer,cPoint.getXReal()-pointOfRotation.getXReal(),cPoint.getZReal() - pointOfRotation.getZReal(),0);
-					vecZ = new Vector3D(drawer,cPoint.getXReal() - pointOfRotation.getXReal(),cPoint.getYReal() - pointOfRotation.getYReal(),0);
+		
+					vecX = new Vector2D(drawer,cPoint.getZReal() - pointOfRotation.getZReal(),cPoint.getYReal()-pointOfRotation.getYReal());
+					vecY = new Vector2D(drawer,cPoint.getXReal()-pointOfRotation.getXReal(),cPoint.getZReal() - pointOfRotation.getZReal());
+					vecZ = new Vector2D(drawer,cPoint.getXReal() - pointOfRotation.getXReal(),cPoint.getYReal() - pointOfRotation.getYReal());
 					
-					double xComponent,yComponent,zComponent;
+					Vector3D pointVec = new Vector3D(drawer,pointOfRotation, cPoint);
 					
+					pointVec.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());
+					drawer.add(pointVec);
 					cPoint.setAngle(vecZ.getTheta(), vecY.getTheta(), vecX.getTheta());
+					cPoint.setPointVector(pointVec);
 				}
 			}
 		}
+	}
+	
+	public double elastic_V(double V1i, double M1, double V2i, double M2) {
+		return ((V1i * V1i + V1i + (M2/M1)*(V2i*V2i + V2i))/2);
 	}
 	
 	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { //generic checkForCollisions method that is overriden by all tangible pObjects
@@ -389,34 +411,29 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 							
 							System.out.println(name + " has hit " + current_physics_object.getObjectName());
 							
-							//perfectly inellastic
-							/*
-							Vector cOb_momentum_i = new Vector(drawer,current_physics_object.getXSpeed(),current_physics_object.getYSpeed(),current_physics_object.getZSpeed()); //create speed vector
-							cOb_momentum_i.setR(cOb_momentum_i.getR() * current_physics_object.getMass()); //convert that speed vector to a momentum vector by multiplying by mass (momentum = m * v)
-							cOb_momentum_i.setPos(cPoint.getX(), cPoint.getY(), cPoint.getZ());
 							
-							Vector momentum_vector_i = new Vector(drawer,xSpeed,ySpeed,zSpeed);
-							momentum_vector_i.setR(momentum_vector_i.getR() * mass);
-							
-							Vector resultantVector = momentum_vector_i.vectorAdd(cOb_momentum_i);
-							
-							applyComponentImpulse(resultantVector.getXComponent(),resultantVector.getYComponent(),resultantVector.getZComponent(),1,"seconds");
-							((Physics_polygon) current_physics_object).applyComponentImpulse(resultantVector.getXComponent(),resultantVector.getYComponent(),resultantVector.getZComponent(),1,"seconds");
-							*/
 							
 							isCollided((physics_object) current_physics_object,Physics_engine_toolbox.faces.none);
 							
-							Vector cOb_momentum_i = new Vector(drawer,current_physics_object.getXSpeed(),current_physics_object.getYSpeed(),current_physics_object.getZSpeed()); //create speed vector
-							cOb_momentum_i.setR(cOb_momentum_i.getR() * current_physics_object.getMass()); //convert that speed vector to a momentum vector by multiplying by mass (momentum = m * v)
 							
-							Vector momentum_vector_i = new Vector(drawer,xSpeed,ySpeed,zSpeed);
-							momentum_vector_i.setR(momentum_vector_i.getR() * mass);
 							
-							Vector resultantVector = momentum_vector_i.vectorAdd(cOb_momentum_i);
+							massive cOb = current_physics_object;
 							
-							Vector reflectionVector = new Vector(drawer,center,((Physics_polygon) current_physics_object).getCenter());
+							double xVf = elastic_V(xSpeed,mass,cOb.getXSpeed(),cOb.getMass());
+							double yVf = elastic_V(ySpeed,mass,cOb.getYSpeed(),cOb.getMass());
+							double zVf = elastic_V(zSpeed,mass,cOb.getZSpeed(),cOb.getMass());
 							
-							applyComponentImpulse(-(reflectionVector.getXComponent() / reflectionVector.getR()) / 0.1,0,0,0.1,"seconds");
+							setSpeed(xVf,yVf,zVf);
+							
+							
+							double obxVf = elastic_V(cOb.getXSpeed(),cOb.getMass(),xSpeed,mass);
+							double obyVf = elastic_V(cOb.getYSpeed(),cOb.getMass(),ySpeed,mass);
+							double obzVf = elastic_V(cOb.getZSpeed(),cOb.getMass(),zSpeed,mass);
+							
+							setSpeed(obxVf,obyVf,obzVf);
+							
+							
+							
 						}
 						
 					}

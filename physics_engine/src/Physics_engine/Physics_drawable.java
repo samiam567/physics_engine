@@ -127,12 +127,9 @@ public abstract class Physics_drawable extends physics_object implements movable
 	public double getCenterX() { //finds the x coordinate of the object's center
 		return centerX;
 	}
-
-
 	public double getCenterY() { //finds the y coordinate of the object's center
 		return centerY;
 	}
-	
 	public double getCenterZ() {
 		return centerZ;
 	}

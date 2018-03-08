@@ -6,7 +6,7 @@ import java.awt.Graphics;
  * https://blog.demofox.org/2013/10/12/converting-to-and-from-polar-spherical-coordinates-made-easy/
  */
 
-public class Vector3D extends Physics_shape implements pointed{  // like Vector but uses spherical coordinates
+public class Vector3D extends Physics_shape implements pointed {  // like Vector but uses spherical coordinates
 	private double r; //rho, or the length of the vector
 	private double theta; //polar angle
 	private double phi; //azimuth angle
@@ -26,13 +26,24 @@ public class Vector3D extends Physics_shape implements pointed{  // like Vector 
 
 	
 //constructors
-	public Vector3D(object_draw drawer, double r1, double theta1, double phi1) {
+	public Vector3D(object_draw drawer, double r1, double theta1, double phi1, String Polar) {
 		super(drawer);
+		assert Polar == "polar";
 		r = r1;
 		theta = theta1;
 		phi = phi1;
 		sphericalToCartesian();
 	}
+	
+	public Vector3D(object_draw drawer, double xComponent1, double yComponent1, double zComponent1) {
+		super(drawer);
+		xComponent = xComponent1;
+		yComponent = yComponent1;
+		zComponent = zComponent1;
+		cartesianToSpherical();
+	}
+	
+	
 	
 	public Vector3D(object_draw drawer, point base, point tip) {
 		super(drawer);
