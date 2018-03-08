@@ -121,7 +121,7 @@ public class physics_runner {
 		
 		Square square2 = new Square(drawer,400,400,0,100,10);
 		square2.setName("square2", 1);
-		square2.setPos(600, 200, 0);
+		square2.setPos(600, 230, 0);
 		square2.setSpeed(5, 3, 0);
 		square2.isTangible = true;
 		square2.isRotatable = false;

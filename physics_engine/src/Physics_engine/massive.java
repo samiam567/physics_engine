@@ -12,4 +12,5 @@ public interface massive extends pointed{
 	public void applyComponentForce(double xComponent, double yComponent, double zComponent);
 	public void checkForCollisions(ArrayList<massive> objects);
 	public void applyComponentImpulse(double d, double e, double f, double time, String string);
+
 }

@@ -386,7 +386,12 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	}
 	
 	public double elastic_V(double V1i, double M1, double V2i, double M2) {
-		return ((V1i * V1i + V1i + (M2/M1)*(V2i*V2i + V2i))/2);
+		System.out.println("-");
+		System.out.println(V1i + "," + M1 + ";" + V2i + "," + M2);
+		double V = (V1i * (M1-1) + V2i * (M2 + 1))/(M1+1);
+		System.out.println(V);
+		return V;
+		
 	}
 	
 	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { //generic checkForCollisions method that is overriden by all tangible pObjects
@@ -394,11 +399,13 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		if (Settings.collision_algorithm == 5) {
 			updatePointXsYsAndZs();
 			updateAreas();
-			
+			drawer.frameStep = 0.001;
+			drawer.setFrameTime(1000000);
 			point cPoint;
 			double force, reflec_const, time = 1;	
 			
 			try {
+				
 				for (int i = 0; i < ((pointed) current_physics_object).getPoints().length; i++) {
 					cPoint = ((pointed) current_physics_object).getPoints()[i];
 		
@@ -423,7 +430,9 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 							double yVf = elastic_V(ySpeed,mass,cOb.getYSpeed(),cOb.getMass());
 							double zVf = elastic_V(zSpeed,mass,cOb.getZSpeed(),cOb.getMass());
 							
-							setSpeed(xVf,yVf,zVf);
+							setSpeed(-xVf, -yVf, -zVf);
+							
+							setPos(getCenterX() + drawer.frameStep * 1000.1 * getXSpeed(),getCenterY() + drawer.frameStep * 1000.1 * getYSpeed(), getCenterZ() + drawer.frameStep * 1000.1 * getZSpeed());
 							
 							
 							double obxVf = elastic_V(cOb.getXSpeed(),cOb.getMass(),xSpeed,mass);
@@ -432,6 +441,9 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 							
 							setSpeed(obxVf,obyVf,obzVf);
 							
+							((Physics_drawable) cOb).setPos(((Physics_drawable) cOb).getCenterX() + drawer.frameStep * 1000.1 * cOb.getXSpeed(),((Physics_drawable) cOb).getCenterY() + drawer.frameStep * 1000.1 * cOb.getYSpeed(), ((Physics_drawable) cOb).getCenterZ() + drawer.frameStep * 1000.1 * cOb.getZSpeed());
+							
+							return;
 							
 							
 						}

@@ -1,5 +1,6 @@
 package Physics_engine;
 
+import java.awt.Font;
 import java.awt.Graphics;
 
 public class ScoreBoard extends Physics_drawable {
@@ -8,6 +9,7 @@ public class ScoreBoard extends Physics_drawable {
 	private double score;
 	private double scoreSpeed;
 	private double targetScore;
+	private Font font = new Font("TimesRoman", Font.PLAIN, 15);
 	
 	public ScoreBoard(object_draw drawer1, double x, double y, String score_phrase1, double score1) {
 		super(drawer1);
@@ -43,6 +45,10 @@ public class ScoreBoard extends Physics_drawable {
 		}
 	}
 	
+	public void setFont(Font font1) {
+		font = font1;
+	}
+	
 	public void setScore(double score1) {
 		score = score1;
 	}
@@ -68,6 +74,7 @@ public class ScoreBoard extends Physics_drawable {
 	}
 	
 	public void paint(Graphics page) {
+		page.setFont(font);
 		page.drawString(score_phrase + " " + (int) Math.round(score) + end_phrase, x, y);
 	}
 
