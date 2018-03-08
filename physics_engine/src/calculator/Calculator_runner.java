@@ -25,6 +25,7 @@ public class Calculator_runner {
 		do {
 			run();
 			displayErrors();
+			
 		}while (JOptionPane.showConfirmDialog(null,"Do you want to calculate something else?", "Another?", 1, 1, null) == 0);
 		
 		Grapher.frame.dispose();
@@ -83,8 +84,11 @@ public class Calculator_runner {
 	}
 	
 	private static void displayErrors() {
-		for (String error : errors) {
-			JOptionPane.showMessageDialog(Grapher.frame, error);
+		String error;
+		for (int i = 0; i < errors.size(); i++) {
+			error = errors.get(i);
+			JOptionPane.showMessageDialog(Grapher.frame, error); //display the error
+			errors.remove(i); //remove the error from the list
 		}
 	}
 	
