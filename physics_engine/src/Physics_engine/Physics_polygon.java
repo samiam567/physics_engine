@@ -385,11 +385,8 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		}
 	}
 	
-	public double elastic_V(double V1i, double M1, double V2i, double M2) {
-		System.out.println("-");
-		System.out.println(V1i + "," + M1 + ";" + V2i + "," + M2);
+	public double elastic_V(double V1i, double M1, double V2i, double M2) {	
 		double V = (V1i * (M1-1) + V2i * (M2 + 1))/(M1+1);
-		System.out.println(V);
 		return V;
 		
 	}

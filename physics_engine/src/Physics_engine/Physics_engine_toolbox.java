@@ -33,6 +33,7 @@ public class Physics_engine_toolbox {
 				((Physics_drawable)current_object).yAccel = parent_object.yAccel;
 				((Physics_drawable)current_object).zAccel = parent_object.zAccel;
 				
+				
 				try {
 					((Physics_polygon)current_object).angularVelocityX = ((Physics_polygon)parent_object).angularVelocityX;
 					((Physics_polygon)current_object).angularVelocityY = ((Physics_polygon)parent_object).angularVelocityY;

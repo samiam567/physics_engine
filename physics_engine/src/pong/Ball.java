@@ -8,8 +8,9 @@ import Physics_engine.Square;
 import Physics_engine.border_bounce;
 import Physics_engine.object_draw;
 import Physics_engine.physics_object;
+import Physics_engine.resizable;
 
-public class Ball extends Square{
+public class Ball extends Square implements resizable {
 	public Ball(object_draw drawer) {
 		super(drawer,Settings.width/2,Settings.height/2,0,10,10);
 		setSize(Settings.width/50,Settings.width/50,0);
@@ -28,7 +29,11 @@ public class Ball extends Square{
 		setAccel(0,0,0);
 		try {
 			Paddle cPad = (Paddle) cOb;
-			setAccel(0,Pong_runner.gameSpeed * (ySpeed - cPad.getYSpeed())/200,0);
+			setAccel(0,(ySpeed - cPad.getYSpeed())/200,0);
+			
+			//allow for the player to speed up the ball with their paddle 
+			setSpeed(xSpeed - cPad.getXSpeed()/2, ySpeed, zSpeed);
+			
 		}catch(ClassCastException c) {
 			try {
 				border_bounce cBor = (border_bounce) cOb;
@@ -55,7 +60,7 @@ public class Ball extends Square{
 			direction = 1;
 		}
 		
-		setSpeed( Pong_runner.ballSpeed * direction,Pong_runner.ballSpeed/2 *(Math.random() - 0.5),0);
+		setSpeed( Pong_runner.ballSpeed * direction,Math.round(xSpeed)/2 *(Math.random() - 0.5),0);
 	
 		try {
 			Thread.sleep(10);
@@ -67,5 +72,10 @@ public class Ball extends Square{
 	
 	public void paint(Graphics page) {
 		page.fillOval(x, y, (int)xSize,(int) ySize);
+	}
+	
+	public void resize() {
+		setSize(Settings.width/50,Settings.width/50,0);
+
 	}
 }

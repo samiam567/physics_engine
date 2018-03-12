@@ -295,6 +295,12 @@ public class object_draw extends Canvas {
 								current_object.paint(page);
 								break;
 								
+							case("drawRect"):
+								page.drawRect(current_object.getX(),current_object.getY(),(int) current_object.getXSizeAppearance(), (int) current_object.getYSizeAppearance());
+								break;
+							case("fillRect"):
+								page.fillRect(current_object.getX(),current_object.getY(),(int) current_object.getXSizeAppearance(), (int) current_object.getYSizeAppearance());
+								break;
 							default:
 								current_object.paint(page);
 								break;

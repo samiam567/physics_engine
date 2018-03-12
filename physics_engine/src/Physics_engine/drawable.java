@@ -43,6 +43,12 @@ public interface drawable extends physics_engine_compatible { //the ability to b
 
 	public boolean hasParentObject();
 
-	
+	public double getXSizeAppearance();
+	public double getYSizeAppearance();
+	public double getZSizeAppearance();
+
+	public double getXSize();
+	public double getYSize();
+	public double getZSize();
 	
 }

@@ -1,6 +1,7 @@
 package pong;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import Physics_engine.Settings;
 import Physics_engine.object_draw;
@@ -10,14 +11,15 @@ import Physics_engine.resizable;
 
 public class Paddle extends rectangle implements resizable {
 	public String side;
-	public double paddleHomingSpeed = 3 * Pong_runner.gameSpeed;
+	public static double paddleHomingSpeed = Pong_runner.AI_difficulty * Pong_runner.gameSpeed;
 
 	
 	public Paddle(object_draw drawer, String side1) {
-		super(drawer,Settings.width/9,Settings.height/2,0,Settings.width/20,Settings.height/10,10);
+		super(drawer,Settings.width/10,Settings.height/2,0,Settings.width/90,Settings.height/10,10);
 		side = side1;
 		isRotatable = false;
 		isFilled = true;
+		drawMethod = "fillRect";
 		setColor(Color.WHITE);
 		
 		
@@ -33,7 +35,16 @@ public class Paddle extends rectangle implements resizable {
 	}
 	
 	public void tertiaryUpdate() {
-		if (side.equals("right")) {
+		
+		if (Pong_runner.cheatMode) {
+			if (side.equals("left")) {
+				if (Pong_runner.ball.getXReal() < (200)) {
+					setPos(150,Pong_runner.ball.getYReal(),0);
+				}
+			}
+		}
+		
+		if (side.equals("right") && Pong_runner.p2AI) {
 			//homing in on balll
 			if (Pong_runner.ball.getYReal() > yReal) {
 				setSpeed(xSpeed,paddleHomingSpeed,zSpeed);
@@ -47,7 +58,7 @@ public class Paddle extends rectangle implements resizable {
 	
 	public void resize() {
 		
-		setSize(Settings.width/20, Settings.height/10,0);
+		setSize(Settings.width/90, Settings.height/10,0);
 		
 		switch (side) {
 			case("left"):
@@ -59,4 +70,6 @@ public class Paddle extends rectangle implements resizable {
 				break;
 		}
 	}
+	
+	
 }

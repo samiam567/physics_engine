@@ -220,6 +220,18 @@ public abstract class Physics_drawable extends physics_object implements movable
 		return zSize;
 	}
 	
+	public double getXSizeAppearance() {
+		return xSizeAppearance;
+	}
+	
+	public double getYSizeAppearance() {
+		return ySizeAppearance;
+	}
+
+	public double getZSizeAppearance() {
+		return zSizeAppearance;
+	}
+	
 	public double getXSpeed() {
 		return xSpeed;
 	}
