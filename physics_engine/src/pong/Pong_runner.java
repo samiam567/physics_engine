@@ -20,7 +20,7 @@ import ballistica.Ballistic_bullet;
 
 public class Pong_runner {
 
-	public static final String Version = "1.7.5";
+	public static final String Version = "1.7.6";
 	
 	
 	public static boolean cheatMode = false;
@@ -238,16 +238,19 @@ public class Pong_runner {
 			case(0):
 				System.out.println("Difficulty: Easy");
 				AI_difficulty = 0.7;
+				gameSetSpeed = 1;
 				break;
 			
 			case(1):
 				System.out.println("Difficulty: Normal");
 				AI_difficulty = 2;
+				gameSetSpeed = 1;
 				break;
 			
 			case(2):
 				System.out.println("Difficulty: Hard");
 				AI_difficulty = 3.1;
+				gameSetSpeed = 1;
 				break;
 				
 			case(3):
