@@ -36,6 +36,11 @@ public class object_draw extends Canvas {
 		threader = new object_draw_thread(this);
 	}
 	
+	public void setFrame(Physics_frame frame1) {
+		frame = frame1;
+		frame.getContentPane().add(this);
+	}
+	
 	public void boot() {
 		threader = new object_draw_thread(this);
 	}

@@ -15,6 +15,8 @@ public class Ball extends Square implements resizable {
 		super(drawer,Settings.width/2,Settings.height/2,0,10,10);
 		setSize(Settings.width/50,Settings.width/50,0);
 		
+		isFilled = true;
+		
 		int direction;
 		if (Math.random() < 0) {
 			direction = -1;
@@ -23,6 +25,7 @@ public class Ball extends Square implements resizable {
 		}
 		
 		setSpeed( Pong_runner.ballSpeed * direction,Pong_runner.ballSpeed/2 *(Math.random() - 0.5),0);
+		
 	}
 	
 	public void isCollided (physics_object cOb,faces side) {
@@ -30,6 +33,9 @@ public class Ball extends Square implements resizable {
 		try {
 			Paddle cPad = (Paddle) cOb;
 			setAccel(0,(ySpeed - cPad.getYSpeed())/200,0);
+			setAngularVelocity(0,0, -0.01 *(ySpeed - cPad.getYSpeed()));
+			
+			System.out.println((ySpeed - cPad.getYSpeed()));
 			
 			//allow for the player to speed up the ball with their paddle 
 			setSpeed(xSpeed - cPad.getXSpeed()/2, ySpeed, zSpeed);
@@ -69,11 +75,11 @@ public class Ball extends Square implements resizable {
 		}
 	}
 	
-	
+	/*
 	public void paint(Graphics page) {
 		page.fillOval(x, y, (int)xSize,(int) ySize);
 	}
-	
+	*/
 	public void resize() {
 		setSize(Settings.width/50,Settings.width/50,0);
 

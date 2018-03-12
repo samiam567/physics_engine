@@ -6,7 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JOptionPane;
+import javax.swing.colorchooser.ColorSelectionModel;
 
+import Physics_engine.Physics_engine_toolbox;
 import Physics_engine.Physics_frame;
 import Physics_engine.ScoreBoard;
 import Physics_engine.Settings;
@@ -18,7 +20,7 @@ import ballistica.Ballistic_bullet;
 
 public class Pong_runner {
 
-	public static final String Version = "1.7.0";
+	public static final String Version = "1.7.5";
 	
 	
 	public static boolean cheatMode = false;
@@ -77,6 +79,7 @@ public class Pong_runner {
 		borders.isVisible = false;
 		drawer.add(borders);
 		setSettings();
+	
 		
 		resize();
 		drawer.start();
@@ -252,11 +255,25 @@ public class Pong_runner {
 				AI_difficulty = 3.2;
 				gameSetSpeed = 2.3;
 				break;
-			}
+		}
+	}
+	
+	public static void reColor(Color primary, Color secondary, Color tertiary) {
+		frame.setColor(primary);
+		
+		leftPaddle.setColor(secondary);
+		rightPaddle.setColor(secondary);
+		ball.setColor(secondary);
+		
+		lScore.setColor(tertiary);
+		rScore.setColor(tertiary);
+		
+		drawer.setFrame(frame);
+		
 	}
 	
 	public static void doCommand() {
-		String[] commandsStr = {"/help","/AIDifficulty","/cheatMode","/gameSpeed"};
+		String[] commandsStr = {"/help","/AIDifficulty","/cheatMode","/gameSpeed","/switchColors"};
 		array commands = new array("String");
 		commands.setValues(commandsStr);
 		
@@ -286,10 +303,17 @@ public class Pong_runner {
 				}catch(NumberFormatException n) {
 					JOptionPane.showMessageDialog(frame, "Invalid gameSpeed","Error", 0);
 				}
+				break;
+			case("/switchColors"):
+				reColor(Physics_engine_toolbox.getColorFromUser(frame),Physics_engine_toolbox.getColorFromUser(frame),Physics_engine_toolbox.getColorFromUser(frame));
+				break;
+				
 			default:
 				JOptionPane.showMessageDialog(frame, "Either the command you typed doesn't exist or it hasn't been programmed yet","Command Not found", 0);
 				break;
 		}
+		
+		resize();
 	}
 	
 	public static void setSettings() {
@@ -298,6 +322,9 @@ public class Pong_runner {
 		drawer.frameStep = 0.01;
 		drawer.setFrameTime(40000000);
 		Settings.timeOutTime = 5000000;
+		
+		Settings.width = 1000;
+		Settings.height = 600;
 	}
 	
 	public static void resize() {

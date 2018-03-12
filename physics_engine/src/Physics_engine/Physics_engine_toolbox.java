@@ -1,10 +1,16 @@
 package Physics_engine;
 
+import java.awt.Color;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+import javax.swing.colorchooser.ColorSelectionModel;
 
 public class Physics_engine_toolbox {
 	public enum pointOfRotationPlaces {center,parentCenter,parentsPlace,custom};
 	public enum faces {left,right,top,bottom,far,near,none};
+	public static String[] colorNames = {"black","blue","cyan","gray","green","magenta","orange","pink","red","white","yellow"};
+	
 	
 	public static void Update(physics_engine_compatible current_object,double frames) { //frames is the number of frames the object should update (can be a decimal)
 		
@@ -149,6 +155,65 @@ public class Physics_engine_toolbox {
 		current_object.frameUpdate2(frames);
 		current_object.frameUpdate3(frames);
 		
+	}
+	
+	public static Color getColorFromUser(Physics_frame frame) {
+		Color color;
+		String colorStr = (String) JOptionPane.showInputDialog(frame, "What Color?", "Color Select", 3, null, colorNames, null);
+		
+		switch(colorStr) {
+			case("black"):
+				color = Color.black;
+				break;
+				
+			case("blue"):
+				color = Color.blue;
+				break;
+				
+			case("cyan"):
+				color = Color.cyan;
+				break;
+				
+			case("gray"):
+				color = Color.gray;
+				break;
+				
+			case("green"):
+				color = Color.green;
+				break;
+				
+			case("magenta"):
+				color = Color.magenta;
+				break;
+				
+			case("orange"):
+				color = Color.orange;
+				break;
+				
+			case("pink"):
+				color = Color.pink;
+				break;
+				
+			case("red"):
+				color = Color.red;
+				break;
+				
+			case("white"):
+				color = Color.white;
+				break;
+				
+			case("yellow"):
+				color = Color.yellow;
+				break;
+				
+			default:
+				color = Color.WHITE;
+				Exception colorEx = new Exception("ERROR: Not a valid color: " + colorStr);
+				colorEx.printStackTrace();
+				break;
+		}
+		
+		return color;
 	}
 	
 	public static double distance(point point1, point point2) {
