@@ -286,11 +286,19 @@ public class object_draw extends Canvas {
 										current_point = points[pointKey];
 										next_point = points[next_pointKey];
 										
-										if (Settings.showPointNumbers) page.drawString("" + i, current_point.getX(), current_point.getY()); //display the point numbers								
+																	
 									
 										//draw line between points
 										page.drawLine(current_point.x, current_point.y, next_point.x, next_point.y);
 									}
+									
+									
+									if (Settings.showPointNumbers) { //display the point numbers	
+										for (int i = 0; i < points.length; i++) {
+											page.drawString("" + i, points[i].getX(), points[i].getY()); 
+										}
+									}
+									
 									break;
 								}catch(ClassCastException c) {
 									System.out.println("Drawable not a pointed object");

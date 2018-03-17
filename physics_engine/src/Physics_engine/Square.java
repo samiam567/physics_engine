@@ -2,7 +2,7 @@ package Physics_engine;
 
 import java.util.ArrayList;
 
-public class Square extends Physics_polygon {
+public class Square extends Physics_3DPolygon {
 	
 	public Square(object_draw drawer1,double x, double y, double z, double size, double mass) {
 		super(drawer1);
@@ -137,19 +137,19 @@ public class Square extends Physics_polygon {
 							force *= Settings.elasticity;
 							System.out.println("Force: " + force);
 							
-							double[] thisDeflectionAnglePack = current_object.calculateDeflectionAngle(this);
+				//			double[] thisDeflectionAnglePack = current_object.calculateDeflectionAngle(this);
 							double[] current_obDeflectionAnglePack = calculateDeflectionAngle(current_object);
 							
-							double thisDeflectionAngle = thisDeflectionAnglePack[0];
-							double thisZReflect = thisDeflectionAnglePack[1];
+			//				double thisDeflectionAngle = thisDeflectionAnglePack[0];
+				//			double thisZReflect = thisDeflectionAnglePack[1];
 							
-							double current_obDeflectionAngle = current_obDeflectionAnglePack[0];
+				///			double current_obDeflectionAngle = current_obDeflectionAnglePack[0];
 							double current_obZReflect = current_obDeflectionAnglePack[1];
 							
 	//public force(physics_object object1, double r, double theta, double zComponent1, double time1, double frame1, boolean isPolar) {
 							
-							drawer.scheduled_forces.add(new force(drawer,this,force,thisDeflectionAngle,thisZReflect,time,"seconds",-1,true));
-							drawer.scheduled_forces.add(new force(drawer,this,force,current_obDeflectionAngle,current_obZReflect,time,"seconds",-1,true));
+		//					drawer.scheduled_forces.add(new force(drawer,this,force,thisDeflectionAngle,thisZReflect,time,"seconds",-1,true));
+			//				drawer.scheduled_forces.add(new force(drawer,this,force,current_obDeflectionAngle,current_obZReflect,time,"seconds",-1,true));
 						}	
 						
 						
@@ -200,17 +200,17 @@ public class Square extends Physics_polygon {
 								force = 10;
 								System.out.println("Force: " + force);
 								
-								thisDeflectionAnglePack = current_object.calculateDeflectionAngle(this);
+			//					thisDeflectionAnglePack = current_object.calculateDeflectionAngle(this);
 								current_obDeflectionAnglePack = calculateDeflectionAngle(current_object);
-								
-								thisDeflectionAngle = thisDeflectionAnglePack[0];
-								thisZReflect = thisDeflectionAnglePack[1];
+							
+				//				thisDeflectionAngle = thisDeflectionAnglePack[0];
+						//		thisZReflect = thisDeflectionAnglePack[1];
 								
 								current_obDeflectionAngle = current_obDeflectionAnglePack[0];
 								current_obZReflect = current_obDeflectionAnglePack[1];
 								
-								drawer.add(new SpeedTimer(drawer,time,"seconds",force*Math.cos(thisDeflectionAngle), force*Math.sin(thisDeflectionAngle),thisZReflect,this));
-								drawer.add(new SpeedTimer(drawer,time,"seconds",force*Math.cos(current_obDeflectionAngle), force*Math.sin(current_obDeflectionAngle),current_obZReflect,current_object));
+			//					drawer.add(new SpeedTimer(drawer,time,"seconds",force*Math.cos(thisDeflectionAngle), force*Math.sin(thisDeflectionAngle),thisZReflect,this));
+			//					drawer.add(new SpeedTimer(drawer,time,"seconds",force*Math.cos(current_obDeflectionAngle), force*Math.sin(current_obDeflectionAngle),current_obZReflect,current_object));
 								
 								
 								

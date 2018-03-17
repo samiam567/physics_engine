@@ -244,6 +244,7 @@ public abstract class Physics_drawable extends physics_object implements movable
 		return zSpeed;
 	}
 	
+	
 	public Color getColor() {
 		return color;
 	}

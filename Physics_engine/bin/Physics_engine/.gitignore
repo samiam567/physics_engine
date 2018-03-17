@@ -58,3 +58,6 @@
 /resizable.class
 /Vector3D.class
 /Vector2D.class
+/Vector2.class
+/Physics_3DPolygon.class
+/Physics_3DPolygon$Polygon_point.class

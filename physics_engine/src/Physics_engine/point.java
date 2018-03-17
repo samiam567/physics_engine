@@ -62,6 +62,20 @@ public class point extends Physics_drawable {
 		return false;
 	}
 	
+	public boolean isIn(Physics_3DPolygon pObject) { //returns true if the point is inside the passed object
+		
+		pObject.updateAreas();
+		
+		Area areaXY = pObject.getAreaXY();
+		Area areaZY = pObject.getAreaZY();
+		
+		if ( areaXY.contains(xReal,yReal) ) { //&& areaZY.contains(zReal, yReal) ) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public void setAngle(double thetaXY1, double thetaZX1, double thetaZY1) {
 		thetaXY = thetaXY1;
 		thetaZX = thetaZX1;
@@ -152,6 +166,8 @@ public class point extends Physics_drawable {
 		
 		page.drawLine(x, y, x, y); //draw the point
 	}
+
+	
 
 	
 }

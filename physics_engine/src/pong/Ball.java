@@ -11,6 +11,8 @@ import Physics_engine.physics_object;
 import Physics_engine.resizable;
 
 public class Ball extends Square implements resizable {
+	
+	
 	public Ball(object_draw drawer) {
 		super(drawer,Settings.width/2,Settings.height/2,0,10,10);
 		setSize(Settings.width/50,Settings.width/50,0);
@@ -29,11 +31,13 @@ public class Ball extends Square implements resizable {
 	}
 	
 	public void isCollided (physics_object cOb,faces side) {
+		
+		
 		setAccel(0,0,0);
 		try {
 			Paddle cPad = (Paddle) cOb;
 			setAccel(0,(ySpeed - cPad.getYSpeed())/200,0);
-			setAngularVelocity(0,0, -0.01 *(ySpeed - cPad.getYSpeed()));
+			setAngularVelocity(0,0,0.01 *(ySpeed - cPad.getYSpeed()));
 			
 			System.out.println((ySpeed - cPad.getYSpeed()));
 			
@@ -53,6 +57,7 @@ public class Ball extends Square implements resizable {
 					
 			}catch(ClassCastException d) {}
 		}
+		
 		
 	}
 	
@@ -75,11 +80,11 @@ public class Ball extends Square implements resizable {
 		}
 	}
 	
-	/*
+/*	
 	public void paint(Graphics page) {
 		page.fillOval(x, y, (int)xSize,(int) ySize);
 	}
-	*/
+*/	
 	public void resize() {
 		setSize(Settings.width/50,Settings.width/50,0);
 

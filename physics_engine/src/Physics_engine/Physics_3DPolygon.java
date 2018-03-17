@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import Physics_engine.Physics_engine_toolbox.faces;
 import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 
-public class Physics_polygon extends Physics_shape implements pointed, rotatable, massive {
+public class Physics_3DPolygon extends Physics_shape implements pointed, rotatable, massive {
 	
+
 	int[] pointXs = {}; //all of the x coordinates of the points in the object
 	int[] pointYs = {}; //all of the y coordinates of the points in the object
 	int[] pointZs = {}; //all of the y coordinates of the points in the object
@@ -20,6 +21,8 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	
 	protected int[] pointRenderOrder = {}; //the order in which lines will be drawn from point to point (for listedPointAlgorithm)
 	
+	public Polygon_point polyPointsStart; //the start of the linked list of polyPoints
+	
 	//for massive
 	protected double mass;
 	double friction_coefficient;
@@ -29,38 +32,37 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	
 	public double elasticity = Settings.elasticity;
 	
-	double xRotation=0,yRotation=0,zRotation=0,angularVelocityX=0, angularVelocityY=0, angularVelocityZ=0, angularAccelX=0, angularAccelY=0, angularAccelZ=0;
+	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
 	public boolean isRotatable = true,isTangible = true, affectedByBorder = true;
 	point pointOfRotation = null; //the point that the object rotates around
 	pointOfRotationPlaces pointOfRotationPlace = pointOfRotationPlaces.center;  //the place that that point is
 	
-	public Physics_polygon(object_draw drawer1) {
+	
+	
+	private class Polygon_point extends point {
+		
+	
+		private double xComponent,yComponent,zComponent;
+		private double initialXComponent, initialYComponent, initialZComponent;
+		private Physics_3DPolygon parent;
+		
+		private Polygon_point nextPoint;
+		
+		public Polygon_point(Physics_3DPolygon parent, double x1, double y1, double z1) {
+			super(parent.drawer, x1, y1, z1);
+			xReal = x1;
+			yReal = y1;
+			zReal = z1;
+		}
+		
+		public void setNext(Polygon_point next) {
+			nextPoint = next;
+		}
+	}
+	
+	public Physics_3DPolygon(object_draw drawer1) {
 		super(drawer1);
-		points = new point[0]; //all of the points in the object
-		
-		
-		/////////////////////////////////////////////////
-		
-		
-		
-		Exception e = new Exception("This class (Physics_polygon) should never be used as it is depreciated. Used by " + name);
-		e.printStackTrace();
-		
-		
-		
-		
-		
-		
-		
-		
-		/////////////////////////////////////////////////////
-		
-		
-		
-		
-		
-		
-		
+		points = new Polygon_point[0]; //all of the points in the object
 	}
 	
 	public boolean getIsTangible() {
@@ -189,68 +191,48 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	}
 
 
+	public double[] calculateRotation(double x, double y, double angle) {
+		Vector2D pointVector = new Vector2D(drawer,new point(drawer,x,y,0),pointOfRotation);
+		
+		pointVector.setTheta(pointVector.getTheta() + angle);
+		
+		return new double[] {pointVector.getXComponent(),pointVector.getYComponent()};
+	}
 	
 	public void updatePoints() { //creates a vector from the pointOfRotation to each point in the object			
-		if (isRotatable){
-			double r;
-
-			Vector pointVector,rotateVecX,rotateVecY,rotateVecZ; //for algors 1-4
-			Vector3D pointVector3D; //for algor 5
-			point cPoint;
-			 
-			for (int i = 0; i < points.length ; i++) { //cycle through the points in the object
-				cPoint = points[i];
-				r = points[i].getR();
-				
-				if (Settings.rotationAlgorithm == 3) {
-					pointVector = new Vector(drawer,r, cPoint.getThetaXY() + zRotation, cPoint.getThetaZX() + yRotation, cPoint.getThetaZY() + xRotation,"thetaZY",this);
-					
-					try {
-						pointVector.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());			
-					}catch(NullPointerException n) {} //this will throw if the object has not been finished being constructed yet
-					
-					points[i].setPointVector(pointVector); //sets the vector AND updates the point's pos automatically
-			
-				}else if (Settings.rotationAlgorithm == 4) {
-					r = cPoint.getR(); 
-					
-					//creating the rotation vectors
-					rotateVecX = new Vector(drawer,r,cPoint.getThetaXY() + zRotation,0,0,"thetaZX");
-					rotateVecY = new Vector(drawer,r,0,yRotation,0,"thetaZX");
-					rotateVecZ = new Vector(drawer,r,0,0,cPoint.getThetaZY() + xRotation,"thetaZY");
-					
-					//add up the vectors
-					pointVector = rotateVecX.vectorAdd(new Vector[] {rotateVecX,rotateVecY,rotateVecZ} );
-					
-					//set the postition of the pointvector
-					try {
-						pointVector.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());			
-					}catch(NullPointerException n) {} //this will throw if the object has not been finished being constructed yet
-					
-					
-				
-			//		drawer.add(pointVector); //this draws the pointVector on the screen (for debugging purposes)
-					
-					points[i].setPointVector(pointVector); //set the vector to the point
-					
-				}else if (Settings.rotationAlgorithm == 5) {
 		
-					Vector3D vecX = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaZY() + xRotation,0,"polar");
-					Vector3D vecY = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaZX() + yRotation,0,"polar");
-					Vector3D vecZ = new Vector3D(drawer,cPoint.getR(),cPoint.getThetaXY() + zRotation,0,"polar");
-					
-					Vector3D[] vectors = {vecX,vecY,vecZ};
-					
-					double xComponent,yComponent,zComponent;
-					
-					xComponent = vecZ.getXComponent() + vecY.getXComponent();
-					yComponent = vecZ.getYComponent() + vecZ.getYComponent();
-					zComponent = vecX.getXComponent() + vecY.getYComponent();
-					
-					cPoint.setPos(pointOfRotation.getXReal() + xComponent, pointOfRotation.getYReal() + yComponent, pointOfRotation.getZReal() + zComponent);
+		if (isRotatable){
+			Polygon_point cPoint = polyPointsStart;
+			int pointCounter = 0;
+			double[] rotComponents;
+			
+			do {
 				
-				}
-			}
+				cPoint.setPos(pointOfRotation.getXReal() + cPoint.initialXComponent, pointOfRotation.getYReal() + cPoint.initialYComponent, pointOfRotation.getZReal() + cPoint.initialZComponent);
+				
+				//zRotation
+				rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getYReal(),zRotation);
+				cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0],pointOfRotation.getYReal() + rotComponents[1],cPoint.getZReal() );
+				
+				
+				//xRotation
+				rotComponents = calculateRotation(cPoint.getZReal(),cPoint.getYReal(),xRotation);
+				cPoint.setPos(cPoint.getXReal(), pointOfRotation.getYReal() + rotComponents[1], pointOfRotation.getZReal() + rotComponents[0]);
+				
+			
+				//yRotation
+				rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getZReal(),yRotation);
+				cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0], cPoint.getYReal(), pointOfRotation.getZReal() + rotComponents[1]);
+				
+				points[pointCounter].setPos(cPoint.getXReal(), cPoint.getYReal(), cPoint.getZReal());
+				
+				cPoint = cPoint.nextPoint;
+				
+				pointCounter++;
+			} while (cPoint != null);
+			
+		
+			
 		}else {
 			double xChange = xReal - points[0].getX();
 			double yChange = yReal - points[0].getY();
@@ -275,9 +257,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 		pointOfRotationPlace = pointOfRotationPlaces.custom;
 		
 		calculatePointValues();
-		
-		
-		
+	
 	}
 	
 	public void setPointOfRotationPlace(pointOfRotationPlaces newPlace) {
@@ -340,83 +320,41 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	
 	public void calculatePointValues() { 
 		
-		if (Settings.rotationAlgorithm < 5) {
-			Vector tempVec;
-			point cPoint;
-			for (int i = 0; i < points.length; i++) {
-				cPoint = points[i];
-				
-				cPoint.setId(i);
-				
-				try {
-					tempVec = new Vector(drawer,pointOfRotation,cPoint);
-					cPoint.setR(tempVec.getR());
-				}catch(NullPointerException n) { //this will be caught if pointOfRotation doesn't exist yet.
-					pointOfRotation = new point(drawer,centerX,centerY,centerZ); //create pointOfRotation and set it to the center of the object using the default method
-					tempVec = new Vector(drawer,pointOfRotation,cPoint);
-					cPoint.setR(tempVec.getR());
-				}
-				
-				tempVec.setName(name + "_tempVec", 1);
-				
-	//			drawer.add(tempVec); // this will display the temp vecs
-			
-				//Physics_engine_toolbox.distance(cPoint,pointOfRotation)
-				
-				//tempVec.getR()
-				
-				
-			
-	//			cPoint.setAngle(tempVec.getThetaXY(), tempVec.getThetaZX(), tempVec.getThetaZY());  //this line is what makes this method not work!!
-			}
-	
-		}else {
-			Vector2D vecX,vecY,vecZ;
-			
-			point cPoint;
-			for (int i = 0; i < points.length; i++) {
-				cPoint = points[i];
-				
-				
-				try {
-	
-					vecX = new Vector2D(drawer,cPoint.getZReal() - pointOfRotation.getZReal(),cPoint.getYReal()-pointOfRotation.getYReal());
-					vecY = new Vector2D(drawer,cPoint.getXReal()-pointOfRotation.getXReal(),cPoint.getZReal() - pointOfRotation.getZReal());
-					vecZ = new Vector2D(drawer,cPoint.getXReal() - pointOfRotation.getXReal(),cPoint.getYReal() - pointOfRotation.getYReal());
-					
-					Vector3D pointVec = new Vector3D(drawer,pointOfRotation, cPoint);
-					
-					pointVec.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());
-					drawer.add(pointVec);
-					
-					cPoint.setAngle(vecZ.getTheta(), vecY.getTheta(), vecX.getTheta());
-					cPoint.setPointVector(pointVec);
-					
-				}catch(NullPointerException n) {
-					pointOfRotation = center;
-		
-					vecX = new Vector2D(drawer,cPoint.getZReal() - pointOfRotation.getZReal(),cPoint.getYReal()-pointOfRotation.getYReal());
-					vecY = new Vector2D(drawer,cPoint.getXReal()-pointOfRotation.getXReal(),cPoint.getZReal() - pointOfRotation.getZReal());
-					vecZ = new Vector2D(drawer,cPoint.getXReal() - pointOfRotation.getXReal(),cPoint.getYReal() - pointOfRotation.getYReal());
-					
-					Vector3D pointVec = new Vector3D(drawer,pointOfRotation, cPoint);
-					
-					pointVec.setPos(pointOfRotation.getXReal(), pointOfRotation.getYReal(), pointOfRotation.getZReal());
-					drawer.add(pointVec);
-					cPoint.setAngle(vecZ.getTheta(), vecY.getTheta(), vecX.getTheta());
-					cPoint.setPointVector(pointVec);
-				}
-			}
+		Polygon_point cPoint;
+		try {
+			int pointOfRotationx = pointOfRotation.getX();
+		}catch(NullPointerException n) {
+			pointOfRotation = center;
 		}
-	}
-	
-	public double elastic_V(double V1i, double M1, double V2i, double M2) {	
-		double V = (V1i * (M1-1) + V2i * (M2 + 1))/(M1+1);
-		return V;
+		
+		polyPointsStart = new Polygon_point(this,points[0].getXReal(),points[0].getYReal(),points[0].getZReal());
+		
+		cPoint = polyPointsStart;
+		
+		cPoint.initialXComponent = cPoint.getXReal() - pointOfRotation.getXReal();
+		cPoint.initialYComponent = cPoint.getYReal() - pointOfRotation.getYReal();
+		cPoint.initialZComponent = cPoint.getZReal() - pointOfRotation.getZReal();
+		
+		points[0].setPos(cPoint.getXReal(), cPoint.getYReal(), cPoint.getZReal());
+		
+		for (int i = 1; i < points.length; i++) {
+			
+			cPoint.setNext(new Polygon_point(this,points[i].getXReal(),points[i].getYReal(),points[i].getZReal()));
+			
+			cPoint = cPoint.nextPoint;
+			
+			cPoint.initialXComponent = cPoint.getXReal() - pointOfRotation.getXReal();
+			cPoint.initialYComponent = cPoint.getYReal() - pointOfRotation.getYReal();
+			cPoint.initialZComponent = cPoint.getZReal() - pointOfRotation.getZReal();
+			
+			
+			points[i].setPos(cPoint.xReal, cPoint.yReal, cPoint.zReal);
+		}
 		
 	}
 	
-	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { //generic checkForCollisions method that is overriden by all tangible pObjects
+
+	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { 
 		
 		if (Settings.collision_algorithm == 5) {
 			updatePointXsYsAndZs();
@@ -439,35 +377,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 						}catch(ClassCastException c) {
 							
 							System.out.println(name + " has hit " + current_physics_object.getObjectName());
-							
-							
-							
-							isCollided((physics_object) current_physics_object,Physics_engine_toolbox.faces.none);
-							
-							
-							
-							massive cOb = current_physics_object;
-							
-							double xVf = elastic_V(xSpeed,mass,cOb.getXSpeed(),cOb.getMass());
-							double yVf = elastic_V(ySpeed,mass,cOb.getYSpeed(),cOb.getMass());
-							double zVf = elastic_V(zSpeed,mass,cOb.getZSpeed(),cOb.getMass());
-							
-							setSpeed(-xVf, -yVf, -zVf);
-							
-							setPos(getCenterX() + drawer.frameStep * 1000.1 * getXSpeed(),getCenterY() + drawer.frameStep * 1000.1 * getYSpeed(), getCenterZ() + drawer.frameStep * 1000.1 * getZSpeed());
-							
-							
-							double obxVf = elastic_V(cOb.getXSpeed(),cOb.getMass(),xSpeed,mass);
-							double obyVf = elastic_V(cOb.getYSpeed(),cOb.getMass(),ySpeed,mass);
-							double obzVf = elastic_V(cOb.getZSpeed(),cOb.getMass(),zSpeed,mass);
-							
-							setSpeed(obxVf,obyVf,obzVf);
-							
-							((Physics_drawable) cOb).setPos(((Physics_drawable) cOb).getCenterX() + drawer.frameStep * 1000.1 * cOb.getXSpeed(),((Physics_drawable) cOb).getCenterY() + drawer.frameStep * 1000.1 * cOb.getYSpeed(), ((Physics_drawable) cOb).getCenterZ() + drawer.frameStep * 1000.1 * cOb.getZSpeed());
-							
-							return;
-							
-							
+										
 						}
 						
 					}
@@ -475,7 +385,6 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 			}catch(ClassCastException c) {
 				System.out.println("catch: " + name);
 			}
-			
 			
 			
 		}else {
@@ -494,7 +403,7 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 					if ( (! equals(current_pObject) ) && (((massive) current_pObject).getIsTangible()) && (isTangible) ) ((massive) current_pObject).checkForCollision(this,objects);
 				}catch(ClassCastException c) {
 					try {
-						System.out.println(((drawable) current_pObject).getObjectName() + " is not massive");
+						c.printStackTrace();
 					}catch(ClassCastException q) {
 						System.out.println("not drawable");
 					}
@@ -620,9 +529,10 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 
 	@Override
 	public point getPointOfRotation() {
+
 		return pointOfRotation;
 	}
-
+	
 	@Override
 	public void setFrictionCoefficient(double frictionCoeff) {
 		friction_coefficient = frictionCoeff;
@@ -664,7 +574,6 @@ public class Physics_polygon extends Physics_shape implements pointed, rotatable
 	public boolean getIsRotatable() {
 		return isRotatable;
 	}
-	
 	
 }
 

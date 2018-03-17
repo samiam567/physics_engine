@@ -51,4 +51,8 @@ public interface drawable extends physics_engine_compatible { //the ability to b
 	public double getYSize();
 	public double getZSize();
 	
+	public double getCenterX();
+	public double getCenterY();
+	public double getCenterZ();
+	
 }

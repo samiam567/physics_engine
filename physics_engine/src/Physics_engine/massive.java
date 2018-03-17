@@ -2,15 +2,28 @@ package Physics_engine;
 
 import java.util.ArrayList;
 
-public interface massive extends pointed{
-	
-	
-	public boolean getIsTangible();
-	public double getMass();
-	public double getFrictionCoefficient();
+import Physics_engine.Physics_engine_toolbox.faces;
+
+public interface massive extends pointed {
+		
 	public void checkForCollision(massive physics_polygon, ArrayList<massive> objects);
 	public void applyComponentForce(double xComponent, double yComponent, double zComponent);
 	public void checkForCollisions(ArrayList<massive> objects);
 	public void applyComponentImpulse(double d, double e, double f, double time, String string);
+	public boolean getIsAffectedByBorder();
+	public void isCollided(physics_object cOb, faces side);
+	public double[] getTrajectory();
+	
+	public boolean getIsTangible();
+	
+	public double getMass();
+	public void setMass(double mass);
+	
+	public double getFrictionCoefficient();
+	public void setFrictionCoefficient(double frictionCoefficient);
+	
+	
+	
 
+	
 }

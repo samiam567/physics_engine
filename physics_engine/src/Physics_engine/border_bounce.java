@@ -13,7 +13,7 @@ public class border_bounce extends rectangle {
 		super(drawer1,Settings.width/2, Settings.height/2, 0, Settings.width *1.06, Settings.height * 0.975, 1);
 		isAnchored = true;
 		isRotatable = false;
-		isVisible = true;
+		isVisible = false;
 		frame = drawer1.frame;
 		
 	}
@@ -29,32 +29,29 @@ public class border_bounce extends rectangle {
 	}
 
 	
-	public void checkForCollision (massive current_object1,ArrayList<massive> objects) { 
-		Physics_polygon current_object = (Physics_polygon) current_object1;
-		if (current_object.affectedByBorder) {
-			if ( (Math.abs(current_object.centerX - (Settings.width-20) )) < ( current_object.xSpeed + current_object.xSize/2 ) ) { //right side
-				current_object.setSpeed(-Settings.elasticity * Math.abs(current_object.xSpeed),current_object.ySpeed,current_object.zSpeed);
+	public void checkForCollision (massive current_object,ArrayList<massive> objects) { 
+		
+		if (current_object.getIsAffectedByBorder()) {
+			if ( (Math.abs(current_object.getCenterX() - (Settings.width-20) )) < ( current_object.getXSpeed() + current_object.getXSize()/2 ) ) { //right side
+				current_object.setSpeed(-Settings.elasticity * Math.abs(current_object.getXSpeed()),current_object.getYSpeed(),current_object.getZSpeed());
 				current_object.isCollided(this,faces.right);
 				
-			}else if ( current_object.centerX < ( current_object.xSpeed + current_object.xSize/2 ) ) { //left side
-				current_object.setSpeed(Settings.elasticity * Math.abs(current_object.xSpeed),current_object.ySpeed,current_object.zSpeed);
-				current_object.x = (int) Math.round(current_object.xSpeed);
+			}else if ( current_object.getCenterX() < ( current_object.getXSpeed() + current_object.getXSize()/2 ) ) { //left side
+				current_object.setSpeed(Settings.elasticity * Math.abs(current_object.getXSpeed()),current_object.getYSpeed(),current_object.getZSpeed());
 				current_object.isCollided(this,faces.left);
-			}else if ( (Math.abs(current_object.centerY - (Settings.height - 70) )) < ( current_object.ySpeed + current_object.ySize/2 ) ) { //bottom side
-				current_object.setSpeed(current_object.xSpeed,-Settings.elasticity * Math.abs(current_object.ySpeed),current_object.zSpeed);
-	//			current_object.y = (int) (Settings.height - Math.round(current_object.ySpeed));
+			}else if ( (Math.abs(current_object.getCenterY() - (Settings.height - 70) )) < ( current_object.getYSpeed() + current_object.getYSize()/2 ) ) { //bottom side
+				current_object.setSpeed(current_object.getXSpeed(),-Settings.elasticity * Math.abs(current_object.getYSpeed()),current_object.getZSpeed());
 				current_object.isCollided(this,faces.bottom);
-			}else if ( current_object.centerY < ( current_object.ySpeed + current_object.ySize/2 ) ) { //top side
-				current_object.setSpeed(current_object.xSpeed,Settings.elasticity * Math.abs(current_object.ySpeed),current_object.zSpeed);
-	//			current_object.y = (int) Math.round(current_object.ySpeed);
+			}else if ( current_object.getCenterY() < ( current_object.getYSpeed() + current_object.getYSize()/2 ) ) { //top side
+				current_object.setSpeed(current_object.getXSpeed(),Settings.elasticity * Math.abs(current_object.getYSpeed()),current_object.getZSpeed());	
 				current_object.isCollided(this,faces.top);
 			}
 			
-			if ( current_object.centerZ < ( current_object.zSpeed + current_object.zSize/2 ) ) { //far side
-				current_object.setSpeed(current_object.xSpeed,current_object.ySpeed,Math.abs(current_object.zSpeed));
+			if ( current_object.getCenterZ() < ( current_object.getZSpeed() + current_object.getZSize()/2 ) ) { //far side
+				current_object.setSpeed(current_object.getXSpeed(),current_object.getYSpeed(),Math.abs(current_object.getZSpeed()));
 				current_object.isCollided(this,faces.far);
-			}else if ( (Math.abs(current_object.centerZ - (Settings.depth - 40) )) < ( current_object.zSpeed + current_object.zSize/2 ) ) { //near side
-				current_object.setSpeed(current_object.xSpeed,current_object.ySpeed,-Settings.elasticity * Math.abs(current_object.zSpeed));
+			}else if ( (Math.abs(current_object.getCenterZ() - (Settings.depth - 40) )) < ( current_object.getZSpeed() + current_object.getZSize()/2 ) ) { //near side
+				current_object.setSpeed(current_object.getXSpeed(),current_object.getYSpeed(),-Settings.elasticity * Math.abs(current_object.getZSpeed()));
 				current_object.isCollided(this,faces.near);
 			}
 

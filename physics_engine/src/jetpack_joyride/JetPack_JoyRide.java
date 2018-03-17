@@ -83,9 +83,12 @@ public class JetPack_JoyRide {
 		coinScore.setPos(0.05 * Settings.width,Settings.height-100,0);
 		jetpack.setPos(Settings.width/2,Settings.height/2, 0);
 		jetpack.setSize(diagonal/50, diagonal/50, 0);
-//		GUI.setSize(Settings.width/4,Settings.height/2);
 		GUI.setLocation(Settings.width + 20, 20);
 		
+		
+		setSettings();
+		
+	
 		for (Physics_drawable pOb : drawer.drawables) {
 			if (pOb.name == "thing") {
 				
@@ -193,7 +196,7 @@ public class JetPack_JoyRide {
 				
 				public void mousePressed(MouseEvent arg0) {
 
-					jetpack.applyComponentForce(0, -25, 0);
+					jetpack.setAccel(0, -jetpack.current_power, 0);
 					jetpack.fireSize = 0.75;
 					drawer.inactivity_timer = 0;
 				}
@@ -201,7 +204,7 @@ public class JetPack_JoyRide {
 
 				public void mouseReleased(MouseEvent arg0) {
 				
-					jetpack.applyComponentForce(0, 25, 0);
+					jetpack.setAccel(0, 0.5, 0);
 					jetpack.fireSize = 0.35;
 					drawer.inactivity_timer = 0;
 			
@@ -308,6 +311,14 @@ public class JetPack_JoyRide {
 		
 		
 		
+	}
+	
+	public static void setSettings() {
+		Settings.collision_algorithm = 4;
+		Settings.rotationAlgorithm = 4;
+		drawer.frameStep = 0.01;
+		drawer.setFrameTime(40000000);
+		Settings.timeOutTime = 5000000;
 	}
 	
 	public static void run() throws FileNotFoundException, IOException {

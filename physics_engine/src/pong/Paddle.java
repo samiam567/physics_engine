@@ -1,8 +1,6 @@
 package pong;
 
 import java.awt.Color;
-import java.awt.Graphics;
-
 import Physics_engine.Settings;
 import Physics_engine.object_draw;
 import Physics_engine.rectangle;
@@ -54,6 +52,7 @@ public class Paddle extends rectangle implements resizable {
 				setSpeed(xSpeed,0,zSpeed);
 			}
 		}
+		
 	}
 	
 	public void resize() {

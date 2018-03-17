@@ -31,14 +31,9 @@ public class physics_runner {
 		drawer = new object_draw(frame);
 		
 		boundries = new border_bounce(drawer);
+		boundries.setName("boundries", 1);
 
 
-		vec1 = new Vector(drawer,40,50,50,0,"thetaZX");
-		vec1.setPos(300, 300, 0);
-		vec1.setName("vec1", 1);
-		vec1.isVisible = false;
-		drawer.add(vec1);
-	
 
 
 		
@@ -69,28 +64,6 @@ public class physics_runner {
 		public void mousePressed(MouseEvent arg0) {
 			drawer.inactivity_timer = 0;
 			
-			/*
-			if (! mouseIsPressed) {
-				mouseStartX = arg0.getX();
-				mouseStartY = arg0.getY();
-				
-			}
-			System.out.println(mouseStartX + "," + mouseStartY);
-			System.out.println(arg0.getX() + "," + arg0.getY());
-			int xRotation = mouseStartX - arg0.getX();
-			int yRotation = mouseStartY - arg0.getY();
-			*/
-			drawer.remove(vec1);
-			
-			
-			vec1 = new Vector(drawer,40,0,0,vec1.getThetaZY() + 0.1,"thetaZY");
-			vec1.setPos(300, 300, 0);
-			
-			
-			drawer.add(vec1);
-			
-			int xRotation = arg0.getX();
-			int yRotation = arg0.getY();
 		
 		}
 
@@ -110,52 +83,31 @@ public class physics_runner {
 		
 		drawer.add(boundries);
 		
-     	Square square1 = new Square(drawer,400,600,0,100,10);
-		square1.setName("square1", 1);
-		square1.setPos(400, 200, 0);
-		square1.setSpeed(1, 0, 2);
-		square1.setAngularVelocity(0, 0, 0.01);
-		square1.isTangible = true;
-		square1.isRotatable = false;
+		Square square1 = new Square(drawer,200,200,0,100,1);
+		square1.setAngularVelocity(0,0.1,0);
 		drawer.add(square1);
 		
-		Square square2 = new Square(drawer,400,400,0,100,10);
-		square2.setName("square2", 1);
-		square2.setPos(600, 230, 0);
-		square2.setSpeed(5, 3, 0);
-		square2.isTangible = true;
-		square2.isRotatable = false;
-		square2.setAngularVelocity(0.001, 0, 0);
-		drawer.add(square2);
 		
-		Triangle tri1 = new Triangle(drawer,400,800,0,50,100,10);
-		tri1.setName("tri1", 1);
-		tri1.setPos(600, 400, 0);
-		tri1.setAngularVelocity(0, 0.001, 0);
-		tri1.setSpeed(-1, 0, 0);
+		
+		Box box1 = new Box(drawer,400,400,400,100,1);
+		box1.setRotation(0, 1, 0);
+		box1.setAngularVelocity(0.01, 0, 0);
+		
+		drawer.add(box1);
+		
+		
+		Triangle tri1 = new Triangle(drawer,500,500,500,100,100,1);
+		tri1.setRotation(0, 1, 0);
+		tri1.setAngularVelocity(0.01, 0.03, 0.02);
 		drawer.add(tri1);
-		
-		
-		
-		rectangle rect1 = new rectangle(drawer, 400, 400, 0, 10, 80, 10);
-		rect1.setName("rect1", 1);
-		drawer.add(rect1);
-	
-		
-		
-		
-
-		
-
-		
 		
 		resize();
 		
+
 		drawer.start();
 		
-		while (true) {
-			square2.xRotation += 0.0001;
-		}
+		
+	
 		
 	}
 

@@ -2,7 +2,7 @@ package Physics_engine;
 
 import java.awt.Graphics;
 
-// DONT FORGET TO ADD CENTERING AROUND A OBJECTTTTTT!!!!!!!!!!   (and point of rotation other than the center of the ob)
+
 
 public class Map_object_draw extends object_draw implements resizable { //uses a frame to create a mini-map of a object_draw environment **This should not be added to an object_draw object**
 	private object_draw drawerToMap;
@@ -33,6 +33,8 @@ public class Map_object_draw extends object_draw implements resizable { //uses a
 		double ratioX = frameXSize/xSize;
 		double ratioY = frameYSize/ySize;
 		
+		double rotTempX,rotTempY,rotTempZ;
+		
 		//setting the map coordinates 
 		centerXCoordOfMapPlace = camera_center.getCenterX();
 		centerYCoordOfMapPlace = camera_center.getCenterY();
@@ -48,8 +50,19 @@ public class Map_object_draw extends object_draw implements resizable { //uses a
 			cObject.setPos((((object_X_temp- centerXCoordOfMapPlace) * ratioX) + frameXSize/2), ((object_Y_temp- centerYCoordOfMapPlace) * ratioY + frameYSize/2) , cObject.getCenterZ());
 			cObject.setSize(object_xSize_temp * ratioX, object_ySize_temp * ratioY, cObject.getZSize());
 			
+			
 			try {
-				((Physics_polygon)cObject).updatePoints();
+				rotTempX = ((pointed) cObject).getXRotation();
+				rotTempY = ((pointed) cObject).getYRotation();
+				rotTempZ = ((pointed) cObject).getZRotation();
+				
+				((pointed) cObject).setRotation(0, 0, 0);
+				
+				((pointed) cObject).calculatePointValues();
+				
+				((pointed) cObject).setRotation(rotTempX, rotTempY, rotTempZ);
+				
+				((massive)cObject).updatePoints();
 			}catch(ClassCastException c) {}
 			
 			//painting object
@@ -61,7 +74,19 @@ public class Map_object_draw extends object_draw implements resizable { //uses a
 			cObject.setSize(object_xSize_temp, object_ySize_temp, cObject.getZSize());
 			
 			try {
-				((Physics_polygon)cObject).updatePoints();
+				
+				rotTempX = ((pointed) cObject).getXRotation();
+				rotTempY = ((pointed) cObject).getYRotation();
+				rotTempZ = ((pointed) cObject).getZRotation();
+				
+				((pointed) cObject).setRotation(0, 0, 0);
+				
+				((pointed) cObject).calculatePointValues();
+				
+				((pointed) cObject).setRotation(rotTempX, rotTempY, rotTempZ);
+				
+				((massive)cObject).updatePoints();
+				
 			}catch(ClassCastException c) {}
 			
 			drawerToMap.resume(); //now the drawerToMap can continue doing whatever it was doing now that we're done using it's objects

@@ -21,6 +21,8 @@ public class Physics_engine_toolbox {
 			
 			((massive) current_object).checkForCollisions(current_object.getDrawer().getTangibles());
 			
+			((pointed) current_object).updatePoints();
+			
 
 		}catch(ClassCastException c) {
 	//		System.out.println(((drawable) current_object).getObjectName() + " is not massive");
@@ -41,24 +43,23 @@ public class Physics_engine_toolbox {
 				
 				
 				try {
-					((Physics_polygon)current_object).angularVelocityX = ((Physics_polygon)parent_object).angularVelocityX;
-					((Physics_polygon)current_object).angularVelocityY = ((Physics_polygon)parent_object).angularVelocityY;
-					((Physics_polygon)current_object).angularVelocityZ = ((Physics_polygon)parent_object).angularVelocityZ;
+					((massive)current_object).setAngularVelocity(((massive)parent_object).getAngularVelocityX(), ((massive)parent_object).getAngularVelocityY(),((massive)parent_object).getAngularVelocityZ());
 	
-					((Physics_polygon)current_object).setMass(((Physics_polygon)parent_object).mass);
-					((Physics_polygon)current_object).friction_coefficient = ((Physics_polygon)parent_object).friction_coefficient;
+					((massive)current_object).setMass(((massive)parent_object).getMass());
+					((massive)current_object).setFrictionCoefficient(((massive)parent_object).getFrictionCoefficient());
 				
 					//updating angular velocity
-					((Physics_polygon)current_object).angularVelocityX += (((Physics_polygon)current_object).angularAccelX * frames);
-					((Physics_polygon)current_object).angularVelocityY += (((Physics_polygon)current_object).angularAccelY * frames);
-					((Physics_polygon)current_object).angularVelocityZ += (((Physics_polygon)current_object).angularAccelZ * frames);
+					((massive)current_object).setAngularVelocity(((massive)current_object).getAngularVelocityX() + ((massive)current_object).getAngularAccelX() * frames,((massive)current_object).getAngularVelocityY() + ((massive)current_object).getAngularAccelY() * frames,((massive)current_object).getAngularVelocityZ() + ((massive)current_object).getAngularAccelZ() * frames );
+
 					
 					//updating rotation
-					((Physics_polygon)current_object).xRotation += (((Physics_polygon)current_object).angularVelocityX * frames);
-					((Physics_polygon)current_object).yRotation += (((Physics_polygon)current_object).angularVelocityY * frames);
-					((Physics_polygon)current_object).zRotation += (((Physics_polygon)current_object).angularVelocityZ * frames);
+					((massive)current_object).setRotation( 
+							((massive)current_object).getXRotation() +  ((massive)current_object).getAngularVelocityX() * frames,
+							((massive)current_object).getYRotation() +  ((massive)current_object).getAngularVelocityY() * frames,
+							((massive)current_object).getZRotation() +  ((massive)current_object).getAngularVelocityZ() * frames
+					);
 					
-					((Physics_polygon)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
+					((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
 					
 					
 					
@@ -84,21 +85,24 @@ public class Physics_engine_toolbox {
 				//pointed
 				try {
 				
-					if (((Physics_polygon)current_object).isRotatable) { //rotation shouldn't be updated if the object isn't rotatable
+					if (((massive)current_object).getIsRotatable()) { //rotation shouldn't be updated if the object isn't rotatable
+						
+						
 						//updating angular velocity
-						((Physics_polygon)current_object).angularVelocityX += (((Physics_polygon)current_object).angularAccelX * frames);
-						((Physics_polygon)current_object).angularVelocityY += (((Physics_polygon)current_object).angularAccelY * frames);
-						((Physics_polygon)current_object).angularVelocityZ += (((Physics_polygon)current_object).angularAccelZ * frames);
+						((massive)current_object).setAngularVelocity(((massive)current_object).getAngularVelocityX() + ((massive)current_object).getAngularAccelX() * frames,((massive)current_object).getAngularVelocityY() + ((massive)current_object).getAngularAccelY() * frames,((massive)current_object).getAngularVelocityZ() + ((massive)current_object).getAngularAccelZ() * frames );
+
 						
 						//updating rotation
-						((Physics_polygon)current_object).xRotation += (((Physics_polygon)current_object).angularVelocityX * frames);
-						((Physics_polygon)current_object).yRotation += (((Physics_polygon)current_object).angularVelocityY * frames);
-						((Physics_polygon)current_object).zRotation += (((Physics_polygon)current_object).angularVelocityZ * frames);
+						((massive)current_object).setRotation( 
+								((massive)current_object).getXRotation() +  ((massive)current_object).getAngularVelocityX() * frames,
+								((massive)current_object).getYRotation() +  ((massive)current_object).getAngularVelocityY() * frames,
+								((massive)current_object).getZRotation() +  ((massive)current_object).getAngularVelocityZ() * frames
+						);
 						
-						((Physics_polygon) current_object).updatePointXsYsAndZs();
+						((massive) current_object).updatePointXsYsAndZs();
 					}	
 					
-					((Physics_polygon)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
+					((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
 					
 			
 				

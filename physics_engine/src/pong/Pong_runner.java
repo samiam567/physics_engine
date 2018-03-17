@@ -87,13 +87,10 @@ public class Pong_runner {
 		//key listener
 		drawer.addKeyListener(new KeyListener() {
 			   
-	         @Override
+			@Override
 	         public void keyPressed(KeyEvent e) {
 	        	  drawer.inactivity_timer = 0;      	     	
-	        	  
-	        	  
-	      
-	        	
+
 	        	  //player1
 	        	  switch (e.getKeyCode()) {
 	        	  	case(87): //w

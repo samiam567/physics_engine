@@ -25,8 +25,21 @@ public class Vector2D extends Physics_shape {
 		polarToRectangular();
 	}
 	
+	public Vector2D(object_draw drawer,point point1, point point2) {
+		super(drawer);
+		xComponent = point2.getXReal() - point1.getXReal();
+		yComponent = point2.getYReal() - point1.getYReal();
+		
+		rectangularToPolar();
+		
+		setPos(point1.getXReal(),point1.getYReal(),point1.getZReal());
+	}
+
 	private void rectangularToPolar() {
-		theta = Math.atan(yComponent/xComponent);
+		
+	
+		theta = Math.atan2(yComponent,xComponent);
+		
 		r = Math.sqrt(Math.pow(xComponent, 2) + Math.pow(yComponent, 2));
 		updatePoints();
 	}
@@ -35,6 +48,11 @@ public class Vector2D extends Physics_shape {
 		xComponent = r * Math.cos(theta);
 		yComponent = r * Math.sin(theta);
 		updatePoints();
+	}
+	
+	public void setTheta(double theta1) {
+		theta = theta1;
+		polarToRectangular();
 	}
 	
 	public void paint(Graphics page) {
