@@ -96,10 +96,15 @@ public class physics_runner {
 		drawer.add(box1);
 		
 		
-		Triangle tri1 = new Triangle(drawer,500,500,500,100,100,1);
+		Triangle tri1 = new Triangle(drawer,500,400,310,100,100,1);
 		tri1.setRotation(0, 1, 0);
 		tri1.setAngularVelocity(0.01, 0.03, 0.02);
 		drawer.add(tri1);
+		
+		PolarObject pol = new PolarObject(drawer,600,600,600,1000);
+		pol.setRotation(0, 1, 0);
+		pol.setAngularVelocity(0.01, 0.03, 0.02);
+		drawer.add(pol);
 		
 		resize();
 		
