@@ -10,7 +10,7 @@ public class FCPS_display extends ScoreBoard {  //frames calculated per second
 	
 	public void secondaryUpdate() {
 		try {
-			setScore(1000/drawer.getFrameStep());	
+			setScore(100/drawer.getFrameStep());	
 		}catch(ArithmeticException a) {}
 	}
 }

@@ -88,16 +88,18 @@ public class physics_runner {
 		
 
 
-		PolarObject pol1 = new PolarObject(drawer,600,600,600,100,"thing1");
+		PolarObject pol1 = new PolarObject(drawer,800,500,0,100,"thing1");
 		pol1.setRotation(0, 1, 0);
 		pol1.setAngularVelocity(0.1, 0.05, 0.1);
 		pol1.isFilled = false;
+		pol1.isVisible = true;
 		drawer.add(pol1);
 		
 		PolarObject pol2 = new PolarObject(drawer,200,200,200,100,"sphere");
 		pol2.setRotation(0, 1, 0);
 		pol2.setAngularVelocity(0.1, 0.05, 0.1);
 		pol2.isFilled = false;
+		pol2.isVisible = true;
 		drawer.add(pol2);
 		
 		Box box1 = new Box(drawer,400,400,400,100,1);
@@ -106,9 +108,11 @@ public class physics_runner {
 		drawer.add(box1);
 		
 		
-		Triangle tri1 = new Triangle(drawer,500,400,310,100,100,1);
+		Triangle tri1 = new Triangle(drawer,700,200,0,100,100,1);
+		
 		tri1.setRotation(0, 1, 0);
 		tri1.setAngularVelocity(0.1, 0.3, 0.2);
+
 		drawer.add(tri1);
 		
 		

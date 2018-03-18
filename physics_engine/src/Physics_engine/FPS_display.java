@@ -10,7 +10,7 @@ public class FPS_display extends ScoreBoard {
 	
 	public void secondaryUpdate() {
 		try {
-			setScore(1000/drawer.getWaitTime());	
+			setScore(1000000/( drawer.getWaitTime()*(351) ) );	
 		}catch(ArithmeticException a) {}
 	}
 }

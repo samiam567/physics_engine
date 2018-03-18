@@ -212,7 +212,7 @@ public class object_draw extends Canvas {
 		repaint(); 
 		frameEndTime = System.nanoTime();
 		
-		wait_time = (600*(frameEndTime - frameStartTime) + getFrameTime())/1000000;
+		wait_time = (frameEndTime - frameStartTime)/350;
 		sleepThread(wait_time);
 	
 	}
