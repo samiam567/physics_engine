@@ -61,3 +61,6 @@
 /Vector2.class
 /Physics_3DPolygon.class
 /Physics_3DPolygon$Polygon_point.class
+/object_draw_update_thread.class
+/FPS_display.class
+/FCPS_display.class

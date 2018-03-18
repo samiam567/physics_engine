@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JOptionPane;
 import javax.swing.colorchooser.ColorSelectionModel;
 
+import Physics_engine.FCPS_display;
+import Physics_engine.FPS_display;
 import Physics_engine.Physics_engine_toolbox;
 import Physics_engine.Physics_frame;
 import Physics_engine.ScoreBoard;
@@ -45,8 +47,10 @@ public class Pong_runner {
 	
 	
 	public static void main(String[] args) {
+		
+		
 
-		gameSpeed = gameSetSpeed * diagonal/1000;
+		gameSpeed = gameSetSpeed * diagonal/100;
 		
 		frame.setColor(Color.BLUE);
 
@@ -65,7 +69,11 @@ public class Pong_runner {
 		ball.setColor(Color.white);
 		drawer.add(ball);
 		
-		
+		FPS_display fps = new FPS_display(drawer,30,30);
+		drawer.add(fps);
+
+		FCPS_display fcps = new FCPS_display(drawer,30,50);
+		drawer.add(fcps);
 		
 		lScore = new ScoreBoard(drawer, 0.3 * Settings.width, 0.1 * Settings.height,"",0);
 		lScore.setFont(new Font("TimesRoman", Font.BOLD, 70));
@@ -121,6 +129,7 @@ public class Pong_runner {
 	        	  
 	        	  	case(32): //Space
 	        	  		drawer.pause();
+	        	  
 	        	  	break;
 	        	  	
 	        	  	case(10): //Enter
@@ -318,9 +327,7 @@ public class Pong_runner {
 	
 	public static void setSettings() {
 		Settings.collision_algorithm = 4;
-		Settings.rotationAlgorithm = 4;
-		drawer.frameStep = 0.01;
-		drawer.setFrameTime(40000000);
+		Settings.rotationAlgorithm = 6;
 		Settings.timeOutTime = 5000000;
 		
 		Settings.width = 1000;
@@ -337,7 +344,7 @@ public class Pong_runner {
 		
 		
 		//make the game faster when the frame gets bigger
-		gameSpeed = gameSetSpeed * diagonal/300;
+		gameSpeed = gameSetSpeed * diagonal/3;
 		paddleSpeed = 4 * gameSpeed;
 		ballSpeed = 5 * gameSpeed;
 		Paddle.paddleHomingSpeed = Pong_runner.AI_difficulty * Pong_runner.gameSpeed;

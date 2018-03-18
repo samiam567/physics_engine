@@ -20,8 +20,8 @@ public class object_draw extends Canvas {
 	public ArrayList<force> scheduled_forces = new ArrayList<force>(); //list of forces for the maintenance bot to apply
 	
 	public double current_frame = 0; //what frame we are on
-	private long frameStartTime;
-	private long frameEndTime;
+	private long frameStartTime,updateStartTime;
+	private long frameEndTime,updateEndTime;
 	private long wait_time;
 	
 	public int inactivity_timer = 0;
@@ -29,11 +29,14 @@ public class object_draw extends Canvas {
 	public Physics_frame frame;
 
 	public object_draw_thread threader;
+	
+	public object_draw_update_thread updateThreader;
 
 	public object_draw(Physics_frame frame1) {
 		frame = frame1;
 		frame.getContentPane().add(this);
 		threader = new object_draw_thread(this);
+		updateThreader = new object_draw_update_thread(this);
 	}
 	
 	public void setFrame(Physics_frame frame1) {
@@ -43,26 +46,32 @@ public class object_draw extends Canvas {
 	
 	public void boot() {
 		threader = new object_draw_thread(this);
+		updateThreader = new object_draw_update_thread(this);
 	}
 	
 	public void start() {
 		threader.start();
+		updateThreader.start();
 	}
 	
 	public void end() {
 		threader.state = 0;
+		updateThreader.state = 0;
 	}
 	
 	public void stop() {
 		threader.state = 0;
+		updateThreader.state = 0;
 	}
 	
 	public void pause() {
 		threader.state = 2;
+		updateThreader.state = 2;
 	}
 	
 	public void resume() {
 		threader.state = 1;
+		updateThreader.state = 1;
 	}
 	
 	public void add(physics_object newOb) {
@@ -196,26 +205,26 @@ public class object_draw extends Canvas {
 		}
 	}
 	
-	public void doThreadedFrame(double frames) {
-		checkForResize();
-		frameStartTime = System.nanoTime();
-		current_frame += frames;
-		updateObjects(frames);
+	public void doThreadedFrame() {
 		
-		if ( Math.abs(current_frame - (int) current_frame ) < frameStep) { 
+		frameStartTime = System.nanoTime();
 	
-			repaint(); 
-			frameEndTime = System.nanoTime();
-			wait_time = getFrameTime() - (frameEndTime - frameStartTime);
-			
-			if (wait_time < 0) {
-				Exception ex = new Exception("Wait time is less than 0! wait_time: " + wait_time);
-				ex.printStackTrace();
-				wait_time = 0;
-			}
-			
-			sleepThread(wait_time/1000000);
-		}
+		repaint(); 
+		frameEndTime = System.nanoTime();
+		
+		wait_time = (600*(frameEndTime - frameStartTime) + getFrameTime())/1000000;
+		sleepThread(wait_time);
+	
+	}
+	
+	public void doUpdate() { //for update thread. Updates the objects
+		updateStartTime = System.nanoTime();
+		checkForResize();
+		updateObjects(frameStep); //update the objects
+		current_frame += frameStep;
+		updateEndTime = System.nanoTime();
+		frameStep = ((double) (updateEndTime - updateStartTime)) / 100000000; //automatically set the frameRate depending on how fast the cpu is going
+		sleepThread(1);
 	}
 	
 	public void doFrame(String key) {
@@ -257,6 +266,16 @@ public class object_draw extends Canvas {
 						
 						
 						switch (current_object.getDrawMethod()) {
+						
+							case("pointDraw"):
+								try {
+									for (point cPoint : ((pointed) current_object).getPoints()) {
+										cPoint.paint(page);
+									}
+								}catch(ClassCastException c) {
+									System.out.println("Drawable not a pointed object (painting)");
+								}
+								break;
 							case("ListedPointAlgorithm"):
 								try {
 									current_object = (pointed) current_object;
@@ -301,7 +320,7 @@ public class object_draw extends Canvas {
 									
 									break;
 								}catch(ClassCastException c) {
-									System.out.println("Drawable not a pointed object");
+									System.out.println("Drawable not a pointed object (painting)");
 								}
 							
 							case("paint"):
@@ -348,5 +367,13 @@ public class object_draw extends Canvas {
 
 	public void setFrameTime(long frameTime) {
 		this.frameTime = frameTime;
+	}
+	
+	public long getWaitTime() {
+		return wait_time;
+	}
+
+	public double getFrameStep() {
+		return frameStep;
 	}
 }

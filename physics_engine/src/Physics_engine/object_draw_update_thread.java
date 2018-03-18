@@ -2,11 +2,11 @@ package Physics_engine;
 
 import java.util.ConcurrentModificationException;
 
-public class object_draw_thread extends Thread {
+public class object_draw_update_thread extends Thread {
 	public object_draw objectDrawer;
 	public int state = 1; //0 = stopped, 1 = running, 2 = paused
 	
-	public object_draw_thread(object_draw objectDrawer1) {
+	public object_draw_update_thread(object_draw objectDrawer1) {
 		objectDrawer = objectDrawer1;
 	}
 	
@@ -14,7 +14,7 @@ public class object_draw_thread extends Thread {
 		while (state != 0) {
 			if (state == 1) { //running
 				try {
-					objectDrawer.doThreadedFrame();
+					objectDrawer.doUpdate();
 					
 					if (objectDrawer.inactivity_timer < Settings.timeOutTime) {
 						objectDrawer.inactivity_timer++;

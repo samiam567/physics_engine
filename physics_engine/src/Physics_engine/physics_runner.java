@@ -32,10 +32,15 @@ public class physics_runner {
 		
 		boundries = new border_bounce(drawer);
 		boundries.setName("boundries", 1);
+		drawer.add(boundries);
 
 
+		FPS_display fps = new FPS_display(drawer,30,30);
+		drawer.add(fps);
 
-
+		FCPS_display fcps = new FCPS_display(drawer,30,50);
+		drawer.add(fcps);
+		
 		
 		
 		
@@ -81,30 +86,32 @@ public class physics_runner {
 		drawer.addMouseListener(mouse);
 		
 		
-		drawer.add(boundries);
+
+
+		PolarObject pol1 = new PolarObject(drawer,600,600,600,100,"thing1");
+		pol1.setRotation(0, 1, 0);
+		pol1.setAngularVelocity(0.1, 0.05, 0.1);
+		pol1.isFilled = false;
+		drawer.add(pol1);
 		
-		Square square1 = new Square(drawer,200,200,0,100,1);
-		square1.setAngularVelocity(0,0.1,0);
-		drawer.add(square1);
-		
-		
+		PolarObject pol2 = new PolarObject(drawer,200,200,200,100,"sphere");
+		pol2.setRotation(0, 1, 0);
+		pol2.setAngularVelocity(0.1, 0.05, 0.1);
+		pol2.isFilled = false;
+		drawer.add(pol2);
 		
 		Box box1 = new Box(drawer,400,400,400,100,1);
 		box1.setRotation(0, 1, 0);
-		box1.setAngularVelocity(0.01, 0, 0);
-		
+		box1.setAngularVelocity(0.2, 0.1, 0.05);
 		drawer.add(box1);
 		
 		
 		Triangle tri1 = new Triangle(drawer,500,400,310,100,100,1);
 		tri1.setRotation(0, 1, 0);
-		tri1.setAngularVelocity(0.01, 0.03, 0.02);
+		tri1.setAngularVelocity(0.1, 0.3, 0.2);
 		drawer.add(tri1);
 		
-		PolarObject pol = new PolarObject(drawer,600,600,600,1000);
-		pol.setRotation(0, 1, 0);
-		pol.setAngularVelocity(0.01, 0.03, 0.02);
-		drawer.add(pol);
+		
 		
 		resize();
 		

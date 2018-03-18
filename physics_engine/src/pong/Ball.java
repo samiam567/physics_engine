@@ -18,7 +18,7 @@ public class Ball extends Square implements resizable {
 		setSize(Settings.width/50,Settings.width/50,0);
 		
 		isFilled = true;
-		
+		isRotatable = false;
 		int direction;
 		if (Math.random() < 0) {
 			direction = -1;

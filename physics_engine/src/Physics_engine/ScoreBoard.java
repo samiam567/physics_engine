@@ -10,6 +10,7 @@ public class ScoreBoard extends Physics_drawable {
 	private double scoreSpeed;
 	private double targetScore;
 	private Font font = new Font("TimesRoman", Font.PLAIN, 15);
+	public boolean roundScore = true;
 	
 	public ScoreBoard(object_draw drawer1, double x, double y, String score_phrase1, double score1) {
 		super(drawer1);
@@ -75,7 +76,12 @@ public class ScoreBoard extends Physics_drawable {
 	
 	public void paint(Graphics page) {
 		page.setFont(font);
-		page.drawString(score_phrase + " " + (int) Math.round(score) + end_phrase, x, y);
+		
+		if (roundScore) {
+			page.drawString(score_phrase + " " + (int) Math.round(score) + end_phrase, x, y);
+		}else {
+			page.drawString(score_phrase + " " + score + end_phrase, x, y);
+		}
 	}
 
 	public double getTargetScore() {
