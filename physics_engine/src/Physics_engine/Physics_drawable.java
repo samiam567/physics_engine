@@ -124,6 +124,7 @@ public abstract class Physics_drawable extends physics_object implements movable
 		ySizeAppearance = (Settings.distanceFromScreen * ySize ) / (zReal + Settings.distanceFromScreen);
 		zSizeAppearance = (Settings.distanceFromScreen * zSize ) / (zReal + Settings.distanceFromScreen);		
 	}
+	
 	public double getCenterX() { //finds the x coordinate of the object's center
 		return centerX;
 	}

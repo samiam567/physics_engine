@@ -19,5 +19,5 @@ public interface movable extends drawable { // the ability to be moved
 	public double getYAccel();
 	public double getZAccel();
 	public void setSpeed(double xComponent, double yComponent, double zComponent);
-	
+	public void setPos(double centX, double centY, double centZ);
 }

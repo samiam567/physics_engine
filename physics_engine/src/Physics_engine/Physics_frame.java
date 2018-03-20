@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 public class Physics_frame extends JFrame{
 	public Container cp;
-	
+	public object_draw drawer;
 	public Rectangle boundingRectangle;
 
 	
@@ -29,10 +29,12 @@ public class Physics_frame extends JFrame{
 	}
 	
 	
-	public void setColor(Color newColor) { //doesn't work
-		setBackground(newColor);		
-		cp.setBackground(newColor);
-		
+	public void setColor(Color newColor) { 
+		if (newColor != getBackground()) {
+			setBackground(newColor);		
+			cp.setBackground(newColor);
+			drawer.setFrame(this);
+		}
 	}
 
 

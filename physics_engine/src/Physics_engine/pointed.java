@@ -1,5 +1,8 @@
 package Physics_engine;
 
+import java.awt.Component;
+import java.awt.Polygon;
+
 import Physics_engine.physics_object.object_types;
 
 public abstract interface pointed extends movable { //made up of points
@@ -26,8 +29,13 @@ public abstract interface pointed extends movable { //made up of points
 	public double getYRotation();
 	public double getZRotation();
 	
+	public void updatePolygons();
+	
 	public boolean getIsRotatable();
 	
 	public void calculatePointValues();
+	
+	public Polygon getPolyXY();
+	
 	
 }

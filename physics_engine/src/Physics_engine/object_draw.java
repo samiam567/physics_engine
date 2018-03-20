@@ -35,6 +35,15 @@ public class object_draw extends Canvas {
 	public object_draw(Physics_frame frame1) {
 		frame = frame1;
 		frame.getContentPane().add(this);
+		frame.drawer = this;
+		threader = new object_draw_thread(this);
+		updateThreader = new object_draw_update_thread(this);
+	}
+	
+	public object_draw() {
+		frame = new Physics_frame();
+		frame.getContentPane().add(this);
+		frame.drawer = this;
 		threader = new object_draw_thread(this);
 		updateThreader = new object_draw_update_thread(this);
 	}

@@ -64,3 +64,7 @@
 /object_draw_update_thread.class
 /FPS_display.class
 /FCPS_display.class
+/Sphere.class
+/New_object_listeners.class
+/New_object_listeners$1.class
+/New_object_listeners$2.class

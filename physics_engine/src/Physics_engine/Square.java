@@ -73,7 +73,7 @@ public class Square extends Physics_3DPolygon {
 	public Object checkForCollision1(massive current_object1,ArrayList<massive> objects) {
 		
 		try {
-			Physics_polygon current_object = (Physics_polygon) current_object1;
+			Physics_3DPolygon current_object = (Physics_3DPolygon) current_object1;
 			
 			if ((current_object.getIsTangible()) && (! this.equals(current_object))) {
 				Physics_engine.Physics_engine_toolbox.faces side = Physics_engine.Physics_engine_toolbox.faces.none;

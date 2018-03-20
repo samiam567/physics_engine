@@ -37,7 +37,7 @@ public class force extends Vector{
 			///Check this line \/
 			if ((Math.abs(drawer.current_frame - (int)drawer.current_frame ) < 0.00001) || (frame == -1)) {
 				System.out.println("applied");
-				((Physics_polygon) object).applyComponentImpulse(xComponent, yComponent, zComponent,time,units);
+				((massive) object).applyComponentImpulse(xComponent, yComponent, zComponent,time,units);
 				isApplied = true;
 				delete = true;
 			}

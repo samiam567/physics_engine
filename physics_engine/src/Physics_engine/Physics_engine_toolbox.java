@@ -11,6 +11,10 @@ public class Physics_engine_toolbox {
 	public enum faces {left,right,top,bottom,far,near,none};
 	public static String[] colorNames = {"black","blue","cyan","gray","green","magenta","orange","pink","red","white","yellow"};
 	
+	public static String[] typesOfObjects = {"square","rectange","box","triangle","sphere"};
+	
+	public static String[] stuffToDo = {"position","speed","acceleration","rotation","angular velocity","angular acceleration","color","size","friction Coefficient","mass","name"};
+
 	
 	public static void Update(physics_engine_compatible current_object,double frames) { //frames is the number of frames the object should update (can be a decimal)
 		
@@ -160,6 +164,56 @@ public class Physics_engine_toolbox {
 		current_object.frameUpdate3(frames);
 		
 	}
+	
+	public static double getDoubleFromUser(Physics_frame frame) {
+		
+		boolean error = false;
+		double num = 0;
+		
+		try {
+			String numStr = JOptionPane.showInputDialog(frame,"what number?");
+			num = Double.parseDouble(numStr);
+		}catch(NumberFormatException n) {
+			error = true;
+			while (error) {
+				try {
+					String numStr = JOptionPane.showInputDialog(frame,"Invalid Number");
+					num = Double.parseDouble(numStr);
+					error = false;
+				}catch(NumberFormatException t) {
+					error = true;
+				}
+			}
+		}
+		
+		
+		return num;
+	}
+	
+	public static double getDoubleFromUser(Physics_frame frame, String message) {
+		
+		boolean error = false;
+		double num = 0;
+		
+		try {
+			String numStr = JOptionPane.showInputDialog(frame,message);
+			num = Double.parseDouble(numStr);
+		}catch(NumberFormatException n) {
+			error = true;
+			while (error) {
+				try {
+					String numStr = JOptionPane.showInputDialog(frame,"Invalid Number\n" + message);
+					num = Double.parseDouble(numStr);
+					error = false;
+				}catch(NumberFormatException t) {
+					error = true;
+				}
+			}
+		}
+
+		return num;
+	}
+	
 	
 	public static Color getColorFromUser(Physics_frame frame) {
 		Color color;

@@ -35,6 +35,7 @@ public class rectangle extends Physics_3DPolygon {
 		points[3] = new point(drawer,centerX-xSize/2,centerY+getYSize()/2,zReal );
 		points[3].setAngle(-3*Math.PI/4, Math.PI,-Math.PI/2);
 		
+		
 		setPoints(points);
 		
 		double r = Math.sqrt(Math.pow(xSize,2) + Math.pow(getYSize(),2) + Math.pow(zSize,2))/2;

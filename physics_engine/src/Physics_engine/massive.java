@@ -1,5 +1,6 @@
 package Physics_engine;
 
+import java.awt.Component;
 import java.util.ArrayList;
 
 import Physics_engine.Physics_engine_toolbox.faces;
@@ -21,6 +22,9 @@ public interface massive extends pointed {
 	
 	public double getFrictionCoefficient();
 	public void setFrictionCoefficient(double frictionCoefficient);
+	public void setAccel(double x, double y, double z);
+	public void setSize(double x, double y, double z);
+
 	
 	
 	

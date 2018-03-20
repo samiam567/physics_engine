@@ -37,6 +37,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	point pointOfRotation = null; //the point that the object rotates around
 	pointOfRotationPlaces pointOfRotationPlace = pointOfRotationPlaces.center;  //the place that that point is
 	
+	double xSizePrev,ySizePrev,zSizePrev; //used to see if the size has changed
+	
 	
 	
 	private class Polygon_point extends point {
@@ -63,6 +65,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public Physics_3DPolygon(object_draw drawer1) {
 		super(drawer1);
 		points = new Polygon_point[0]; //all of the points in the object
+		updatePolygons();
 	}
 	
 	public boolean getIsTangible() {
@@ -114,7 +117,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		areaZY = new Area(polyZY);
 	}
 	
-	private void updatePolygons() {
+	public void updatePolygons() {
 		
 		try {
 			polyXY.xpoints = pointXs;
@@ -217,9 +220,15 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			updatePointOfRotation();
 			
+			updateSize();
+			
 			do {
 				
+			
 				cPoint.setPos(pointOfRotation.getXReal() + cPoint.initialXComponent, pointOfRotation.getYReal() + cPoint.initialYComponent, pointOfRotation.getZReal() + cPoint.initialZComponent);
+					
+				
+				
 				
 				//zRotation
 				rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getYReal(),zRotation);
@@ -235,7 +244,20 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getZReal(),yRotation);
 				cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0] + xI, cPoint.getYReal() + yI, pointOfRotation.getZReal() + rotComponents[1] + zI);
 				
+				
+				if (Settings.perspective == true) {
+					cPoint.xComponent = (Settings.distanceFromScreen * (cPoint.getXReal() - pointOfRotation.getXReal()) ) / ( getZReal() + Settings.distanceFromScreen);
+					cPoint.yComponent = (Settings.distanceFromScreen *  (cPoint.getYReal() - pointOfRotation.getYReal()) ) / ( getZReal() + Settings.distanceFromScreen);	
+					cPoint.setPos(pointOfRotation.getXReal() + cPoint.xComponent, pointOfRotation.getYReal() + cPoint.yComponent, cPoint.getZReal());
+				}
+				
 				points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );
+				
+				
+				
+				
+				
+				
 				
 				cPoint = cPoint.nextPoint;
 				
@@ -243,7 +265,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			} while (cPoint != null);
 			
 			setPos(xI,yI,zI);
-			
+	
 		}else {
 			double xChange = xReal - points[0].getX();
 			double yChange = yReal - points[0].getY();
@@ -364,7 +386,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 	}
 	
-
+	
 	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { 
 		
 		if (Settings.collision_algorithm == 5) {
@@ -488,7 +510,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 	}
 	
-	protected double[] calculateDeflectionAngle(Physics_polygon current_object) { //this shouldn't have to get overridden
+	protected double[] calculateDeflectionAngle(Physics_3DPolygon current_object) { //this shouldn't have to get overridden
 		double angleOfApproach = Math.atan(current_object.getYSpeed() / current_object.getXSpeed());
 		return calculateDeflectionAngle(angleOfApproach,current_object.getZSpeed());
 		

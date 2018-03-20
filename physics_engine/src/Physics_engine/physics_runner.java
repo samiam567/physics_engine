@@ -84,27 +84,30 @@ public class physics_runner {
 		
 		
 		drawer.addMouseListener(mouse);
-		
-		
-
 
 		PolarObject pol1 = new PolarObject(drawer,800,500,0,100,"thing1");
 		pol1.setRotation(0, 1, 0);
-		pol1.setAngularVelocity(0.1, 0.05, 0.1);
+//		pol1.setAngularVelocity(0.1, 0.05, 0.1);
 		pol1.isFilled = false;
 		pol1.isVisible = true;
-		drawer.add(pol1);
+		pol1.setName("thing1", 0);
+//		drawer.add(pol1);
 		
-		PolarObject pol2 = new PolarObject(drawer,200,200,200,100,"sphere");
-		pol2.setRotation(0, 1, 0);
-		pol2.setAngularVelocity(0.1, 0.05, 0.1);
-		pol2.isFilled = false;
-		pol2.isVisible = true;
-		drawer.add(pol2);
+		
+		
+		
+		Sphere sphere = new Sphere(drawer,200,200,200,100,Math.PI/30);
+		sphere.setRotation(0, 0.5, 0);
+		sphere.setAngularVelocity(0.1, 0.05, 0.1);
+		sphere.isFilled = false;
+		sphere.isVisible = true;
+		sphere.setName("sphere", 1);
+		drawer.add(sphere);
 		
 		Box box1 = new Box(drawer,400,400,400,100,1);
 		box1.setRotation(0, 1, 0);
 		box1.setAngularVelocity(0.2, 0.1, 0.05);
+		box1.setName("box1", 1);
 		drawer.add(box1);
 		
 		
@@ -112,6 +115,10 @@ public class physics_runner {
 		
 		tri1.setRotation(0, 1, 0);
 		tri1.setAngularVelocity(0.1, 0.3, 0.2);
+		tri1.setName("tri1",1);
+		
+		New_object_listeners listener = new New_object_listeners(drawer);
+
 
 		drawer.add(tri1);
 		

@@ -11,7 +11,7 @@ public class PolarObject extends Physics_3DPolygon {
 		setSize(size,size,size);
 		setRotation(0,0,0);
 		
-		points = new point[(int) (2*Math.PI/Settings.thetaStep )];
+		points = new point[(int) (30*Math.PI/Settings.thetaStep )];
 		
 		
 		ArrayList<point> pointsAL = new ArrayList<point>();
