@@ -2,6 +2,7 @@ package Physics_engine;
 
 import java.awt.Graphics;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.geom.Area;
 
 public class point extends Physics_drawable {
@@ -57,9 +58,13 @@ public class point extends Physics_drawable {
 		Area areaXY = pObject.getAreaXY();
 		Area areaZY = pObject.getAreaZY();
 		
-		if ( areaXY.contains(xReal,yReal) ) { //&& areaZY.contains(zReal, yReal) ) {
+		
+		if ( areaXY.contains(xReal,yReal) && ( Math.abs(zReal - pObject.centerZ) < (pObject.zSize + 0.001) ) ) {
+			System.out.println(zReal + "=" + pObject.centerZ + "<" + pObject.zSize);
 			return true;
 		}
+		
+
 		
 		return false;
 	}

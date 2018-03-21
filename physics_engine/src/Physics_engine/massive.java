@@ -24,6 +24,7 @@ public interface massive extends pointed {
 	public void setFrictionCoefficient(double frictionCoefficient);
 	public void setAccel(double x, double y, double z);
 	public void setSize(double x, double y, double z);
+	public double getElasticity();
 
 	
 	

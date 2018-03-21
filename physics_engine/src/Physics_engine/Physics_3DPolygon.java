@@ -37,7 +37,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	point pointOfRotation = null; //the point that the object rotates around
 	pointOfRotationPlaces pointOfRotationPlace = pointOfRotationPlaces.center;  //the place that that point is
 	
-	double xSizePrev,ySizePrev,zSizePrev; //used to see if the size has changed
+	double xSizePrev,ySizePrev,zSizePrev,xSizeInit,ySizeInit,zSizeInit; //used to see if the size has changed
 	
 	
 	
@@ -225,7 +225,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			do {
 				
 			
-				cPoint.setPos(pointOfRotation.getXReal() + cPoint.initialXComponent, pointOfRotation.getYReal() + cPoint.initialYComponent, pointOfRotation.getZReal() + cPoint.initialZComponent);
+				cPoint.setPos(pointOfRotation.getXReal() + cPoint.initialXComponent * xSizeAppearance/xSizeInit, pointOfRotation.getYReal() + cPoint.initialYComponent * ySizeAppearance/ySizeInit, pointOfRotation.getZReal() + cPoint.initialZComponent * zSizeAppearance/zSizeInit);
 					
 				
 				
@@ -245,11 +245,11 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0] + xI, cPoint.getYReal() + yI, pointOfRotation.getZReal() + rotComponents[1] + zI);
 				
 				
-				if (Settings.perspective == true) {
-					cPoint.xComponent = (Settings.distanceFromScreen * (cPoint.getXReal() - pointOfRotation.getXReal()) ) / ( getZReal() + Settings.distanceFromScreen);
-					cPoint.yComponent = (Settings.distanceFromScreen *  (cPoint.getYReal() - pointOfRotation.getYReal()) ) / ( getZReal() + Settings.distanceFromScreen);	
-					cPoint.setPos(pointOfRotation.getXReal() + cPoint.xComponent, pointOfRotation.getYReal() + cPoint.yComponent, cPoint.getZReal());
-				}
+//				if (Settings.perspective == true) {
+//					cPoint.xComponent = (Settings.distanceFromScreen * (cPoint.getXReal() - pointOfRotation.getXReal()) ) / ( getZReal() + Settings.distanceFromScreen);
+//					cPoint.yComponent = (Settings.distanceFromScreen *  (cPoint.getYReal() - pointOfRotation.getYReal()) ) / ( getZReal() + Settings.distanceFromScreen);	
+//					cPoint.setPos(pointOfRotation.getXReal() + cPoint.xComponent, pointOfRotation.getYReal() + cPoint.yComponent, cPoint.getZReal());
+//				}
 				
 				points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );
 				
@@ -360,6 +360,10 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			pointOfRotation = center;
 		}
 		
+		xSizeInit = xSize;
+		ySizeInit = ySize;
+		zSizeInit = zSize;
+		
 		polyPointsStart = new Polygon_point(this,points[0].getXReal(),points[0].getYReal(),points[0].getZReal());
 		
 		cPoint = polyPointsStart;
@@ -398,7 +402,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			double force, reflec_const, time = 1;	
 			
 			try {
-				
+				faces side = faces.none;
 				for (int i = 0; i < ((pointed) current_physics_object).getPoints().length; i++) {
 					cPoint = ((pointed) current_physics_object).getPoints()[i];
 		
@@ -410,7 +414,13 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 						}catch(ClassCastException c) {
 							
 							System.out.println(name + " has hit " + current_physics_object.getObjectName());
-										
+							
+							
+							isCollided((physics_object) current_physics_object,side);
+							current_physics_object.isCollided(this, side);
+							
+							
+							
 						}
 						
 					}
@@ -606,6 +616,11 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	@Override
 	public boolean getIsRotatable() {
 		return isRotatable;
+	}
+
+	@Override
+	public double getElasticity() {
+		return elasticity;
 	}
 	
 }

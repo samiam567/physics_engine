@@ -10,6 +10,7 @@ import javax.swing.colorchooser.ColorSelectionModel;
 
 import Physics_engine.FCPS_display;
 import Physics_engine.FPS_display;
+import Physics_engine.New_object_listeners;
 import Physics_engine.Physics_engine_toolbox;
 import Physics_engine.Physics_frame;
 import Physics_engine.ScoreBoard;
@@ -18,11 +19,10 @@ import Physics_engine.SpeedTimer;
 import Physics_engine.array;
 import Physics_engine.border_bounce;
 import Physics_engine.object_draw;
-import ballistica.Ballistic_bullet;
 
 public class Pong_runner {
 
-	public static final String Version = "1.7.6";
+	public static final String Version = "2.0.5";
 	
 	
 	public static boolean cheatMode = false;
@@ -33,10 +33,10 @@ public class Pong_runner {
 	public static double gameSpeed;
 	private static Pong_frame frame = new Pong_frame();
 	private static object_draw drawer;
-	private static Paddle leftPaddle;
-	private static Paddle rightPaddle;
+	private static Paddle farPaddle;
+	private static Paddle nearPaddle;
 	public static Ball ball;
-	public static ScoreBoard lScore, rScore;
+	public static ScoreBoard fScore, nScore;
 	public static double paddleSpeed = 4 * gameSpeed, ballSpeed = 5 * gameSpeed, AI_difficulty = 1;
 	private static SpeedTimer keyStrokeTimer1, keyStrokeTimer2;
 	private static border_bounce borders;
@@ -52,45 +52,61 @@ public class Pong_runner {
 
 		gameSpeed = gameSetSpeed * diagonal/100;
 		
-		frame.setColor(Color.BLUE);
-
+		
 		drawer = new object_draw(frame);
 		
-		leftPaddle = new Paddle(drawer,"left");
-		leftPaddle.setName("player",1);
-		drawer.add(leftPaddle);
+		frame.setColor(Color.BLUE);
+
+		frame.setTitle("Pong: V" + Version + "         Programmed by Alec Pannunzio");
+		
+		nearPaddle = new Paddle(drawer,"near");
+		nearPaddle.setName("player",1);
+		
 	
-		rightPaddle = new Paddle(drawer,"right");
-		rightPaddle.setName("AI",1);
-		drawer.add(rightPaddle);
+		farPaddle = new Paddle(drawer,"far");
+		farPaddle.setName("AI",1);
+		
 		
 		ball = new Ball(drawer);
 		ball.setName("pong ball",1);
 		ball.setColor(Color.white);
-		drawer.add(ball);
+		
 		
 		FPS_display fps = new FPS_display(drawer,30,30);
-		drawer.add(fps);
-
+	
 		FCPS_display fcps = new FCPS_display(drawer,30,50);
-		drawer.add(fcps);
+	
+		nScore = new ScoreBoard(drawer, 0.3 * Settings.width, 0.1 * Settings.height,"",0);
+		nScore.setFont(new Font("TimesRoman", Font.BOLD, 70));
 		
-		lScore = new ScoreBoard(drawer, 0.3 * Settings.width, 0.1 * Settings.height,"",0);
-		lScore.setFont(new Font("TimesRoman", Font.BOLD, 70));
-		drawer.add(lScore);
-		
-		rScore = new ScoreBoard(drawer, 0.7 * Settings.width, 0.1 * Settings.height,"",0);
-		rScore.setFont(new Font("TimesRoman", Font.BOLD, 70));
-		drawer.add(rScore);
-		
+		fScore = new ScoreBoard(drawer, 0.7 * Settings.width, 0.1 * Settings.height,"",0);
+		fScore.setFont(new Font("TimesRoman", Font.BOLD, 70));
+
 		borders = new border_bounce(drawer);
 		borders.isVisible = false;
-		drawer.add(borders);
-		setSettings();
-	
 		
+		setSettings();
 		resize();
+		
+		
+		ball.isAnchored = true; //hold the ball till the game starts
+		
+		drawer.add(nearPaddle);
+		drawer.add(farPaddle);
+		drawer.add(ball);
+		drawer.add(fps);
+		drawer.add(fcps);
+		drawer.add(nScore);
+		drawer.add(borders);
+		drawer.add(fScore);
 		drawer.start();
+		
+		for (int i = 0; i < 100000; i++) {
+			System.out.println("loading");
+		}
+		
+		
+		init();  //start the game
 		
 		//key listener
 		drawer.addKeyListener(new KeyListener() {
@@ -103,24 +119,24 @@ public class Pong_runner {
 	        	  switch (e.getKeyCode()) {
 	        	  	case(87): //w
 	        	  		drawer.remove(keyStrokeTimer1);
-	        	  		leftPaddle.setSpeed(0, -paddleSpeed, 0);
+	        	  		nearPaddle.setSpeed(0, -paddleSpeed, 0);
 	        	  		break;
 	        	  	
 	        	  	case(65): //a
 	        	  		drawer.remove(keyStrokeTimer1);
-	        	  		leftPaddle.setSpeed(-paddleSpeed, 0, 0);
+	        	  		nearPaddle.setSpeed(-paddleSpeed, 0, 0);
 	        	  		
 	        	  	break;
 	        	  	
 	        	  	case(83): //s
 	        	  		drawer.remove(keyStrokeTimer1);
-	        	  		leftPaddle.setSpeed(0, paddleSpeed, 0);
+	        	  		nearPaddle.setSpeed(0, paddleSpeed, 0);
 	        	  		
 	        	  	break;
 	        	  	
 	        	  	case(68): //d
 	        	  		drawer.remove(keyStrokeTimer2);
-	        	  		leftPaddle.setSpeed(paddleSpeed, 0, 0);
+	        	  		nearPaddle.setSpeed(paddleSpeed, 0, 0);
 	        	  	break;
 	        	  }
 	        	  
@@ -161,22 +177,22 @@ public class Pong_runner {
 		        	  switch (e.getKeyCode()) {
 			        	  case(38): //Up
 			        	  	drawer.remove(keyStrokeTimer2);
-			        	  	rightPaddle.setSpeed(0, -paddleSpeed, 0);
+			        	  	farPaddle.setSpeed(0, -paddleSpeed, 0);
 			        	  	break;
 			        	  	
 			        	  case(40): //Down
 				        	  	drawer.remove(keyStrokeTimer2);
-				        	  	rightPaddle.setSpeed(0, paddleSpeed, 0);
+				        	  	farPaddle.setSpeed(0, paddleSpeed, 0);
 				        	  	break;
 				        	  	
 			        	  case(37): //Left
 				        	  	drawer.remove(keyStrokeTimer2);
-				        	  	rightPaddle.setSpeed(-paddleSpeed, 0, 0);
+				        	  	farPaddle.setSpeed(-paddleSpeed, 0, 0);
 				        	  	break;
 				        	  	
 			        	  case(39): //right
 				        	  	drawer.remove(keyStrokeTimer2);
-				        	  	rightPaddle.setSpeed(paddleSpeed, 0, 0);
+				        	  	farPaddle.setSpeed(paddleSpeed, 0, 0);
 				        	  	break;
 			        	  	
 		        	  }
@@ -191,10 +207,10 @@ public class Pong_runner {
 				
 				//add timers so that the paddle will stop when the key is released
 				if ((key == 87) || (key == 65) || (key == 83) || (key == 68)) {
-					keyStrokeTimer1 = new SpeedTimer(drawer,0.1/gameSpeed,"seconds",0,0,0,leftPaddle);
+					keyStrokeTimer1 = new SpeedTimer(drawer,1/gameSpeed,"seconds",0,0,0,nearPaddle);
 					drawer.add(keyStrokeTimer1);
 				}else if ((key == 38) || (key == 40) || (key == 37) || (key == 39)) {
-					keyStrokeTimer2 = new SpeedTimer(drawer,0.1/gameSpeed,"seconds",0,0,0,rightPaddle);
+					keyStrokeTimer2 = new SpeedTimer(drawer,1/gameSpeed,"seconds",0,0,0,farPaddle);
 					drawer.add(keyStrokeTimer2);
 				}
 				
@@ -209,7 +225,7 @@ public class Pong_runner {
 			
 	      });
 		
-		init();  //start the game
+		
 	}
 	
 	public static void init() {
@@ -232,8 +248,10 @@ public class Pong_runner {
 			
 			System.out.println("P2 Pilot Systems Uploaded");
 			
-			rightPaddle.setSpeed(0, 0, 0);  //stopping the paddle
+			farPaddle.setSpeed(0, 0, 0);  //stopping the paddle
 		}
+		
+		ball.isAnchored = false; //releasing the ball to start the game
 	}
 	
 	public static void setAIDiff() {
@@ -270,12 +288,12 @@ public class Pong_runner {
 	public static void reColor(Color primary, Color secondary, Color tertiary) {
 		frame.setColor(primary);
 		
-		leftPaddle.setColor(secondary);
-		rightPaddle.setColor(secondary);
+		nearPaddle.setColor(secondary);
+		farPaddle.setColor(secondary);
 		ball.setColor(secondary);
 		
-		lScore.setColor(tertiary);
-		rScore.setColor(tertiary);
+		nScore.setColor(tertiary);
+		fScore.setColor(tertiary);
 		
 		drawer.setFrame(frame);
 		
@@ -326,12 +344,15 @@ public class Pong_runner {
 	}
 	
 	public static void setSettings() {
-		Settings.collision_algorithm = 4;
+		Settings.collision_algorithm = 5;
 		Settings.rotationAlgorithm = 6;
 		Settings.timeOutTime = 5000000;
 		
-		Settings.width = 1000;
-		Settings.height = 600;
+		Settings.distanceFromScreenMeters = 0.0001;
+		
+		Settings.width = 1500;
+		Settings.height = 1000;
+		Settings.depth = 5000;
 	}
 	
 	public static void resize() {
@@ -339,12 +360,12 @@ public class Pong_runner {
 		
 		borders.resize();
 		
-		lScore.setPos(0.2 * Settings.width, 0.1 * Settings.height,0);
-		rScore.setPos(0.7 * Settings.width, 0.1 * Settings.height,0);
+		nScore.setPos(0.2 * Settings.width, 0.1 * Settings.height,0);
+		fScore.setPos(0.7 * Settings.width, 0.1 * Settings.height,0);
 		
 		
 		//make the game faster when the frame gets bigger
-		gameSpeed = gameSetSpeed * diagonal/3;
+		gameSpeed = gameSetSpeed * diagonal/100;
 		paddleSpeed = 4 * gameSpeed;
 		ballSpeed = 5 * gameSpeed;
 		Paddle.paddleHomingSpeed = Pong_runner.AI_difficulty * Pong_runner.gameSpeed;

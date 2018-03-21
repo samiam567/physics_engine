@@ -22,7 +22,7 @@ public class object_draw extends Canvas {
 	public double current_frame = 0; //what frame we are on
 	private long frameStartTime,updateStartTime;
 	private long frameEndTime,updateEndTime;
-	private long wait_time;
+	private long wait_time = 100,wait_time_temp;
 	
 	public int inactivity_timer = 0;
 	
@@ -217,11 +217,18 @@ public class object_draw extends Canvas {
 	public void doThreadedFrame() {
 		
 		frameStartTime = System.nanoTime();
-	
 		repaint(); 
 		frameEndTime = System.nanoTime();
 		
-		wait_time = (frameEndTime - frameStartTime)/350;
+		wait_time_temp = (frameEndTime - frameStartTime)/350; //350 for noflicker
+		
+		//use machine learning to adjust to the right wait_time
+		if (wait_time_temp > wait_time) {
+			wait_time ++;
+		}else if (wait_time_temp < wait_time) {
+			wait_time --;
+		}
+		
 		sleepThread(wait_time);
 	
 	}

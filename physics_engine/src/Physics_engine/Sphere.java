@@ -6,14 +6,14 @@ public class Sphere extends Physics_3DPolygon {
 	
 	public double accuracy;
 	
-	public Sphere(object_draw drawer1, double x1, double y1, double z1, double size,double accuracy) {
+	public Sphere(object_draw drawer1, double x1, double y1, double z1, double size,double mass,double accuracy) {
 		super(drawer1);
 		drawMethod = "paint";
 		setPos(x1,y1,z1);
 		setSize(size,size,size);
 		setRotation(0,0,0);
 		
-		points = new point[(int) (2*Math.PI/accuracy )];
+		points = new point[(int) (2*Math.PI/accuracy)];
 		
 		
 		ArrayList<point> pointsAL = new ArrayList<point>();

@@ -96,7 +96,7 @@ public class physics_runner {
 		
 		
 		
-		Sphere sphere = new Sphere(drawer,200,200,200,100,Math.PI/30);
+		Sphere sphere = new Sphere(drawer,200,200,200,100,10,Math.PI/30);
 		sphere.setRotation(0, 0.5, 0);
 		sphere.setAngularVelocity(0.1, 0.05, 0.1);
 		sphere.isFilled = false;

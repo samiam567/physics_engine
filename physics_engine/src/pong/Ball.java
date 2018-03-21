@@ -1,24 +1,24 @@
 package pong;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import Physics_engine.Physics_engine_toolbox.faces;
 import Physics_engine.Settings;
+import Physics_engine.Sphere;
 import Physics_engine.Square;
 import Physics_engine.border_bounce;
 import Physics_engine.object_draw;
 import Physics_engine.physics_object;
 import Physics_engine.resizable;
 
-public class Ball extends Square implements resizable {
+public class Ball extends Sphere implements resizable {
 	
+	public static double ballZSpeed = Pong_runner.gameSetSpeed * 100;
 	
 	public Ball(object_draw drawer) {
-		super(drawer,Settings.width/2,Settings.height/2,0,10,10);
-		setSize(Settings.width/50,Settings.width/50,0);
+		super(drawer,Settings.width/2,Settings.height/2,Settings.depth/2,Settings.width/15,10,Math.PI/15);
 		
-		isFilled = true;
-		isRotatable = false;
 		int direction;
 		if (Math.random() < 0) {
 			direction = -1;
@@ -26,32 +26,54 @@ public class Ball extends Square implements resizable {
 			direction = 1;
 		}
 		
-		setSpeed( Pong_runner.ballSpeed * direction,Pong_runner.ballSpeed/2 *(Math.random() - 0.5),0);
+		setSpeed(Pong_runner.ballSpeed/2 * (Math.random() - 0.5) ,Pong_runner.ballSpeed/2 *(Math.random() - 0.5),ballZSpeed * direction );
 		
 	}
 	
+	public void tertiaryUpdate() {
+		double size = 100 * Settings.width/(zReal + 500);
+		setSize(size,size,size);
+		
+		if (zSpeed > 0) {
+			setColor(Color.yellow);
+		}else if (zSpeed < 0) {
+			setColor(Color.green);
+		}else {
+			setColor(Color.red);
+		}
+	}
+	
 	public void isCollided (physics_object cOb,faces side) {
-		
-		
+
 		setAccel(0,0,0);
+		
 		try {
 			Paddle cPad = (Paddle) cOb;
-			setAccel(0,(ySpeed - cPad.getYSpeed())/200,0);
-			setAngularVelocity(0,0,0.01 *(ySpeed - cPad.getYSpeed()));
+			
+			System.out.println("PAD");
+			
+			setSpeed(xSpeed,ySpeed,-zSpeed);
+			System.out.println("speed: " + zSpeed);
+			
+			setPos(centerX,centerY,centerZ + drawer.getFrameStep() + zSpeed);
+			updatePoints();
+			
+			setAccel((-xSpeed + cPad.getXSpeed())/200,(ySpeed - cPad.getYSpeed())/200,0);
+			setAngularVelocity(0,0.01 *(ySpeed - cPad.getYSpeed()),0);
 			
 			System.out.println((ySpeed - cPad.getYSpeed()));
 			
-			//allow for the player to speed up the ball with their paddle 
-			setSpeed(xSpeed - cPad.getXSpeed()/2, ySpeed, zSpeed);
+			
+			
 			
 		}catch(ClassCastException c) {
 			try {
 				border_bounce cBor = (border_bounce) cOb;
-				if (side.equals(faces.left)) {
-					Pong_runner.rScore.AddScore(1);
+				if (side.equals(faces.near)) {
+					Pong_runner.fScore.AddScore(1);
 					reset();
-				}else if (side.equals(faces.right)) {
-					Pong_runner.lScore.AddScore(1);
+				}else if (side.equals(faces.far)) {
+					Pong_runner.nScore.AddScore(1);
 					reset();
 				}
 					
@@ -62,7 +84,7 @@ public class Ball extends Square implements resizable {
 	}
 	
 	public void reset() {
-		setPos(Settings.width/2,Settings.height/2,0);
+		setPos(Settings.width/2,Settings.height/2,Settings.depth/2);
 		
 		int direction;
 		if (Math.random() < 0.5) {
@@ -71,7 +93,7 @@ public class Ball extends Square implements resizable {
 			direction = 1;
 		}
 		
-		setSpeed( Pong_runner.ballSpeed * direction,Math.round(xSpeed)/2 *(Math.random() - 0.5),0);
+		setSpeed(Math.round(Pong_runner.ballSpeed)/2 *(Math.random() - 0.5) ,Math.round(Pong_runner.ballSpeed)/2 *(Math.random() - 0.5),ballZSpeed * direction);
 	
 		try {
 			Thread.sleep(10);
@@ -79,14 +101,23 @@ public class Ball extends Square implements resizable {
 			e.printStackTrace();
 		}
 	}
+
 	
-/*	
 	public void paint(Graphics page) {
-		page.fillOval(x, y, (int)xSize,(int) ySize);
+		super.paint(page);
+		
+		double distVal = z ;
+		//distance bars
+		page.fillRect(0, 0, 10, (int) (((Settings.height*0.85) * distVal)/Settings.depth));
+		page.drawRect(0, 0, 10, (int) (Settings.height*0.85));
+		
+		page.fillRect(Settings.width-45, 0, 10, (int) (((Settings.height*0.85) * distVal)/Settings.depth));
+		page.drawRect(Settings.width-45, 0, 10, (int) (Settings.height*0.85));
+
 	}
-*/	
+
 	public void resize() {
-		setSize(Settings.width/50,Settings.width/50,0);
+		setSize(Settings.width/50,Settings.width/50,Settings.width/50);
 
 	}
 }
