@@ -1,6 +1,7 @@
 package pong;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import Physics_engine.Rectangular_prism;
 import Physics_engine.Settings;
@@ -18,23 +19,30 @@ public class Paddle extends Rectangular_prism implements resizable {
 		super(drawer,Settings.width/2,Settings.height/2,10,Settings.width/5,Settings.height/5,Settings.width/25,10);
 		side = side1;
 		
-		
-		setRotation(0.01,0.01,0);
+		drawMethod = "paint";
+		setRotation(0.02,0.02,0);
 		
 		switch (side) {
 			case("near"):
-				setPos(Settings.width/2,Settings.height/3,100);
+				setPos(Settings.width/2,Settings.height/1.5,100);
 				setSize(Settings.width/5,Settings.height/5,Settings.width/5);
 				setColor(Color.green);
 				setRotation(0.02,0.02,0);
 			break;
 			
 			case("far"):
-				setPos(Settings.width/2,Settings.height/2,Settings.depth-200);
+				setPos(Settings.width/2,Settings.height/3,Settings.depth-200);
 				setSize(Settings.width/20,Settings.height/20,Settings.width/10);
 				setColor(Color.yellow);
+				
 			break;
 		}
+	}
+	
+	
+	public void paint(Graphics page) {
+		page.fillRoundRect(x, y, (int) xSize,(int) ySize,(int) xSize/5,(int) ySize/5);
+	
 	}
 	
 	
@@ -87,19 +95,19 @@ public class Paddle extends Rectangular_prism implements resizable {
 		
 		switch (side) {
 			case("near"):
-				setPos(Settings.width/2,Settings.height/3,100);
+				setPos(Settings.width/2,Settings.height/1.5,100);
 				setSize(Settings.width/5,Settings.height/5,Settings.width/5);
 				setColor(Color.green);
 				setRotation(0.02,0.02,0);
 			break;
 			
 			case("far"):
-				setPos(Settings.width/2,Settings.height/2,Settings.depth-200);
+				setPos(Settings.width/2,Settings.height/3,Settings.depth-200);
 				setSize(Settings.width/20,Settings.height/20,Settings.width/10);
 				setColor(Color.yellow);
 				
 			break;
-		}
+		}	
 	}
 	
 	

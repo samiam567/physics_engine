@@ -55,11 +55,9 @@ public class point extends Physics_drawable {
 		
 		pObject.updateAreas();
 		
-		Area areaXY = pObject.getAreaXY();
-		Area areaZY = pObject.getAreaZY();
+		Area areaXY = pObject.getAreaXY();		
 		
-		
-		if ( areaXY.contains(xReal,yReal) && ( Math.abs(zReal - pObject.centerZ) < (pObject.zSize + 0.001) ) ) {
+		if ( areaXY.contains(xReal,yReal) && ( Math.abs(zReal - pObject.centerZ) < (pObject.zSize + drawer.frameStep) ) ) {
 			System.out.println(zReal + "=" + pObject.centerZ + "<" + pObject.zSize);
 			return true;
 		}

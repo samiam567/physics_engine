@@ -13,14 +13,14 @@ public class Settings {
 
 	
 	public static final long frameTime = 2500000; //this doesn't do anything anymore
-	public static int timeOutTime = 500000;
+	public static int timeOutTime = 150;
 	
 	public static final Color frameColor = Color.GRAY;
 	
 	public static final double elasticity = 1; //a number between 0 and 1
 	
 	
-	public static final boolean perspective = true;
+	public static boolean perspective = true;
 	public static double distanceFromScreenMeters = 0.3025; //the distance in meters the viewer is away from the screen
 	public static final double distanceFromScreen = distanceFromScreenMeters / 0.000115; //should not be changed
 	

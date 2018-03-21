@@ -120,6 +120,13 @@ public class object_draw extends Canvas {
 		}catch(ClassCastException e) {
 			//ob is not tangible
 		}
+		
+		try {
+			resizables.remove((resizable) removeOb);
+		}catch(ClassCastException e) {
+			//ob is not resizable
+		}
+		
 	}
 	
 	private void updateObjects(double frames) {
@@ -220,7 +227,7 @@ public class object_draw extends Canvas {
 		repaint(); 
 		frameEndTime = System.nanoTime();
 		
-		wait_time_temp = (frameEndTime - frameStartTime)/350; //350 for noflicker
+		wait_time_temp = (frameEndTime - frameStartTime)/300; //300 for noflicker
 		
 		//use machine learning to adjust to the right wait_time
 		if (wait_time_temp > wait_time) {
@@ -253,10 +260,12 @@ public class object_draw extends Canvas {
 	
 	public void paint(Graphics page)  {
 		
+		
+		try {
 		//sorting objects by z distance ----------------------------------
-		Collections.sort( drawables, new Comparator<Physics_drawable>() {
+		Collections.sort( drawables, new Comparator<drawable>() {
 	     
-	        public int compare(Physics_drawable o1, Physics_drawable o2) {
+	        public int compare(drawable o1, drawable o2) {
 	            return Double.compare(o2.getZReal(), o1.getZReal());
 	        }
 
@@ -264,11 +273,6 @@ public class object_draw extends Canvas {
 	    });
 		//----------------------------------------------------------------
 		
-		
-		
-		
-		
-		try {
 			for (drawable current_object : drawables) {
 				
 				

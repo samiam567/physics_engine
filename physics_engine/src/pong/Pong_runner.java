@@ -22,7 +22,7 @@ import Physics_engine.object_draw;
 
 public class Pong_runner {
 
-	public static final String Version = "2.0.5";
+	public static final String Version = "2.1.2";
 	
 	
 	public static boolean cheatMode = false;
@@ -39,7 +39,7 @@ public class Pong_runner {
 	public static ScoreBoard fScore, nScore;
 	public static double paddleSpeed = 4 * gameSpeed, ballSpeed = 5 * gameSpeed, AI_difficulty = 1;
 	private static SpeedTimer keyStrokeTimer1, keyStrokeTimer2;
-	private static border_bounce borders;
+	public static border_bounce borders;
 	private static String[] yesOrNo = {"yes","no"};
 	
 	public static double diagonal = Math.sqrt(Math.pow(Settings.width,2) + Math.pow(Settings.height,2));
@@ -86,8 +86,8 @@ public class Pong_runner {
 		borders.isVisible = false;
 		
 		setSettings();
-		resize();
 		
+		resize();
 		
 		ball.isAnchored = true; //hold the ball till the game starts
 		
@@ -99,14 +99,22 @@ public class Pong_runner {
 		drawer.add(nScore);
 		drawer.add(borders);
 		drawer.add(fScore);
+		
+	
+		PongStartScreen startScreen = new PongStartScreen(drawer);
+		
 		drawer.start();
 		
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 500000; i++) {
 			System.out.println("loading");
 		}
 		
 		
 		init();  //start the game
+		
+		startScreen.goAway();
+		
+		
 		
 		//key listener
 		drawer.addKeyListener(new KeyListener() {
@@ -225,7 +233,7 @@ public class Pong_runner {
 			
 	      });
 		
-		
+	
 	}
 	
 	public static void init() {
@@ -242,7 +250,7 @@ public class Pong_runner {
 			
 			p2AI = true;
 			System.out.println("Pong Terminator Uploaded");
-			resize();
+			
 		}else{
 			p2AI = false;
 			
@@ -261,7 +269,7 @@ public class Pong_runner {
 		switch(p2AI_diff_input) {
 			case(0):
 				System.out.println("Difficulty: Easy");
-				AI_difficulty = 0.7;
+				AI_difficulty = 1;
 				gameSetSpeed = 1;
 				break;
 			
@@ -346,16 +354,20 @@ public class Pong_runner {
 	public static void setSettings() {
 		Settings.collision_algorithm = 5;
 		Settings.rotationAlgorithm = 6;
-		Settings.timeOutTime = 5000000;
+		Settings.timeOutTime = 200;
+		
 		
 		Settings.distanceFromScreenMeters = 0.0001;
 		
-		Settings.width = 1500;
+		Settings.width = 1400;
 		Settings.height = 1000;
 		Settings.depth = 5000;
 	}
 	
 	public static void resize() {
+		
+		System.out.println("resizing pong");
+		
 		diagonal = Math.sqrt(Math.pow(Settings.width,2) + Math.pow(Settings.height,2));
 		
 		borders.resize();

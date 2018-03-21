@@ -26,6 +26,8 @@ public class Ball extends Sphere implements resizable {
 			direction = 1;
 		}
 		
+		
+		
 		setSpeed(Pong_runner.ballSpeed/2 * (Math.random() - 0.5) ,Pong_runner.ballSpeed/2 *(Math.random() - 0.5),ballZSpeed * direction );
 		
 	}
@@ -58,8 +60,9 @@ public class Ball extends Sphere implements resizable {
 			setPos(centerX,centerY,centerZ + drawer.getFrameStep() + zSpeed);
 			updatePoints();
 			
-			setAccel((-xSpeed + cPad.getXSpeed())/200,(ySpeed - cPad.getYSpeed())/200,0);
-			setAngularVelocity(0,0.01 *(ySpeed - cPad.getYSpeed()),0);
+			//spin
+			setAccel((xSpeed + cPad.getXSpeed())/200,(ySpeed - cPad.getYSpeed())/200,0);
+			setAngularVelocity((xSpeed + cPad.getXSpeed())/200,0.01 *(ySpeed - cPad.getYSpeed()),0);
 			
 			System.out.println((ySpeed - cPad.getYSpeed()));
 			
@@ -86,6 +89,8 @@ public class Ball extends Sphere implements resizable {
 	public void reset() {
 		setPos(Settings.width/2,Settings.height/2,Settings.depth/2);
 		
+		setAngularVelocity(0, 0, 0);
+		
 		int direction;
 		if (Math.random() < 0.5) {
 			direction = -1;
@@ -106,12 +111,12 @@ public class Ball extends Sphere implements resizable {
 	public void paint(Graphics page) {
 		super.paint(page);
 		
-		double distVal = z ;
+		
 		//distance bars
-		page.fillRect(0, 0, 10, (int) (((Settings.height*0.85) * distVal)/Settings.depth));
+		page.fillRect(0, 0, 10, (int) (((Settings.height*0.85) * z)/Settings.depth));
 		page.drawRect(0, 0, 10, (int) (Settings.height*0.85));
 		
-		page.fillRect(Settings.width-45, 0, 10, (int) (((Settings.height*0.85) * distVal)/Settings.depth));
+		page.fillRect(Settings.width-45, 0, 10, (int) (((Settings.height*0.85) * z)/Settings.depth));
 		page.drawRect(Settings.width-45, 0, 10, (int) (Settings.height*0.85));
 
 	}

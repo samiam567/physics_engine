@@ -1,6 +1,7 @@
 package Physics_engine;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -15,6 +16,9 @@ public class Physics_engine_toolbox {
 	
 	public static String[] stuffToDo = {"position","speed","acceleration","rotation","angular velocity","angular acceleration","color","size","friction Coefficient","mass","name"};
 
+	public static Font bigFont = new Font("TimesRoman", Font.BOLD, 70);
+	
+	public static Font littleFont = new Font("TimesRoman", Font.BOLD, 12);
 	
 	public static void Update(physics_engine_compatible current_object,double frames) { //frames is the number of frames the object should update (can be a decimal)
 		

@@ -15,14 +15,7 @@ public class object_draw_update_thread extends Thread {
 			if (state == 1) { //running
 				try {
 					objectDrawer.doUpdate();
-					
-					if (objectDrawer.inactivity_timer < Settings.timeOutTime) {
-						objectDrawer.inactivity_timer++;
-					}else {
-						System.out.println("Session timed out. Terminating program.");
-						objectDrawer.frame.dispose();
-						System.exit(1);
-					}	
+			
 				}catch (ConcurrentModificationException c) {}
 			}else if (state == 2) { //paused
 				try {
