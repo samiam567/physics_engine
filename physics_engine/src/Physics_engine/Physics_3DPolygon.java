@@ -245,12 +245,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0] + xI, cPoint.getYReal() + yI, pointOfRotation.getZReal() + rotComponents[1] + zI);
 				
 				
-//				if (Settings.perspective == true) {
-//					cPoint.xComponent = (Settings.distanceFromScreen * (cPoint.getXReal() - pointOfRotation.getXReal()) ) / ( getZReal() + Settings.distanceFromScreen);
-//					cPoint.yComponent = (Settings.distanceFromScreen *  (cPoint.getYReal() - pointOfRotation.getYReal()) ) / ( getZReal() + Settings.distanceFromScreen);	
-//					cPoint.setPos(pointOfRotation.getXReal() + cPoint.xComponent, pointOfRotation.getYReal() + cPoint.yComponent, cPoint.getZReal());
-//				}
-				
+
 				points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );
 				
 				

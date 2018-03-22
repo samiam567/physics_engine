@@ -41,7 +41,7 @@ public class Paddle extends Rectangular_prism implements resizable {
 	
 	
 	public void paint(Graphics page) {
-		page.fillRoundRect(x, y, (int) xSize,(int) ySize,(int) xSize/5,(int) ySize/5);
+		page.drawRoundRect(x, y, (int) xSize,(int) ySize,(int) xSize/5,(int) ySize/5);
 	
 	}
 	

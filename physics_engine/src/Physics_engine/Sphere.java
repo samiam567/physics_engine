@@ -18,12 +18,11 @@ public class Sphere extends Physics_3DPolygon {
 		
 		ArrayList<point> pointsAL = new ArrayList<point>();
 		
+		//generating the list of points for the sphere
 		double t,q,xPos,yPos,zPos;
-	
-		for (int i = 0; i < points.length; i ++) {
+		for (int i = 0; i < points.length; i ++) { 
 			t = i * accuracy;		
-			
-			
+
 			for (int z = 0; z < points.length; z++) {
 				q = z * accuracy;
 				xPos = xSize * Math.sin(t) * Math.cos(q);

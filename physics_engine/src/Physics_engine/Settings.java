@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.6.9";
+	public static final String version = "4.6.11";
 	
 	
 	public static int width = 1500;

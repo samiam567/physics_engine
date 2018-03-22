@@ -246,7 +246,7 @@ public class object_draw extends Canvas {
 		updateObjects(frameStep); //update the objects
 		current_frame += frameStep;
 		updateEndTime = System.nanoTime();
-		frameStep = ((double) (updateEndTime - updateStartTime)) / 100000000; //automatically set the frameRate depending on how fast the cpu is going
+		frameStep = ((double) (updateEndTime - updateStartTime)) / 100000000; //automatically set the accuracy of the subCalculations depending on how fast the cpu is going
 		sleepThread(1);
 	}
 	
@@ -356,7 +356,7 @@ public class object_draw extends Canvas {
 							default:
 								current_object.paint(page);
 								break;
-						} //switch drawmethod
+						} 
 					}
 				}
 			}

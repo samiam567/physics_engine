@@ -47,7 +47,32 @@ The reduceThetas() method just reduces the angle to a 0-2pi range (like how 4pi 
 
 	
 	LINE COUNT:
-	5620
+	5620+
+
+	
+	
+	ROTATION V6:
+	IT WORKS!!!
+	
+	
+	
+	
+my life story :P
+lol i wrote this a bit ago and didn't really know where to put it so here's a cringe fest for ya
+
+
+	Over 4 months ago I decided to undertake the biggest and most complicated program I had ever dreamed of making before. I
+	 decided to make a program to simulate the laws of physics that can be used to easily develop graphical games and programs. 
+	 I started out small; trying to make a square move across the screen. 
+	 It was very difficult trying to design the fastest way of rendering objects before I knew what objects I would even be drawing. 
+	 After testing multiple methods, I decided to go with a rendering object that has an ArrayList of objects which the object updates and renders one by one. Once I finished that, I decided to design a collision algorithm. 
+	 What I didn’t realize is that by the time I had developed a working algorithm, I would have written, tested, and revised four fundamentally different algorithms, with V1 and V4 being the only ones that worked. (V1 had to be changed even though it technically worked because it only had a ~90% accuracy. 
+	 V4 has a setting in the Settings class that has to be made smaller based on the top anticipated speed of an object which allows it to have 100% accuracy). 
+	 I have since made a V5 collision algorithm that has 100% accuracy for any object made up of points. My next task was to add 3d capabilities to the engine, which brought the issue of rotation in 3d. 
+	 I developed and tested four different rotation algorithms, and while v3 and v4 work in 2d, I still have not been able to correctly implement a working 3d rotation algorithm and am still continuing to test and improve upon the v3 and v4 algorithms. 
+	 I also have used the engine to create multiple games including JetPack_JoyRide. I started out with a square, and some rectangles that you have to dodge. After peer review I decided to add coins and stuff to buy, and polished up the graphics a lot. Through testing I found that 
+	 I needed performance enhancements which I achieved with the V4.0 update of the physics_engine which added a much larger class hierarchy which reduces RAM usage by making the classes more lightweight and makes the whole thing run faster for the same reason. 
+	 I also added multithreading to the whole engine which added capabilities for multiple environments and support for lots of other cool features such as a Minimap. I also added a particle effect with small rotating squares for the jetpack fire as suggested by a peer review
 	
 */	
 }
