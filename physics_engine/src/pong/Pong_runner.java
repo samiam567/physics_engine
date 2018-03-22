@@ -22,7 +22,7 @@ import Physics_engine.object_draw;
 
 public class Pong_runner {
 
-	public static final String Version = "2.1.2";
+	public static final String Version = "2.1.3";
 	
 	
 	public static boolean cheatMode = false;
@@ -105,7 +105,7 @@ public class Pong_runner {
 		
 		drawer.start();
 		
-		for (int i = 0; i < 500000; i++) {
+		for (int i = 0; i < 200000; i++) {
 			System.out.println("loading");
 		}
 		

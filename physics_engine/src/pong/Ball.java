@@ -89,8 +89,6 @@ public class Ball extends Sphere implements resizable {
 	public void reset() {
 		setPos(Settings.width/2,Settings.height/2,Settings.depth/2);
 		
-		setAngularVelocity(0, 0, 0);
-		
 		int direction;
 		if (Math.random() < 0.5) {
 			direction = -1;
@@ -113,11 +111,11 @@ public class Ball extends Sphere implements resizable {
 		
 		
 		//distance bars
-		page.fillRect(0, 0, 10, (int) (((Settings.height*0.85) * z)/Settings.depth));
-		page.drawRect(0, 0, 10, (int) (Settings.height*0.85));
+		page.fillRect(0, 0, Settings.width/100, (int) (((Settings.height*0.85) * z)/Settings.depth));
+		page.drawRect(0, 0, Settings.width/100, (int) (Settings.height*0.85));
 		
-		page.fillRect(Settings.width-45, 0, 10, (int) (((Settings.height*0.85) * z)/Settings.depth));
-		page.drawRect(Settings.width-45, 0, 10, (int) (Settings.height*0.85));
+		page.fillRect((int) (Settings.width - Settings.width/100 - 20), 0, Settings.width/100, (int) (((Settings.height*0.85) * z)/Settings.depth));
+		page.drawRect((int) (Settings.width - Settings.width/100 - 20), 0, Settings.width/100, (int) (Settings.height*0.85));
 
 	}
 
