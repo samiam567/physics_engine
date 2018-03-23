@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import Physics_engine.Physics_engine_toolbox.faces;
 import Physics_engine.Settings;
 import Physics_engine.Sphere;
-import Physics_engine.Square;
 import Physics_engine.border_bounce;
 import Physics_engine.object_draw;
 import Physics_engine.physics_object;
@@ -17,7 +16,7 @@ public class Ball extends Sphere implements resizable {
 	public static double ballZSpeed = Pong_runner.gameSetSpeed * 100;
 	
 	public Ball(object_draw drawer) {
-		super(drawer,Settings.width/2,Settings.height/2,Settings.depth/2,Settings.width/15,10,Math.PI/15);
+		super(drawer,Settings.width/2,Settings.height/2,Settings.depth/2,Settings.width/15,10,Math.PI/10);
 		
 		int direction;
 		if (Math.random() < 0) {
@@ -71,6 +70,7 @@ public class Ball extends Sphere implements resizable {
 			
 		}catch(ClassCastException c) {
 			try {
+				@SuppressWarnings("unused")
 				border_bounce cBor = (border_bounce) cOb;
 				if (side.equals(faces.near)) {
 					Pong_runner.fScore.AddScore(1);

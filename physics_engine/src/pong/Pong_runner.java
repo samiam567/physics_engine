@@ -4,15 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import javax.swing.JOptionPane;
-import javax.swing.colorchooser.ColorSelectionModel;
-
 import Physics_engine.FCPS_display;
 import Physics_engine.FPS_display;
-import Physics_engine.New_object_listeners;
 import Physics_engine.Physics_engine_toolbox;
-import Physics_engine.Physics_frame;
 import Physics_engine.ScoreBoard;
 import Physics_engine.Settings;
 import Physics_engine.SpeedTimer;
@@ -354,7 +349,7 @@ public class Pong_runner {
 	public static void setSettings() {
 		Settings.collision_algorithm = 5;
 		Settings.rotationAlgorithm = 6;
-		Settings.timeOutTime = 200;
+		Settings.timeOutTime = 300;
 		
 		
 		Settings.distanceFromScreenMeters = 0.0001;

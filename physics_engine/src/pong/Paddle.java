@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import Physics_engine.Rectangular_prism;
 import Physics_engine.Settings;
 import Physics_engine.object_draw;
-import Physics_engine.rectangle;
 import Physics_engine.resizable;
 
 
@@ -51,7 +50,7 @@ public class Paddle extends Rectangular_prism implements resizable {
 		
 		if (Pong_runner.cheatMode) {
 			if (side.equals("near")) {
-				if (Pong_runner.ball.getZReal() < (200)) {
+				if (Pong_runner.ball.getZReal() < (300)) {
 					setPos(Pong_runner.ball.getCenterX(),Pong_runner.ball.getCenterY(),100);
 				}
 			}
