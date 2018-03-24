@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.6.12";
+	public static final String version = "4.6.13";
 	
 	
 	public static int width = 1500;
@@ -20,12 +20,12 @@ public class Settings {
 	public static final double elasticity = 1; //a number between 0 and 1
 	
 	
-	public static boolean perspective = true;
+	public static boolean perspective = false;
 	public static double distanceFromScreenMeters = 0.3025; //the distance in meters the viewer is away from the screen
 	public static final double distanceFromScreen = distanceFromScreenMeters / 0.000115; //should not be changed
 	
 	
-	public static final boolean displayObjectNames = false; 
+	public static final boolean displayObjectNames = true; 
 	public static final boolean showPointNumbers = false;
 	
 	public static final boolean autoResizeFrame = true;

@@ -7,7 +7,7 @@ public class Square extends Physics_3DPolygon {
 	public Square(object_draw drawer1,double x, double y, double z, double size, double mass) {
 		super(drawer1);
 		setPos(x,y,z);
-		setSize(size,size,0);
+		setSize(size,size,0.00000001);
 		setMass(mass);
 		setRotation(0,0,0);
 		
