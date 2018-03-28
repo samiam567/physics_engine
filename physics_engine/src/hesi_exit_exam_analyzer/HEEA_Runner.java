@@ -19,7 +19,7 @@ import Physics_engine.object_draw;
 
 public class HEEA_Runner {
 
-	public static final String Version = "1.2.2";
+	public static final String Version = "1.3.0";
 	
 	
 	public static Physics_frame frame = new Physics_frame();
@@ -75,13 +75,18 @@ public class HEEA_Runner {
 		String next;
 		Catagory currentCat = new Catagory(drawer,"nullBlob");
 		
-		int tokenCount = 0;
+		int tokenCount = 0,testInt;
+		String nTemp = "";
+		boolean skip = false;
 		
 		System.out.println("reading...");
 		
+		next = inStream.next();
+		
 		while (inStream.hasNext()) {
 			tokenCount++;
-			next = inStream.next();
+			
+			skip = false;
 			
 			if (next.contains("(") && next.contains(")") ) {  // (<number>)
 				assert nextInputType == -1;
@@ -91,12 +96,25 @@ public class HEEA_Runner {
 					currentCat.setNextCat(new Catagory(drawer,next));
 					currentCat = currentCat.getNextCat();
 					catagories.add(currentCat);
+					
+					while (! inStream.hasNextInt()) {
+						currentCat.setName(currentCat.getName() + inStream.next());
+					}
+					nextInputType++;
+					
 				}else { //this is the first cat
 					startCat = new Catagory(drawer,next);
 					currentCat = startCat;
 					catagories.add(currentCat);
+				
+					
+					while (! inStream.hasNextInt()) {
+						currentCat.setName(currentCat.getName() + " " + inStream.next());
+					}
+					nextInputType++;
 				}
-				nextInputType++;
+				
+				
 			}else if (nextInputType == 1) { // <catagoryScore>
 				try {
 					currentCat.setScore(Integer.parseInt(next));
@@ -104,6 +122,7 @@ public class HEEA_Runner {
 				}catch(NumberFormatException n) {
 					n.printStackTrace();
 				}
+				
 			}else if (nextInputType == 2) { // <numberOuestions>
 				try {
 					currentCat.setQuestions(Integer.parseInt(next));
@@ -112,6 +131,8 @@ public class HEEA_Runner {
 					n.printStackTrace();
 				}
 			}
+			
+			if (! skip)	next = inStream.next();
 		}
 		
 		System.out.println("Tokens: " + tokenCount);

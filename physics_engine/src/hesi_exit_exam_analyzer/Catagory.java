@@ -48,6 +48,10 @@ public class Catagory extends Physics_drawable {
 		return score;
 	}
 	
+	public void setName(String newName) {
+		name = newName;
+	}
+	
 	public void paint(Graphics page) {
 		page.setFont(Physics_engine_toolbox.littleFont);
 		page.drawString(name + "   Score: " + getScore() + "    Questions: " + getQuestions(), x, y);
