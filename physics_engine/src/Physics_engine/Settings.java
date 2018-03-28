@@ -25,7 +25,7 @@ public class Settings {
 	public static final double distanceFromScreen = distanceFromScreenMeters / 0.000115; //should not be changed
 	
 	
-	public static final boolean displayObjectNames = true; 
+	public static final boolean displayObjectNames = false; 
 	public static final boolean showPointNumbers = false;
 	
 	public static final boolean autoResizeFrame = true;
