@@ -11,11 +11,12 @@ public class Physics_frame extends JFrame{
 	public object_draw drawer;
 	public Rectangle boundingRectangle;
 
+	private static int frameCount;
 	
 	public Physics_frame() {
-		setVisible(true);
+		frameCount++;
 		setSize(Settings.width,Settings.height);
-		setTitle("Physics-Engine V" + Settings.version + "           Programmed by Alec Pannunzio");
+		setTitle("Physics-Engine V" + Settings.version + "           Programmed by Alec Pannunzio ID:" + frameCount);
 		cp = getContentPane();
 		
 		setBackground(Settings.frameColor);		
@@ -24,7 +25,7 @@ public class Physics_frame extends JFrame{
 		boundingRectangle = new Rectangle(0,0,getWidth(),getHeight());
 		boundingRectangle.setRect(0,0,getWidth(),getHeight());
 
-		
+		setVisible(true);
 	}
 	
 	

@@ -32,6 +32,10 @@ public class HEEA_Runner {
 	
 	private static ArrayList<Catagory> catagories = new ArrayList<Catagory>();
 	
+	private static ArrayList<Catagory> green = new ArrayList<Catagory>();
+	private static ArrayList<Catagory> yellow = new ArrayList<Catagory>();
+	private static ArrayList<Catagory> red = new ArrayList<Catagory>();
+	
 	private static Catagory startCat;
 
 	public static double diagonal = Math.sqrt(Math.pow(Settings.width,2) + Math.pow(Settings.height,2));
@@ -42,9 +46,11 @@ public class HEEA_Runner {
 		
 		drawer = new object_draw(frame);
 		
-		drawer.frame.setColor(Color.WHITE);
+		frame = drawer.frame;
+		
+		frame.setColor(Color.WHITE);
 
-		drawer.frame.setTitle("HESI Exit Exam Analyzer: V" + Version + "         Programmed by Alec Pannunzio");
+		frame.setTitle("HESI Exit Exam Analyzer: V" + Version + "         Programmed by Alec Pannunzio");
 	
 		setSettings();
 		
@@ -56,9 +62,12 @@ public class HEEA_Runner {
 			
 			drawer.start();
 		
-			calculate();
+			readInput();
+			
+			sort();
 
 			output();
+			
 		}catch(FileNotFoundException f) {
 			JOptionPane.showMessageDialog(frame, "The input file was not found", "File not found", 0);
 		}
@@ -66,7 +75,7 @@ public class HEEA_Runner {
 	}
 	
 
-	private static void calculate() {
+	private static void readInput() {
 		
 		// (<number>) <catagoryName>  <catagoryScore>  <numberOfQuestions>
 		
@@ -135,19 +144,51 @@ public class HEEA_Runner {
 			if (! skip)	next = inStream.next();
 		}
 		
-		System.out.println("Tokens: " + tokenCount);
+		System.out.println("Tokens: " + tokenCount);	
+	}
+	
+	
+	private static void sort() {
+		Collections.sort( catagories, new Comparator<Catagory>() {
+		     
+			public int compare(Catagory o1, Catagory o2) {
+				      return Integer.compare(o1.getScore(), o2.getScore());
+				}	
+		});
+		
+		
+		Catagory cCad = catagories.get(0);
+		int i = 1;
+		
+		while ( (cCad.getScore() >= 949) && (i < catagories.size())) {
+			green.add(cCad);
+			cCad.setColor(Color.green);
+			cCad = catagories.get(i);
+			i++;
+		}
+		
+		while (cCad.getScore() >= 799 && (i < catagories.size())) {
+			yellow.add(cCad);
+			cCad.setColor(Color.yellow);
+			cCad = catagories.get(i);
+			i++;
+		}
+		
+		while (i < catagories.size()) {
+			red.add(cCad);
+			cCad.setColor(Color.red);
+			cCad = catagories.get(i);
+			i++;
+		}
+		
+		
+		
 		
 	}
 	
 	
 	private static void output() {
 	
-		Collections.sort( catagories, new Comparator<Catagory>() {
-			     
-		public int compare(Catagory o1, Catagory o2) {
-			      return Integer.compare(o1.getScore(), o2.getScore());
-			}	
-		});
 
 		Catagory cCad;
 		for (int i = 0; i < catagories.size(); i++) {
@@ -170,6 +211,8 @@ public class HEEA_Runner {
 		Settings.width = 1400;
 		Settings.height = 1000;
 		Settings.depth = 5000;
+		
+		drawer.setFrameTimeMultiplier(1000);
 	}
 	
 	

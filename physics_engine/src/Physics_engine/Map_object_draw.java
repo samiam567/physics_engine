@@ -16,7 +16,6 @@ public class Map_object_draw extends object_draw implements resizable { //uses a
 		camera_center = camera_center1;
 		xSize = xSize1;
 		ySize = ySize1;
-		setFrameTime(100000000);
 		frameXSize = frame.getWidth();
 		frameYSize = frame.getHeight();
 		frame.setTitle(drawerToMap.frame.getTitle() + " MiniMap");

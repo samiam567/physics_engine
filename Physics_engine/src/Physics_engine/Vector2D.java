@@ -36,18 +36,24 @@ public class Vector2D extends Physics_shape {
 	}
 
 	private void rectangularToPolar() {
-		
-	
 		theta = Math.atan2(yComponent,xComponent);
 		
 		r = Math.sqrt(Math.pow(xComponent, 2) + Math.pow(yComponent, 2));
 		updatePoints();
 	}
 	
+	public static double[] rectangularToPolar(double xComponent,double yComponent) {
+		return new double[] {Math.sqrt(Math.pow(xComponent, 2) + Math.pow(yComponent, 2)),Math.atan2(yComponent,xComponent)};
+	}
+	
 	private void polarToRectangular() {
 		xComponent = r * Math.cos(theta);
 		yComponent = r * Math.sin(theta);
 		updatePoints();
+	}
+	
+	public static double[] polarToRectangular(double r, double theta) {
+		return new double[] {r * Math.cos(theta), r * Math.sin(theta) };
 	}
 	
 	public void setTheta(double theta1) {

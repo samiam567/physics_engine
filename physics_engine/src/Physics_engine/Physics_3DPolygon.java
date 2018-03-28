@@ -195,11 +195,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 
 
 	public double[] calculateRotation(double x, double y, double angle) {
-		Vector2D pointVector = new Vector2D(drawer,new point(drawer,x,y,0),pointOfRotation);
-		
-		pointVector.setTheta(pointVector.getTheta() + angle);
-		
-		return new double[] {pointVector.getXComponent(),pointVector.getYComponent()};
+		double[] polar = Vector2D.rectangularToPolar(x - pointOfRotation.getXReal(), y - pointOfRotation.getYReal());
+		return Vector2D.polarToRectangular(polar[0], polar[1] + angle);
 	}
 	
 	public void updatePoints() { //creates a vector from the pointOfRotation to each point in the object			
@@ -391,8 +388,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		if (Settings.collision_algorithm == 5) {
 			updatePointXsYsAndZs();
 			updateAreas();
-			drawer.frameStep = 0.001;
-			drawer.setFrameTime(1000000);
 			point cPoint;
 			double force, reflec_const, time = 1;	
 			

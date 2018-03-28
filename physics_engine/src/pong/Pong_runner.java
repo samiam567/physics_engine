@@ -349,9 +349,9 @@ public class Pong_runner {
 	public static void setSettings() {
 		Settings.collision_algorithm = 5;
 		Settings.rotationAlgorithm = 6;
-		Settings.timeOutTime = 300;
+		Settings.timeOutTime = 100;
 		
-		
+		drawer.setFrameTimeMultiplier(150);
 		Settings.distanceFromScreenMeters = 0.0001;
 		
 		Settings.width = 1400;

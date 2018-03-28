@@ -13,7 +13,6 @@ public class Catagory extends Physics_drawable {
 	public int questions;
 	public int score;
 	private Catagory nextCat;
-	private Color color;
 	
 	public Catagory(object_draw drawer1, String name1) {
 		super(drawer1);

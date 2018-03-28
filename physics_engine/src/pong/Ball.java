@@ -16,7 +16,7 @@ public class Ball extends Sphere implements resizable {
 	public static double ballZSpeed = Pong_runner.gameSetSpeed * 100;
 	
 	public Ball(object_draw drawer) {
-		super(drawer,Settings.width/2,Settings.height/2,Settings.depth/2,Settings.width/15,10,Math.PI/10);
+		super(drawer,Settings.width/2,Settings.height/2,Settings.depth/2,Settings.width/15,10,Math.PI/20);
 		
 		int direction;
 		if (Math.random() < 0) {
@@ -61,7 +61,7 @@ public class Ball extends Sphere implements resizable {
 			
 			//spin
 			setAccel((xSpeed + cPad.getXSpeed())/200,(ySpeed - cPad.getYSpeed())/200,0);
-			setAngularVelocity((xSpeed + cPad.getXSpeed())/200,0.01 *(ySpeed - cPad.getYSpeed()),0);
+			setAngularVelocity(0.01 *(ySpeed - cPad.getYSpeed()),(xSpeed + cPad.getXSpeed())/200,0);
 			
 			System.out.println((ySpeed - cPad.getYSpeed()));
 			

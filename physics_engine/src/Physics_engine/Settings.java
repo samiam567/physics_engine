@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.6.13";
+	public static final String version = "4.7.0";
 	
 	
 	public static int width = 1500;
@@ -13,7 +13,7 @@ public class Settings {
 
 	
 	public static final long frameTime = 2500000; //this doesn't do anything anymore
-	public static int timeOutTime = 150;
+	public static int timeOutTime = 100;
 	
 	public static final Color frameColor = Color.GRAY;
 	

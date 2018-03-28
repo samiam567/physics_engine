@@ -25,7 +25,9 @@ public class object_draw extends Canvas {
 	private long frameEndTime,updateEndTime;
 	private long wait_time = 100,wait_time_temp;
 	
-	public int inactivity_timer = 0;
+	private double frameTimeMultiplier = 100;
+	
+	public double inactivity_timer = 0;
 	
 	public Physics_frame frame;
 
@@ -228,7 +230,7 @@ public class object_draw extends Canvas {
 		repaint(); 
 		frameEndTime = System.nanoTime();
 		
-		wait_time_temp = (frameEndTime - frameStartTime)/300; //300 for noflicker
+		wait_time_temp = (long) (frameTimeMultiplier * (frameEndTime - frameStartTime)/100000);
 		
 		//use machine learning to adjust to the right wait_time
 		if (wait_time_temp > wait_time) {
@@ -386,8 +388,8 @@ public class object_draw extends Canvas {
 		return frameTime;
 	}
 
-	public void setFrameTime(long frameTime) {
-		this.frameTime = frameTime;
+	public void setFrameTimeMultiplier(int frameTime) {
+		frameTimeMultiplier = frameTime;
 	}
 	
 	public long getWaitTime() {

@@ -317,7 +317,6 @@ public class JetPack_JoyRide {
 		Settings.collision_algorithm = 4;
 		Settings.rotationAlgorithm = 4;
 		drawer.frameStep = 0.01;
-		drawer.setFrameTime(40000000);
 		Settings.timeOutTime = 5000000;
 	}
 	
