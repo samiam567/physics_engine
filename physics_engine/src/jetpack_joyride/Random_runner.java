@@ -10,23 +10,47 @@ import java.util.ArrayList;
 import Physics_engine.Physics_frame;
 import Physics_engine.object_draw;
 
+class A{
+
+    public static int x = 0;
+
+    public A(){            
+
+       x++;
+
+    }
+
+    public static int getX()
+
+    {
+
+         return x;
+
+    }
+
+}
+
+class B extends A{
+
+    public B(){
+
+       x++;
+
+    }
+
+}
+
+
+
 public class Random_runner extends Applet{
-	
-	public static Polygon polyXY = new Polygon();
-	public static Monster[] monsters = new Monster[500];
-	
-	public static Physics_frame frame = new Physics_frame();
-	
 	public static void main(String[] args) {
 		 
-		Object c = new String("Hello");
-		String d = new String("Hello");
-		System.out.println(c.equals(d));
+		A a = new A();
+
+		a = new B();
+
+		System.out.println(A.getX());
 	}
 	
-	public void paint(Graphics page) {
-		page.drawPolygon(polyXY);
-		System.out.println("gasdf");
-		
-	}
+	
 }
