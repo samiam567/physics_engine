@@ -1,6 +1,7 @@
 package hesi_exit_exam_analyzer;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import Physics_engine.Physics_drawable;
@@ -13,6 +14,7 @@ public class Catagory extends Physics_drawable {
 	public int questions;
 	public int score;
 	private Catagory nextCat;
+	private static Font catFont = new Font("TimesRoman", Font.BOLD, 15);
 	
 	public Catagory(object_draw drawer1, String name1) {
 		super(drawer1);
@@ -52,8 +54,14 @@ public class Catagory extends Physics_drawable {
 	}
 	
 	public void paint(Graphics page) {
-		page.setFont(Physics_engine_toolbox.littleFont);
-		page.drawString(name + "   Score: " + getScore() + "    Questions: " + getQuestions(), x, y);
-		page.drawRect(x, y-15,(int) (Settings.width/10 * Math.sqrt(questions)), 15);
+		
+		page.setFont(catFont);
+		
+		page.setColor(color);
+		page.fillRect(x, y-20,(int) (Settings.width/10 * Math.sqrt(questions)), 20);
+		
+		page.setColor(Color.black);
+		page.drawString(name + "   Score: " + getScore() + "    Questions: " + getQuestions(), x, y-5);
+		
 	}
 }

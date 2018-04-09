@@ -122,24 +122,24 @@ public class Pong_runner {
 	        	  switch (e.getKeyCode()) {
 	        	  	case(87): //w
 	        	  		drawer.remove(keyStrokeTimer1);
-	        	  		nearPaddle.setSpeed(0, -paddleSpeed, 0);
+	        	  		nearPaddle.setSpeed(nearPaddle.getXSpeed(), -paddleSpeed, 0);
 	        	  		break;
 	        	  	
 	        	  	case(65): //a
 	        	  		drawer.remove(keyStrokeTimer1);
-	        	  		nearPaddle.setSpeed(-paddleSpeed, 0, 0);
+	        	  		nearPaddle.setSpeed(-paddleSpeed, nearPaddle.getYSpeed(), 0);
 	        	  		
 	        	  	break;
 	        	  	
 	        	  	case(83): //s
 	        	  		drawer.remove(keyStrokeTimer1);
-	        	  		nearPaddle.setSpeed(0, paddleSpeed, 0);
+	        	  		nearPaddle.setSpeed(nearPaddle.getXSpeed(), paddleSpeed, 0);
 	        	  		
 	        	  	break;
 	        	  	
 	        	  	case(68): //d
-	        	  		drawer.remove(keyStrokeTimer2);
-	        	  		nearPaddle.setSpeed(paddleSpeed, 0, 0);
+	        	  		drawer.remove(keyStrokeTimer1);
+	        	  		nearPaddle.setSpeed(paddleSpeed, nearPaddle.getYSpeed(), 0);
 	        	  	break;
 	        	  }
 	        	  
@@ -210,10 +210,10 @@ public class Pong_runner {
 				
 				//add timers so that the paddle will stop when the key is released
 				if ((key == 87) || (key == 65) || (key == 83) || (key == 68)) {
-					keyStrokeTimer1 = new SpeedTimer(drawer,1/gameSpeed,"seconds",0,0,0,nearPaddle);
+					keyStrokeTimer1 = new SpeedTimer(drawer,10/paddleSpeed,"seconds",0,0,0,nearPaddle);
 					drawer.add(keyStrokeTimer1);
 				}else if ((key == 38) || (key == 40) || (key == 37) || (key == 39)) {
-					keyStrokeTimer2 = new SpeedTimer(drawer,1/gameSpeed,"seconds",0,0,0,farPaddle);
+					keyStrokeTimer2 = new SpeedTimer(drawer,10/paddleSpeed,"seconds",0,0,0,farPaddle);
 					drawer.add(keyStrokeTimer2);
 				}
 				
