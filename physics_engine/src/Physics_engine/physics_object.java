@@ -1,6 +1,7 @@
 package Physics_engine;
 
 
+
 public abstract class physics_object implements physics_engine_compatible{
 	
 	public enum object_types {none,physics_object,drawable,movable,massive,pointed,rotatable};

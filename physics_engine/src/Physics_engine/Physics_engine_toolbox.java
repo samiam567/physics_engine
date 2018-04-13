@@ -12,7 +12,7 @@ public class Physics_engine_toolbox {
 	public enum faces {left,right,top,bottom,far,near,none};
 	public static String[] colorNames = {"black","blue","cyan","gray","green","magenta","orange","pink","red","white","yellow"};
 	
-	public static String[] typesOfObjects = {"square","rectange","box","triangle","sphere"};
+	public static String[] typesOfObjects = {"square","rectange","box","triangle","sphere","free-form"};
 	
 	public static String[] stuffToDo = {"position","speed","acceleration","rotation","angular velocity","angular acceleration","color","size","friction Coefficient","mass","name"};
 

@@ -2,6 +2,7 @@ package Physics_engine;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +26,7 @@ public class object_draw extends Canvas {
 	private long frameEndTime,updateEndTime;
 	private long wait_time = 100,wait_time_temp;
 	
-	private double frameTimeMultiplier = 100;
+	private double frameTimeMultiplier = 200;
 	
 	public double inactivity_timer = 0;
 	
@@ -223,6 +224,8 @@ public class object_draw extends Canvas {
 			WaitNanotime(wait_time);
 		}
 	}
+	
+
 	
 	public void doThreadedFrame() {
 		

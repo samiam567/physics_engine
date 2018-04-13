@@ -27,6 +27,8 @@ public class physics_runner {
 	private static object_draw drawer;
 	
 	public static void main(String[] args) {
+		
+		
 	
 		drawer = new object_draw(frame);
 		
@@ -68,7 +70,7 @@ public class physics_runner {
 		
 		public void mousePressed(MouseEvent arg0) {
 			drawer.inactivity_timer = 0;
-			
+			mouseIsPressed = true;
 		
 		}
 
@@ -88,21 +90,29 @@ public class physics_runner {
 	
 		
 		
-		New_object_listeners listener = new New_object_listeners(drawer);
-
-		Square square1 = new Square(drawer,500,500,0,100,1);
-		square1.setRotation(Math.PI/2,0,0);
-		square1.setAngularVelocity(0, 0, 1);
-		drawer.add(square1);
+		PolarObject thing2 = new PolarObject(drawer,300,300,1,100,"thing1");
+		thing2.setAngularVelocity(0.1, 0.1, 0.1);
 		
+		//drawer.add(thing2);
+		
+		New_object_listeners listen = new New_object_listeners(drawer);
 		
 		resize();
+		
 		
 
 		drawer.start();
 		
 		
-	
+		while (frame.isShowing()) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.exit(1);
 		
 	}
 

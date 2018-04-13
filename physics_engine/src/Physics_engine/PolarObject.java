@@ -11,7 +11,7 @@ public class PolarObject extends Physics_3DPolygon {
 		setSize(size,size,size);
 		setRotation(0,0,0);
 		
-		points = new point[(int) (30*Math.PI/Settings.thetaStep )];
+		points = new point[(int) (2*Math.PI/Settings.thetaStep )];
 		
 		
 		ArrayList<point> pointsAL = new ArrayList<point>();
@@ -37,6 +37,11 @@ public class PolarObject extends Physics_3DPolygon {
 				
 				case("sphere"):
 					pointsAL.add(sphere(t,q));
+					break;
+				
+				
+				case ("thing2"):
+					pointsAL.add(thing2(t,q));
 					break;
 				}
 			}
@@ -83,6 +88,13 @@ public class PolarObject extends Physics_3DPolygon {
 		double x1 =xSize * Math.sin(t) * Math.cos(z);
 		double y1 =ySize * Math.sin(t) * Math.sin(z);
 		double z1 =zSize * Math.cos(t);
+		return  new point(drawer,centerX + x1,centerY - y1 ,centerZ + z1 );
+	}
+	
+	public point thing2(double z, double t) {
+		double x1 = xSize * Math.cos(z);
+		double y1 =ySize *  Math.sin(z);
+		double z1 = zSize * Math.sin(t);
 		return  new point(drawer,centerX + x1,centerY - y1 ,centerZ + z1 );
 	}
 }

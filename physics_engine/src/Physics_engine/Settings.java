@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.7.1";
+	public static final String version = "4.7.2";
 	
 	
 	public static int width = 1500;
@@ -13,7 +13,7 @@ public class Settings {
 
 	
 	public static final long frameTime = 2500000; //this doesn't do anything anymore
-	public static int timeOutTime = 100;
+	public static int timeOutTime = 10000;
 	
 	public static final Color frameColor = Color.GRAY;
 	
@@ -37,7 +37,7 @@ public class Settings {
 
 
 	
-	public static final double thetaStep = Math.PI/10;
+	public static final double thetaStep = Math.PI/50;
 
 	public static final double frameStep = 1; //this is automatically set per object_draw by the computer. This is just the starting value
 }

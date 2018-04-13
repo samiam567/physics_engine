@@ -4,10 +4,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Objects;
 
 import javax.swing.JOptionPane;
 
@@ -16,7 +14,7 @@ public class New_object_listeners {
 	public KeyListener keyListener;
 	public MouseListener mouseListener;
 	public massive objectBeingChanged;
-	
+	private boolean createFreeForm = false, mouseIsPressed = false;
 	
 	public New_object_listeners(object_draw drawer1) {
 		drawer = drawer1;
@@ -27,37 +25,48 @@ public class New_object_listeners {
 				public void mouseClicked(MouseEvent arg0) {
 					drawer.inactivity_timer = 0;
 					
-					Point mousePoint = new Point(arg0.getX(), arg0.getY());
 					
-					for (massive cObject : drawer.tangibles) {
-						cObject.updatePolygons();
-						if (cObject.getPolyXY().contains(mousePoint)) {
-							System.out.println(cObject.getObjectName() + " has been selected");
-							objectBeingChanged = cObject;
-							break;
+					if (createFreeForm) {	
+						((PointSet)objectBeingChanged).addPoint(new point(drawer,arg0.getX(),arg0.getY(),0));
+						System.out.println("Point added");
+						((PointSet)objectBeingChanged).initialize();
+						
+						if (((PointSet)objectBeingChanged).getPoints().length == 1) {
+							drawer.add((PointSet)objectBeingChanged);
 						}
-					}
-					
-					if (arg0.getButton() == 1) {
-						try {
-							objectBeingChanged.setPos(arg0.getX(),arg0.getY(),objectBeingChanged.getCenterZ());
-						}catch(NullPointerException n) {
-							System.out.println("no object selected");
-						}
-					}else if (arg0.getButton() == 3){
-										
-						try {
-							System.out.println("menu");		
-							menu();
-						}catch(NullPointerException n) {
-							System.out.println("no object selected");
+					}else {
+						Point mousePoint = new Point(arg0.getX(), arg0.getY());
+						
+						for (massive cObject : drawer.tangibles) {
+							cObject.updatePolygons();
+							if (cObject.getPolyXY().contains(mousePoint)) {
+								System.out.println(cObject.getObjectName() + " has been selected");
+								objectBeingChanged = cObject;
+								break;
+							}
 						}
 						
-					}else if (arg0.getButton() == 2) {
-						objectBeingChanged = null;
-						System.out.println("selected object has been cleared");
-					}else {
-						System.out.println(arg0.getButton());
+						if (arg0.getButton() == 1) {
+							try {
+								objectBeingChanged.setPos(arg0.getX(),arg0.getY(),objectBeingChanged.getCenterZ());
+							}catch(NullPointerException n) {
+								System.out.println("no object selected");
+							}
+						}else if (arg0.getButton() == 3){
+											
+							try {
+								System.out.println("menu");		
+								menu();
+							}catch(NullPointerException n) {
+								System.out.println("no object selected");
+							}
+							
+						}else if (arg0.getButton() == 2) {
+							objectBeingChanged = null;
+							System.out.println("selected object has been cleared");
+						}else {
+							System.out.println(arg0.getButton());
+						}
 					}
 					
 				}
@@ -77,15 +86,28 @@ public class New_object_listeners {
 				public void mousePressed(MouseEvent arg0) {
 					drawer.inactivity_timer = 0;
 					
+					mouseIsPressed = true;
+					
 					Point mousePoint = new Point(arg0.getX(), arg0.getY());
 					
-					for (massive cObject : drawer.tangibles) {
-						cObject.updatePolygons();
-						if (cObject.getPolyXY().contains(mousePoint)) {
-							System.out.println(cObject.getObjectName() + " has been selected");
-							objectBeingChanged = cObject;
-							break;
+					if (createFreeForm) {	
+						((PointSet)objectBeingChanged).addPoint(new point(drawer,arg0.getX(),arg0.getY(),0));
+						System.out.println("Point added");
+						((PointSet)objectBeingChanged).initialize();
+						
+						if (((PointSet)objectBeingChanged).getPoints().length == 1) {
+							drawer.add((PointSet)objectBeingChanged);
 						}
+					}else {
+						for (massive cObject : drawer.tangibles) {
+							cObject.updatePolygons();
+							if (cObject.getPolyXY().contains(mousePoint)) {
+								System.out.println(cObject.getObjectName() + " has been selected");
+								objectBeingChanged = cObject;
+								break;
+							}
+						}
+						
 					}
 					
 				
@@ -94,11 +116,16 @@ public class New_object_listeners {
 
 				public void mouseReleased(MouseEvent arg0) {
 					drawer.inactivity_timer = 0;
-					try {
-						objectBeingChanged.setPos(arg0.getX(),arg0.getY(),objectBeingChanged.getCenterZ());
-					}catch(NullPointerException n) {
-						System.out.println("no object selected");
+					mouseIsPressed = false;
+					
+					if (! createFreeForm) {
+						try {
+							objectBeingChanged.setPos(arg0.getX(),arg0.getY(),objectBeingChanged.getCenterZ());
+						}catch(NullPointerException n) {
+							System.out.println("no object selected");
+						}
 					}
+			
 				}
 				};
 				
@@ -128,9 +155,14 @@ public class New_object_listeners {
 			        	  	
 			        	  	case(10): //Enter
 			        	  		drawer.resume();
+			        	  		if (createFreeForm) {
+			        	  			createFreeForm = false;
+			        	  			((PointSet)objectBeingChanged).initialize();
+					//				drawer.add((PointSet) objectBeingChanged);
+									System.out.println("free-form Created");
+								
+			        	  		}
 			        	  	break;
-			        	  	
-			        	
 			        	  		        	  	
 			        	  	case(47): // /
 			        	  		drawer.pause();
@@ -143,7 +175,8 @@ public class New_object_listeners {
 					}
 					@Override
 					public void keyReleased(KeyEvent arg0) {
-						drawer.inactivity_timer = 0;						
+						drawer.inactivity_timer = 0;		
+					
 		
 					}
 					@Override
@@ -152,14 +185,16 @@ public class New_object_listeners {
 					}
 					
 			      };
-	add();
+		add();
 	
 	}
+
 	
 	public void add() {	
 		drawer.addMouseListener(mouseListener);
 		drawer.addKeyListener(keyListener);
 	}
+	
 	public void remove() {
 		drawer.removeMouseListener(mouseListener);
 		drawer.removeKeyListener(keyListener);
@@ -236,11 +271,33 @@ public class New_object_listeners {
 	
 	public void newObject() {
 		String objectToMake = (String) JOptionPane.showInputDialog(drawer.frame,  "What object do you want to create?", "Create a new object", 3, null, Physics_engine_toolbox.typesOfObjects, null);
-//		 {"square","rectange","box","triangle","sphere"};
+//		 {"square","rectangle","box","triangle","sphere"};
 		
 		switch (objectToMake) {
 			case("square"):
 				objectBeingChanged = new Square(drawer,-200,-200,0,50,10);
+				break;
+		
+			case("rectangle"):
+				objectBeingChanged = new rectangle(drawer,-200,-200,0,50,50,10);
+				break;
+				
+			case("box"):
+				objectBeingChanged = new Box(drawer,-200,-200,0,50,10);
+				break;
+				
+			case("triangle"):
+				objectBeingChanged = new Triangle(drawer,-200,-200,0,50,50,10);
+				break;
+				
+			case("sphere"):
+				objectBeingChanged = new Sphere(drawer,-200,-200,0,50,10,Settings.thetaStep);
+				break;
+				
+			case("free-form"):
+				createFreeForm = true;
+				objectBeingChanged = new PointSet(drawer);
+				System.out.println("Freeform creation started");
 				break;
 			
 			default:
@@ -248,8 +305,9 @@ public class New_object_listeners {
 				break;
 		}
 		
-		drawer.add((physics_object) objectBeingChanged);
-		
+		if (! (objectToMake == "free-form") ) {
+			drawer.add((physics_object) objectBeingChanged);
+		}
 		
 		JOptionPane.showMessageDialog(drawer, "Click where you want to put the object. \n make sure you don't click where another object already is");
 	}
