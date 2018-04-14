@@ -1,0 +1,6 @@
+--------------------------------------------------------------------------------------
+Catagory Names:
+ 
+Catagory Scores (in the same order as the names):
+ 
+Terminating program

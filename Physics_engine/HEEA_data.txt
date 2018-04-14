@@ -35,6 +35,5 @@ Clinical Concepts: Med-Surg/Pedi/Geri
 (31) Respiratory 871 17
 (32) Reproductive 645 4
 (33) Sensory 813 4
-(hi) ima fake catagory suck it 192 32
 
-
+Page
