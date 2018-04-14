@@ -1,9 +1,15 @@
 package hesi_exit_exam_analyzer;
 
 import java.awt.Color;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,9 +20,11 @@ import javax.swing.JOptionPane;
 
 import Physics_engine.Settings;
 import Physics_engine.object_draw;
+import jetpack_joyride.JetPack_JoyRide_SaveFIle;
 
 public class HEEA_scanner {
 	
+	public static String[] examNames = {"Hesi Exit"};
 	
 	//specifics of this object
 	private String studentName;
@@ -28,11 +36,17 @@ public class HEEA_scanner {
 	
 	private object_draw drawer;
 	
-	
+	private LoadThread dataLoader; //this is a thread that will load the database in the background
 	//data
+	
+	private Database database = new Database();
+	
+	public boolean databaseLoaded = false;
+	
 	private int tokenCount = 0;
 	
 	private static ArrayList<Catagory> catagories = new ArrayList<Catagory>();
+	private static ArrayList<Catagory> catagories_raw = new ArrayList<Catagory>();
 	
 	private static ArrayList<Catagory> green = new ArrayList<Catagory>();
 	private static ArrayList<Catagory> yellow = new ArrayList<Catagory>();
@@ -49,13 +63,17 @@ public class HEEA_scanner {
 			 JOptionPane.showMessageDialog(drawer.frame, "The output file was not found", "File not found", 0);
 		 }
 		 
-		
+		 dataLoader = new LoadThread(this);		
 	}
 	
 	public void run(object_draw drawer1) {
+	
 		drawer = drawer1;
 		
 		drawer.frame.setVisible(false);
+		
+		
+				
 		try {
 			inStream = new Scanner(inFile);
 			
@@ -70,7 +88,7 @@ public class HEEA_scanner {
 			
 			
 			
-			String[] thingsToDo = {"Print to file","Print to Screen","Exit"};
+			String[] thingsToDo = {"Print to file","Summary Analysis Report","Add Exam to database (must be a specific student's exam)","Exit"};
 			String nextThing = "";
 			do {
 				nextThing = (String) JOptionPane.showInputDialog(drawer.frame, "What would you like to do?", "Menu", 3, null, thingsToDo, null); //getting the menu input from the user
@@ -78,10 +96,15 @@ public class HEEA_scanner {
 				try {
 					switch(nextThing) {
 					
-						case("Print to Screen"):
+						case("Summary Analysis Report"):
 							System.out.println("printing to the screen");
 							drawer.frame.setVisible(true);
 							output(nextThing);
+							break;
+							
+						case("Add Exam to database (must be a specific student's exam)"):
+							System.out.println("Adding this exam to the database");
+							addToDatabase();
 							break;
 							
 						case("Print to file"):
@@ -92,6 +115,7 @@ public class HEEA_scanner {
 					}
 					
 				}catch(NullPointerException n) { //if the user pressed the cancel button 
+					n.printStackTrace();
 					nextThing = "Exit";
 				}
 				
@@ -106,8 +130,58 @@ public class HEEA_scanner {
 		}
 	}
 	
+	private void addToDatabase() {
+		System.out.println("Waiting for database to load... please wait");
+		
+		if (! databaseLoaded) {
+			loadDatabase();
+			databaseLoaded = true;
+		}
+
+		
+		String ExamName = (String) JOptionPane.showInputDialog(drawer.frame, "What exam is this?", "Select the exam you scanned", 3, null, HEEA_scanner.examNames, null); //getting the menu input from the user
+		
+		String name = JOptionPane.showInputDialog(drawer.frame,"What is this student's first and last name? (firstname lastname)").toLowerCase();
+		
+		int year = -1;
+		boolean error = false;
+		do {
+			try {
+				year = Integer.parseInt(JOptionPane.showInputDialog(drawer.frame,"What year does/did this student graduate?"));
+				error = false;
+			}catch(NumberFormatException n) {
+				error = true;
+			}
+		}while(error);
+		
+		
+		int nameIndx = 0;
+		char cChar;
+		for (int i = 0; i < name.length(); i++) {
+			cChar = name.charAt(i);
+			nameIndx += cChar * i + cChar;
+		}
+		
+		Student student = database.getStudent(year,nameIndx);
+		
+		if (student == null) {
+			if (JOptionPane.showOptionDialog(drawer.frame, "The student " + name + " graduating " + year + " was not found. \n Would you like to create a new data-file for this Student?", "Create a new Student?", 2, 1, null, new String[] {"yes","no"}, 1) == 0) {
+				student = new Student(name);
+				database.addStudent(student, year, nameIndx);
+			}else {
+				return;
+			}
+		}
+		
+		student.addExam(new Exam(ExamName,catagories_raw));
+		
+		System.out.println("Saving Data");
+		saveDatabase();
+		
+	}
+
 	private String getPrintFormat() {
-		String[] printFormats = {"Read-friendly","Copy/Paste-friendly","Copy/Paste-friendly select catagories"};
+		String[] printFormats = {"Read-friendly","Copy/Paste-friendly","Copy/Paste-friendly SPE Categories"};
 		
 		return (String) JOptionPane.showInputDialog(drawer.frame, "What print format?", "Print to File", 3, null, printFormats, null);
 	}
@@ -144,6 +218,7 @@ public class HEEA_scanner {
 					currentCat.setNextCat(new Catagory(drawer,next));
 					currentCat = currentCat.getNextCat();
 					catagories.add(currentCat);
+					catagories_raw.add(currentCat);
 					
 					while (! inStream.hasNextInt()) {
 						currentCat.setName(currentCat.getName() + " " + inStream.next());
@@ -154,6 +229,7 @@ public class HEEA_scanner {
 					startCat = new Catagory(drawer,next);
 					currentCat = startCat;
 					catagories.add(currentCat);
+					catagories_raw.add(currentCat);
 				
 					
 					while (! inStream.hasNextInt()) {
@@ -247,12 +323,12 @@ public class HEEA_scanner {
 		System.setOut(outStream);
 		
 		System.out.println("--------------------------------------------------------------------------------------");
-		if ((printFormat == "Print to Screen") || (printFormat == "Read-friendly")) {
+		if ((printFormat == "Summary Analysis Report") || (printFormat == "Read-friendly")) {
 			Catagory cCad;
 			for (int i = 0; i < red.size(); i++) {
 				cCad = red.get(i);
 				
-				if (printFormat == "Print to Screen")  {
+				if (printFormat == "Summary Analysis Report")  {
 					cCad.setPos(Settings.width * 0.1, 20 * (i+2),0);
 					drawer.add(cCad);
 				}
@@ -263,7 +339,7 @@ public class HEEA_scanner {
 			for (int i = 0; i < yellow.size(); i++) {
 				cCad = yellow.get(i);
 				
-				if (printFormat == "Print to Screen")  {
+				if (printFormat == "Summary Analysis Report")  {
 					cCad.setPos(Settings.width * 0.1, 20 * (i+2+red.size()),0);
 					drawer.add(cCad);
 				}
@@ -274,7 +350,7 @@ public class HEEA_scanner {
 			for (int i = 0; i < green.size(); i++) {
 				cCad = green.get(i);
 				
-				if (printFormat == "Print to Screen")  {
+				if (printFormat == "Summary Analysis Report")  {
 					cCad.setPos(Settings.width * 0.1, 20 * (i+2+red.size() + yellow.size()),0);
 					drawer.add(cCad);
 				}
@@ -296,26 +372,26 @@ public class HEEA_scanner {
 			
 		}else if (printFormat == "Copy/Paste-friendly") {
 			System.out.println("Catagory Names:");
-			for (Catagory cCad : catagories) {
+			for (Catagory cCad : catagories_raw) {
 				System.out.println(cCad.getName());
 			}
 			System.out.println(" ");
 			
 			System.out.println("Catagory Scores (in the same order as the names):");
-			for (Catagory cCad : catagories) {
+			for (Catagory cCad : catagories_raw) {
 				System.out.println(cCad.getScore());
 			}
 			
 			System.out.println(" ");
-		}else if (printFormat == "Copy/Paste-friendly select catagories") {
-			String[] select_catagories_array = {"assessment","analysis","planning","implementation","evaluation","human flourishing","nursing judgment","nursing practice","professional identity","spirit of inquiry","dimensions of patient care","pain and suffering","safety & quality","ethical/legal","effective communication","member of a team","scope of practice","team communication","systems/team functions","research and ebp","quality improvement","basic safety design","culture of safety","national patient safety resources","informatics"};
+		}else if (printFormat == "Copy/Paste-friendly Copy/Paste-friendly SPE Categories") {
+			String[] select_catagories_array = {"assessment","analysis","planning","implementation","evaluation","human flourishing","nursing judgment","nursing practice","professional identity","spirit of inquiry","dimensions of patient care","pain and suffering","safety and quality","ethical legal","effective communication","member of team","scope of practice","communication","systems/team functions","research and ebp","quality improvement (QI)","quality improvement","basic safety design principles","culture of safety & safety monitoring","national patient safety resources","nursing informatics"};
 			ArrayList<String> select_catagories = new ArrayList<String>();
 			for (String s : select_catagories_array) {
 				select_catagories.add(s);
 			}
 			
 			System.out.println("Catagory Names:");
-			for (Catagory cCad : catagories) {
+			for (Catagory cCad : catagories_raw) {
 				if (select_catagories.contains(cCad.getName().toLowerCase())) {
 					System.out.println(cCad.getName());
 				}
@@ -323,7 +399,7 @@ public class HEEA_scanner {
 			System.out.println(" ");
 			
 			System.out.println("Catagory Scores (in the same order as the names):");
-			for (Catagory cCad : catagories) {
+			for (Catagory cCad : catagories_raw) {
 				if (select_catagories.contains(cCad.getName().toLowerCase())) {
 					System.out.println(cCad.getScore());
 				}
@@ -334,6 +410,48 @@ public class HEEA_scanner {
 		}
 		
 		System.setOut(System.out);
+	}
+	
+	
+	public void loadDatabase() {
+		try {
+			ObjectInputStream loader = new ObjectInputStream(new FileInputStream("HEEA_data.txt"));
+			database = (Database) loader.readObject();
+			loader.close();
+			
+		}catch(InvalidClassException e) {
+			System.out.println("HEEA_data is missing or corrupted"); 
+			e.printStackTrace();
+		}catch(EOFException e) {
+			System.out.println("HEEA_data is missing or corrupted");
+			e.printStackTrace();
+		}catch(ClassNotFoundException e) {
+			System.out.println("HEEA_data is missing or corrupted");
+			e.printStackTrace();
+		}catch(IOException e) {
+			System.out.println("HEEA_data is missing or corrupted");
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveDatabase() {
+		
+		try {
+			System.out.println("Saving in progress...");
+			ObjectOutputStream saver = new ObjectOutputStream(new FileOutputStream("HEEA_data.txt"));
+			saver.writeObject(database);
+			saver.close();
+			System.out.println("Save Complete");
+		}catch(InvalidClassException e) {
+			e.printStackTrace();
+			System.out.println("HEEA_data is missing or corrupted"); 
+		}catch(EOFException e) {
+			e.printStackTrace();
+			System.out.println("HEEA_data is missing or corrupted");
+		}catch(IOException e) {
+			e.printStackTrace();
+			System.out.println("HEEA_data is missing or corrupted");
+		}
 	}
 
 	

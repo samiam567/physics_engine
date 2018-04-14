@@ -3,13 +3,17 @@ package hesi_exit_exam_analyzer;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import Physics_engine.Physics_drawable;
-import Physics_engine.Physics_engine_toolbox;
 import Physics_engine.Settings;
 import Physics_engine.object_draw;
 
-public class Catagory extends Physics_drawable {
+public class Catagory extends Physics_drawable implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7044778215583289064L;
 	public String name;
 	public int questions;
 	public int score;
@@ -20,6 +24,8 @@ public class Catagory extends Physics_drawable {
 		super(drawer1);
 		name = name1;
 	}
+	
+
 	
 	public void setQuestions(int questions1) {
 		questions = questions1;

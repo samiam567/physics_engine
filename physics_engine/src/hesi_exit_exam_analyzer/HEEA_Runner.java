@@ -19,7 +19,7 @@ import Physics_engine.object_draw;
 
 public class HEEA_Runner {
 
-	public static final String Version = "1.4.6";
+	public static final String Version = "1.5.0";
 	
 	
 	public static Physics_frame frame = new Physics_frame();
