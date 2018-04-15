@@ -1,0 +1,54 @@
+--------------------------------------------------------------------------------------
+ 
+Retrieving student from database
+Waiting for database to load... please wait
+Database loaded
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+printing to the screen
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+--------------------------------------------------------------------------------------
+ 

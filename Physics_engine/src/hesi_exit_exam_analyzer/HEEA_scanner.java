@@ -15,12 +15,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
-
 import javax.swing.JOptionPane;
-
 import Physics_engine.Settings;
 import Physics_engine.object_draw;
-import jetpack_joyride.JetPack_JoyRide_SaveFIle;
 
 public class HEEA_scanner {
 	
@@ -37,20 +34,22 @@ public class HEEA_scanner {
 	private object_draw drawer;
 	
 	private LoadThread dataLoader; //this is a thread that will load the database in the background
-	//data
+
 	
+	//data
 	private Database database = new Database();
 	
 	public boolean databaseLoaded = false;
+	private boolean top = true;
 	
 	private int tokenCount = 0;
 	
 	private static ArrayList<Catagory> catagories = new ArrayList<Catagory>();
 	private static ArrayList<Catagory> catagories_raw = new ArrayList<Catagory>();
 	
-	private static ArrayList<Catagory> green = new ArrayList<Catagory>();
-	private static ArrayList<Catagory> yellow = new ArrayList<Catagory>();
-	private static ArrayList<Catagory> red = new ArrayList<Catagory>();
+	private static ArrayList<Catagory> green;
+	private static ArrayList<Catagory> yellow;
+	private static ArrayList<Catagory> red;
 	
 	private static Catagory startCat;
 		
@@ -66,13 +65,10 @@ public class HEEA_scanner {
 		 dataLoader = new LoadThread(this);		
 	}
 	
-	public void run(object_draw drawer1) {
-	
+	public void read(object_draw drawer1) {
 		drawer = drawer1;
 		
-		drawer.frame.setVisible(false);
-		
-		
+		drawer.frame.setVisible(false);		
 				
 		try {
 			inStream = new Scanner(inFile);
@@ -81,17 +77,37 @@ public class HEEA_scanner {
 			
 			readInput();
 			
-			JOptionPane.showMessageDialog(drawer.frame, "The input was scanned and imported \n The scanner found " + tokenCount + " Tokens and " + catagories.size() + " catagories", "Scan successful", 1);
+			JOptionPane.showMessageDialog(null, "The input was scanned and imported \n The scanner found " + tokenCount + " Tokens and " + catagories.size() + " catagories", "Scan successful", 1);
 			
+			catagories = sort(catagories);
 			
-			sort();
+			run(catagories_raw,catagories,"menu");
 			
+		}catch(FileNotFoundException f) {
+			JOptionPane.showMessageDialog(drawer.frame, "The input file was not found", "File not found", 0);
+		}
+	}
+		
+	private void run(ArrayList<Catagory> catagories_raw,ArrayList<Catagory> catagories, String menuName) {
+			String[] thingsToDo;
+		
+			if (top) {
+				thingsToDo = new String[5];
+				thingsToDo[0] = "Print to file";
+				thingsToDo[1] = "Summary Analysis Report";
+				thingsToDo[2] = "Add Exam to database (must be a specific student's exam)";
+				thingsToDo[3] = "Retrieve student from database";
+				thingsToDo[4] = "Exit";
+			}else {
+				thingsToDo = new String[3];
+				thingsToDo[0] = "Print to file";
+				thingsToDo[1] = "Summary Analysis Report";
+				thingsToDo[2] = "Select a different one of this student's exams";
+			}
 			
-			
-			String[] thingsToDo = {"Print to file","Summary Analysis Report","Add Exam to database (must be a specific student's exam)","Exit"};
 			String nextThing = "";
 			do {
-				nextThing = (String) JOptionPane.showInputDialog(drawer.frame, "What would you like to do?", "Menu", 3, null, thingsToDo, null); //getting the menu input from the user
+				nextThing = (String) JOptionPane.showInputDialog(null, "What would you like to do?", menuName, 3, null, thingsToDo, null); //getting the menu input from the user
 				drawer.frame.setVisible(false);
 				try {
 					switch(nextThing) {
@@ -99,7 +115,8 @@ public class HEEA_scanner {
 						case("Summary Analysis Report"):
 							System.out.println("printing to the screen");
 							drawer.frame.setVisible(true);
-							output(nextThing);
+							sort(catagories);
+							output(nextThing,catagories_raw,catagories);
 							break;
 							
 						case("Add Exam to database (must be a specific student's exam)"):
@@ -107,41 +124,30 @@ public class HEEA_scanner {
 							addToDatabase();
 							break;
 							
+						case("Retrieve student from database"):
+							System.out.println("Retrieving student from database");
+							readFromDatabase();
+							break;
+							
 						case("Print to file"):
 							System.out.println("Printing to file");	
-							output(getPrintFormat());
+							output(getPrintFormat(),catagories_raw,catagories);
 							JOptionPane.showMessageDialog(drawer.frame,"The print was successful. Look inside " +  HEEA_Runner.outName + " For your print", "Print successful", 1);
 							break;			
 					}
 					
 				}catch(NullPointerException n) { //if the user pressed the cancel button 
-					n.printStackTrace();
 					nextThing = "Exit";
 				}
 				
-			}while(nextThing != "Exit");
+			}while(nextThing != "Exit" && nextThing != "Select a different one of this student's exams");
 			
 			return;
 						
-			
-			
-		}catch(FileNotFoundException f) {
-			JOptionPane.showMessageDialog(drawer.frame, "The input file was not found", "File not found", 0);
-		}
 	}
 	
-	private void addToDatabase() {
-		System.out.println("Waiting for database to load... please wait");
-		
-		if (! databaseLoaded) {
-			loadDatabase();
-			databaseLoaded = true;
-		}
-
-		
-		String ExamName = (String) JOptionPane.showInputDialog(drawer.frame, "What exam is this?", "Select the exam you scanned", 3, null, HEEA_scanner.examNames, null); //getting the menu input from the user
-		
-		String name = JOptionPane.showInputDialog(drawer.frame,"What is this student's first and last name? (firstname lastname)").toLowerCase();
+	private Student getStudentFromUser() {
+		String name = JOptionPane.showInputDialog(null,"What is this student's first and last name? (firstname lastname)").toLowerCase();
 		
 		int year = -1;
 		boolean error = false;
@@ -165,19 +171,69 @@ public class HEEA_scanner {
 		Student student = database.getStudent(year,nameIndx);
 		
 		if (student == null) {
-			if (JOptionPane.showOptionDialog(drawer.frame, "The student " + name + " graduating " + year + " was not found. \n Would you like to create a new data-file for this Student?", "Create a new Student?", 2, 1, null, new String[] {"yes","no"}, 1) == 0) {
+			if (JOptionPane.showOptionDialog(drawer.frame, "The student " + name + " graduating " + year + " was not found. \n Would you like to create a new data-file for this Student?", "Create a new Student?", 2, 2, null, new String[] {"yes","no"}, 1) == 0) {
 				student = new Student(name);
 				database.addStudent(student, year, nameIndx);
 			}else {
-				return;
+				return null;
 			}
 		}
+		
+		return student;
+	}
+	
+	private void addToDatabase() {
+		System.out.println("Waiting for database to load... please wait");
+		
+		if (! databaseLoaded) {
+			loadDatabase();
+			databaseLoaded = true;
+		}
+		System.out.println("Database loaded");
+
+		
+		String ExamName = (String) JOptionPane.showInputDialog(null, "What exam is this?", "Select the exam you scanned", 3, null, HEEA_scanner.examNames, null); //getting the menu input from the user
+		
+		Student student = getStudentFromUser();
 		
 		student.addExam(new Exam(ExamName,catagories_raw));
 		
 		System.out.println("Saving Data");
 		saveDatabase();
 		
+	}
+	
+	private void readFromDatabase() {
+		System.out.println("Waiting for database to load... please wait");
+		
+		if (! databaseLoaded) {
+			loadDatabase();
+			databaseLoaded = true;
+		}
+		System.out.println("Database loaded");
+		
+		Student student = getStudentFromUser();
+
+		JOptionPane.showMessageDialog(drawer.frame, "Retrieved " + student.getName() + "  with " + student.getExams().length + " exams logged", "Student retrieved", 1);
+		
+		top = false; //indicate that we are not reading from the scan but are reading from the database
+		
+		Exam[] exams = student.getExams();
+		String[] examNames = new String[exams.length + 1];
+		for (int i = 0; i < exams.length; i++) {
+			examNames[i] = exams[i].getName();
+		}
+		examNames[examNames.length - 1] = "exit the database and return to the scan";
+		
+		String examName;
+		Exam currentExam;
+		do {
+			examName = (String) JOptionPane.showInputDialog(null, "Which of this student's exams would you like to look at?", "Select the exam you want to read", 3, null, examNames, null);
+			currentExam = student.getExam(examName);
+			run(currentExam.getCatagories(),sort(currentExam.getCatagories()),student.getName() + " " + examName);
+		}while (examName != "exit the database and return to the scan");
+		
+		top = true; //indicate that we are now reading from the scan again
 	}
 
 	private String getPrintFormat() {
@@ -263,7 +319,10 @@ public class HEEA_scanner {
 	}
 	
 	
-	private void sort() {
+	private ArrayList<Catagory> sort(ArrayList<Catagory> catagories) {
+		green = new ArrayList<Catagory>();
+		yellow = new ArrayList<Catagory>();
+		red = new ArrayList<Catagory>();
 		
 		//sorting big list
 		Collections.sort( catagories, new Comparator<Catagory>() {
@@ -314,11 +373,11 @@ public class HEEA_scanner {
 		Collections.sort(yellow,qComp);
 		Collections.sort(red,qComp);
 		
-		
+		return catagories;
 	}
 	
 	
-	private void output(String printFormat) {
+	private void output(String printFormat,ArrayList<Catagory> catagories_raw, ArrayList<Catagory> catagories) {
 		
 		System.setOut(outStream);
 		
@@ -383,7 +442,7 @@ public class HEEA_scanner {
 			}
 			
 			System.out.println(" ");
-		}else if (printFormat == "Copy/Paste-friendly Copy/Paste-friendly SPE Categories") {
+		}else if (printFormat == "Copy/Paste-friendly SPE Categories") {
 			String[] select_catagories_array = {"assessment","analysis","planning","implementation","evaluation","human flourishing","nursing judgment","nursing practice","professional identity","spirit of inquiry","dimensions of patient care","pain and suffering","safety and quality","ethical legal","effective communication","member of team","scope of practice","communication","systems/team functions","research and ebp","quality improvement (QI)","quality improvement","basic safety design principles","culture of safety & safety monitoring","national patient safety resources","nursing informatics"};
 			ArrayList<String> select_catagories = new ArrayList<String>();
 			for (String s : select_catagories_array) {
@@ -414,6 +473,7 @@ public class HEEA_scanner {
 	
 	
 	public void loadDatabase() {
+		JOptionPane.showMessageDialog(null, "Press ok to load the database (this will take a while)", "Load Database", 1);
 		try {
 			ObjectInputStream loader = new ObjectInputStream(new FileInputStream("HEEA_data.txt"));
 			database = (Database) loader.readObject();

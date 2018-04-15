@@ -19,7 +19,7 @@ import Physics_engine.object_draw;
 
 public class HEEA_Runner {
 
-	public static final String Version = "1.5.0";
+	public static final String Version = "1.5.1";
 	
 	
 	public static Physics_frame frame = new Physics_frame();
@@ -52,7 +52,7 @@ public class HEEA_Runner {
 		
 		HEEA_scanner scanner = new HEEA_scanner(input,output);
 		
-		scanner.run(drawer);
+		scanner.read(drawer);
 		
 		
 		while (frame.isShowing()) {

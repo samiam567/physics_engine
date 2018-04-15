@@ -13,18 +13,27 @@ public class Catagory extends Physics_drawable implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7044778215583289064L;
+	private static final long serialVersionUID = -6676940761459458494L;
 	public String name;
 	public int questions;
 	public int score;
 	private Catagory nextCat;
 	private static Font catFont = new Font("TimesRoman", Font.BOLD, 15);
 	
+	public Catagory() {} //for serialization
+	
+	
 	public Catagory(object_draw drawer1, String name1) {
 		super(drawer1);
 		name = name1;
 	}
 	
+	public Catagory(object_draw drawer1,String name1, int questions1, int score1) {
+		super(drawer1);
+		name = name1;
+		questions = questions1;
+		score = score1;
+	}
 
 	
 	public void setQuestions(int questions1) {

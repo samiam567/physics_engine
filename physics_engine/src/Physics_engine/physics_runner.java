@@ -24,7 +24,7 @@ public class physics_runner {
 	
 	public static Vector3D Vec;
 	
-	private static object_draw drawer;
+	static object_draw drawer;
 	
 	public static void main(String[] args) {
 		

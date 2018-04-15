@@ -8,13 +8,13 @@ public class Student implements Serializable {
 	 */
 	private static final long serialVersionUID = -2923044527887437775L;
 	private String name;
-	Exam[] exams = new Exam[0];
+	private Exam[] exams = new Exam[0];
 	
 	public Student(String studentName) {
 		name = studentName;
 	}
 	
-	public void addExam(Exam newExam) {
+	public void addExam(Exam newExam) {		
 		Exam[] examsTemp = exams;
 		
 		exams = new Exam[exams.length + 1];
@@ -22,8 +22,7 @@ public class Student implements Serializable {
 		for (int i = 0; i < examsTemp.length; i++) {
 			exams[i] = examsTemp[i];
 		}
-		exams[examsTemp.length] = newExam;
-		
+		exams[examsTemp.length] = newExam;	
 	}
 	
 	public String getName() {

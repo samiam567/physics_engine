@@ -24,7 +24,9 @@ public abstract class Physics_drawable extends physics_object implements movable
 	
 	public boolean hasParentObject = false, isAnchored = false,isFilled = false, isVisible = true; 
 	 
-	
+	public Physics_drawable() {
+		super(physics_runner.drawer);
+	}
 	public Physics_drawable(object_draw drawer1) {
 		super(drawer1);
 	}
