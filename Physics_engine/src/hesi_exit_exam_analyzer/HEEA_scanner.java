@@ -127,6 +127,7 @@ public class HEEA_scanner {
 						case("Retrieve student from database"):
 							System.out.println("Retrieving student from database");
 							readFromDatabase();
+							nextThing = "hi";
 							break;
 							
 						case("Print to file"):
@@ -142,7 +143,7 @@ public class HEEA_scanner {
 				
 			}while(nextThing != "Exit" && nextThing != "Select a different one of this student's exams");
 			
-			return;
+			
 						
 	}
 	
@@ -229,8 +230,12 @@ public class HEEA_scanner {
 		Exam currentExam;
 		do {
 			examName = (String) JOptionPane.showInputDialog(null, "Which of this student's exams would you like to look at?", "Select the exam you want to read", 3, null, examNames, null);
-			currentExam = student.getExam(examName);
-			run(currentExam.getCatagories(),sort(currentExam.getCatagories()),student.getName() + " " + examName);
+			
+			if (examName != "exit the database and return to the scan") {
+				currentExam = student.getExam(examName);
+				run(currentExam.getCatagories(),sort(currentExam.getCatagories()),student.getName() + " " + examName);
+			}
+			
 		}while (examName != "exit the database and return to the scan");
 		
 		top = true; //indicate that we are now reading from the scan again

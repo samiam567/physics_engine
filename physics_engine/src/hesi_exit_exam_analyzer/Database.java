@@ -14,6 +14,7 @@ public class Database implements Serializable {
 	}
 	
 	public Student getStudent(int year, int nameIndx) {
+		year -= 2000;
 		try {
 			return Students[year][nameIndx];
 		}catch(ArrayIndexOutOfBoundsException a) {
@@ -24,6 +25,7 @@ public class Database implements Serializable {
 
 	
 	public void addStudent(Student newStudent, int year, int nameIndx) {
+		year -= 2000;
 		try {
 			Students[year][nameIndx] = newStudent;
 		}catch(ArrayIndexOutOfBoundsException a) {

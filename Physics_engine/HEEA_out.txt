@@ -1,4 +1,73 @@
 --------------------------------------------------------------------------------------
+Catagory Names:
+Med Administration
+Math
+Basic Nursing Skills
+Antepartum
+Intrapartum
+Newborn
+Postpartum
+Cultural/Spiritual
+Documentation
+Leadership
+Legal/Ethical
+Nursing Process
+Research/Theory
+Teaching
+Abuse
+Anxty/Commnictns
+Depress/Grief
+Psychoses
+Cardiovascular
+Endocrine
+GI/Hepatic
+Gwth & Devlp
+Immune/Hematology
+Integumentary
+Musculoskeletal
+Neurological
+Oncology
+Operative
+Physical Assessment
+Renal
+Respiratory
+Reproductive
+Sensory
+ 
+Catagory Scores (in the same order as the names):
+857
+869
+914
+997
+271
+629
+1011
+924
+860
+1137
+1102
+857
+988
+1093
+752
+868
+1114
+621
+994
+849
+889
+939
+884
+799
+1022
+853
+673
+985
+884
+1079
+871
+645
+813
  
 Retrieving student from database
 Waiting for database to load... please wait
@@ -52,3 +121,4 @@ green
 green
 --------------------------------------------------------------------------------------
  
+Terminating program
