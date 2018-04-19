@@ -448,7 +448,7 @@ public class HEEA_scanner {
 			
 			System.out.println(" ");
 		}else if (printFormat == "Copy/Paste-friendly SPE Categories") {
-			String[] select_catagories_array = {"assessment","analysis","planning","implementation","evaluation","human flourishing","nursing judgment","nursing practice","professional identity","spirit of inquiry","dimensions of patient care","pain and suffering","safety and quality","ethical legal","effective communication","member of team","scope of practice","communication","systems/team functions","research and ebp","quality improvement (QI)","quality improvement","basic safety design principles","culture of safety & safety monitoring","national patient safety resources","nursing informatics"};
+			String[] select_catagories_array = {"assessment","analysis","planning","implementation","evaluation","human flourishing","nursing judgment","nursing practice","professional identity","spirit of inquiry","dimensions of patient care","pain and suffering","safety and quality","ethical legal","effective communication","member of team","scope of practice","communication","systems/team functions","research and ebp","quality improvement (QI)","quality improvement","basic safety design principles","culture of safety & safety monitoring","national patient safety resources","nursing informatics","communication","systems/team functions"};
 			ArrayList<String> select_catagories = new ArrayList<String>();
 			for (String s : select_catagories_array) {
 				select_catagories.add(s);
