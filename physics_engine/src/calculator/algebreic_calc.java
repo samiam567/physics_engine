@@ -185,7 +185,7 @@ public class algebreic_calc {
 	}
 	public void output() {
 		System.out.println("Output " + answers);
-		JOptionPane.showMessageDialog(null, answers.toString());
+		JOptionPane.showMessageDialog(Calculator_runner.calculatorAnchor, answers.toString());
 	}
 	
 }

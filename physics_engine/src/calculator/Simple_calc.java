@@ -151,7 +151,7 @@ public class Simple_calc implements Calculator{
 	public void output() {
 		System.out.println(answer);
 		System.out.println("Output " + answer);
-		JOptionPane.showMessageDialog(null, "" + answer);
+		JOptionPane.showMessageDialog(Calculator_runner.calculatorAnchor, "" + answer);
 	}
 	
 }
