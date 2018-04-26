@@ -38,7 +38,9 @@ public class PolarObject extends Physics_3DPolygon {
 				case("sphere"):
 					pointsAL.add(sphere(t,q));
 					break;
-				
+				case("circle"):
+					pointsAL.add(circle(t));
+				break;
 				
 				case ("thing2"):
 					pointsAL.add(thing2(t,q));
@@ -73,6 +75,12 @@ public class PolarObject extends Physics_3DPolygon {
 	public point heart(double t) {
 		double x1 = 16 * Math.pow(Math.sin(t), 3);
 		double y1 = 13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t);
+		return  new point(drawer,centerX + x1,centerY - y1 ,centerZ );
+	}
+	
+	public point circle(double t) {
+		double x1 = xSize * Math.cos(t);
+		double y1 = ySize * Math.sin(t);
 		return  new point(drawer,centerX + x1,centerY - y1 ,centerZ );
 	}
 	

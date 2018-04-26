@@ -86,23 +86,26 @@ public class physics_runner {
 		
 		
 		drawer.addMouseListener(mouse);
+		
+		int size = 200;
 
+		for (int y = 0; y <= ((Settings.height - size)/size); y ++) {
+			for (int x = 0; x <= ((Settings.width - size)/size); x++) {
+				drawer.add(new PolarObject(drawer,x * size + 0.5 * size * (1+Math.sin(Math.PI * 0.5 * y)) ,y * size + size/2,0,size/2,"circle"));
+			}
+		}
 	
 		
+		/*
+		for (massive pO : drawer.getTangibles()) {
+			((pointed) pO).setAngularVelocity(0.1,0.1,0.1);
+		}
+		*/
 		
-		PolarObject thing2 = new PolarObject(drawer,300,300,1,100,"thing1");
-		thing2.setAngularVelocity(0.1, 0.1, 0.1);
-		
-		//drawer.add(thing2);
-		
-		New_object_listeners listen = new New_object_listeners(drawer);
-		
-		resize();
-		
-		
-
 		drawer.start();
-		
+	  
+		resize();
+	  
 		
 		while (frame.isShowing()) {
 			try {
