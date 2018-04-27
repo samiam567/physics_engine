@@ -37,7 +37,7 @@ public class Settings {
 
 
 	
-	public static final double thetaStep = Math.PI/30;
+	public static final double thetaStep = Math.PI/20;
 
 	public static final double frameStep = 1; //this is automatically set per object_draw by the computer. This is just the starting value
 }
