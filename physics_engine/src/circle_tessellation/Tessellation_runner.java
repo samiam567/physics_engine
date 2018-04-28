@@ -14,7 +14,7 @@ import Physics_engine.*;
 
 public class Tessellation_runner {
 	
-	public static String version = "1.0.2";
+	public static String version = "1.0.3";
 	
 	private static Physics_frame frame = new Physics_frame();
 	private static boolean mouseIsPressed = false;
