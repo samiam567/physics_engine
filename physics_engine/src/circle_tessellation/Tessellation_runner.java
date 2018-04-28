@@ -14,12 +14,10 @@ import Physics_engine.*;
 
 public class Tessellation_runner {
 	
-	public static String version = "1.0.3";
+	public static String version = "1.0.4";
 	
-	private static Physics_frame frame = new Physics_frame();
-	private static boolean mouseIsPressed = false;
-	private static int mouseStartX;
-	private static int mouseStartY;
+	public static Physics_frame frame;
+	
 	
 	private static String shape = "circle";
 	private static int levels = 4,size = 500,startX,startY,endX,endY;
@@ -31,12 +29,12 @@ public class Tessellation_runner {
 	
 	public static Vector3D Vec;
 	
-	static object_draw drawer;
+	public static object_draw drawer;
 	
 	public static void main(String[] args) {
 		
+		frame = new Physics_frame();
 		
-	
 		drawer = new object_draw(frame);
 		
 		boundries = new border_bounce(drawer);
@@ -53,10 +51,6 @@ public class Tessellation_runner {
 		
 		
 		drawTessellation(shape,size,levels,0,0,200,200);
-
-		
-	
-		
 		
 		for (massive pO : drawer.getTangibles()) {
 			((pointed) pO).setAngularVelocity(0.1,0.1,0.1);
@@ -112,7 +106,7 @@ public class Tessellation_runner {
 		for (int y = 0; (y-1) <= ((Settings.height - size)/size); y++) {
 			double yXAdd =  0.5 * size * (1+Math.sin(Math.PI * 0.5 * y));
 			for (int x = 0; (x-1) <= ((Settings.width - size)/size); x++) {
-				cObject = new PolarObject(drawer,x * size + yXAdd ,y * 86*size/100 + size/2 ,0,size/2,shape);
+				cObject = new PolarObject(drawer,x * size + yXAdd ,y * Math.pow(3, 0.5) * size/2 + size/2 ,0,size/2,shape);
 				drawer.add(cObject);
 				
 				for (int i = 0; i < 2; i++) {

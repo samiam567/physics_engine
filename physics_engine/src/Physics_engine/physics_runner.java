@@ -10,10 +10,11 @@ import java.util.ConcurrentModificationException;
 import javax.swing.JFrame;
 
 import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
+import circle_tessellation.Tessellation_runner;
 
 public class physics_runner {
 	
-	private static Physics_frame frame = new Physics_frame();
+	private static Physics_frame frame = new Physics_frame(), frame2 = new Physics_frame();
 	private static boolean mouseIsPressed = false;
 	private static int mouseStartX;
 	private static int mouseStartY;
@@ -24,19 +25,20 @@ public class physics_runner {
 	
 	public static Vector3D Vec;
 	
-	static object_draw drawer;
+	static object_draw drawer,drawer2;
 	
 	public static void main(String[] args) {
 		
 		
 	
 		drawer = new object_draw(frame);
-		
+		drawer2 = new object_draw(frame2);
+	
 		boundries = new border_bounce(drawer);
 		boundries.setName("boundries", 1);
 		drawer.add(boundries);
 
-
+	
 		FPS_display fps = new FPS_display(drawer,30,30);
 		drawer.add(fps);
 
@@ -87,6 +89,10 @@ public class physics_runner {
 		
 		drawer.addMouseListener(mouse);
 		
+		
+		
+		resize();
+		
 		int size = 200;
 
 		for (int y = 0; y <= ((Settings.height - size)/size); y ++) {
@@ -96,16 +102,26 @@ public class physics_runner {
 		}
 	
 		
-		/*
-		for (massive pO : drawer.getTangibles()) {
-			((pointed) pO).setAngularVelocity(0.1,0.1,0.1);
-		}
-		*/
+		
+//		for (massive pO : drawer.getTangibles()) {
+//			((pointed) pO).setAngularVelocity(Math.random(),Math.random(),Math.random());
+//		}
+		
+		
+		drawer2.add(new PolarObject(drawer2,400,400,0,200,"circle"));
+		
 		
 		drawer.start();
-	  
-		resize();
-	  
+		
+		drawer2.start();
+		
+		
+		Tessellation_runner.drawer = drawer2;
+		Tessellation_runner.drawTessellation("circle", 500, 3, 0, 0, 500, 500);
+		
+	
+		
+		
 		
 		while (frame.isShowing()) {
 			try {
@@ -116,6 +132,7 @@ public class physics_runner {
 		}
 		
 		System.exit(1);
+		
 		
 	}
 

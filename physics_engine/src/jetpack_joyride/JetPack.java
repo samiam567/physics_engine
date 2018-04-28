@@ -9,9 +9,10 @@ import Physics_engine.Physics_engine_toolbox.faces;
 public class JetPack extends rectangle {
 	
 	public double fireSize = 0.4;
-	public double power = 1;
 	
-	public double current_power = 1;
+	public double power = 800;
+	
+	public double current_power = 800;
 	
 	public JetPack(object_draw drawer1, int x, int y, int z, int size, double mass) {
 		super(drawer1,x, y, z, size*2,size, mass);

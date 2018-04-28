@@ -24,7 +24,7 @@ import Physics_engine.*;
 
 public class JetPack_JoyRide {
 
-	public static final String version = "2.0.2";
+	public static final String version = "2.0.3";
 	
 	static JPJR_frame frame = new JPJR_frame();
 	
@@ -37,16 +37,14 @@ public class JetPack_JoyRide {
 	
 	static int coins = 0, coinsEarned = 0, game_over = 0;  // 0 is false, 1 is true, and 2 & 3 are other
 	
-	static double distance = 0, distanceHighScore = 0, frames;
+	static double distance = 0, distanceHighScore = 0, frames, jetpack_speed = 40;
 	
-	static double jetpack_speed = 2;
+	private static final int gravity = 600;
 	
 	static final boolean pictureGraphics = false;
 	
 	static boolean pause = false, error = false;
 	
-	
-
 	static ImageIcon jetpack_img = new ImageIcon("jetpack.txt"), coin_img = new ImageIcon("coin.txt");
 	static border_bounce boundries;
 	static JetPack jetpack;
@@ -85,6 +83,7 @@ public class JetPack_JoyRide {
 		jetpack.setSize(diagonal/50, diagonal/50, 0);
 		GUI.setLocation(Settings.width + 20, 20);
 		
+		boundries.resize();
 		
 		setSettings();
 		
@@ -135,7 +134,7 @@ public class JetPack_JoyRide {
 		
 		distance = 0;		
 		game_over = 0;
-		jetpack_speed = 2;
+		jetpack_speed = 40;
 		coinsEarned = 0;
 		
 		
@@ -148,12 +147,18 @@ public class JetPack_JoyRide {
 	}
 	
 	public static void init() throws FileNotFoundException, IOException, ClassNotFoundException {
-				
+			
+		
+		FPS_display fps = new FPS_display(drawer,30,30);
+		drawer.add(fps);
+
+		FCPS_display fcps = new FCPS_display(drawer,30,50);
+		drawer.add(fcps);
+		
 		boundries = new border_bounce(drawer);
 		
 		boundries.name = "boundries";
 		boundries.drawMethod = "listedPointsAlgorithm";
-		boundries.setColor(Color.black);
 		boundries.setPos(boundries.getXReal(),boundries.getYReal()-100,10);
 		boundries.setSize(Settings.width *1.06, Settings.height*1.15,10);
 		boundries.isVisible = false;
@@ -185,35 +190,7 @@ public class JetPack_JoyRide {
 		coin2 = new Coin(drawer,530, 300);
 		coin3 = new Coin(drawer,760, 230);
 		
-	
-		
-		//mouseListener +==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+
-				MouseAdapter mouse =  new MouseAdapter() {
 
-				public void mouseClicked(MouseEvent arg0) {
-					drawer.inactivity_timer = 0;
-				}
-				
-				public void mousePressed(MouseEvent arg0) {
-
-					jetpack.setAccel(0, -jetpack.current_power, 0);
-					jetpack.fireSize = 0.75;
-					drawer.inactivity_timer = 0;
-				}
-
-
-				public void mouseReleased(MouseEvent arg0) {
-				
-					jetpack.setAccel(0, 0.5, 0);
-					jetpack.fireSize = 0.35;
-					drawer.inactivity_timer = 0;
-			
-				}};
-				
-				
-			//==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+
-				
-			drawer.addMouseListener(mouse);
 		
 			//key listener
 			drawer.addKeyListener(new KeyListener() {
@@ -226,9 +203,9 @@ public class JetPack_JoyRide {
 	            	  jetpack.fireSize = 0.75;
 	            	  drawer.inactivity_timer = 0;
 	            	  
-	            	  JetPack_fire jetPackFire = new JetPack_fire(drawer,jetpack.getX() + jetpack.getXSize()* 0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2 ,Math.random()/2,-1);
+	            	  JetPack_fire jetPackFire = new JetPack_fire(drawer,jetpack.getX() + jetpack.getXSize()* 0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2 ,Math.random() /2 ,-1);
 	            	  
-	            	  JetPack_fire jetPackFire2 = new JetPack_fire(drawer,(jetpack.getX() + jetpack.getXSize()) - jetpack.getXSize()*0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2,-Math.random()/2,1);
+	            	  JetPack_fire jetPackFire2 = new JetPack_fire(drawer,(jetpack.getX() + jetpack.getXSize()) - jetpack.getXSize()*0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2,-Math.random() / 2 ,1);
 		            	 
 	              }
 
@@ -237,13 +214,13 @@ public class JetPack_JoyRide {
 				
 					jetpack.setAccel(0, 0, 0);
 					jetpack.applyComponentForce(0, jetpack.current_power, 0);
-					jetpack.applyComponentForce(0, 9.8, 0);
+					jetpack.applyComponentForce(0, gravity, 0);
 					jetpack.fireSize = 0.35;
 					drawer.inactivity_timer = 0;
 					
 				}
 				@Override
-				public void keyTyped(KeyEvent arg0) {
+				public void keyTyped(KeyEvent arg0) { 
 					drawer.inactivity_timer = 0;
 				}
 	          });
@@ -293,7 +270,6 @@ public class JetPack_JoyRide {
 		frame.setVisible(true);
 		GUI.setVisible(true);
 		
-		jetpack_speed = 3;
 		distance = 0;	
 		game_over = 0;
 		
@@ -308,8 +284,6 @@ public class JetPack_JoyRide {
 		resize();
 		
 		run();
-		
-		
 		
 	}
 	

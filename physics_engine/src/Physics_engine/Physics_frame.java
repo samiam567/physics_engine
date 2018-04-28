@@ -41,12 +41,11 @@ public class Physics_frame extends JFrame{
 	public void resizeObjects() {
 		physics_runner.resize();
 		boundingRectangle.setRect(0,0,getWidth(),getHeight());
-		
 	}
 	
-	public boolean checkIsInFrame(Physics_drawable current_object) { //this dont work
-		 
-		return boundingRectangle.intersects(current_object.getX(), current_object.getY(),(int) current_object.getXSize(), (int) current_object.getZSize());
+	public boolean checkIsInFrame(pointed current_object) { //this dont work
+		return boundingRectangle.intersects((current_object.getPolyXY().getBounds()));
+		
 	}
 	
 }

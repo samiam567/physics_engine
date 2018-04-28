@@ -17,7 +17,7 @@ public class JetPack_fire extends Square{
   	  	isFilled = true;
   	  	affectedByBorder = false;
   	  	setColor(Color.ORANGE);
-  	  	setSpeed(xSpeed, 20, 0);
+  	  	setSpeed(xSpeed * 10, 200, 0);
   	  	drawer.add(this);
 	}
 	

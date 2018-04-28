@@ -22,11 +22,13 @@ public class object_draw extends Canvas {
 	public ArrayList<force> scheduled_forces = new ArrayList<force>(); //list of forces for the maintenance bot to apply
 	
 	public double current_frame = 0; //what frame we are on
+	private int frameCount;
+	
 	private long frameStartTime,updateStartTime;
 	private long frameEndTime,updateEndTime;
 	private long wait_time = 100,wait_time_temp;
 	
-	private double frameTimeMultiplier = 200;
+	private double frameTimeMultiplier = 300;
 	
 	public double inactivity_timer = 0;
 	
@@ -65,6 +67,7 @@ public class object_draw extends Canvas {
 	public void start() {
 		threader.start();
 		updateThreader.start();
+		setSize(Settings.width, Settings.height);
 	}
 	
 	public void end() {
@@ -233,6 +236,7 @@ public class object_draw extends Canvas {
 		repaint(); 
 		frameEndTime = System.nanoTime();
 		
+		
 		wait_time_temp = (long) (frameTimeMultiplier * (frameEndTime - frameStartTime)/100000);
 		
 		//use machine learning to adjust to the right wait_time
@@ -242,18 +246,28 @@ public class object_draw extends Canvas {
 			wait_time --;
 		}
 		
+		
+		//wait_time = 1000/20 - (frameEndTime - frameStartTime)/100000;
 		sleepThread(wait_time);
 	
 	}
 	
 	public void doUpdate() { //for update thread. Updates the objects
-		updateStartTime = System.nanoTime();
-		checkForResize();
-		updateObjects(frameStep); //update the objects
-		current_frame += frameStep;
-		updateEndTime = System.nanoTime();
-		frameStep = ((double) (updateEndTime - updateStartTime)) / 100000000; //automatically set the accuracy of the subCalculations depending on how fast the cpu is going
+		
+		while ( frameCount < 1) {
+			updateStartTime = System.nanoTime();
+			checkForResize();
+			updateObjects(frameStep); //update the objects
+			current_frame += frameStep;
+			frameCount += frameStep;
+			updateEndTime = System.nanoTime();
+			
+			frameStep = ((double) (updateEndTime - updateStartTime)) / 100000000; //automatically set the accuracy of the subCalculations depending on how fast the cpu is going
+		}
 		sleepThread(1);
+		frameCount = 0;
+	
+	
 	}
 	
 	public void doFrame(String key) {
@@ -279,12 +293,14 @@ public class object_draw extends Canvas {
 	    });
 		//----------------------------------------------------------------
 		
+		boolean objectInFrame = true;
+
 			for (drawable current_object : drawables) {
+			
 				
+				if ( current_object.getIsVisible()) {
 				
-				if ( current_object.getIsVisible() ) {
-					
-					if (   true  )  { //frame.checkIsInFrame((Physics_drawable) current_object)) {
+					if (   true  )  { //frame.checkIsInFrame((pointed) current_object)) {
 						if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(current_object.getXReal()), (int) Math.round(current_object.getYReal())); //displaying the name of the object
 					
 						page.setColor(current_object.getColor());
