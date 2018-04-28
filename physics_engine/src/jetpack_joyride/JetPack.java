@@ -59,6 +59,7 @@ public class JetPack extends rectangle {
 	
 	
 	public void paint(Graphics page) {
+	
 		page.setColor(color);
 		page.fillRect(x, y, (int) Math.round(ySize/2), (int) Math.round(ySize));
 		page.fillRect((int) Math.round(x + ySize/2) - 3, y, (int) Math.round(ySize/2), (int) Math.round(ySize));
@@ -76,7 +77,7 @@ public class JetPack extends rectangle {
 		page.setColor(Color.orange);
 		page.fillRect(x+2,(int) ( y+Math.round(ySize)), (int) Math.round(ySize/2)-4, (int) Math.round(0.45*ySize/2));
 		page.fillRect((int) Math.round(ySize/2)+x,(int) ( y+Math.round(ySize)), (int) Math.round(ySize/2)-4, (int) Math.round(0.45*ySize/2));
-		
+	
 		}
 
 }

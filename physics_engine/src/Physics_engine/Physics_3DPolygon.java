@@ -210,7 +210,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			double yI = centerY;
 			double zI = centerZ;
 			
-		
+			
 			setPos(0,0,0);
 			
 			updateCenter();
@@ -219,13 +219,13 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			updateSize();
 			
+			setPos(xI,yI,zI);
+			
 			do {
 				
 			
 				cPoint.setPos(pointOfRotation.getXReal() + cPoint.initialXComponent * xSizeAppearance/xSizeInit, pointOfRotation.getYReal() + cPoint.initialYComponent * ySizeAppearance/ySizeInit, pointOfRotation.getZReal() + cPoint.initialZComponent * zSizeAppearance/zSizeInit);
-					
-				
-				
+	
 				
 				//zRotation
 				rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getYReal(),zRotation);
@@ -243,20 +243,12 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				
 				
 
-				points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );
-				
-				
-				
-				
-				
-				
+				points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );			
 				
 				cPoint = cPoint.nextPoint;
 				
 				pointCounter++;
 			} while (cPoint != null);
-			
-			setPos(xI,yI,zI);
 	
 		}else {
 			double xChange = xReal - points[0].getX();

@@ -19,8 +19,8 @@ public class Tessellation_runner {
 	public static Physics_frame frame;
 	
 	
-	private static String shape = "circle";
-	private static int levels = 4,size = 500,startX,startY,endX,endY;
+	private static String shape = "sphere";
+	private static int levels = 3,size = 500,startX,startY,endX,endY;
 	private static double[] lSizes;
 	
 	private static border_bounce boundries;
@@ -61,7 +61,7 @@ public class Tessellation_runner {
 	  
 		resize();
 		
-		drawer.pause();
+//		drawer.pause();
 	  
 		
 		while (frame.isShowing()) {

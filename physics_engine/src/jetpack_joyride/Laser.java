@@ -20,7 +20,7 @@ public class Laser extends rectangle{
 	
 	public void secondaryUpdate() {
 		if (getXReal() < 0) {
-			setPos(Settings.width+100, Math.random() * (Settings.height-getXSize()-150), getZReal());
+			setPos(Math.random() * 1500 + Settings.width+100, Math.random() * (Settings.height-getXSize()-150), getZReal());
 			setSpeed(-JetPack_JoyRide.jetpack_speed, 0,0);
 		}else if ( (getXReal()+10 < JetPack_JoyRide.jetpack.getXReal()) || (getXReal()-50 >JetPack_JoyRide.jetpack.getXReal()) ) {
 			isTangible = false;

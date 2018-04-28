@@ -103,9 +103,9 @@ public class physics_runner {
 	
 		
 		
-//		for (massive pO : drawer.getTangibles()) {
-//			((pointed) pO).setAngularVelocity(Math.random(),Math.random(),Math.random());
-//		}
+		for (massive pO : drawer.getTangibles()) {
+			((pointed) pO).setAngularVelocity(Math.random(),Math.random(),Math.random());
+		}
 		
 		
 		drawer2.add(new PolarObject(drawer2,400,400,0,200,"circle"));
