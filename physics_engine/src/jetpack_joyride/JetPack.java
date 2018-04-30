@@ -12,7 +12,7 @@ public class JetPack extends rectangle {
 	
 	public double power = 800;
 	
-	public double current_power = 800;
+	public double current_power;
 	
 	public JetPack(object_draw drawer1, int x, int y, int z, int size, double mass) {
 		super(drawer1,x, y, z, size*2,size, mass);
@@ -21,7 +21,7 @@ public class JetPack extends rectangle {
 	
 	public void tertiaryUpdate() {
 		setSpeed(0,ySpeed,0);
-		current_power = power + JetPack_JoyRide.jetpack_speed * 0.1;
+		current_power = power + JetPack_JoyRide.jetpack_speed ;
 	}
 	
 	public void isCollided(physics_object object, faces side) {

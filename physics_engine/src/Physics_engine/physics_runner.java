@@ -107,17 +107,20 @@ public class physics_runner {
 			((pointed) pO).setAngularVelocity(Math.random(),Math.random(),Math.random());
 		}
 		
+		PolarObject circle = new PolarObject(drawer2,400,400,0,200,"circle");
 		
-		drawer2.add(new PolarObject(drawer2,400,400,0,200,"circle"));
+		circle.setPointOfRotation(new point(drawer2,200,200,0));
+		
+		circle.setAngularVelocity(0, 00,0.1);
+		
+		drawer2.add(circle);
+		
 		
 		
 		drawer.start();
 		
 		drawer2.start();
 		
-		
-		Tessellation_runner.drawer = drawer2;
-		Tessellation_runner.drawTessellation("circle", 500, 3, 0, 0, 500, 500);
 		
 	
 		

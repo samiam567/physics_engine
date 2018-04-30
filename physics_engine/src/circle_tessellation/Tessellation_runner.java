@@ -19,7 +19,7 @@ public class Tessellation_runner {
 	public static Physics_frame frame;
 	
 	
-	private static String shape = "sphere";
+	private static String shape = "circle";
 	private static int levels = 3,size = 500,startX,startY,endX,endY;
 	private static double[] lSizes;
 	
@@ -53,7 +53,10 @@ public class Tessellation_runner {
 		drawTessellation(shape,size,levels,0,0,200,200);
 		
 		for (massive pO : drawer.getTangibles()) {
-			((pointed) pO).setAngularVelocity(0.1,0.1,0.1);
+			((pointed)pO).setRotation(0,0,0);
+			((pointed)pO).setPointOfRotationPlace(pointOfRotationPlaces.custom);
+			((pointed) pO).setPointOfRotation(new point(drawer,400,400,400));
+			((pointed) pO).setAngularVelocity(0,0,0.1);
 		}
 		
 		

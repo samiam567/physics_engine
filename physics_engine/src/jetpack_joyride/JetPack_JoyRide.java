@@ -39,7 +39,7 @@ public class JetPack_JoyRide {
 	
 	static double distance = 0, distanceHighScore = 0, frames, jetpack_speed = 40;
 	
-	private static final int gravity = 600;
+	private static int gravityStart = 600,gravity;
 	
 	static final boolean pictureGraphics = false;
 	
@@ -167,7 +167,7 @@ public class JetPack_JoyRide {
 		
 		
 	
-		jetpack.applyComponentForce(0, gravity, 0);
+		
 		
 		
 		//load the game
@@ -210,6 +210,8 @@ public class JetPack_JoyRide {
 
 	public static void run() throws FileNotFoundException, IOException {
 		
+		jetpack.applyComponentForce(0, gravity, 0);
+		
 		while (game_over == 0) {
 			
 			if (! pause) {	
@@ -220,7 +222,9 @@ public class JetPack_JoyRide {
 					coinScore.setScore(coins);
 					distanceScore.setScore(Math.round(distance));
 					distance += jetpack_speed;
-					jetpack_speed += (Math.pow(drawer.current_frame,1/100) / 900) * frames;
+					jetpack_speed += (Math.pow(drawer.current_frame,1/100) / 800) * frames;
+					
+					gravity = (int) (gravityStart + jetpack_speed);
 					
 					Settings.width = frame.getWidth();
 					Settings.height = frame.getHeight();
@@ -243,6 +247,7 @@ public class JetPack_JoyRide {
 					}
 					
 			}else {
+				
 				drawer.pause();
 				while (pause) {
 					GUI.repaint();	
