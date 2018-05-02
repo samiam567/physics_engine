@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.7.6";
+	public static final String version = "4.7.7";
 	
 	
 	public static int width = 1500;
@@ -36,7 +36,7 @@ public class Settings {
 	public static int collision_algorithm = 4; //possibles are 1, 2, 3, 4, and 5  as 2 was a complete failure
 
 	
-	public static final double thetaStep = Math.PI/10;
+	public static final double thetaStep = Math.PI/30;
 
 	public static final double frameStep = 1; //this is automatically set per object_draw by the computer. This is just the starting value
 }

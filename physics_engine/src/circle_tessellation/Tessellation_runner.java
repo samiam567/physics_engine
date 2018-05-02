@@ -18,9 +18,8 @@ public class Tessellation_runner {
 	
 	public static Physics_frame frame;
 	
-	
 	private static String shape = "circle";
-	private static int levels = 3,size = 500,startX,startY,endX,endY;
+	private static int levels = 4,size = 500,startX,startY,endX,endY;
 	private static double[] lSizes;
 	
 	private static border_bounce boundries;
@@ -53,10 +52,7 @@ public class Tessellation_runner {
 		drawTessellation(shape,size,levels,0,0,200,200);
 		
 		for (massive pO : drawer.getTangibles()) {
-			((pointed)pO).setRotation(0,0,0);
-			((pointed)pO).setPointOfRotationPlace(pointOfRotationPlaces.custom);
-			((pointed) pO).setPointOfRotation(new point(drawer,400,400,400));
-			((pointed) pO).setAngularVelocity(0,0,0.1);
+			
 		}
 		
 		
@@ -64,7 +60,7 @@ public class Tessellation_runner {
 	  
 		resize();
 		
-//		drawer.pause();
+		drawer.pause();
 	  
 		
 		while (frame.isShowing()) {
@@ -121,10 +117,10 @@ public class Tessellation_runner {
 	}
 	
 	private static void drawTessLevel(int level,int sizeIndx,Physics_3DPolygon parent, double angle) {
-		if (level <= levels) {
+		if (level < levels) {
 			double lSize = lSizes[level];
 			
-			System.out.println("size: " + lSize);
+	//		System.out.println("size: " + lSize);
 		
 			double yInc = 0;
 
@@ -137,9 +133,18 @@ public class Tessellation_runner {
 			Physics_3DPolygon cObject = new PolarObject(drawer,parent.getCenterX() + lvlVec.getXComponent(),parent.getCenterY() + lvlVec.getYComponent() ,parent.getCenterZ(),lSizes[sizeIndx]/2,shape);
 			
 			
-			drawTessLevel(level + 1,level + 1,cObject,angle);
-			for (int i = 1; i < 3; i++) {
-				drawTessLevel(level + 1,level * 2,cObject,angle + i * 2*Math.PI/3);
+			if (level > 1) {
+				drawTessLevel(level + 1,sizeIndx + 1,cObject,angle);
+				for (int i = 1; i < 3; i++) {
+					drawTessLevel(level + 1,sizeIndx + 2,cObject,angle + i * 2*Math.PI/3);
+				}
+			}else {
+				System.out.println("first");
+				
+				drawTessLevel(level + 1,sizeIndx + 1,cObject,angle);
+				for (int i = 1; i < 3; i++) {
+					drawTessLevel(level + 1,sizeIndx + 1,cObject,angle + i * 2*Math.PI/3);
+				}
 			}
 			
 			drawer.add(cObject);

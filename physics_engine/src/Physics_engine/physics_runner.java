@@ -97,24 +97,37 @@ public class physics_runner {
 
 		for (int y = 0; y <= ((Settings.height - size)/size); y ++) {
 			for (int x = 0; x <= ((Settings.width - size)/size); x++) {
-				drawer.add(new PolarObject(drawer,x * size + 0.5 * size * (1+Math.sin(Math.PI * 0.5 * y)) ,y * size + size/2,0,size/2,"circle"));
+			///	drawer.add(new PolarObject(drawer,x * size + 0.5 * size * (1+Math.sin(Math.PI * 0.5 * y)) ,y * size + size/2,0,size/2,"circle"));
 			}
 		}
 	
 		
 		
-		for (massive pO : drawer.getTangibles()) {
+		
+		
+
+		for (int i = 0; i < Settings.height; i += 100) {
+			drawer2.add(new Square(drawer2,i,i,0,10,1));
+		}
+		for (massive pO : drawer2.getTangibles()) {
 			((pointed) pO).setAngularVelocity(Math.random(),Math.random(),Math.random());
 		}
 		
-		PolarObject circle = new PolarObject(drawer2,400,400,0,200,"circle");
+		Square sq = new Square(drawer2,400,400,0,10,1);
 		
-		circle.setPointOfRotation(new point(drawer2,200,200,0));
+		PolarObject circle = new PolarObject(drawer2,200,200,0,200,"circle");
 		
-		circle.setAngularVelocity(0, 00,0.1);
+	
+		sq.setPointOfRotation(new point(drawer2,300,200,200));
+		
+		circle.setAngularVelocity(0, 0, 0.1);
+		sq.setAngularVelocity(0, 0,0.1);
+		
+		drawer2.add(new Square(drawer2,300,200,200,10,1));
 		
 		drawer2.add(circle);
 		
+		drawer2.add(sq);
 		
 		
 		drawer.start();
