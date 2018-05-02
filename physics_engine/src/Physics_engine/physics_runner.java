@@ -28,8 +28,6 @@ public class physics_runner {
 	static object_draw drawer,drawer2;
 	
 	public static void main(String[] args) {
-		
-		
 	
 		drawer = new object_draw(frame);
 		drawer2 = new object_draw(frame2);

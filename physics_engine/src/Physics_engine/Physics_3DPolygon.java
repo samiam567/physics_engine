@@ -25,7 +25,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	//for massive
 	protected double mass;
-	double friction_coefficient;
+	private double friction_coefficient,momentOfInertia;
 		
 	private Polygon polyXY, polyZY;
 	private Area areaXY,areaZY;
@@ -282,6 +282,39 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		updatePointOfRotation();
 	}
 	
+	private void updateMomentOfInertia() {
+		if (isRotatable){
+			Polygon_point cPoint = polyPointsStart,nextPoint;
+			int pointCounter = 0;
+			double[] rotComponents;
+			
+			double dA,dB,dAB;
+			double theta;
+			double rotInertia;
+			
+			do {
+
+				if (cPoint.nextPoint == null) {
+					nextPoint = polyPointsStart;
+				}else {
+					nextPoint = cPoint.nextPoint;
+				}
+				
+				dA = Math.abs(Physics_engine_toolbox.distance(cPoint, center));
+				dB = Math.abs(Physics_engine_toolbox.distance(nextPoint, center));
+				dAB =  Math.abs(Physics_engine_toolbox.distance(cPoint, nextPoint));
+	// UNFINISHED
+				
+				cPoint = cPoint.nextPoint;
+				
+				pointCounter++;
+			} while (cPoint != null);
+			
+		}else {
+			System.out.println(name + " is not rotatable (updateMomentOfInertia)");
+		}
+	}
+	
 	public point[] getPoints() {
 		return points;
 	}
@@ -388,7 +421,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			//bouncing
 			setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() - ySpeed) * mass)/10000) + (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) * mass)/10000));
 			
-			setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * cOb.getXSpeed(),0,0);
+		//	setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * cOb.getXSpeed(),0,0);
 		}
 			
 		
@@ -559,6 +592,10 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	@Override
 	public double getFrictionCoefficient() {
 		return friction_coefficient;
+	}
+	
+	public double getMomentOfInertia() {
+		return momentOfInertia;
 	}
 
 	@Override
