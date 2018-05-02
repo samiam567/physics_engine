@@ -25,6 +25,7 @@ public interface massive extends pointed {
 	public void setAccel(double x, double y, double z);
 	public void setSize(double x, double y, double z);
 	public double getElasticity();
+	public void collision(massive cObject, point cPoint, faces side);
 
 	
 	

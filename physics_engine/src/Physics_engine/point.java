@@ -56,15 +56,8 @@ public class point extends Physics_drawable {
 		pObject.updateAreas();
 		
 		Area areaXY = pObject.getAreaXY();		
-		
-		if ( areaXY.contains(xReal,yReal) && ( Math.abs(zReal - pObject.centerZ) < (pObject.zSize + drawer.frameStep) ) ) {
-			System.out.println(zReal + "=" + pObject.centerZ + "<" + pObject.zSize);
-			return true;
-		}
-		
 
-		
-		return false;
+		return areaXY.contains(xReal,yReal) && ( Math.abs(zReal - pObject.centerZ) < (pObject.zSize + drawer.frameStep) );
 	}
 	
 	public void setAngle(double thetaXY1, double thetaZX1, double thetaZY1) {

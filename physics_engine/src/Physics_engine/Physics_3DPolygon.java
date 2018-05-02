@@ -373,6 +373,27 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 	}
 	
+	public void collision(massive cObject, point contactPoint, faces side) {
+		try {
+			cObject = (border_bounce) cObject;
+		}catch(ClassCastException c) {
+			massive cOb = cObject;
+			System.out.println(name + " has hit " + cObject.getObjectName());
+			
+			
+			isCollided((physics_object) cObject,side);
+			cObject.isCollided(this, side);
+			
+			
+			//bouncing
+			setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() - ySpeed) * mass)/10000) + (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) * mass)/10000));
+			
+			setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * cOb.getXSpeed(),0,0);
+		}
+			
+		
+	}
+	
 	
 	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { 
 		
@@ -390,19 +411,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 					
 					if (cPoint.isIn(this)) {
 						
-						try {
-							current_physics_object = (border_bounce) current_physics_object;
-						}catch(ClassCastException c) {
-							
-							System.out.println(name + " has hit " + current_physics_object.getObjectName());
-							
-							
-							isCollided((physics_object) current_physics_object,side);
-							current_physics_object.isCollided(this, side);
-							
-							
-							
-						}
+						collision(current_physics_object,cPoint, side);
+						current_physics_object.collision(this,cPoint, side);
 						
 					}
 				}
