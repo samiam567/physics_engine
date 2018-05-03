@@ -288,33 +288,28 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			int pointCounter = 0;
 			double[] rotComponents;
 			
-			double dA,dB,dAB,area,theta,momInertia = 0,r;
+			double dA,dB,dAB;
+			double theta;
+			double rotInertia;
 			
 			do {
 
 				if (cPoint.nextPoint == null) {
 					nextPoint = polyPointsStart;
-				}else { 
+				}else {
 					nextPoint = cPoint.nextPoint;
 				}
 				
 				dA = Math.abs(Physics_engine_toolbox.distance(cPoint, center));
 				dB = Math.abs(Physics_engine_toolbox.distance(nextPoint, center));
 				dAB =  Math.abs(Physics_engine_toolbox.distance(cPoint, nextPoint));
-				
-				theta = Math.acos(-((dAB)*(dAB)-(dB)*(dB)-(dA)*(dA))/((2)*(dB)*(dA)));
-						
-				area = 0.5 * (dA) * (dB) * Math.sin(theta);
-				
-				r = (dA + dB)/2;
-				
-				momInertia += area * Math.pow(r/2, 2);
+	// UNFINISHED
 				
 				cPoint = cPoint.nextPoint;
 				
 				pointCounter++;
 			} while (cPoint != null);
-			momentOfInertia = momInertia;
+			
 		}else {
 			System.out.println(name + " is not rotatable (updateMomentOfInertia)");
 		}
