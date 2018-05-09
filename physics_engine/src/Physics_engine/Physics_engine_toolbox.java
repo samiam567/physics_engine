@@ -34,6 +34,8 @@ public class Physics_engine_toolbox {
 
 		}catch(ClassCastException c) {
 	//		System.out.println(((drawable) current_object).getObjectName() + " is not massive");
+		}catch(NullPointerException n) {
+			System.out.println("this object doesn't exist (PhysTools checkForCollis)");
 		}
 		
 

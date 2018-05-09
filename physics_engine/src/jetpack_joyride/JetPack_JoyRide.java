@@ -24,7 +24,7 @@ import Physics_engine.*;
 
 public class JetPack_JoyRide {
 
-	public static final String version = "2.0.5";
+	public static final String version = "2.0.7";
 	
 	static JPJR_frame frame = new JPJR_frame();
 	

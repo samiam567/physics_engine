@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import Physics_engine.array;
 
 public class Encryption_runner {
-	private static String[] chars = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",".",",","'",";",":","<",">"," ","?","/","!","@","#","$","%","^","&","*","(",")","-","_","+","=","[","]","{","}","1","2","3","4","5","6","7","8","9","0"};
+	private static String[] chars = {" ","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",".",",","'",";",":","<",">","?","/","!","@","#","$","%","^","&","*","(",")","-","_","+","=","[","]","{","}","1","2","3","4","5","6","7","8","9","0"};
 	
 	private static array list = new array("String");
 	
@@ -17,6 +17,7 @@ public class Encryption_runner {
 				message = crypt(JOptionPane.showInputDialog("Type what you want to encode/decode"));
 				System.out.println(message);
 				JOptionPane.showMessageDialog(null, message);
+				list = new array("String");
 			}catch(StringIndexOutOfBoundsException s) {
 				JOptionPane.showMessageDialog(null, "Invalid message", "Error: Bad Input", 0);
 			}

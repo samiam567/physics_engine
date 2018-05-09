@@ -69,23 +69,23 @@ public class Square extends Physics_3DPolygon {
 		setMass(mass);
 	}
 	
-	
+	/*
 	public Object checkForCollision1(massive current_object1,ArrayList<massive> objects) {
 		
-		try {
-			Physics_3DPolygon current_object = (Physics_3DPolygon) current_object1;
-			
+*		try {
+*			Physics_3DPolygon current_object = (Physics_3DPolygon) current_object1;
+*			
 			if ((current_object.getIsTangible()) && (! this.equals(current_object))) {
 				Physics_engine.Physics_engine_toolbox.faces side = Physics_engine.Physics_engine_toolbox.faces.none;
 				
-				if (Settings.collision_algorithm == 4) {// v 4.2 collision algorithm (simplified)
+*				if (Settings.collision_algorithm == 4) {// v 4.2 collision algorithm (simplified)
 					
-					//is there a collision?
-					if ( (Math.abs(getCenterX() - current_object.getCenterX()) < (current_object.xSize/2+xSize/2)) && (Math.abs(getCenterY() - current_object.getCenterY()) < (current_object.ySize/2+ySize/2)) /* && (Math.abs(centerZ - current_object.centerZ) < (current_object.zSize/2+zSize/2))*/ ) {	
-					
-						//set up some vars
-						double[] trajectory_this = getTrajectory();
-						double[] trajectory_current_ob = current_object.getTrajectory();
+					/is there a collision?
+/*					if ( (Math.abs(getCenterX() - current_object.getCenterX()) < (current_object.xSize/2+xSize/2)) && (Math.abs(getCenterY() - current_object.getCenterY()) < (current_object.ySize/2+ySize/2))  ) {	
+/*					
+*						//set up some vars
+*						double[] trajectory_this = getTrajectory();
+*						double[] trajectory_current_ob = current_object.getTrajectory();
 						
 						double xyTragThis = trajectory_this[0];
 						double xyTragCOb = trajectory_current_ob[0];
@@ -109,288 +109,14 @@ public class Square extends Physics_3DPolygon {
 					//output
 						if (! side.equals(Physics_engine.Physics_engine_toolbox.faces.none)) System.out.println(side);
 					
-					if (Settings.forceMethod == 1) {
-						// sspeeed method
-						//bouncing!  this algorithm needs to be a lot more advanced. This just tests the collision algorithm
-						if (side.equals(Physics_engine.Physics_engine_toolbox.faces.top) || side.equals(Physics_engine.Physics_engine_toolbox.faces.bottom)) {
-							System.out.println("top/bottom");
-							ySpeed = - Settings.elasticity * ySpeed;
-							current_object.setSpeed(current_object.xSpeed,-current_object.ySpeed,current_object.zSpeed);
-						}else if (side.equals(Physics_engine.Physics_engine_toolbox.faces.left) || side.equals(Physics_engine.Physics_engine_toolbox.faces.right)) {
-							System.out.println("left/right");
-							xSpeed = -Settings.elasticity * xSpeed;
-							current_object.setSpeed(-current_object.xSpeed,current_object.ySpeed,current_object.zSpeed);
-						}else {
-				
-						}
-						
-				
-						
-					}else if (Settings.forceMethod == 0) {
-							//momentum method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-							double momentum1 = getMass() * xSpeed;
-							double momentum2 = current_object.getMass() * current_object.xSpeed;
-							
-							double time = 0.1;
-							
-							double force = (momentum1+momentum2)/(time);
-							force *= Settings.elasticity;
-							System.out.println("Force: " + force);
-							
-				//			double[] thisDeflectionAnglePack = current_object.calculateDeflectionAngle(this);
-							double[] current_obDeflectionAnglePack = calculateDeflectionAngle(current_object);
-							
-			//				double thisDeflectionAngle = thisDeflectionAnglePack[0];
-				//			double thisZReflect = thisDeflectionAnglePack[1];
-							
-				///			double current_obDeflectionAngle = current_obDeflectionAnglePack[0];
-							double current_obZReflect = current_obDeflectionAnglePack[1];
-							
-	//public force(physics_object object1, double r, double theta, double zComponent1, double time1, double frame1, boolean isPolar) {
-							
-		//					drawer.scheduled_forces.add(new force(drawer,this,force,thisDeflectionAngle,thisZReflect,time,"seconds",-1,true));
-			//				drawer.scheduled_forces.add(new force(drawer,this,force,current_obDeflectionAngle,current_obZReflect,time,"seconds",-1,true));
-						}	
-						
-						
 					}
-					
-				
-				} else if (Settings.collision_algorithm == 3) { // v 3.0 collision algorithm (predictions) --DEPRECIATED--
-					
-					boolean hit = false;
-					
-//					physics_object prediction_this = new physics_object();
-//					prediction_this = copy(prediction_this);
-					
-//					physics_object prediction_current_ob = new physics_object();
-//					prediction_current_ob = current_object.copy(prediction_current_ob);
-					
-					
-					System.out.println("old");
-					System.out.println(xSpeed);
-					System.out.println(current_object.xSpeed);
-					
-					System.out.println("copy");
-//					System.out.println(prediction_this.xSpeed);
-//					System.out.println(prediction_current_ob.xSpeed);
-					
-					
-					double collision_frame,momentum1,momentum2,force,thisDeflectionAngle,current_obDeflectionAngle,thisZReflect,current_obZReflect;
-					double time = 2;
-					double[] thisDeflectionAnglePack, current_obDeflectionAnglePack;
-					//prediction number is a measurement of time in frames from the current one
-//					for (double prediction_number = 0; prediction_number <= Settings.collision_check_distance / Settings.prediction_step; prediction_number+= Settings.prediction_step) {
-						
-//						if (hit) break; //if the code finds a collision, break out
-						
-//						if ( (Math.abs(prediction_current_ob.getCenterX() - prediction_this.getCenterX()) < (Settings.prediction_step + (current_object.xSize+xSize)/2 ))) {
-//							if  ( Math.abs(prediction_current_ob.getCenterY() - prediction_this.getCenterY()) < (Settings.prediction_step + (current_object.ySize+ySize)/2 )) {
-								hit = true;
-								
-	//							collision_frame  = prediction_number * Settings.prediction_step + object_draw.current_frame;
-								
-								//momentum method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-								momentum1 = getMass() * xSpeed;
-								momentum2 = current_object.getMass() * current_object.xSpeed;
-								
-								time = 0.2;
-								
-								force = (momentum1+momentum2)/(4*time);
-								force = 10;
-								System.out.println("Force: " + force);
-								
-			//					thisDeflectionAnglePack = current_object.calculateDeflectionAngle(this);
-								current_obDeflectionAnglePack = calculateDeflectionAngle(current_object);
-							
-				//				thisDeflectionAngle = thisDeflectionAnglePack[0];
-						//		thisZReflect = thisDeflectionAnglePack[1];
-								
-								current_obDeflectionAngle = current_obDeflectionAnglePack[0];
-								current_obZReflect = current_obDeflectionAnglePack[1];
-								
-			//					drawer.add(new SpeedTimer(drawer,time,"seconds",force*Math.cos(thisDeflectionAngle), force*Math.sin(thisDeflectionAngle),thisZReflect,this));
-			//					drawer.add(new SpeedTimer(drawer,time,"seconds",force*Math.cos(current_obDeflectionAngle), force*Math.sin(current_obDeflectionAngle),current_obZReflect,current_object));
-								
-								
-								
-								
-//								object_draw.scheduled_forces.add(new force(this,force,thisDeflectionAngle,0,time,collision_frame));
-//								object_draw.scheduled_forces.add(new force(current_object,-force,current_obDeflectionAngle,0,time,collision_frame));
-								
-								//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-					
-//							}
-							
-//					}
-						
-					//moving prediction markers to the next sub-frame interval
-//						prediction_this.UpdateWithoutCollision(objects, Settings.prediction_step);
-//						prediction_current_ob.UpdateWithoutCollision(objects, Settings.prediction_step);
-						
-						
-//					}
-					
-					
-				}else {
-					assert Settings.collision_algorithm == 1;
-					
-				
-					
-					
-					// v 1.10 collision algorithm (works ~70% of the time)
-					if (Math.abs(getCenterX() - current_object.getCenterX()) < (current_object.xSize/2+xSize/2)) {
-						if (Math.abs(getCenterY() - current_object.getCenterY()) < (current_object.ySize/2+ySize/2)) {						
-								
-							//figure out which way the object bounces
-							if (  Math.abs(getCenterX()+xSize/2 - current_object.x) < (xSpeed*1.1)) { //object hit left face of object
-								
-								if (Settings.forceMethod == 0) {
-									//momentum method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-									double momentum1 = getMass() * xSpeed;
-									double momentum2 = current_object.getMass() * current_object.xSpeed;
-									
-									int time = 10;
-									
-									double force = (momentum1+momentum2)/(4*time);
-								
-									System.out.println("Force: " + force);
-									
-									drawer.scheduled_forces.add(new force(drawer,this,-force,0,0,time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,force,0,0,time,"frames",-1));
-									
-									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-								
-								}else if (Settings.forceMethod == 1) {
-									int time = 10;
-									drawer.scheduled_forces.add(new force(drawer,this,-Math.abs(current_object.xSpeed/getMass()),current_object.ySpeed/getMass(),current_object.zSpeed/getMass(),time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,- Math.abs(xSpeed/current_object.getMass()),ySpeed/current_object.getMass(),zSpeed/current_object.getMass(),time,"frames",-1));
-									xReal += 1.1 * xSpeed;
-								}else {
-									assert Settings.forceMethod == 2;
-									
-			
-									//speed method
-									xSpeed = - Math.abs(xSpeed);
-									current_object.xSpeed = - Math.abs(current_object.xSpeed);
-							//		x = (int) Math.round(xReal + xSpeed);
-									xReal += 1.1 * xSpeed;
-									
-								
-								}
-			
-								
-							} else if (  Math.abs(getCenterY()+ySize/2 - current_object.y) < (ySpeed*1.1)) { //object hit top face
-								
-								if (Settings.forceMethod == 0) {
-									//momentum method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-									double momentum1 = getMass() * xSpeed;
-									double momentum2 = current_object.getMass() * current_object.xSpeed;
-									
-									int time = 2;
-									
-									double force = (momentum1+momentum2)/(2*time);
-									System.out.println("Force: " + force);
-									
-									drawer.scheduled_forces.add(new force(drawer,this,0,-force,0,time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,0, force, 0,time,"frames",-1));
-									
-									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-								}else if (Settings.forceMethod == 1) {
-									int time = 10;
-									drawer.scheduled_forces.add(new force(drawer,this,current_object.xSpeed/getMass(), - Math.abs(current_object.ySpeed/getMass()),-current_object.zSpeed/getMass(),time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,xSpeed/current_object.getMass(),ySpeed/current_object.getMass(),-zSpeed/current_object.getMass(),time,"frames",-1));
-									yReal += 1.1 * ySpeed;
-								}else {
-									assert Settings.forceMethod == 2;
-									// speed method
-									ySpeed = -Math.abs(ySpeed);
-									current_object.ySpeed = - Math.abs(current_object.ySpeed);
-									//y = (int) Math.round(yReal + ySpeed);
-									yReal += 1.1 * ySpeed;
-						 
-								}
-							
-							} else if (  Math.abs( (getCenterX() - xSize/2) - (current_object.x + current_object.xSize) ) < (xSpeed*1.1 + current_object.xSize )) { //ball hit right face
-								if (Settings.forceMethod == 0) {
-									//force method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-									double momentum1 = getMass() * xSpeed;
-									double momentum2 = current_object.getMass() * current_object.xSpeed;
-									
-									int time = 2;
-									
-									double force = (momentum1+momentum2)/(2*time);
-									System.out.println("Force: " + force);
-									
-									drawer.scheduled_forces.add(new force(drawer,this,force,0,0,time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,-force,0,0,time,"frames",-1));
-									xReal += 1.1 * xSpeed;
-									
-									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-								}else if (Settings.forceMethod == 1) {
-									int time = 10;
-									drawer.scheduled_forces.add(new force(drawer,this,-current_object.xSpeed/getMass(),current_object.ySpeed/getMass(),-current_object.zSpeed/getMass(),time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,-xSpeed/current_object.getMass(),ySpeed/current_object.getMass(),-zSpeed/current_object.getMass(),time,"frames",-1));
-								
-								}else {
-									assert Settings.forceMethod == 2;	
-									// speed method
-									xSpeed = Math.abs(xSpeed);
-									current_object.xSpeed = - Math.abs(current_object.xSpeed);
-								
-									xReal += 1.1 * xSpeed;
-		
-								}
-								
-							}else { // object hit bottom face
-								assert (  Math.abs( (centerY - ySize/2) - (current_object.y+current_object.ySize) ) < (current_object.ySize + ySpeed*1.1) ); 
-								
-								if (Settings.forceMethod == 0) {
-									//force method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-									double momentum1 = getMass() * xSpeed;
-									double momentum2 = current_object.getMass() * current_object.xSpeed;
-									
-									int time = 2;
-									
-									double force = (momentum1+momentum2)/(2*time);
-									System.out.println("Force: " + force);
-									
-									drawer.scheduled_forces.add(new force(drawer,this,0,force,0,time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,0,-force,0,time,"frames",-1) );
-									
-									
-									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-								}else if (Settings.forceMethod == 1) {
-									int time = 10;
-									drawer.scheduled_forces.add(new force(drawer,this,-current_object.xSpeed/getMass(),current_object.ySpeed/getMass(),-current_object.zSpeed/getMass(),time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,-xSpeed/current_object.getMass(),ySpeed/current_object.getMass(),-zSpeed/current_object.getMass(),time,"frames",-1));
-									yReal += 1.1 * ySpeed;
-								}else {
-									assert Settings.forceMethod == 2;
-								
-									// speed method
-									ySpeed = Math.abs(ySpeed);
-									current_object.ySpeed = - Math.abs(current_object.ySpeed);
-								
-									yReal += 1.1 * ySpeed;
-				 
-								}
-							}
-						} 
-					
-					}
-				
-			}//end of V1 collison algoritm
-			
-		}
-			
-		}catch(ClassCastException c) {
-			
-		}
-		return current_object1;
-	}
+				}
+			}
+			}
+	}		
+
 	
-	
+	*/
 	
 	
 }

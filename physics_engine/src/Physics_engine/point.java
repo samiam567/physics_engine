@@ -147,7 +147,6 @@ public class point extends Physics_drawable {
 
 	public void paint(Graphics page) {
 		if (Settings.displayObjectNames) page.drawString(name, x, y); //display the name of the point
-		
 		page.drawLine(x, y, x, y); //draw the point
 	}
 

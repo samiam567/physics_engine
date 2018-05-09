@@ -34,6 +34,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
 	public boolean isRotatable = true,isTangible = true, affectedByBorder = true;
+	
+	private boolean momentOfInertiaCalculated = false; 
+	
 	point pointOfRotation = null; //the point that the object rotates around
 	pointOfRotationPlaces pointOfRotationPlace = pointOfRotationPlaces.center;  //the place that that point is
 	
@@ -358,6 +361,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				pointCounter++;
 			} while (cPoint != null);
 			momentOfInertia = momInertia;
+			
+			momentOfInertiaCalculated = true;
+			
 		}else {
 			System.out.println(name + " is not rotatable (updateMomentOfInertia)");
 		}
@@ -462,16 +468,16 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			
 			isCollided((physics_object) cObject,side);
+			
 			cObject.isCollided(this, side);
-			
-			
+	
 			//bouncing
-			setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() - ySpeed) * momentOfInertia)/10000) - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) * momentOfInertia)/10000));
+			setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() * cObject.getMass() - ySpeed * getMass()) * getMomentOfInertia())/10000) - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) * getMomentOfInertia())/10000));
 			
-			setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * cOb.getXSpeed(),0,0);
+			setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * (cOb.getXSpeed() - getXSpeed()),((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getYSpeed() - getYSpeed()) ,((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getZSpeed() - getZSpeed()) );
+		
 		}
 			
-		
 	}
 	
 	
@@ -587,18 +593,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		return trajPolar;
 	}
 	
-	public double[] calculateDeflectionAngle(double angleOfApproach,double zComponent) { //this should prob get overriden
-		double angleOfReflection = 180-angleOfApproach;
-		return new double[] {angleOfReflection,zComponent};
-		
-	}
-	
-	protected double[] calculateDeflectionAngle(Physics_3DPolygon current_object) { //this shouldn't have to get overridden
-		double angleOfApproach = Math.atan(current_object.getYSpeed() / current_object.getXSpeed());
-		return calculateDeflectionAngle(angleOfApproach,current_object.getZSpeed());
-		
-	}
-	
 
 	public void isCollided(physics_object object, faces side) { //method that gets called when the object hits something. Useful for things like spikes or bullets in a game
 		
@@ -606,7 +600,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	public void setMass(double mass1) { //update the mass of the object (kg)
 		mass = mass1;
-		updateMomentOfInertia();
+		momentOfInertiaCalculated = false;
 	}
 
 	@Override
@@ -645,6 +639,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	}
 	
 	public double getMomentOfInertia() {
+		if (! momentOfInertiaCalculated) updateMomentOfInertia();
 		return momentOfInertia;
 	}
 

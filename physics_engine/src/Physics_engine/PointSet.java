@@ -39,12 +39,18 @@ public class PointSet extends Physics_3DPolygon {
 	}
 	
 	public void finalize() {
+		
+		
+		setMass(10);
+		
 		calculateCenter();
 		
 		updatePointOfRotation();
-		
+	
 		calculatePointValues();	
-		setMass(points.length);
+		
+		System.out.println("finalized");
+
 	}
 	
 }

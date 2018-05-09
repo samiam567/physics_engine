@@ -14,7 +14,7 @@ import circle_tessellation.Tessellation_runner;
 
 public class physics_runner {
 	
-	private static Physics_frame frame = new Physics_frame(), frame2 = new Physics_frame();
+	private static Physics_frame frame = new Physics_frame();
 	private static boolean mouseIsPressed = false;
 	private static int mouseStartX;
 	private static int mouseStartY;
@@ -30,7 +30,6 @@ public class physics_runner {
 	public static void main(String[] args) {
 	
 		drawer = new object_draw(frame);
-		drawer2 = new object_draw(frame2);
 	
 		boundries = new border_bounce(drawer);
 		boundries.setName("boundries", 1);
