@@ -14,7 +14,6 @@ public class rectangle extends Physics_3DPolygon {
 		super(drawer1);
 		setPos(x,y,z);
 		setSize(e,f,0);
-		setMass(mass);
 		
 		updatePos();
 		
@@ -51,6 +50,8 @@ public class rectangle extends Physics_3DPolygon {
 		
 		setPos(x,y,z);
 	
+		setMass(mass);
+		
 	}
 	
 	

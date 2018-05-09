@@ -8,7 +8,7 @@ public class Square extends Physics_3DPolygon {
 		super(drawer1);
 		setPos(x,y,z);
 		setSize(size,size,0.00000001);
-		setMass(mass);
+		
 		setRotation(0,0,0);
 		
 		
@@ -66,7 +66,7 @@ public class Square extends Physics_3DPolygon {
 
 		setPos(x,y,z);
 	
-		
+		setMass(mass);
 	}
 	
 	
@@ -128,8 +128,8 @@ public class Square extends Physics_3DPolygon {
 						
 					}else if (Settings.forceMethod == 0) {
 							//momentum method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-							double momentum1 = mass * xSpeed;
-							double momentum2 = current_object.mass * current_object.xSpeed;
+							double momentum1 = getMass() * xSpeed;
+							double momentum2 = current_object.getMass() * current_object.xSpeed;
 							
 							double time = 0.1;
 							
@@ -191,8 +191,8 @@ public class Square extends Physics_3DPolygon {
 	//							collision_frame  = prediction_number * Settings.prediction_step + object_draw.current_frame;
 								
 								//momentum method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-								momentum1 = mass * xSpeed;
-								momentum2 = current_object.mass * current_object.xSpeed;
+								momentum1 = getMass() * xSpeed;
+								momentum2 = current_object.getMass() * current_object.xSpeed;
 								
 								time = 0.2;
 								
@@ -247,8 +247,8 @@ public class Square extends Physics_3DPolygon {
 								
 								if (Settings.forceMethod == 0) {
 									//momentum method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-									double momentum1 = mass * xSpeed;
-									double momentum2 = current_object.mass * current_object.xSpeed;
+									double momentum1 = getMass() * xSpeed;
+									double momentum2 = current_object.getMass() * current_object.xSpeed;
 									
 									int time = 10;
 									
@@ -263,8 +263,8 @@ public class Square extends Physics_3DPolygon {
 								
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									drawer.scheduled_forces.add(new force(drawer,this,-Math.abs(current_object.xSpeed/mass),current_object.ySpeed/mass,current_object.zSpeed/mass,time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,- Math.abs(xSpeed/current_object.mass),ySpeed/current_object.mass,zSpeed/current_object.mass,time,"frames",-1));
+									drawer.scheduled_forces.add(new force(drawer,this,-Math.abs(current_object.xSpeed/getMass()),current_object.ySpeed/getMass(),current_object.zSpeed/getMass(),time,"frames",-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,- Math.abs(xSpeed/current_object.getMass()),ySpeed/current_object.getMass(),zSpeed/current_object.getMass(),time,"frames",-1));
 									xReal += 1.1 * xSpeed;
 								}else {
 									assert Settings.forceMethod == 2;
@@ -284,8 +284,8 @@ public class Square extends Physics_3DPolygon {
 								
 								if (Settings.forceMethod == 0) {
 									//momentum method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-									double momentum1 = mass * xSpeed;
-									double momentum2 = current_object.mass * current_object.xSpeed;
+									double momentum1 = getMass() * xSpeed;
+									double momentum2 = current_object.getMass() * current_object.xSpeed;
 									
 									int time = 2;
 									
@@ -298,8 +298,8 @@ public class Square extends Physics_3DPolygon {
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									drawer.scheduled_forces.add(new force(drawer,this,current_object.xSpeed/mass, - Math.abs(current_object.ySpeed/mass),-current_object.zSpeed/mass,time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,"frames",-1));
+									drawer.scheduled_forces.add(new force(drawer,this,current_object.xSpeed/getMass(), - Math.abs(current_object.ySpeed/getMass()),-current_object.zSpeed/getMass(),time,"frames",-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,xSpeed/current_object.getMass(),ySpeed/current_object.getMass(),-zSpeed/current_object.getMass(),time,"frames",-1));
 									yReal += 1.1 * ySpeed;
 								}else {
 									assert Settings.forceMethod == 2;
@@ -314,8 +314,8 @@ public class Square extends Physics_3DPolygon {
 							} else if (  Math.abs( (getCenterX() - xSize/2) - (current_object.x + current_object.xSize) ) < (xSpeed*1.1 + current_object.xSize )) { //ball hit right face
 								if (Settings.forceMethod == 0) {
 									//force method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-									double momentum1 = mass * xSpeed;
-									double momentum2 = current_object.mass * current_object.xSpeed;
+									double momentum1 = getMass() * xSpeed;
+									double momentum2 = current_object.getMass() * current_object.xSpeed;
 									
 									int time = 2;
 									
@@ -329,8 +329,8 @@ public class Square extends Physics_3DPolygon {
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									drawer.scheduled_forces.add(new force(drawer,this,-current_object.xSpeed/mass,current_object.ySpeed/mass,-current_object.zSpeed/mass,time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,-xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,"frames",-1));
+									drawer.scheduled_forces.add(new force(drawer,this,-current_object.xSpeed/getMass(),current_object.ySpeed/getMass(),-current_object.zSpeed/getMass(),time,"frames",-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,-xSpeed/current_object.getMass(),ySpeed/current_object.getMass(),-zSpeed/current_object.getMass(),time,"frames",-1));
 								
 								}else {
 									assert Settings.forceMethod == 2;	
@@ -347,8 +347,8 @@ public class Square extends Physics_3DPolygon {
 								
 								if (Settings.forceMethod == 0) {
 									//force method ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-									double momentum1 = mass * xSpeed;
-									double momentum2 = current_object.mass * current_object.xSpeed;
+									double momentum1 = getMass() * xSpeed;
+									double momentum2 = current_object.getMass() * current_object.xSpeed;
 									
 									int time = 2;
 									
@@ -362,8 +362,8 @@ public class Square extends Physics_3DPolygon {
 									//->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 								}else if (Settings.forceMethod == 1) {
 									int time = 10;
-									drawer.scheduled_forces.add(new force(drawer,this,-current_object.xSpeed/mass,current_object.ySpeed/mass,-current_object.zSpeed/mass,time,"frames",-1));
-									drawer.scheduled_forces.add(new force(drawer,current_object,-xSpeed/current_object.mass,ySpeed/current_object.mass,-zSpeed/current_object.mass,time,"frames",-1));
+									drawer.scheduled_forces.add(new force(drawer,this,-current_object.xSpeed/getMass(),current_object.ySpeed/getMass(),-current_object.zSpeed/getMass(),time,"frames",-1));
+									drawer.scheduled_forces.add(new force(drawer,current_object,-xSpeed/current_object.getMass(),ySpeed/current_object.getMass(),-zSpeed/current_object.getMass(),time,"frames",-1));
 									yReal += 1.1 * ySpeed;
 								}else {
 									assert Settings.forceMethod == 2;

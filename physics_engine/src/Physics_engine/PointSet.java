@@ -12,7 +12,7 @@ public class PointSet extends Physics_3DPolygon {
 		drawMethod = "paint";
 		setSize(1,1,1);
 		setPos(200,200,200);
-		setMass(1);
+		
 		setRotation(0,0,0);
 		
 		points = new point[0];
@@ -34,12 +34,17 @@ public class PointSet extends Physics_3DPolygon {
 		
 		setPoints(points);
 		
+		
+	
+	}
+	
+	public void finalize() {
 		calculateCenter();
 		
 		updatePointOfRotation();
 		
 		calculatePointValues();	
-	
+		setMass(points.length);
 	}
 	
 }

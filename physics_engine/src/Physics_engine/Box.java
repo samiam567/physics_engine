@@ -8,7 +8,7 @@ public class Box extends Physics_3DPolygon  {
 		super(drawer1);
 		setPos(x,y,z);
 		setSize(size,size,size);
-		setMass(mass);
+		
 		setRotation(0,0,0);
 		
 		drawMethod = "ListedPointAlgorithm";
@@ -41,8 +41,7 @@ public class Box extends Physics_3DPolygon  {
 
 		setPos(x,y,z);
 	
-	
-	
+		setMass(mass1);
 	}
 
 	

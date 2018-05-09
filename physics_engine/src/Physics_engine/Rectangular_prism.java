@@ -14,7 +14,7 @@ public class Rectangular_prism extends Physics_3DPolygon {
 		super(drawer1);
 		setPos(x,y,z);
 		setSize(e,f,zSize);
-		setMass(mass);
+		
 		
 		updatePos();
 		
@@ -57,6 +57,7 @@ public class Rectangular_prism extends Physics_3DPolygon {
 		
 		setPos(x,y,z);
 	
+		setMass(mass);
 	}
 }
 	

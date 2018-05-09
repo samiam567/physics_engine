@@ -68,6 +68,7 @@ public class PolarObject extends Physics_3DPolygon {
 
 		setPos(x1,y1,z1);
 		
+		setMass(10);
 	}
 	
 	//shapes

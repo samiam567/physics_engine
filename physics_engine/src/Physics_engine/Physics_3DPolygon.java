@@ -24,7 +24,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public Polygon_point polyPointsStart; //the start of the linked list of polyPoints
 	
 	//for massive
-	protected double mass;
+	private double mass;
 	private double friction_coefficient,momentOfInertia;
 		
 	private Polygon polyXY, polyZY;
@@ -190,6 +190,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				pointYReals[i] = points[i].getYReal();
 				pointZReals[i] = points[i].getZReal();
 			}
+		}catch(NullPointerException n) { //object has not finished being made
+			
 		}
 	}
 
@@ -222,31 +224,34 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			setPos(xI,yI,zI);
 			
 			do {
-			
-				cPoint.setPos(pointOfRotation.getXReal() + cPoint.initialXComponent * xSizeAppearance/xSizeInit, pointOfRotation.getYReal() + cPoint.initialYComponent * ySizeAppearance/ySizeInit, pointOfRotation.getZReal() + cPoint.initialZComponent * zSizeAppearance/zSizeInit);
+				try {
+					cPoint.setPos(pointOfRotation.getXReal() + cPoint.initialXComponent * xSizeAppearance/xSizeInit, pointOfRotation.getYReal() + cPoint.initialYComponent * ySizeAppearance/ySizeInit, pointOfRotation.getZReal() + cPoint.initialZComponent * zSizeAppearance/zSizeInit);
+		
+					
+					//zRotation
+					rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getYReal(),zRotation);
+					cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0],pointOfRotation.getYReal() + rotComponents[1],cPoint.getZReal() );
+					
+					
+					//xRotation
+					rotComponents = calculateRotation(cPoint.getZReal(),cPoint.getYReal(),xRotation);
+					cPoint.setPos(cPoint.getXReal(), pointOfRotation.getYReal() + rotComponents[1], pointOfRotation.getZReal() + rotComponents[0]);
+					
+				
+					//yRotation
+					rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getZReal(),yRotation);
+					cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0] + xI, cPoint.getYReal() + yI, pointOfRotation.getZReal() + rotComponents[1] + zI);
+					
+					
 	
-				
-				//zRotation
-				rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getYReal(),zRotation);
-				cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0],pointOfRotation.getYReal() + rotComponents[1],cPoint.getZReal() );
-				
-				
-				//xRotation
-				rotComponents = calculateRotation(cPoint.getZReal(),cPoint.getYReal(),xRotation);
-				cPoint.setPos(cPoint.getXReal(), pointOfRotation.getYReal() + rotComponents[1], pointOfRotation.getZReal() + rotComponents[0]);
-				
-			
-				//yRotation
-				rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getZReal(),yRotation);
-				cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0] + xI, cPoint.getYReal() + yI, pointOfRotation.getZReal() + rotComponents[1] + zI);
-				
-				
-
-				points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );			
-				
-				cPoint = cPoint.nextPoint;
-				
-				pointCounter++;
+					points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );			
+					
+					cPoint = cPoint.nextPoint;
+					
+					pointCounter++;
+				}catch(NullPointerException n) {
+					System.out.println("bad point");
+				}
 			} while (cPoint != null);
 			
 		}else {
@@ -259,6 +264,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			}
 			
 		}
+		
 	}
 
 	public void setRotation(double xRotation1, double yRotation1, double zRotation1) { //this is not a wise method to use as it frequently results in impossible rotations.
@@ -283,33 +289,75 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	}
 	
 	private void updateMomentOfInertia() {
+		System.out.println("updating moment of inertia");
 		if (isRotatable){
+			calculateCenter();
+
 			Polygon_point cPoint = polyPointsStart,nextPoint;
 			int pointCounter = 0;
 			double[] rotComponents;
 			
-			double dA,dB,dAB;
-			double theta;
-			double rotInertia;
+			double dA,dB,dAB,area,theta,momInertia = 0,r,totalArea = 0;
 			
+			//getting the total area
 			do {
-
-				if (cPoint.nextPoint == null) {
-					nextPoint = polyPointsStart;
-				}else {
+				try {
 					nextPoint = cPoint.nextPoint;
-				}
+					if (nextPoint.equals(null)) System.out.println("bad");
+				}catch(NullPointerException n) { 
+					nextPoint = polyPointsStart;
+				}				
+				
 				
 				dA = Math.abs(Physics_engine_toolbox.distance(cPoint, center));
 				dB = Math.abs(Physics_engine_toolbox.distance(nextPoint, center));
 				dAB =  Math.abs(Physics_engine_toolbox.distance(cPoint, nextPoint));
-	// UNFINISHED
+				
+				theta = Math.acos(-((dAB)*(dAB)-(dB)*(dB)-(dA)*(dA))/((2)*(dB)*(dA)));
+						
+				area = Math.abs(0.5 * (dA) * (dB) * Math.sin(theta));
+			
+				totalArea += area;
 				
 				cPoint = cPoint.nextPoint;
 				
 				pointCounter++;
 			} while (cPoint != null);
 			
+			
+			cPoint = polyPointsStart;
+			
+			
+			//calculating moment of inertia
+			do {
+
+				try {
+					nextPoint = cPoint.nextPoint;
+					if (nextPoint.equals(null)) System.out.println("bad");
+				}catch(NullPointerException n) { 
+					nextPoint = polyPointsStart;
+				}				
+				
+			
+				dA = Math.abs(Physics_engine_toolbox.distance(cPoint, center));
+				dB = Math.abs(Physics_engine_toolbox.distance(nextPoint, center));
+				dAB =  Math.abs(Physics_engine_toolbox.distance(cPoint, nextPoint));
+				
+				theta = Math.acos(-((dAB)*(dAB)-(dB)*(dB)-(dA)*(dA))/((2)*(dB)*(dA)));
+						
+				area = 0.5 * (dA) * (dB) * Math.sin(theta);
+				
+				r = area/theta;
+				
+				momInertia += Math.abs(area * Math.pow(r/2, 2) * mass / totalArea);
+				
+				cPoint = cPoint.nextPoint;
+				
+			
+				
+				pointCounter++;
+			} while (cPoint != null);
+			momentOfInertia = momInertia;
 		}else {
 			System.out.println(name + " is not rotatable (updateMomentOfInertia)");
 		}
@@ -333,12 +381,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	}
 
 
-	public Area getAreaZY() {
-	
-		return areaZY;
-	}
-	
-
 	public double getXRotation() {
 		return xRotation;
 	}
@@ -351,6 +393,11 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		return zRotation;
 	}
 	
+	public Area getAreaZY() {
+	
+		return areaZY;
+	}
+
 	public void setAngularVelocity(double angVX, double angVY, double angVZ) {
 		angularVelocityX = angVX;
 		angularVelocityY = angVY;
@@ -419,9 +466,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			
 			//bouncing
-			setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() - ySpeed) * mass)/10000) + (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) * mass)/10000));
+			setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() - ySpeed) * momentOfInertia)/10000) - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) * momentOfInertia)/10000));
 			
-		//	setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * cOb.getXSpeed(),0,0);
+			setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * cOb.getXSpeed(),0,0);
 		}
 			
 		
@@ -451,6 +498,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				}
 			}catch(ClassCastException c) {
 				System.out.println("catch: " + name);
+			}catch(NullPointerException n) {
+				
 			}
 			
 			
@@ -557,6 +606,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	public void setMass(double mass1) { //update the mass of the object (kg)
 		mass = mass1;
+		updateMomentOfInertia();
 	}
 
 	@Override

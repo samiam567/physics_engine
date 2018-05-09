@@ -160,6 +160,7 @@ public class New_object_listeners {
 			        	  			((PointSet)objectBeingChanged).initialize();
 					//				drawer.add((PointSet) objectBeingChanged);
 									System.out.println("free-form Created");
+									((PointSet)objectBeingChanged).finalize();
 								
 			        	  		}
 			        	  	break;

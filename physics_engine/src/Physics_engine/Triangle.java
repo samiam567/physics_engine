@@ -7,7 +7,7 @@ public class Triangle extends Physics_3DPolygon {
 		
 		setPos(x,y,z);
 		setSize(width,height,width);
-		setMass(mass);
+	
 		setRotation(0,0,0);
 		
 		drawMethod = "ListedPointAlgorithm";
@@ -62,6 +62,6 @@ public class Triangle extends Physics_3DPolygon {
 		setPos(x,y,z);
 		
 	
-		
+		setMass(mass);
 	}
 }

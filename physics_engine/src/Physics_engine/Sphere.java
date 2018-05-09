@@ -51,6 +51,7 @@ public class Sphere extends Physics_3DPolygon {
 
 		setPos(x1,y1,z1);
 		
+		setMass(mass);
 	}
 	
 
