@@ -16,6 +16,9 @@ public class Paddle extends Rectangular_prism implements resizable {
 	
 	public Paddle(object_draw drawer, String side1) {
 		super(drawer,Settings.width/2,Settings.height/2,10,Settings.width/5,Settings.height/5,Settings.width/25,10);
+		
+		hasNormalCollisions = false;
+		
 		side = side1;
 		
 		drawMethod = "paint";
@@ -36,7 +39,10 @@ public class Paddle extends Rectangular_prism implements resizable {
 				
 			break;
 		}
+		
+		setMass(10);
 	}
+	
 	
 	
 	public void paint(Graphics page) {

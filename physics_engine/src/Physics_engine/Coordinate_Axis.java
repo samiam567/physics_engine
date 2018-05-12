@@ -5,6 +5,8 @@ import java.awt.Graphics;
 //depretiated class  - NOT USED -
 public class Coordinate_Axis extends physics_object{
 
+
+ 
 	public Coordinate_Axis(object_draw drawer1) {
 		super(drawer1);
 	}

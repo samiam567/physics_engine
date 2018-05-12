@@ -24,7 +24,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public Polygon_point polyPointsStart; //the start of the linked list of polyPoints
 	
 	//for massive
-	private double mass;
+	private double mass = 10;
 	private double friction_coefficient,momentOfInertia;
 		
 	private Polygon polyXY, polyZY;
@@ -34,6 +34,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
 	public boolean isRotatable = true,isTangible = true, affectedByBorder = true;
+	protected boolean hasNormalCollisions = true;
 	
 	private boolean momentOfInertiaCalculated = false; 
 	
@@ -471,14 +472,13 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			cObject.isCollided(this, side);
 	
-			//bouncing
-			setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() * cObject.getMass() - ySpeed * getMass()) * getMomentOfInertia())/10000) - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) * getMomentOfInertia())/10000));
-			
-			setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * (cOb.getXSpeed() - getXSpeed()),((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getYSpeed() - getYSpeed()) ,((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getZSpeed() - getZSpeed()) );
 		
-		}
+			//bouncing
+			setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() * cObject.getMass() - ySpeed * getMass()) / getMomentOfInertia())) * 10 - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) / getMomentOfInertia())) * 10);
 			
-	}
+			setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * (cOb.getXSpeed() - getXSpeed()),((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getYSpeed() - getYSpeed()) ,((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getZSpeed() - getZSpeed()) );}
+			
+		}
 	
 	
 	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { 
@@ -487,8 +487,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			updatePointXsYsAndZs();
 			updateAreas();
 			point cPoint;
-			double force, reflec_const, time = 1;	
-			
+		
 			try {
 				faces side = faces.none;
 				for (int i = 0; i < ((pointed) current_physics_object).getPoints().length; i++) {
@@ -496,9 +495,22 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 					
 					if (cPoint.isIn(this)) {
+						System.out.println("Collision:");
 						
-						collision(current_physics_object,cPoint, side);
-						current_physics_object.collision(this,cPoint, side);
+						if (getHasNormalCollisions() && current_physics_object.getHasNormalCollisions()) {
+							collision(current_physics_object,cPoint, side);
+							current_physics_object.collision(this,cPoint, side);
+							
+							current_physics_object.setPos(current_physics_object.getXSpeed()*drawer.getFrameStep() + current_physics_object.getCenterX(), current_physics_object.getYSpeed()*drawer.getFrameStep() + current_physics_object.getCenterY(), current_physics_object.getZSpeed()*drawer.getFrameStep() + current_physics_object.getCenterZ());
+							
+							setPos(getXSpeed()*drawer.getFrameStep() + getCenterX(), getYSpeed()*drawer.getFrameStep() + getCenterY(), getZSpeed()*drawer.getFrameStep() + getCenterZ());
+						}else {
+							isCollided((physics_object) current_physics_object,side);
+							
+							current_physics_object.isCollided(this, side);
+						}
+						
+						System.out.println("--");
 						
 					}
 				}
@@ -694,6 +706,11 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	@Override
 	public double getElasticity() {
 		return elasticity;
+	}
+
+	@Override
+	public boolean getHasNormalCollisions() {
+		return hasNormalCollisions;
 	}
 	
 }

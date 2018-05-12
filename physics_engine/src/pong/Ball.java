@@ -17,7 +17,7 @@ public class Ball extends Sphere implements resizable {
 	
 	public Ball(object_draw drawer) {
 		super(drawer,Settings.width/2,Settings.height/2,Settings.depth/2,Settings.width/15,10,Math.PI/20);
-		
+		hasNormalCollisions = false;
 		int direction;
 		if (Math.random() < 0) {
 			direction = -1;
@@ -29,6 +29,7 @@ public class Ball extends Sphere implements resizable {
 		
 		setSpeed(Pong_runner.ballSpeed/2 * (Math.random() - 0.5) ,Pong_runner.ballSpeed/2 *(Math.random() - 0.5),ballZSpeed * direction );
 		
+		setMass(10);
 	}
 	
 	public void tertiaryUpdate() {
@@ -53,8 +54,11 @@ public class Ball extends Sphere implements resizable {
 			
 			System.out.println("PAD");
 			
+			
 			setSpeed(xSpeed,ySpeed,-zSpeed);
+			
 			System.out.println("speed: " + zSpeed);
+			
 			
 			setPos(centerX,centerY,centerZ + drawer.getFrameStep() + zSpeed);
 			updatePoints();
