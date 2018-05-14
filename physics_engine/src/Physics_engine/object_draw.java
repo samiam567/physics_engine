@@ -37,6 +37,8 @@ public class object_draw extends Canvas {
 	public object_draw_thread threader;
 	
 	public object_draw_update_thread updateThreader;
+	
+	public point lightSource = new point(this,0,0,0);
 
 	public object_draw(Physics_frame frame1) {
 		frame = frame1;
@@ -258,7 +260,6 @@ public class object_draw extends Canvas {
 		}else if (wait_time_temp < wait_time) {
 			wait_time --;
 		}
-		
 		sleepThread(wait_time);
 		
 	}
@@ -275,7 +276,8 @@ public class object_draw extends Canvas {
 			
 			frameStep = ((double) (updateEndTime - updateStartTime)) / 100000000; //automatically set the accuracy of the subCalculations depending on how fast the cpu is going
 		}
-		sleepThread(2);
+
+		sleepThread(1);
 
 		frameCount = 0;
 	

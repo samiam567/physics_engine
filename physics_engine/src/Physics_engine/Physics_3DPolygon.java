@@ -1,5 +1,6 @@
 package Physics_engine;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.geom.Area;
@@ -33,7 +34,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public double elasticity = Settings.elasticity;
 	
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
-	public boolean isRotatable = true,isTangible = true, affectedByBorder = true;
+	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,isShaded = true;
 	protected boolean hasNormalCollisions = true;
 	
 	private boolean momentOfInertiaCalculated = false; 
@@ -50,6 +51,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 		private double xComponent,yComponent,zComponent;
 		private double initialXComponent, initialYComponent, initialZComponent;
+		
+		private Color color = Color.black;
+		
 		private Physics_3DPolygon parent;
 		
 		private Polygon_point nextPoint;
@@ -101,11 +105,31 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		}		
 		
 		updatePointXsYsAndZs();
-		updateAreas();
-	
-		
+
 		if (isFilled) {
 			page.fillPolygon(polyXY);
+		}else if (isShaded){
+			
+			Polygon_point cPoint = polyPointsStart;
+			do {
+				try {
+					
+					page.setColor(cPoint.color);
+					
+					
+					try {
+						page.drawLine(cPoint.x,cPoint.y,cPoint.nextPoint.x,cPoint.nextPoint.y);
+					}catch(NullPointerException n) {	
+						page.drawLine(cPoint.x,cPoint.y,polyPointsStart.x,polyPointsStart.y);
+					}
+					
+					cPoint = cPoint.nextPoint;
+				}catch(NullPointerException n) {
+					System.out.println("bad point");
+				}
+				
+				
+			} while (cPoint != null);
 		}else {
 			page.drawPolygon(polyXY);
 		}
@@ -198,6 +222,40 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 		}
 	}
+	
+	public void updateShading(Polygon_point cPoint,double normalLightAngle) {
+		Vector2D vec1;
+		
+		try {
+			if (cPoint.nextPoint != null) {	
+				vec1 = new Vector2D(drawer,cPoint,cPoint.nextPoint);		
+			}else {
+				vec1 = new Vector2D(drawer,cPoint,polyPointsStart);	
+			}
+		}catch(NullPointerException n) {
+			vec1 = new Vector2D(drawer,cPoint,polyPointsStart);	
+		}
+		
+		
+		
+		double lightLevel = Math.abs(normalLightAngle - vec1.getTheta() );
+		
+	
+		if (lightLevel >= 3.3) {
+			cPoint.color = Color.WHITE;
+		}else if (lightLevel >= 3.1) {
+			cPoint.color = Color.LIGHT_GRAY;
+		}else if (lightLevel >= 2.8) {
+			cPoint.color = Color.GRAY;
+		}else if (lightLevel >= 2.6) {
+			cPoint.color = Color.DARK_GRAY;
+		}else if (lightLevel >= 0) {
+			cPoint.color = Color.BLACK;
+		}else {
+			System.out.println("logic Error for lightLevel: " + lightLevel);
+		}
+		
+	}
 
 
 	public double[] calculateRotation(double x, double y, double angle) {
@@ -217,15 +275,21 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			double zI = centerZ;
 			
 			
+			Vector2D normalLightVec = new Vector2D(drawer,center, drawer.lightSource);
+			double normalLightAngle = normalLightVec.getTheta();
+			
 			setPos(0,0,0);
 			
 			updateCenter();
+			
+			setPos(xI,yI,zI);
 			
 			updatePointOfRotation();
 			
 			updateSize();
 			
-			setPos(xI,yI,zI);
+			
+			
 			
 			do {
 				try {
@@ -250,13 +314,21 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 					points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );			
 					
+					if (isShaded) {
+						updateShading(cPoint,normalLightAngle);
+					}
+					
 					cPoint = cPoint.nextPoint;
 					
 					pointCounter++;
 				}catch(NullPointerException n) {
 					System.out.println("bad point");
 				}
+				
+				
 			} while (cPoint != null);
+			
+			updateCenter();
 			
 		}else {
 			double xChange = xReal - points[0].getX();
