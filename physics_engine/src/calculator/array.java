@@ -250,8 +250,7 @@ public class array {
 						repeat = true;
 						i++;
 					}catch(ArrayIndexOutOfBoundsException q) {
-						Exception e = new Exception("BAD-INPUT in array.getValues \n Input: " + value);	
-						e.printStackTrace();
+						Calculator_runner.errors.add("BAD-INPUT in array.getValues \n Input: " + value);	
 					}
 				}while (repeat);
 			}

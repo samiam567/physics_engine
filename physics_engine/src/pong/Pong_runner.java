@@ -14,10 +14,11 @@ import Physics_engine.SpeedTimer;
 import Physics_engine.array;
 import Physics_engine.border_bounce;
 import Physics_engine.object_draw;
+import Physics_engine.physicsRunner;
 
-public class Pong_runner {
+public class Pong_runner extends physicsRunner{
 
-	public static final String Version = "2.1.3";
+	public static final String Version = "2.1.4";
 	
 	
 	public static boolean cheatMode = false;
@@ -39,17 +40,16 @@ public class Pong_runner {
 	
 	public static double diagonal = Math.sqrt(Math.pow(Settings.width,2) + Math.pow(Settings.height,2));
 	
-	
-	
 	public static void main(String[] args) {
-		
-		
-
-		gameSpeed = gameSetSpeed * diagonal/100;
-		
-		
 		drawer = new object_draw(frame);
+		run();
+	}
+	
+	public static void run() {
 		
+		frame = (Pong_frame) frame;
+		gameSpeed = gameSetSpeed * diagonal/100;
+
 		frame.setColor(Color.BLUE);
 
 		frame.setTitle("Pong: V" + Version + "         Programmed by Alec Pannunzio");
@@ -82,6 +82,8 @@ public class Pong_runner {
 		
 		setSettings();
 		
+		frame.setSize(Settings.width + 1,Settings.height + 1);
+		
 		resize();
 		
 		ball.isAnchored = true; //hold the ball till the game starts
@@ -100,8 +102,13 @@ public class Pong_runner {
 		
 		drawer.start();
 		
-		for (int i = 0; i < 200000; i++) {
-			System.out.println("loading");
+		
+		for (int i = 0; i < 4000; i++) {
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 		}
 		
 		
@@ -228,7 +235,20 @@ public class Pong_runner {
 			
 	      });
 		
-	
+		
+		//wait for the user to close the window to end the game
+		while (frame.isShowing()) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		drawer.end();
+		frame.remove(drawer);
+		frame.dispose();
+		
 	}
 	
 	public static void init() {
@@ -257,6 +277,11 @@ public class Pong_runner {
 		ball.isAnchored = false; //releasing the ball to start the game
 	}
 	
+	public static void setDrawer(object_draw drawer1) {
+		drawer = drawer1;
+		drawer.setFrame(frame);
+	}
+
 	public static void setAIDiff() {
 		String[] difficulties = {"Easy","Normal","Hard","EXTREME"};
 		int p2AI_diff_input = JOptionPane.showOptionDialog(frame, "What AI difficulty", "Difficulty", 1, 1, null, difficulties, 1);
@@ -349,7 +374,7 @@ public class Pong_runner {
 	public static void setSettings() {
 		Settings.collision_algorithm = 5;
 		Settings.rotationAlgorithm = 6;
-		Settings.timeOutTime = 100;
+		Settings.timeOutTime = 1000;
 		
 		drawer.setFrameTimeMultiplier(150);
 		Settings.distanceFromScreenMeters = 0.0001;
@@ -371,6 +396,7 @@ public class Pong_runner {
 		fScore.setPos(0.7 * Settings.width, 0.1 * Settings.height,0);
 		
 		
+		
 		//make the game faster when the frame gets bigger
 		gameSpeed = gameSetSpeed * diagonal/100;
 		paddleSpeed = 4 * gameSpeed;
@@ -378,6 +404,8 @@ public class Pong_runner {
 		Paddle.paddleHomingSpeed = Pong_runner.AI_difficulty * Pong_runner.gameSpeed;
 		
 		ball.reset();
+		
+		drawer.resize();
 		
 	}
 }

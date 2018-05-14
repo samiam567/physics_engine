@@ -4,7 +4,7 @@ import java.util.ConcurrentModificationException;
 
 public class object_draw_thread extends Thread {
 	public object_draw objectDrawer;
-	public int state = 1; //0 = stopped, 1 = running, 2 = paused
+	public int state = 0; //0 = stopped, 1 = running, 2 = paused
 	
 	public object_draw_thread(object_draw objectDrawer1) {
 		objectDrawer = objectDrawer1;
@@ -26,6 +26,7 @@ public class object_draw_thread extends Thread {
 				}
 			}else {
 				System.out.println("thread stopped.");
+				return;
 			}
 		}
 	}

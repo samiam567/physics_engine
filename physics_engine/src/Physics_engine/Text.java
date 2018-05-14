@@ -15,6 +15,7 @@ public class Text extends Physics_drawable {
 		setPos(x1,y1,0);
 		text = text1;
 		updateFont();
+		isAnchored = true;
 	}
 	
 	public Text(object_draw drawer1,double x1, double y1, String text1, Font font1) {
@@ -23,6 +24,7 @@ public class Text extends Physics_drawable {
 		font = font1;
 		text = text1;
 		updateFont();
+		isAnchored = true;
 	}
 	
 	public void setFont(Font font1) {
@@ -56,7 +58,7 @@ public class Text extends Physics_drawable {
 					System.out.println("| \n" + text);
 					xPosOfTheEnd = x;
 					firstPart = text.substring(0, i);
-					endPart = text.substring(i+1);
+					endPart = text.substring(i);
 					text = firstPart + "`" + endPart;
 					System.out.println(text);
 				}

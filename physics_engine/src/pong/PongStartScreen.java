@@ -12,7 +12,7 @@ import Physics_engine.rectangle;
 
 public class PongStartScreen extends rectangle {
 	
-	Text text;
+	Text text,text2;
 	
 	public PongStartScreen(object_draw drawer1) {
 		super(drawer1,Settings.width/2,Settings.height/2,10,Settings.width,Settings.height,10);
@@ -40,8 +40,13 @@ public class PongStartScreen extends rectangle {
 		Settings.perspective = false;
 	
 		text = new Text(drawer,0.1 * Settings.width,0.2 * Settings.height,"      3D Pong V" + Pong_runner.Version + "\nProgrammed By Alec Pannunzio",Physics_engine_toolbox.bigFont); 
+		text2 = new Text(drawer,0.2 * Settings.width,0.7 * Settings.height,"Loading...",Physics_engine_toolbox.bigFont); 
+		
 		text.setColor(Color.WHITE);
+		text2.setColor(Color.GREEN);
+		
 		drawer.add(text);
+		drawer.add(text2);
 		
 		drawer.add(this);
 	
@@ -68,6 +73,7 @@ public class PongStartScreen extends rectangle {
 		Pong_runner.resize();
 		
 		drawer.remove(text);
+		drawer.remove(text2);
 		drawer.remove(this);
 	}
 

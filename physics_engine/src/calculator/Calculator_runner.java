@@ -27,14 +27,17 @@ public class Calculator_runner {
 	public static ArrayList<String> errors = new ArrayList<String>();
 	
 	public static void main(String[] args) {
+		run();
+	}
 		
+	public static void run() {
 		calculatorAnchor.setVisible(true);
 		calculatorAnchor.setSize(300,10);
 		calculatorAnchor.setTitle("Calculator V" + version + "   Programmed by Alec Pannunzio");
 		
 		
 		do {
-			run();
+			runCalc();
 			displayErrors();
 			
 		}while (JOptionPane.showConfirmDialog(calculatorAnchor,"Do you want to calculate something else?", "Another?", 1, 1, null) == 0);
@@ -43,9 +46,11 @@ public class Calculator_runner {
 		calculatorAnchor.dispose();
 	}
 	
-	private static void run() {
+	private static void runCalc() {
 		
 		try {
+			Grapher.frame.setVisible(false);
+			
 			input = JOptionPane.showInputDialog(calculatorAnchor,"Type in what you want to solve");
 			System.out.println("Input: " + input);
 			
@@ -102,12 +107,18 @@ public class Calculator_runner {
 	}
 	
 	private static void displayErrors() {
+		String[] options = {"Next Error","Skip"};
 		String error;
 		for (int i = 0; i < errors.size(); i++) {
 			error = errors.get(i);
-			JOptionPane.showMessageDialog(calculatorAnchor, error); //display the error
+			
+			if (JOptionPane.showOptionDialog(calculatorAnchor, error, "Choose Game Game?", 1, 1,null, options, null) == 1) { //display the error and check if the user wants to skip the rest
+				errors.clear();
+				break;
+			}
 			errors.remove(i); //remove the error from the list
 		}
+	
 	}
 	
 	public static void WaitNanotime(long time) { //more accurate wait method for nanotime

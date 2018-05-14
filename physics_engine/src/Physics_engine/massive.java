@@ -28,5 +28,6 @@ public interface massive extends pointed {
 	public void collision(massive cObject, point cPoint, faces side);
 	public double getMomentOfInertia();
 	public boolean getHasNormalCollisions();
+	public void setIsTangible(boolean b);
 	
 }

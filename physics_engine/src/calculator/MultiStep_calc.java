@@ -184,7 +184,7 @@ public class MultiStep_calc {
 					if (debug) System.out.println("NewInp " + input);
 				}
 			}
-		}while (checkForMultiOp(input) > 0);
+		}while (checkForMultiOp(input) > 1);
 		
 		answer = Double.parseDouble(input); // set the answer to the input (which now = the answer)
 		input = input_original; //reset the input

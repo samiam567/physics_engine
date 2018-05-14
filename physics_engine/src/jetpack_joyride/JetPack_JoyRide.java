@@ -22,9 +22,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import Physics_engine.*;
 
-public class JetPack_JoyRide {
+public class JetPack_JoyRide extends physicsRunner {
 
-	public static final String version = "2.0.7";
+	public static final String version = "2.1.2";
 	
 	static JPJR_frame frame = new JPJR_frame();
 	
@@ -58,6 +58,7 @@ public class JetPack_JoyRide {
 	
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
 		init();
+		System.exit(1);
 	}
 	
 	public static void playSound(File soundFile) {
@@ -70,7 +71,17 @@ public class JetPack_JoyRide {
 		}
 	}
 	
-	public static void init() throws FileNotFoundException, IOException, ClassNotFoundException {
+	public static void setDrawer(object_draw drawer1) {
+		drawer = drawer1;
+		drawer.setFrame(frame);
+	}
+	
+	public static void run() {
+		drawer = new object_draw(frame);
+		init();
+	}
+	
+	public static void init()  {
 			
 		
 		FPS_display fps = new FPS_display(drawer,30,30);
@@ -175,6 +186,10 @@ public class JetPack_JoyRide {
 				loadGame(); 
 			}catch(FileNotFoundException e) {
 				System.out.println("Missing Save File");
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		
 		//initializing the GUIs
@@ -204,11 +219,11 @@ public class JetPack_JoyRide {
 		resize();
 		
 		drawer.start();
-		run();
+		runGame();
 		
 	}
 
-	public static void run() throws FileNotFoundException, IOException {
+	public static void runGame() {
 		
 		jetpack.applyComponentForce(0, gravity, 0);
 		
@@ -273,7 +288,13 @@ public class JetPack_JoyRide {
 		
 				
 			
-			saveGame(); //save the game
+			try {
+				saveGame(); //save the game
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
 			
 		
 	
@@ -286,19 +307,20 @@ public class JetPack_JoyRide {
 				if (another == 0) {
 					resetGame();
 					
-					run();
+					runGame();
 				}
 				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			
 			
 		}
 	
-		
+
+		drawer.end();
+		frame.remove(drawer);
+	
 		frame.dispose();
 		GUI.dispose();
 		shop.dispose();
-		
-		System.exit(1);
 		
 		//end
 	

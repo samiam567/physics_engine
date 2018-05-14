@@ -57,6 +57,7 @@ public class object_draw extends Canvas {
 	public void setFrame(Physics_frame frame1) {
 		frame = frame1;
 		frame.getContentPane().add(this);
+		frame.drawer = this;
 	}
 	
 	public void boot() {
@@ -65,24 +66,37 @@ public class object_draw extends Canvas {
 	}
 	
 	public void start() {
+		threader.state = 1;
+		updateThreader.state = 1;
 		threader.start();
 		updateThreader.start();
 		setSize(Settings.width, Settings.height);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void end() {
-		threader.state = 0;
-		updateThreader.state = 0;
+		threader.suspend();
+		updateThreader.suspend();
+		while (! ((threader.state == 0) && (updateThreader.state == 0) )  ) {
+			threader.state = 0;
+			updateThreader.state = 0;
+		}
 	}
 	
 	public void stop() {
-		threader.state = 0;
-		updateThreader.state = 0;
+		end();
+	}
+	
+	public void Void() {
+		end();
+		frame.remove(this);
 	}
 	
 	public void pause() {
-		threader.state = 2;
-		updateThreader.state = 2;
+		while (! ((threader.state == 2) && (updateThreader.state == 2) )  ) {
+			threader.state = 2;
+			updateThreader.state = 2;
+		}
 	}
 	
 	public void resume() {
@@ -236,7 +250,6 @@ public class object_draw extends Canvas {
 		repaint(); 
 		frameEndTime = System.nanoTime();
 		
-		
 		wait_time_temp = (long) (frameTimeMultiplier * (frameEndTime - frameStartTime)/100000);
 		
 		//use machine learning to adjust to the right wait_time
@@ -246,10 +259,8 @@ public class object_draw extends Canvas {
 			wait_time --;
 		}
 		
-		
-		//wait_time = 1000/20 - (frameEndTime - frameStartTime)/100000;
 		sleepThread(wait_time);
-	
+		
 	}
 	
 	public void doUpdate() { //for update thread. Updates the objects
@@ -264,7 +275,8 @@ public class object_draw extends Canvas {
 			
 			frameStep = ((double) (updateEndTime - updateStartTime)) / 100000000; //automatically set the accuracy of the subCalculations depending on how fast the cpu is going
 		}
-		sleepThread(1);
+		sleepThread(2);
+
 		frameCount = 0;
 	
 	
@@ -298,11 +310,10 @@ public class object_draw extends Canvas {
 			for (drawable current_object : drawables) {
 			
 				
-				if ( current_object.getIsVisible()) {
+				if ( current_object.getIsVisible() ) {
 				
 					if (   true  )  { //frame.checkIsInFrame((pointed) current_object)) {
-						if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(current_object.getXReal()), (int) Math.round(current_object.getYReal())); //displaying the name of the object
-					
+						
 						page.setColor(current_object.getColor());
 						
 						
@@ -380,7 +391,11 @@ public class object_draw extends Canvas {
 								break;
 						} 
 					}
+					
+					
 				}
+				
+				
 			}
 		}catch(ConcurrentModificationException c) {}
 		

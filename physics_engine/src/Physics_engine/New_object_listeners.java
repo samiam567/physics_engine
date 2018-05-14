@@ -36,10 +36,11 @@ public class New_object_listeners {
 						}
 					}else {
 						Point mousePoint = new Point(arg0.getX(), arg0.getY());
+						point mousePoint1 = new point(drawer,arg0.getX(), arg0.getY(),0);
 						
 						for (massive cObject : drawer.tangibles) {
 							cObject.updatePolygons();
-							if (cObject.getPolyXY().contains(mousePoint)) {
+							if (mousePoint1.isIn((Physics_3DPolygon) cObject)) {
 								System.out.println(cObject.getObjectName() + " has been selected");
 								objectBeingChanged = cObject;
 								break;
@@ -90,6 +91,8 @@ public class New_object_listeners {
 					
 					Point mousePoint = new Point(arg0.getX(), arg0.getY());
 					
+					point mousePoint1 = new point(drawer,arg0.getX(), arg0.getY(),0);
+					
 					if (createFreeForm) {	
 						((PointSet)objectBeingChanged).addPoint(new point(drawer,arg0.getX(),arg0.getY(),0));
 						System.out.println("Point added");
@@ -99,17 +102,38 @@ public class New_object_listeners {
 							drawer.add((PointSet)objectBeingChanged);
 						}
 					}else {
+				
 						for (massive cObject : drawer.tangibles) {
 							cObject.updatePolygons();
-							if (cObject.getPolyXY().contains(mousePoint)) {
+							if (mousePoint1.isIn((Physics_3DPolygon) cObject)) {
 								System.out.println(cObject.getObjectName() + " has been selected");
 								objectBeingChanged = cObject;
 								break;
 							}
 						}
 						
-					}
-					
+						if (arg0.getButton() == 1) {
+							try {
+								objectBeingChanged.setPos(arg0.getX(),arg0.getY(),objectBeingChanged.getCenterZ());
+							}catch(NullPointerException n) {
+								System.out.println("no object selected");
+							}
+						}else if (arg0.getButton() == 3){
+											
+							try {
+								System.out.println("menu");		
+								menu();
+							}catch(NullPointerException n) {
+								System.out.println("no object selected");
+							}
+							
+						}else if (arg0.getButton() == 2) {
+							objectBeingChanged = null;
+							System.out.println("selected object has been cleared");
+						}else {
+							System.out.println(arg0.getButton());
+						}
+					}					
 				
 				}
 
@@ -158,7 +182,6 @@ public class New_object_listeners {
 			        	  		if (createFreeForm) {
 			        	  			createFreeForm = false;
 			        	  			((PointSet)objectBeingChanged).initialize();
-					//				drawer.add((PointSet) objectBeingChanged);
 									System.out.println("free-form Created");
 									((PointSet)objectBeingChanged).finalize();
 								
@@ -194,6 +217,8 @@ public class New_object_listeners {
 	public void add() {	
 		drawer.addMouseListener(mouseListener);
 		drawer.addKeyListener(keyListener);
+		
+		JOptionPane.showMessageDialog(drawer.frame, "Press \"n\" to create a new object \n click on an object to select it \n right-click once an object is selected to change properties of that object \n use the middle mouse button to deselect an object","Physics Simulator Instructions", 1);
 	}
 	
 	public void remove() {
@@ -306,10 +331,15 @@ public class New_object_listeners {
 				break;
 		}
 		
+		
+		
 		if (! (objectToMake == "free-form") ) {
 			drawer.add((physics_object) objectBeingChanged);
+			JOptionPane.showMessageDialog(drawer, "Click where you want to put the object. \n make sure you don't click where another object already is");
+		}else {
+			JOptionPane.showMessageDialog(drawer, "Click where you want to put points.\nthe shape will be drawn in the order you create the points\nmake sure you press ENTER when you are finished!");
 		}
 		
-		JOptionPane.showMessageDialog(drawer, "Click where you want to put the object. \n make sure you don't click where another object already is");
+		
 	}
 }

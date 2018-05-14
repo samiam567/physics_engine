@@ -22,7 +22,8 @@ public abstract class Physics_drawable extends physics_object implements movable
 	
 	protected movable parent_object; //this object will move and act relative to it's parent object (useful for making complex objects out of multiple shapes)
 	
-	public boolean hasParentObject = false, isAnchored = false,isFilled = false, isVisible = true; 
+	public boolean hasParentObject = false, isAnchored = false,isFilled = false, isVisible = true;
+	
 	 
 	public Physics_drawable() {
 		super(physics_runner.drawer);
@@ -293,11 +294,14 @@ public abstract class Physics_drawable extends physics_object implements movable
 		return pointRenderOrder;
 	}
 	
+	@Override
 	public boolean hasParentObject() {
 		return hasParentObject;
 	}
+	
 
 	public movable getParentObject() {
 		return parent_object;
 	}
+
 }

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.colorchooser.ColorSelectionModel;
 
+import calculator.Settings;
+
 public class Physics_engine_toolbox {
 	public enum pointOfRotationPlaces {center,parentCenter,parentsPlace,custom};
 	public enum faces {left,right,top,bottom,far,near,none};
@@ -16,7 +18,7 @@ public class Physics_engine_toolbox {
 	
 	public static String[] stuffToDo = {"position","speed","acceleration","rotation","angular velocity","angular acceleration","color","size","friction Coefficient","mass","name"};
 
-	public static Font bigFont = new Font("TimesRoman", Font.BOLD, 70);
+	public static Font bigFont = new Font("TimesRoman", Font.BOLD, (int) (Math.sqrt(Math.pow(Settings.width, 2) + Math.sqrt(Math.pow(Settings.height, 2))) / 20  ));
 	
 	public static Font littleFont = new Font("TimesRoman", Font.PLAIN, 12);
 	
@@ -133,8 +135,7 @@ public class Physics_engine_toolbox {
 						//update pos
 						((movable) current_object).setCenter(((Physics_drawable) current_object).getCenterX() + (((movable) current_object).getXSpeed() * frames),((Physics_drawable) current_object).getCenterY() + (((movable) current_object).getYSpeed() * frames),((Physics_drawable) current_object).getCenterZ() + (((movable) current_object).getZSpeed() * frames));
 
-						
-						
+					
 					}else { //object is anchored and shouldn't move
 						((movable) current_object).setSpeed(0,0,0);
 					}
