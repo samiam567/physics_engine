@@ -13,6 +13,7 @@ public class Physics_engine_toolbox {
 	public enum pointOfRotationPlaces {center,parentCenter,parentsPlace,custom};
 	public enum faces {left,right,top,bottom,far,near,none};
 	public static String[] colorNames = {"black","blue","cyan","gray","green","magenta","orange","pink","red","white","yellow"};
+	public static Color[] colors = {Color.black,Color.blue,Color.cyan,Color.GRAY,Color.green,Color.MAGENTA,Color.orange,Color.pink,Color.red,Color.white,Color.YELLOW};
 	
 	public static String[] typesOfObjects = {"square","rectange","box","triangle","sphere","free-form"};
 	

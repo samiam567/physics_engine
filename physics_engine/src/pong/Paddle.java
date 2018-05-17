@@ -12,7 +12,7 @@ import Physics_engine.resizable;
 public class Paddle extends Rectangular_prism implements resizable {
 	public String side;
 	public static double paddleHomingSpeed = Pong_runner.AI_difficulty * Pong_runner.gameSpeed;
-
+	public int multi;
 	
 	public Paddle(object_draw drawer, String side1) {
 		super(drawer,Settings.width/2,Settings.height/2,10,Settings.width/5,Settings.height/5,Settings.width/25,10);
@@ -26,6 +26,7 @@ public class Paddle extends Rectangular_prism implements resizable {
 		
 		switch (side) {
 			case("near"):
+				multi = -1;
 				setPos(Settings.width/2,Settings.height/1.5,100);
 				setSize(Settings.width/5,Settings.height/5,Settings.width/5);
 				setColor(Color.green);
@@ -33,6 +34,7 @@ public class Paddle extends Rectangular_prism implements resizable {
 			break;
 			
 			case("far"):
+				multi = 1;
 				setPos(Settings.width/2,Settings.height/3,Settings.depth-200);
 				setSize(Settings.width/20,Settings.height/20,Settings.width/10);
 				setColor(Color.yellow);
@@ -65,7 +67,7 @@ public class Paddle extends Rectangular_prism implements resizable {
 		
 		//homing in on ball
 		if (side.equals("far") && Pong_runner.p2AI) {
-			if (Pong_runner.ball.getZSpeed() > 0) {
+			if (multi * Pong_runner.ball.getZSpeed() > 0) {
 				
 				
 					//x

@@ -14,12 +14,12 @@ import Physics_engine.*;
 
 public class Tessellation_runner {
 	
-	public static String version = "1.0.4";
+	public static String version = "1.0.6";
 	
 	public static Physics_frame frame;
 	
 	private static String shape = "circle";
-	private static int levels = 4,size = 500,startX,startY,endX,endY;
+	private static int levels = 5,size = 120,startX=0,startY=0,endX=Settings.width,endY=Settings.height;
 	private static double[] lSizes;
 	
 	private static border_bounce boundries;
@@ -36,6 +36,8 @@ public class Tessellation_runner {
 		
 		drawer = new object_draw(frame);
 		
+		frame.setColor(Color.black);
+		
 		boundries = new border_bounce(drawer);
 		boundries.setName("boundries", 1);
 		drawer.add(boundries);
@@ -49,14 +51,16 @@ public class Tessellation_runner {
 		
 		
 		
-		drawTessellation(shape,size,levels,0,0,200,200);
+		
+		drawTessellation(shape,size,levels,startX,startY,endX,endY);
 		
 		for (massive pO : drawer.getTangibles()) {
 			
 		}
 		
-		
 		drawer.start();
+		
+	
 	  
 		resize();
 		
@@ -95,32 +99,31 @@ public class Tessellation_runner {
 			lSizes[(int) i] = lSizes[(int) (i-1)] * (i/6);
 		}
 		
-		
 	}
 	
 	
 	private static void drawTessBaseLevel() {
 		Physics_3DPolygon cObject;
-		
-		for (int y = 0; (y-1) <= ((Settings.height - size)/size); y++) {
+	
+		for (int y = startY; (y-1) <= ((endY - size)/size); y++) {
 			double yXAdd =  0.5 * size * (1+Math.sin(Math.PI * 0.5 * y));
-			for (int x = 0; (x-1) <= ((Settings.width - size)/size); x++) {
+			for (int x = startX; (x-1) <= ((endX - size)/size); x++) {
 				cObject = new PolarObject(drawer,x * size + yXAdd ,y * Math.pow(3, 0.5) * size/2 + size/2 ,0,size/2,shape);
+				cObject.setColor(Color.green);
+				cObject.isFilled = true;
 				drawer.add(cObject);
 				
 				for (int i = 0; i < 2; i++) {
-					drawTessLevel(1,1,cObject,Math.PI/2 - i * 2*Math.PI/6);
+					drawTessLevel(1,1,0,cObject,Math.PI/2 - i * 2*Math.PI/6);
 				}
 				
 			}
 		}
 	}
 	
-	private static void drawTessLevel(int level,int sizeIndx,Physics_3DPolygon parent, double angle) {
+	private static void drawTessLevel(int level,int sizeIndx,int sideLevel,Physics_3DPolygon parent, double angle) {
 		if (level < levels) {
 			double lSize = lSizes[level];
-			
-	//		System.out.println("size: " + lSize);
 		
 			double yInc = 0;
 
@@ -131,23 +134,29 @@ public class Tessellation_runner {
 			Vector2D lvlVec = new Vector2D(drawer,yInc,angle,"polar");
 		
 			Physics_3DPolygon cObject = new PolarObject(drawer,parent.getCenterX() + lvlVec.getXComponent(),parent.getCenterY() + lvlVec.getYComponent() ,parent.getCenterZ(),lSizes[sizeIndx]/2,shape);
+			cObject.setColor(Physics_engine_toolbox.colors[level]);
+			cObject.isFilled = true;
 			
+			drawer.add(cObject);
 			
-			if (level > 1) {
-				drawTessLevel(level + 1,sizeIndx + 1,cObject,angle);
+//		    System.out.println("level: " + level + " , side: "+ sideLevel);
+			
+			if (level == 2) {
+				sideLevel = 1;
+			}
+			if (sideLevel <= 1) {
+				drawTessLevel(level + 1,sizeIndx + 1,sideLevel,cObject,angle);
 				for (int i = 1; i < 3; i++) {
-					drawTessLevel(level + 1,sizeIndx + 2,cObject,angle + i * 2*Math.PI/3);
+					drawTessLevel(level + 1,sizeIndx + 1 + sideLevel,sideLevel + 1,cObject,angle + i * 2*Math.PI/3);
 				}
 			}else {
-				System.out.println("first");
-				
-				drawTessLevel(level + 1,sizeIndx + 1,cObject,angle);
 				for (int i = 1; i < 3; i++) {
-					drawTessLevel(level + 1,sizeIndx + 1,cObject,angle + i * 2*Math.PI/3);
+					drawTessLevel(level + 2,sizeIndx * sideLevel,sideLevel + 1,cObject,angle + i * 2*Math.PI/3);
 				}
 			}
 			
-			drawer.add(cObject);
+			
+			
 			
 		}else {
 			return;

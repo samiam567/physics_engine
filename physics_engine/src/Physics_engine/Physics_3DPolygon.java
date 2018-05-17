@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.geom.Area;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import Physics_engine.Physics_engine_toolbox.faces;
 import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
@@ -34,8 +36,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public double elasticity = Settings.elasticity;
 	
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
-	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,isShaded = true;
+	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,isShaded = false;
 	protected boolean hasNormalCollisions = true;
+	private int numberOfPoints;
 	
 	private boolean momentOfInertiaCalculated = false; 
 	
@@ -52,11 +55,15 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		private double xComponent,yComponent,zComponent;
 		private double initialXComponent, initialYComponent, initialZComponent;
 		
+		private Polygon_point[] closestPoints = new Polygon_point[2];
+		
 		private Color color = Color.black;
 		
 		private Physics_3DPolygon parent;
 		
 		private Polygon_point nextPoint;
+		
+		private boolean selectedForClosest = false;
 		
 		public Polygon_point(Physics_3DPolygon parent, double x1, double y1, double z1) {
 			super(parent.drawer, x1, y1, z1);
@@ -118,14 +125,15 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 					
 					
 					try {
-						page.drawLine(cPoint.x,cPoint.y,cPoint.nextPoint.x,cPoint.nextPoint.y);
+						//page.drawLine(cPoint.x,cPoint.y,cPoint.nextPoint.x,cPoint.nextPoint.y);
+						page.fillPolygon(new int[] {cPoint.x, cPoint.closestPoints[0].x, cPoint.closestPoints[1].x},new int[] {cPoint.y, cPoint.closestPoints[0].y, cPoint.closestPoints[1].y},3);
 					}catch(NullPointerException n) {	
 						page.drawLine(cPoint.x,cPoint.y,polyPointsStart.x,polyPointsStart.y);
 					}
 					
 					cPoint = cPoint.nextPoint;
 				}catch(NullPointerException n) {
-					System.out.println("bad point");
+					System.out.println("bad point paint");
 				}
 				
 				
@@ -226,19 +234,12 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public void updateShading(Polygon_point cPoint,double normalLightAngle) {
 		Vector2D vec1;
 		
-		try {
-			if (cPoint.nextPoint != null) {	
-				vec1 = new Vector2D(drawer,cPoint,cPoint.nextPoint);		
-			}else {
-				vec1 = new Vector2D(drawer,cPoint,polyPointsStart);	
-			}
-		}catch(NullPointerException n) {
-			vec1 = new Vector2D(drawer,cPoint,polyPointsStart);	
-		}
+
+	
+		vec1 = new Vector2D(drawer,cPoint,cPoint.closestPoints[1]);		
+	
 		
-		
-		
-		double lightLevel = Math.abs(normalLightAngle - vec1.getTheta() );
+		double lightLevel = 1; Math.abs(normalLightAngle - vec1.getTheta() );
 		
 	
 		if (lightLevel >= 3.3) {
@@ -293,6 +294,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			do {
 				try {
+					
+					
 					cPoint.setPos(pointOfRotation.getXReal() + cPoint.initialXComponent * xSizeAppearance/xSizeInit, pointOfRotation.getYReal() + cPoint.initialYComponent * ySizeAppearance/ySizeInit, pointOfRotation.getZReal() + cPoint.initialZComponent * zSizeAppearance/zSizeInit);
 		
 					
@@ -314,6 +317,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 					points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );			
 					
+					
 					if (isShaded) {
 						updateShading(cPoint,normalLightAngle);
 					}
@@ -321,8 +325,12 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 					cPoint = cPoint.nextPoint;
 					
 					pointCounter++;
+					
+					
 				}catch(NullPointerException n) {
-					System.out.println("bad point");
+					System.out.println("bad point updatePoints");
+					n.printStackTrace();
+					while(true);
 				}
 				
 				
@@ -334,6 +342,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			double xChange = xReal - points[0].getX();
 			double yChange = yReal - points[0].getY();
 			double zChange = zReal - points[0].getZ();
+		
 			
 			for (int i = 0; i < points.length; i++) {
 				points[i].setPos(points[i].getXReal() + xChange, points[i].getYReal() + yChange, points[i].getZReal() + zChange);
@@ -493,9 +502,117 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		points = points1;
 	}
 	
+	public void calculateClosestPoints() {
+		
+		//constructing PolyPoints list
+		ArrayList<Polygon_point> polyPoints = new ArrayList<Polygon_point>(numberOfPoints);
+		Polygon_point cPoint = polyPointsStart;
+		do {
+			cPoint.selectedForClosest = false;
+			polyPoints.add(cPoint);
+			cPoint = cPoint.nextPoint;
+		}while(cPoint != null);
+		
+		cPoint = polyPointsStart;
+		
+		double p1d,p2d,cPd; //their respective distances from the current point and the sub_current point's distance from the current point
+		
+		do {
+			
+			Polygon_point p1 = null,p2 = null; // the smallest points
+			p1d = 1000000000;
+			p2d = 1000000000;
+			
+			for (Polygon_point cP : polyPoints) {
+				
+				cPd = Physics_engine_toolbox.distance(cPoint, cP);
+				
+				if ((cPd != 0) && (! cP.selectedForClosest)) {
+					if (cPd < p1d) { // takes first spot
+						
+						if (p1d < p2d) {
+							p2 = p1;
+							p2d = p1d;
+						}
+						p1 = cP;
+						p1d = cPd;
+					}else if (cPd < p2d) { // takes second spot
+						p2 = cP;
+						p2d = cPd;
+					}
+					
+					
+				}
+			}
+			
+			
+			
+			cPoint.closestPoints[0] = p1;
+			cPoint.closestPoints[1] = p2;
+			
+			try {
+				p1.equals(null);
+			}
+			catch(NullPointerException w) {
+				
+				for (Polygon_point cP : polyPoints) {
+					cP.selectedForClosest = false;
+				}
+				
+				try{
+					p2.equals(null);
+					p2.selectedForClosest = true;
+					
+					for (Polygon_point cP : polyPoints) {
+						cPd = Physics_engine_toolbox.distance(cPoint, cP);
+						
+						if ((cPd != 0) ) {
+							if (cPd < p1d) { // takes first spot
+								
+								
+								p1 = cP;
+								p1d = cPd;
+							}
+						}
+					}
+				}catch(NullPointerException n) {
+				
+					for (Polygon_point cP : polyPoints) {
+						cPd = Physics_engine_toolbox.distance(cPoint, cP);
+						
+						if ((cPd != 0) ) {
+							if (cPd < p1d) { // takes first spot
+								
+								if (p1d < p2d) {
+									p2 = p1;
+									p2d = p1d;
+								}
+								p1 = cP;
+								p1d = cPd;
+							}else if (cPd < p2d) { // takes second spot
+								p2 = cP;
+								p2d = cPd;
+							}
+							
+							
+						}
+					}
+				}		
+			}
+			
+			p1.selectedForClosest = true;
+			p2.selectedForClosest = true;
+			
+		
+			cPoint = cPoint.nextPoint;
+		}while(cPoint != null);
+		
+	}
+	
 	public void calculatePointValues() { 
 		
 		Polygon_point cPoint;
+		numberOfPoints = points.length;
 		try {
 			int pointOfRotationx = pointOfRotation.getX();
 		}catch(NullPointerException n) {
@@ -529,6 +646,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			points[i].setPos(cPoint.xReal, cPoint.yReal, cPoint.zReal);
 		}
+		
+		if (isShaded) calculateClosestPoints(); // gajhga ghagh reghgoiehg poh opH oPHH HGHSG HSGH SLG SRGHSR GIHRG OIHG WOPHOIGH GO IHWH OG HR GOERG H OHGHG
 		
 	}
 	
