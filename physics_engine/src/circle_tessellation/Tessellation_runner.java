@@ -14,7 +14,7 @@ import Physics_engine.*;
 
 public class Tessellation_runner {
 	
-	public static String version = "1.0.6";
+	public static String version = "1.0.7";
 	
 	public static Physics_frame frame;
 	
@@ -73,6 +73,7 @@ public class Tessellation_runner {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 		}
 		
 		System.exit(1);

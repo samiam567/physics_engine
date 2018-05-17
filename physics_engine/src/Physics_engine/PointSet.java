@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class PointSet extends Physics_3DPolygon {
-	private ArrayList<point> pointsAL;
+	protected ArrayList<point> pointsAL;
 	
 	public PointSet(object_draw drawer1) {
 		super(drawer1);

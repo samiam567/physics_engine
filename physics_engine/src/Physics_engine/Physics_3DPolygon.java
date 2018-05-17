@@ -903,6 +903,11 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public boolean getHasNormalCollisions() {
 		return hasNormalCollisions;
 	}
+	
+	
+	public void setHasNormalCollisions(boolean c) {
+		hasNormalCollisions = c;
+	}
 
 	@Override
 	public void setIsTangible(boolean isTang) {
