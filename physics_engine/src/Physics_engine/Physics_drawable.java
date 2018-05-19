@@ -55,40 +55,41 @@ public abstract class Physics_drawable extends physics_object implements movable
 		//center of mass by point coordinate averaging method
 			//this method of finding the center uses physics instead of geometry to find the center. It attempts to estimate the center of mass of the object by using the points as an estimate to where mass of the object is.	
 		try {
+				
+			if (((Physics_3DPolygon) this).isRotatable) {
+				double temp = points[0].getXReal(); //this will throw an error and trigger the catch statement if there are no points
+				
+				/*
+				System.out.println(">>>");
+				System.out.println(name);
+				*/
+				// the sums of all the x,y,and z coordinates of the points
+				double totalX = 0;
+				double totalY = 0;
+				double totalZ = 0;
+				
+				for (point cPoint : points) { //loop through the points and add their coordinates to the totals
+					//System.out.println(cPoint.getXReal() + "," + cPoint.getYReal());
+					totalX += cPoint.getXReal();
+					totalY += cPoint.getYReal();
+					totalZ += cPoint.getZReal();
+				}
+				double centerXX = totalX/points.length;
+				double centerYY = totalY/points.length;
+				/*
+				System.out.println("cenXX: " + centerXX);
+				System.out.println("cenYY: " + centerYY);
+				*/
 			
-			double temp = points[0].getXReal(); //this will throw an error and trigger the catch statement if there are no points
-			
-			/*
-			System.out.println(">>>");
-			System.out.println(name);
-			*/
-			// the sums of all the x,y,and z coordinates of the points
-			double totalX = 0;
-			double totalY = 0;
-			double totalZ = 0;
-			
-			for (point cPoint : points) { //loop through the points and add their coordinates to the totals
-				//System.out.println(cPoint.getXReal() + "," + cPoint.getYReal());
-				totalX += cPoint.getXReal();
-				totalY += cPoint.getYReal();
-				totalZ += cPoint.getZReal();
+				//divide by the number of points to get the average
+				centerX = totalX / points.length;
+				centerY = totalY / points.length;
+				centerZ = totalZ / points.length;
+			}else {
+				centerX = xReal + xSize/2;
+				centerY = yReal + ySize/2;
+				centerZ = zReal + zSize/2;
 			}
-			double centerXX = totalX/points.length;
-			double centerYY = totalY/points.length;
-			/*
-			System.out.println("cenXX: " + centerXX);
-			System.out.println("cenYY: " + centerYY);
-			*/
-		
-			//divide by the number of points to get the average
-			centerX = totalX / points.length;
-			centerY = totalY / points.length;
-			centerZ = totalZ / points.length;
-			
-	
-			
-			
-			
 		}catch (ArrayIndexOutOfBoundsException a) { //if the object doesn't have a points list, use the default method of finding the center
 			System.out.println(name + " has no points");
 			centerX = xReal + xSize/2;

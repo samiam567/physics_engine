@@ -19,10 +19,13 @@ public class Pole_position_runner extends physicsRunner {
 	
 	private static Car PlayerCar;
 	
+	private static String Version = "1.0.0";
+	
 	private static Track track;
 	
 	public static void main(String[]  args) {
 		frame = new Physics_frame();
+		frame.setTitle("Pole Position V" + Version + "           Programed by Alec Pannunzio");
 		drawer = new object_draw(frame);
 		run();
 	}
@@ -31,8 +34,7 @@ public class Pole_position_runner extends physicsRunner {
 		PlayerCar = new Car(drawer,Settings.width * 0.5,Settings.height * 0.7,10,true);
 		PlayerCar.setRotation(-Math.PI/16, 0, 1*Math.PI/5);
 		
-		track = new Track(drawer,0);
-		track.setHasNormalCollisions(false);
+		track = new Track(drawer,Settings.width * 0.4);
 		track.generateTrack();
 		
 		drawer.addMouseListener(new MouseAdapter() {
@@ -46,7 +48,7 @@ public class Pole_position_runner extends physicsRunner {
 				switch(m.getKeyCode()) {
 			
 	        	  	case(87): //w
-	        	  		track.setSpeed(0,3, -1);
+	        	  		track.setSpeed(0,10, 0);
 	        	  		break;
 	        	  	
 	        	  	case(65): //a

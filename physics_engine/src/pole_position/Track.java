@@ -8,40 +8,52 @@ import calculator.Settings;
 
 public class Track extends PointSet {
 	
-	private double T, accuracy = 50, theta = Math.PI/6;
+	private double T, accuracy = 80, theta = Math.PI/6;
 
-	public Track(object_draw drawer1,double startT) {
+	public Track(object_draw drawer1,double x) {
 		super(drawer1);
-		T = startT;
-		setPos(Settings.width/2,Settings.height * 0.7,0);
-		drawMethod  = "ListedPointsAlgorithm";
-		setSize(Settings.width/2,Settings.height/2,1);
+		T = 0;
+		setPos(x,0,0);
+		drawMethod  = "pai";
+		setSize(Settings.width/2,Settings.height * 2,1);
+		isRotatable = false;
+		setHasNormalCollisions(false);
 	}
 	
 	public void tertiaryUpdate() {
-		System.out.println(centerY);
 		
-		if (centerY >= Settings.height/2) {
-			T+= Settings.height/2;
+
+		
+	//	System.out.println(centerX);
+		if (centerY >= Settings.height) {
+		
 			System.out.println("generating track");
 			generateTrack();
 		}
 	}
 	
 	public void generateTrack() {
+		
+	
+		if (points.length > 0) {
+			setPos((points[0].getXReal()-Settings.width/4 * Math.sin((T)/Settings.height / 10)),0,0);
+		}
+		
 		pointsAL.clear();
-
-		setPos(centerX,-200,centerZ);
-		for (double t = Settings.height + 100; t > -100; t -= accuracy) {	
-			T+=t;
-			addPoint(new point(drawer,centerX + Settings.width/4 * Math.sin(T/Settings.height),centerY + t,centerZ));
+		System.out.println(centerX + "," + centerY + "," + centerZ);
+		
+		for (double t = -Settings.height;t < Settings.height + accuracy; t += accuracy) {	
+			T+= Math.abs(t);
+			addPoint(new point(drawer,centerX + Settings.width/4 * Math.sin(T/Settings.height / 10),t,centerZ));
 			
 		}
-		setPos(centerX,-200,centerZ);
 		
 		initialize();
-		
+			
+		setPos(centerX,0,0);
 		finalize();
+		
+		setPos(centerX,0,0);
 		
 	}
 	

@@ -233,8 +233,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	public void updateShading(Polygon_point cPoint,double normalLightAngle) {
 		Vector2D vec1;
-		
-
 	
 		vec1 = new Vector2D(drawer,cPoint,cPoint.closestPoints[1]);		
 	
