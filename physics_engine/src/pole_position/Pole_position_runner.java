@@ -17,11 +17,17 @@ public class Pole_position_runner extends physicsRunner {
 
 	public static object_draw drawer;
 	
-	private static Car PlayerCar;
+	private static Car PlayerCar,AI1;
 	
-	private static String Version = "1.0.0";
+	private static String Version = "1.0.2";
 	
-	private static Track track;
+	public static double carSpeed = 20;
+	
+	static Track trackL;
+
+	private static Track trackR;
+	
+	private static Sign sign1;
 	
 	public static void main(String[]  args) {
 		frame = new Physics_frame();
@@ -32,10 +38,17 @@ public class Pole_position_runner extends physicsRunner {
 	
 	private static void init() {
 		PlayerCar = new Car(drawer,Settings.width * 0.5,Settings.height * 0.7,10,true);
-		PlayerCar.setRotation(-Math.PI/16, 0, 1*Math.PI/5);
+	//	PlayerCar.setRotation(Math.PI/4, 0, Math.PI/16);
 		
-		track = new Track(drawer,Settings.width * 0.4);
-		track.generateTrack();
+		AI1 = new Car(drawer,Settings.width * 0.5, Settings.height * 0.5,10,false);
+		
+		trackL = new Track(drawer,Settings.width * 0.4);
+		trackL.generateTrack();
+		
+		trackR = new Track(drawer,Settings.width * 0.9);
+		trackR.generateTrack();
+		
+		sign1 = new Sign(drawer,Settings.height/2,trackL);
 		
 		drawer.addMouseListener(new MouseAdapter() {
 			public void MouseClicked() {
@@ -48,19 +61,25 @@ public class Pole_position_runner extends physicsRunner {
 				switch(m.getKeyCode()) {
 			
 	        	  	case(87): //w
-	        	  		track.setSpeed(0,10, 0);
+	        	  		trackL.setSpeed(trackL.getXSpeed(),carSpeed, 0);
+	        	  		trackR.setSpeed(trackR.getXSpeed(),carSpeed, 0);
 	        	  		break;
 	        	  	
 	        	  	case(65): //a
-	        	  		PlayerCar.setRotation(PlayerCar.getXRotation(), Math.PI/8, PlayerCar.getZRotation());
+	        	  		PlayerCar.setRotation(PlayerCar.getXRotation(), PlayerCar.getYRotation(), -Math.PI/8);
+	        	  		trackL.setSpeed(5,trackL.getYSpeed(), 0);
+	        	  		trackR.setSpeed(5,trackR.getYSpeed(), 0);
 	        	  	break;
 	        	  	
 	        	  	case(83): //s
-	        	  		track.setSpeed(0,0, 0);
+	        	  		trackL.setSpeed(trackL.getXSpeed(),0, 0);
+	        	  		trackR.setSpeed(trackR.getXSpeed(),0, 0);
 	        	  	break;
 	        	  	
 	        	  	case(68): //d
-	        	  		PlayerCar.setRotation(PlayerCar.getXRotation(), -Math.PI/8, PlayerCar.getZRotation());
+	        	  		PlayerCar.setRotation(PlayerCar.getXRotation(), PlayerCar.getYRotation(), Math.PI/8);
+	    	  			trackL.setSpeed(-5,trackL.getYSpeed(), 0);
+	    	  			trackR.setSpeed(-5,trackR.getYSpeed(), 0);
 	        	  		break;
 	        	  
 				}
@@ -73,10 +92,13 @@ public class Pole_position_runner extends physicsRunner {
 				int key = arg0.getKeyCode();
 				
 				//add timers so that the paddle will stop when the key is released
-				if ((key == 87) || (key == 65) || (key == 83) || (key == 68)) {
-					PlayerCar.setRotation(PlayerCar.getXRotation(), 0, PlayerCar.getZRotation());
-				}else if ((key == 38) || (key == 40) || (key == 37) || (key == 39)) {
-				
+				if ((key == 65) || (key == 68)) {
+					PlayerCar.setRotation(PlayerCar.getXRotation(), PlayerCar.getYRotation(), 0);
+					drawer.add(new SpeedTimer(drawer,0.2,"seconds",0,trackL.getYSpeed(),0,trackL));
+					drawer.add(new SpeedTimer(drawer,0.2,"seconds",0,trackR.getYSpeed(),0,trackR));
+				}else if ((key == 87) || (key == 83)) {
+					drawer.add(new SpeedTimer(drawer,0.2,"seconds",trackL.getXSpeed(),0,0,trackL));
+					drawer.add(new SpeedTimer(drawer,0.2,"seconds",trackR.getXSpeed(),0,0,trackR));
 				}
 				
 				
@@ -95,7 +117,10 @@ public class Pole_position_runner extends physicsRunner {
 	
 	private static void runGame() {
 		drawer.add(PlayerCar);
-		drawer.add(track);
+		drawer.add(trackL);
+		drawer.add(trackR);
+		drawer.add(AI1);
+	//	drawer.add(sign1);
 		drawer.start();
 	
 		

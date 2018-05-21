@@ -8,7 +8,7 @@ import calculator.Settings;
 
 public class Track extends PointSet {
 	
-	private double T, accuracy = 80, theta = Math.PI/6;
+	private double T, accuracy = 50, theta = Math.PI/6;
 
 	public Track(object_draw drawer1,double x) {
 		super(drawer1);
@@ -22,8 +22,6 @@ public class Track extends PointSet {
 	
 	public void tertiaryUpdate() {
 		
-
-		
 	//	System.out.println(centerX);
 		if (centerY >= Settings.height) {
 		
@@ -35,26 +33,47 @@ public class Track extends PointSet {
 	public void generateTrack() {
 		
 	
-		if (points.length > 0) {
-			setPos((points[0].getXReal()-Settings.width/4 * Math.sin((T)/Settings.height / 10)),0,0);
-		}
-		
+	
 		pointsAL.clear();
 		System.out.println(centerX + "," + centerY + "," + centerZ);
 		
-		for (double t = -Settings.height;t < Settings.height + accuracy; t += accuracy) {	
-			T+= Math.abs(t);
-			addPoint(new point(drawer,centerX + Settings.width/4 * Math.sin(T/Settings.height / 10),t,centerZ));
+		
+		for (double t = Settings.height + accuracy;t >= -Settings.height; t -= accuracy) {
+			T-= accuracy;
+			System.out.println("y:" + t + " T:" + T + " x: " + (double) (centerX + getXT(T)));
+			addPoint(new point(drawer,centerX + getXT(T),t,centerZ));
 			
 		}
+		
+		
+		/*
+     	for (double t = -Settings.height;t < Settings.height + accuracy; t += accuracy) {
+			T+= accuracy;
+			System.out.println("y:" + t + " T:" + T + " x: " + (double) (centerX + getXT(T)));
+			addPoint(new point(drawer,centerX + getXT(T),t,centerZ));
+     	}
+     	*/
+     	
+		
+	
+	
 		
 		initialize();
 			
 		setPos(centerX,0,0);
+		
 		finalize();
 		
 		setPos(centerX,0,0);
-		
+	
+	}
+	
+	public double getXAtY(double Y) {
+		return  ( centerX +  getXT(T + Settings.height + accuracy + Y));
+	}
+	
+	public double getXT(double T) {
+		return  Settings.width * Math.sin(T/Settings.height/5 );
 	}
 	
 	public void setT(double t) {
