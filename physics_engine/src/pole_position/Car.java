@@ -9,7 +9,9 @@ import Physics_engine.point;
 public class Car extends PointSet {
 	
 	private boolean playerControlled;
-	private double turningRadius = 10,fudge = 1;
+	public static double turningRadius = 5,fudge = 1,speed = 20;
+	
+	private double deviationFromTargPos = 100,targX;
 	
 	public Car(object_draw drawer,double cenX, double cenY,double cenZ, boolean PlayerControlled) {
 		super(drawer);
@@ -18,6 +20,7 @@ public class Car extends PointSet {
 		setMass(100);
 		playerControlled = PlayerControlled;
 		
+		hasNormalCollisions= false;
 		addPoint(new point(drawer,cenX - size/2, cenY + size/2,cenZ));
 		addPoint(new point(drawer,cenX + size/2, cenY + size/2,cenZ));
 		addPoint(new point(drawer,cenX, cenY - size/2,cenZ));
@@ -27,18 +30,31 @@ public class Car extends PointSet {
 	
 	}
 	
-	public void tertiaryUpdate() {
+	public void frameUpdate3(double frames) {
 	
 		//driving toward center of track
 		if (! playerControlled) {
-			double targX = Pole_position_runner.trackL.getXAtY(centerY) ;
-
-			if (Math.abs(centerX - targX) > fudge) {
-				if (centerX < targX) {
-					setSpeed(turningRadius,ySpeed,zSpeed);
+			
+			if (centerY > Settings.height + 100) {
+				setPos(Pole_position_runner.trackL.getXAtY(centerY),-100,centerZ);
+			}
+			
+			double targX1 = (Pole_position_runner.trackL.getXAtY(centerY) + Pole_position_runner.trackR.getXAtY(centerY))/2 ;
+			
+			targX = targX1;
+			
+			if (Math.abs(deviationFromTargPos) > fudge) {
+				if (deviationFromTargPos > 0) {
+					deviationFromTargPos -= turningRadius * frames;
 				}else {
-					setSpeed(-turningRadius,ySpeed,zSpeed);
+					deviationFromTargPos += turningRadius * frames;
 				}
+				setSpeed(xSpeed,Pole_position_runner.trackL.getYSpeed() - speed * 0.7,zSpeed);
+				
+				setPos(targX + deviationFromTargPos,centerY,centerZ);
+			}else {
+				setSpeed(xSpeed,Pole_position_runner.trackL.getYSpeed() - speed * 0.7,zSpeed);
+				setPos(targX + deviationFromTargPos,centerY,centerZ);
 			}
 		}
 		

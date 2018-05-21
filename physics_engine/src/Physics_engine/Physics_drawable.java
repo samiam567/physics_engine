@@ -56,7 +56,8 @@ public abstract class Physics_drawable extends physics_object implements movable
 			//this method of finding the center uses physics instead of geometry to find the center. It attempts to estimate the center of mass of the object by using the points as an estimate to where mass of the object is.	
 		try {
 				
-			if (((Physics_3DPolygon) this).isRotatable) {
+			if (((Physics_3DPolygon) this).calculateCenter && ((Physics_3DPolygon) this).isRotatable ) {
+			
 				double temp = points[0].getXReal(); //this will throw an error and trigger the catch statement if there are no points
 				
 				/*

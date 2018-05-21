@@ -18,9 +18,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	int[] pointYs = {}; //all of the y coordinates of the points in the object
 	int[] pointZs = {}; //all of the y coordinates of the points in the object
 	
-	double[] pointXReals = {}; //all of the x coordinates of the points in the object
-	double[] pointYReals = {}; //all of the y coordinates of the points in the object
-	double[] pointZReals = {}; //all of the y coordinates of the points in the object
+	protected double[] pointXReals = {}; //all of the x coordinates of the points in the object
+	protected double[] pointYReals = {}; //all of the y coordinates of the points in the object
+	protected double[] pointZReals = {}; //all of the y coordinates of the points in the object
 	
 	protected int[] pointRenderOrder = {}; //the order in which lines will be drawn from point to point (for listedPointAlgorithm)
 	
@@ -36,7 +36,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public double elasticity = Settings.elasticity;
 	
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
-	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,isShaded = false;
+	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,isShaded = false,calculateCenter = true;
 	protected boolean hasNormalCollisions = true;
 	private int numberOfPoints;
 	

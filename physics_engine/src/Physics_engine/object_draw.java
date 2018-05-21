@@ -347,7 +347,7 @@ public class object_draw extends Canvas {
 										pointKey = current_object.getPointRenderOrder()[i];
 										
 										if (i == current_object.getPointRenderOrder().length-1) {
-											next_pointKey = 0;
+											break;
 											
 										}else {
 											next_pointKey = current_object.getPointRenderOrder()[i+1];
