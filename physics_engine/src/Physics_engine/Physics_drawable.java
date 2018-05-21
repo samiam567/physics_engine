@@ -33,82 +33,12 @@ public abstract class Physics_drawable extends physics_object implements movable
 	}
 	
 	protected void calculateCenter() {
-		
-		 //vector method
-		/*
-		try {
-			System.out.println(name + ">>" + points[0].getR());
-			
-			Vector centerVector = new Vector(points[0].getR(),Math.PI + zRotation + points[0].getThetaXY(),Math.PI + yRotation + points[0].getThetaZX(),Math.PI + xRotation + points[0].getThetaZY(),"thetaZY",this);
-			centerVector.setPos(points[0].getXReal(), points[0].getYReal(), points[0].getZReal());
-			
-			centerX = centerVector.getVectorTip().getXReal();
-			centerY = centerVector.getVectorTip().getYReal();
-			centerZ = centerVector.getVectorTip().getZReal();
-		}catch (ArrayIndexOutOfBoundsException a) {
-			centerX = xReal + xSize/2;
-			centerY = yReal + ySize/2;
-			centerZ = zReal + zSize/2;
-		}
-		*/
-		
-		//center of mass by point coordinate averaging method
-			//this method of finding the center uses physics instead of geometry to find the center. It attempts to estimate the center of mass of the object by using the points as an estimate to where mass of the object is.	
-		try {
-				
-			if (((Physics_3DPolygon) this).calculateCenter && ((Physics_3DPolygon) this).isRotatable ) {
-			
-				double temp = points[0].getXReal(); //this will throw an error and trigger the catch statement if there are no points
-				
-				/*
-				System.out.println(">>>");
-				System.out.println(name);
-				*/
-				// the sums of all the x,y,and z coordinates of the points
-				double totalX = 0;
-				double totalY = 0;
-				double totalZ = 0;
-				
-				for (point cPoint : points) { //loop through the points and add their coordinates to the totals
-					//System.out.println(cPoint.getXReal() + "," + cPoint.getYReal());
-					totalX += cPoint.getXReal();
-					totalY += cPoint.getYReal();
-					totalZ += cPoint.getZReal();
-				}
-				double centerXX = totalX/points.length;
-				double centerYY = totalY/points.length;
-				/*
-				System.out.println("cenXX: " + centerXX);
-				System.out.println("cenYY: " + centerYY);
-				*/
-			
-				//divide by the number of points to get the average
-				centerX = totalX / points.length;
-				centerY = totalY / points.length;
-				centerZ = totalZ / points.length;
-			}else {
-				centerX = xReal + xSize/2;
-				centerY = yReal + ySize/2;
-				centerZ = zReal + zSize/2;
-			}
-		}catch (ArrayIndexOutOfBoundsException a) { //if the object doesn't have a points list, use the default method of finding the center
-			System.out.println(name + " has no points");
-			centerX = xReal + xSize/2;
-			centerY = yReal + ySize/2;
-			centerZ = zReal + zSize/2;
-		}catch (NullPointerException n) {
-			//if this is not a pointed object
-			centerX = xReal + xSize/2;
-			centerY = yReal + ySize/2;
-			centerZ = zReal + zSize/2;
-		}
-			
-		try {
-			center.setPos(centerX, centerY,centerZ);
-		}catch(NullPointerException n) {
-			center = new point(drawer,centerX,centerY,centerZ);
-		}
-		
+	
+		centerX = xReal + xSize/2;
+		centerY = yReal + ySize/2;
+		centerZ = zReal + zSize/2;
+	
+		updateCenter();
 	}
 	
 	protected void updateCenter() {

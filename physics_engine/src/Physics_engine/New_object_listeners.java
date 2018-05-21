@@ -25,7 +25,7 @@ public class New_object_listeners {
 				public void mouseClicked(MouseEvent arg0) {
 					drawer.inactivity_timer = 0;
 					
-					
+					System.out.println("Click at: " + arg0.getX() + "," + arg0.getY());
 					if (createFreeForm) {	
 						((PointSet)objectBeingChanged).addPoint(new point(drawer,arg0.getX(),arg0.getY(),0));
 						System.out.println("Point added");
@@ -86,6 +86,8 @@ public class New_object_listeners {
 				
 				public void mousePressed(MouseEvent arg0) {
 					drawer.inactivity_timer = 0;
+					
+					System.out.println("Press at: " + arg0.getX() + "," + arg0.getY());
 					
 					mouseIsPressed = true;
 					

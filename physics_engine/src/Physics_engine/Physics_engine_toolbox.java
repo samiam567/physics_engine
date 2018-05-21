@@ -56,6 +56,8 @@ public class Physics_engine_toolbox {
 				
 				
 				try {
+					
+				
 					((massive)current_object).setAngularVelocity(((massive)parent_object).getAngularVelocityX(), ((massive)parent_object).getAngularVelocityY(),((massive)parent_object).getAngularVelocityZ());
 	
 					((massive)current_object).setMass(((massive)parent_object).getMass());
@@ -73,9 +75,7 @@ public class Physics_engine_toolbox {
 					);
 					
 					((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
-					
-					
-					
+	
 				}catch(ClassCastException c) {
 					
 				}

@@ -45,14 +45,22 @@ public class physics_runner extends physicsRunner {
 		
 		New_object_listeners newObs = new New_object_listeners(drawer);
 		
-		Sphere sphere1 = new Sphere(drawer, Settings.width/2, Settings.height/2, 0, 100, 10, Math.PI/40);
-		sphere1.setAngularVelocity(0.0, 0.0, 0.01);
-	//	sphere1.isShaded = true;
-		sphere1.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,0));
+		Square square2 = new Square(drawer,400,200,0,100,10);
+		square2.setColor(Color.MAGENTA);
 		
-		drawer.add(sphere1);
+		Square square1 = new Square(drawer,200,200,0,100,10);
 		
-		drawer.setFrameTimeMultiplier(100000);
+		square2.setParentObject(square1);
+		square1.setName("square1", 1);
+		
+		square2.setPointOfRotationPlace(pointOfRotationPlaces.parentCenter);
+		//square2.setPointOfRotation(new point(drawer,200,200,0));
+		
+		drawer.setFrameTimeMultiplier(10);
+		
+		drawer.add(square1);
+		drawer.add(square2);
+
 		drawer.start();
 		
 		waitForEnd();
