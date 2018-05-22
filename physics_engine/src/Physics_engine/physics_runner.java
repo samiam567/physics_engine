@@ -53,10 +53,10 @@ public class physics_runner extends physicsRunner {
 		square2.setParentObject(square1);
 		square1.setName("square1", 1);
 		
-		square2.setPointOfRotationPlace(pointOfRotationPlaces.parentCenter);
-		//square2.setPointOfRotation(new point(drawer,200,200,0));
+		//square2.setPointOfRotationPlace(pointOfRotationPlaces.parentCenter);
+		square2.setPointOfRotation(new point(drawer,200,200,0));
 		
-		drawer.setFrameTimeMultiplier(10);
+		drawer.setFrameTimeMultiplier(100);
 		
 		drawer.add(square1);
 		drawer.add(square2);

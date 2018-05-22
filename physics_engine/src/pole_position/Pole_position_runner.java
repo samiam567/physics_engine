@@ -44,7 +44,6 @@ public class Pole_position_runner extends physicsRunner {
 		trackL.generateTrack();
 		
 		trackR = new Track(drawer,Settings.width * 0.9);
-		trackR.generateTrack();
 		
 		sign1 = new Sign(drawer,Settings.height/2,trackL);
 		

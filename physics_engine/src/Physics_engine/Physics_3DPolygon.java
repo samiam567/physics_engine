@@ -153,6 +153,44 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		areaZY = new Area(polyZY);
 	}
 	
+	public void calculateCenter() {
+		if (calculateCenter && isRotatable ) {
+			
+			double temp = points[0].getXReal(); //this will throw an error and trigger the catch statement if there are no points
+			
+			/*
+			System.out.println(">>>");
+			System.out.println(name);
+			*/
+			// the sums of all the x,y,and z coordinates of the points
+			double totalX = 0;
+			double totalY = 0;
+			double totalZ = 0;
+			
+			for (point cPoint : points) { //loop through the points and add their coordinates to the totals
+				//System.out.println(cPoint.getXReal() + "," + cPoint.getYReal());
+				totalX += cPoint.getXReal();
+				totalY += cPoint.getYReal();
+				totalZ += cPoint.getZReal();
+			}
+			double centerXX = totalX/points.length;
+			double centerYY = totalY/points.length;
+			/*
+			System.out.println("cenXX: " + centerXX);
+			System.out.println("cenYY: " + centerYY);
+			*/
+		
+			//divide by the number of points to get the average
+			centerX = totalX / points.length;
+			centerY = totalY / points.length;
+			centerZ = totalZ / points.length;
+		}else {
+			centerX = xReal + xSize/2;
+			centerY = yReal + ySize/2;
+			centerZ = zReal + zSize/2;
+		}
+	}
+	
 	public void updatePolygons() {
 		
 		try {
@@ -183,11 +221,19 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		try {
 			parent_object = (rotatable) parent_object;
 			if (pointOfRotationPlace.equals(pointOfRotationPlaces.center)) {
-				pointOfRotation = center;
+				pointOfRotation = center;		
 			}else if(pointOfRotationPlace.equals(pointOfRotationPlaces.parentCenter)) {
+				double xRotTemp = xRotation, yRotTemp = yRotation, zRotTemp = zRotation;
+				setRotation(0,0,0);
 				pointOfRotation = ((rotatable) parent_object).getCenter();
+				calculatePointValues();
+				setRotation(xRotTemp,yRotTemp,zRotTemp);
 			}else if(pointOfRotationPlace.equals(pointOfRotationPlaces.parentsPlace)) {
+				double xRotTemp = xRotation, yRotTemp = yRotation, zRotTemp = zRotation;
+				setRotation(0,0,0);
 				pointOfRotation = ((rotatable) parent_object).getPointOfRotation();
+				calculatePointValues();
+				setRotation(xRotTemp,yRotTemp,zRotTemp);
 			}
 		}catch(ClassCastException c) {
 			System.out.println("Parent object not rotatable for child: " + name);
@@ -269,24 +315,27 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			int pointCounter = 0;
 			double[] rotComponents;
 			
-			double xI = centerX;
-			double yI = centerY;
-			double zI = centerZ;
+			double xI = pointOfRotation.getXReal();
+			double yI = pointOfRotation.getYReal();
+			double zI = pointOfRotation.getZReal();
 			
 			
 			Vector2D normalLightVec = new Vector2D(drawer,center, drawer.lightSource);
 			double normalLightAngle = normalLightVec.getTheta();
 			
+			/*
 			setPos(0,0,0);
 			
 			updateCenter();
 			
 			setPos(xI,yI,zI);
+			*/
 			
+
 			updatePointOfRotation();
+			pointOfRotation.setPos(0,0, 0);
 			
 			updateSize();
-			
 			
 			
 			
@@ -334,7 +383,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				
 			} while (cPoint != null);
 			
-			updateCenter();
+			pointOfRotation.setPos(xI, yI, zI);
 			
 		}else {
 			double xChange = xReal - points[0].getX();

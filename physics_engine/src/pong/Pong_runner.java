@@ -376,7 +376,7 @@ public class Pong_runner extends physicsRunner{
 		Settings.rotationAlgorithm = 6;
 		Settings.timeOutTime = 1000;
 		
-		drawer.setFrameTimeMultiplier(150);
+		drawer.setFrameTimeMultiplier(200);
 		Settings.distanceFromScreenMeters = 0.0001;
 		
 		Settings.width = 1400;

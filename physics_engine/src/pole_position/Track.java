@@ -25,6 +25,10 @@ public class Track extends PointSet {
 		calculateCenter = true;
 		
 		setHasNormalCollisions(false);
+	
+		generateTrack();
+		
+		setPointOfRotation(new point(drawer,Pole_position_runner.PlayerCar.getXReal(),Pole_position_runner.PlayerCar.getYReal(),Pole_position_runner.PlayerCar.getZReal()));
 		
 		
 		
@@ -91,9 +95,7 @@ public class Track extends PointSet {
 		
 		System.out.println(centerX + "," + centerY + "," + centerZ);
 		
-	//	while (T > Settings.height * 3) {
-			
-	//	}
+	
 	
 	}
 	
