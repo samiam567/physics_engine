@@ -28,7 +28,7 @@ public class Track extends PointSet {
 	
 		generateTrack();
 		
-		setPointOfRotation(new point(drawer,Pole_position_runner.PlayerCar.getXReal(),Pole_position_runner.PlayerCar.getYReal(),Pole_position_runner.PlayerCar.getZReal()));
+//		setPointOfRotation(new point(drawer,Pole_position_runner.PlayerCar.getXReal(),Pole_position_runner.PlayerCar.getYReal(),Pole_position_runner.PlayerCar.getZReal()));
 		
 		
 		

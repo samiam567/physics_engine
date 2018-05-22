@@ -21,7 +21,7 @@ public class Pole_position_runner extends physicsRunner {
 
 	private static Car AI1;
 	
-	private static String Version = "1.0.2";
+	private static String Version = "1.0.3";
 	
 	static Track trackL, trackR;
 	
