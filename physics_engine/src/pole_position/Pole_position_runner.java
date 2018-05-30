@@ -1,10 +1,12 @@
 package pole_position;
 
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import Physics_engine.New_object_listeners;
 import Physics_engine.Physics_frame;
 import Physics_engine.SpeedTimer;
 import Physics_engine.Square;
@@ -31,19 +33,22 @@ public class Pole_position_runner extends physicsRunner {
 		frame = new Physics_frame();
 		frame.setTitle("Pole Position V" + Version + "           Programed by Alec Pannunzio");
 		drawer = new object_draw(frame);
+		frame.setColor(Color.green);
 		run();
 	}
 	
 	private static void init() {
-		PlayerCar = new Car(drawer,Settings.width * 0.5,Settings.height * 0.7,10,true);
+		
 	
+		PlayerCar = new Car(drawer,Settings.width * 0.5,Settings.height * 0.6,10,true);
+		PlayerCar.setName("playerCar", 1);
 		
 		AI1 = new Car(drawer,Settings.width * 0.5, Settings.height * 0.5,10,false);
 		
 		trackL = new Track(drawer,Settings.width * 0.4);
-		trackL.generateTrack();
 		
 		trackR = new Track(drawer,Settings.width * 0.9);
+		
 		
 		sign1 = new Sign(drawer,Settings.height/2,trackL);
 		
@@ -59,7 +64,7 @@ public class Pole_position_runner extends physicsRunner {
 			
 	        	  	case(87): //w
 	        	  		trackL.setSpeed(trackL.getXSpeed(),Car.speed, 0);
-	        	  		trackR.setSpeed(trackR.getXSpeed(),Car.speed, 0);
+	        	 		trackR.setSpeed(trackR.getXSpeed(),Car.speed, 0);
 	        	  		break;
 	        	  	
 	        	  	case(65): //a
@@ -102,7 +107,7 @@ public class Pole_position_runner extends physicsRunner {
 			
 				}else if ((key == 87) || (key == 83)) {
 					drawer.add(new SpeedTimer(drawer,0.2,"seconds",trackL.getXSpeed(),0,0,trackL));
-					drawer.add(new SpeedTimer(drawer,0.2,"seconds",trackR.getXSpeed(),0,0,trackR));
+//					drawer.add(new SpeedTimer(drawer,0.2,"seconds",trackR.getXSpeed(),0,0,trackR));
 				}
 				
 				
@@ -120,13 +125,16 @@ public class Pole_position_runner extends physicsRunner {
 	}
 	
 	private static void runGame() {
+//		New_object_listeners New = new New_object_listeners(drawer);
+
 		drawer.add(PlayerCar);
 		drawer.add(trackL);
 		drawer.add(trackR);
-	//	drawer.add(AI1);
-	//	drawer.add(sign1);
+		drawer.add(AI1);
+		drawer.add(sign1);
 		drawer.start();
 	
+		System.out.println(PlayerCar.getXReal() + "," + PlayerCar.getYReal() + "," + PlayerCar.getZReal());
 		
 	}
 	

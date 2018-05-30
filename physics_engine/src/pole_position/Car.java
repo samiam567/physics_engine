@@ -1,8 +1,11 @@
 package pole_position;
 
 
+import java.awt.Color;
+
 import Physics_engine.PointSet;
 import Physics_engine.Settings;
+import Physics_engine.Square;
 import Physics_engine.object_draw;
 import Physics_engine.point;
 
@@ -13,21 +16,30 @@ public class Car extends PointSet {
 	
 	private double deviationFromTargPos = 100,targX;
 	
-	public Car(object_draw drawer,double cenX, double cenY,double cenZ, boolean PlayerControlled) {
-		super(drawer);
+	public Car(object_draw drawer1,double cenX, double cenY,double cenZ, boolean PlayerControlled) {
+		super(drawer1);
 		double size = 100;
 		setPos(cenX,cenY,cenZ);
-		setMass(100);
-		playerControlled = PlayerControlled;
 		
-		hasNormalCollisions= false;
+		isFilled = true;
+
+		playerControlled = PlayerControlled;
+		hasNormalCollisions = false;
+		
+		if (playerControlled) {
+			setColor(Color.magenta);
+		}else {
+			setColor(Color.blue);
+		}
+		
+		
 		addPoint(new point(drawer,cenX - size/2, cenY + size/2,cenZ));
 		addPoint(new point(drawer,cenX + size/2, cenY + size/2,cenZ));
 		addPoint(new point(drawer,cenX, cenY - size/2,cenZ));
 		
 		initialize();
 		finalize();
-	
+
 	}
 	
 	public void frameUpdate3(double frames) {
@@ -56,8 +68,10 @@ public class Car extends PointSet {
 				setSpeed(xSpeed,Pole_position_runner.trackL.getYSpeed() - speed * 0.7,zSpeed);
 				setPos(targX + deviationFromTargPos,centerY,centerZ);
 			}
+		}else {
+			setPos(Settings.width/2,Settings.height/2,0);
 		}
 		
-		
+	
 	}
 }

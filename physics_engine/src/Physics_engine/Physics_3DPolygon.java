@@ -42,6 +42,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	private boolean momentOfInertiaCalculated = false; 
 	
+	private point pointConstCenterInitial; //where the center was the last time the point constants were updated
+	
 	point pointOfRotation = null; //the point that the object rotates around
 	pointOfRotationPlaces pointOfRotationPlace = pointOfRotationPlaces.center;  //the place that that point is
 	
@@ -154,31 +156,20 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	}
 	
 	public void calculateCenter() {
-		if (calculateCenter && isRotatable ) {
-			
-			double temp = points[0].getXReal(); //this will throw an error and trigger the catch statement if there are no points
-			
-			/*
-			System.out.println(">>>");
-			System.out.println(name);
-			*/
+		if (calculateCenter) {
+		
 			// the sums of all the x,y,and z coordinates of the points
 			double totalX = 0;
 			double totalY = 0;
 			double totalZ = 0;
 			
 			for (point cPoint : points) { //loop through the points and add their coordinates to the totals
-				//System.out.println(cPoint.getXReal() + "," + cPoint.getYReal());
 				totalX += cPoint.getXReal();
 				totalY += cPoint.getYReal();
 				totalZ += cPoint.getZReal();
 			}
 			double centerXX = totalX/points.length;
 			double centerYY = totalY/points.length;
-			/*
-			System.out.println("cenXX: " + centerXX);
-			System.out.println("cenYY: " + centerYY);
-			*/
 		
 			//divide by the number of points to get the average
 			centerX = totalX / points.length;
@@ -189,6 +180,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			centerY = yReal + ySize/2;
 			centerZ = zReal + zSize/2;
 		}
+		
+		updateCenter();
 	}
 	
 	public void updatePolygons() {
@@ -223,17 +216,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			if (pointOfRotationPlace.equals(pointOfRotationPlaces.center)) {
 				pointOfRotation = center;		
 			}else if(pointOfRotationPlace.equals(pointOfRotationPlaces.parentCenter)) {
-				double xRotTemp = xRotation, yRotTemp = yRotation, zRotTemp = zRotation;
-				setRotation(0,0,0);
 				pointOfRotation = ((rotatable) parent_object).getCenter();
-				calculatePointValues();
-				setRotation(xRotTemp,yRotTemp,zRotTemp);
 			}else if(pointOfRotationPlace.equals(pointOfRotationPlaces.parentsPlace)) {
-				double xRotTemp = xRotation, yRotTemp = yRotation, zRotTemp = zRotation;
-				setRotation(0,0,0);
 				pointOfRotation = ((rotatable) parent_object).getPointOfRotation();
-				calculatePointValues();
-				setRotation(xRotTemp,yRotTemp,zRotTemp);
 			}
 		}catch(ClassCastException c) {
 			System.out.println("Parent object not rotatable for child: " + name);
@@ -311,25 +296,31 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public void updatePoints() { //creates a vector from the pointOfRotation to each point in the object			
 		
 		if (isRotatable){
+			
 			Polygon_point cPoint = polyPointsStart;
 			int pointCounter = 0;
 			double[] rotComponents;
+			
 			
 			double xI = pointOfRotation.getXReal();
 			double yI = pointOfRotation.getYReal();
 			double zI = pointOfRotation.getZReal();
 			
-			
+		/*	
+			double xI = centerX;
+			double yI = centerY;
+			double zI = centerZ;
+		*/
 			Vector2D normalLightVec = new Vector2D(drawer,center, drawer.lightSource);
 			double normalLightAngle = normalLightVec.getTheta();
 			
-			/*
+		/*
 			setPos(0,0,0);
 			
 			updateCenter();
 			
 			setPos(xI,yI,zI);
-			*/
+		*/
 			
 
 			updatePointOfRotation();
@@ -341,8 +332,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			do {
 				try {
-					
-					
+			
 					cPoint.setPos(pointOfRotation.getXReal() + cPoint.initialXComponent * xSizeAppearance/xSizeInit, pointOfRotation.getYReal() + cPoint.initialYComponent * ySizeAppearance/ySizeInit, pointOfRotation.getZReal() + cPoint.initialZComponent * zSizeAppearance/zSizeInit);
 		
 					
@@ -384,6 +374,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			} while (cPoint != null);
 			
 			pointOfRotation.setPos(xI, yI, zI);
+			
 			
 		}else {
 			double xChange = xReal - points[0].getX();
@@ -656,11 +647,34 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 	}
 	
+	public void updatePointConstants() {
+		Polygon_point cPoint = polyPointsStart;
+		double[] rotation = {getXRotation(),getYRotation(),getZRotation()};
+		setRotation(0,0,0);
+		updatePoints();
+		setRotation(rotation[0],rotation[1],rotation[2]);
+		do {	
+	
+			cPoint.initialXComponent = cPoint.getXReal() + (centerX - pointConstCenterInitial.getXReal()) - pointOfRotation.getXReal();
+			cPoint.initialYComponent = cPoint.getYReal() + (centerY - pointConstCenterInitial.getYReal()) - pointOfRotation.getYReal();
+			cPoint.initialZComponent = cPoint.getZReal()  + (centerZ - pointConstCenterInitial.getZReal()) - pointOfRotation.getZReal();
+			
+			cPoint = cPoint.nextPoint;
+			
+		}while(cPoint != null);
+		
+		pointConstCenterInitial.setPos(centerX,centerY,centerZ);
+		
+	}
+	
 	public void calculatePointValues() { 
 		
+		pointConstCenterInitial = new point(drawer,centerX,centerY,centerZ);
+				
 		Polygon_point cPoint;
 		numberOfPoints = points.length;
 		try {
+			@SuppressWarnings("unused")
 			int pointOfRotationx = pointOfRotation.getX();
 		}catch(NullPointerException n) {
 			pointOfRotation = center;
@@ -766,6 +780,10 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	}
 	
+	public boolean getIsAffectedByBorder() {
+		return affectedByBorder;
+	}
+
 	public void checkForCollisions(ArrayList<massive> objects) { // calls the checkForCollision method for every object in the objects list
 		
 		if (isTangible) {
@@ -784,11 +802,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		}
 	}
 	
-	public boolean getIsAffectedByBorder() {
-		return affectedByBorder;
-	}
-	
-
 	public Object checkForCollision1(massive current_object,ArrayList<massive> objects) {
 	//for v1-4 collision
 		return null;

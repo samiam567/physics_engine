@@ -12,21 +12,26 @@ public class object_draw_thread extends Thread {
 	
 	public void run() {
 		while (state != 0) {
-			if (state == 1) { //running
-				try {
-					objectDrawer.doThreadedFrame();
-					
-					
-				}catch (ConcurrentModificationException c) {}
-			}else if (state == 2) { //paused
-				try {
-					sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+			
+			try {
+				if (state == 1) { //running
+					try {
+						objectDrawer.doThreadedFrame();
+						
+						
+					}catch (ConcurrentModificationException c) {}
+				}else if (state == 2) { //paused
+					try {
+						sleep(1);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}else {
+					System.out.println("thread stopped.");
+					return;
 				}
-			}else {
-				System.out.println("thread stopped.");
-				return;
+			}catch(ConcurrentModificationException c) {
+				
 			}
 		}
 	}

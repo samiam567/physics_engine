@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 
 import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 import circle_tessellation.Tessellation_runner;
+import pole_position.Track;
 
 public class physics_runner extends physicsRunner {
 
@@ -53,14 +54,17 @@ public class physics_runner extends physicsRunner {
 		square2.setParentObject(square1);
 		square1.setName("square1", 1);
 		
-		//square2.setPointOfRotationPlace(pointOfRotationPlaces.parentCenter);
+		square2.setPointOfRotationPlace(pointOfRotationPlaces.parentCenter);
 		square2.setPointOfRotation(new point(drawer,200,200,0));
+		square2.setSpeed(5, 0, 0);
 		
 		drawer.setFrameTimeMultiplier(100);
 		
+		
+		Track t = new Track(drawer, Settings.width/2);
 		drawer.add(square1);
 		drawer.add(square2);
-
+		drawer.add(t);
 		drawer.start();
 		
 		waitForEnd();

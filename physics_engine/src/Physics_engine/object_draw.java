@@ -18,9 +18,7 @@ public class object_draw extends Canvas {
 	
 	private long frameTime = Settings.frameTime;
 	public double frameStep = Settings.frameStep;
-	
-	public ArrayList<force> scheduled_forces = new ArrayList<force>(); //list of forces for the maintenance bot to apply
-	
+
 	public double current_frame = 0; //what frame we are on
 	private int frameCount;
 	
@@ -31,6 +29,8 @@ public class object_draw extends Canvas {
 	private double frameTimeMultiplier = 300;
 	
 	public double inactivity_timer = 0;
+	
+	private int threadState = 0;
 	
 	public Physics_frame frame;
 
@@ -70,6 +70,7 @@ public class object_draw extends Canvas {
 	public void start() {
 		threader.state = 1;
 		updateThreader.state = 1;
+		threadState = 1;
 		threader.start();
 		updateThreader.start();
 		setSize(Settings.width, Settings.height);
@@ -79,6 +80,7 @@ public class object_draw extends Canvas {
 	public void end() {
 		threader.suspend();
 		updateThreader.suspend();
+		threadState = 0;
 		while (! ((threader.state == 0) && (updateThreader.state == 0) )  ) {
 			threader.state = 0;
 			updateThreader.state = 0;
@@ -95,6 +97,7 @@ public class object_draw extends Canvas {
 	}
 	
 	public void pause() {
+		threadState = 2;
 		while (! ((threader.state == 2) && (updateThreader.state == 2) )  ) {
 			threader.state = 2;
 			updateThreader.state = 2;
@@ -102,6 +105,7 @@ public class object_draw extends Canvas {
 	}
 	
 	public void resume() {
+		threadState = 1;
 		threader.state = 1;
 		updateThreader.state = 1;
 	}
@@ -153,17 +157,9 @@ public class object_draw extends Canvas {
 	}
 	
 	private void updateObjects(double frames) {
-		try {
-			for (physics_object current_object : objects) {				
-				Physics_engine_toolbox.Update(current_object,frames);
-			}
-		}catch(ConcurrentModificationException c) {}
-		
-		if ( Math.abs(current_frame - (int)current_frame ) < 0.00001) {
-			for (force current_force : scheduled_forces) { //applying the scheduled forces
-				current_force.apply();
-			}
-		}
+		for (physics_object current_object : objects) {				
+			Physics_engine_toolbox.Update(current_object,frames);
+		}		
 	}
 	
 	public void sleepThread(long time) {
@@ -248,40 +244,44 @@ public class object_draw extends Canvas {
 	
 	public void doThreadedFrame() {
 		
-		frameStartTime = System.nanoTime();
-		repaint(); 
-		frameEndTime = System.nanoTime();
-		
-		wait_time_temp = (long) (frameTimeMultiplier * (frameEndTime - frameStartTime)/100000);
-		
-		//use machine learning to adjust to the right wait_time
-		if (wait_time_temp > wait_time) {
-			wait_time ++;
-		}else if (wait_time_temp < wait_time) {
-			wait_time --;
+		if (threadState == 1) {
+			frameStartTime = System.nanoTime();
+			repaint(); 
+			frameEndTime = System.nanoTime();
+			
+			wait_time_temp = (long) (frameTimeMultiplier * (frameEndTime - frameStartTime)/100000);
+			
+			//use machine learning to adjust to the right wait_time
+			if (wait_time_temp > wait_time) {
+				wait_time ++;
+			}else if (wait_time_temp < wait_time) {
+				wait_time --;
+			}
+			sleepThread(wait_time);
 		}
-		sleepThread(wait_time);
 		
 	}
 	
 	public void doUpdate() { //for update thread. Updates the objects
+		if (threadState == 1) {
+			try {
+				while ( frameCount < 1) {
+					updateStartTime = System.nanoTime();
+					checkForResize();
+					updateObjects(frameStep); //update the objects
+					current_frame += frameStep;
+					frameCount += frameStep;
+					updateEndTime = System.nanoTime();
+					
+					frameStep = ((double) (updateEndTime - updateStartTime)) / 100000000; //automatically set the accuracy of the subCalculations depending on how fast the cpu is going
+				}
 		
-		while ( frameCount < 1) {
-			updateStartTime = System.nanoTime();
-			checkForResize();
-			updateObjects(frameStep); //update the objects
-			current_frame += frameStep;
-			frameCount += frameStep;
-			updateEndTime = System.nanoTime();
-			
-			frameStep = ((double) (updateEndTime - updateStartTime)) / 100000000; //automatically set the accuracy of the subCalculations depending on how fast the cpu is going
+				sleepThread(1);
+		
+				frameCount = 0;
+			}catch(ConcurrentModificationException c) {}
 		}
-
-		sleepThread(1);
-
-		frameCount = 0;
-	
-	
+		
 	}
 	
 	public void doFrame(String key) {
@@ -294,8 +294,6 @@ public class object_draw extends Canvas {
 	
 	public void paint(Graphics page)  {
 		
-		
-		try {
 		//sorting objects by z distance ----------------------------------
 		Collections.sort( drawables, new Comparator<drawable>() {
 	     
@@ -306,8 +304,6 @@ public class object_draw extends Canvas {
 	
 	    });
 		//----------------------------------------------------------------
-		
-		boolean objectInFrame = true;
 
 			for (drawable current_object : drawables) {
 			
@@ -317,9 +313,7 @@ public class object_draw extends Canvas {
 					if (   true  )  { //frame.checkIsInFrame((pointed) current_object)) {
 						
 						page.setColor(current_object.getColor());
-						
-						
-						
+	
 						switch (current_object.getDrawMethod()) {
 						
 							case("pointDraw"):
@@ -393,14 +387,9 @@ public class object_draw extends Canvas {
 								break;
 						} 
 					}
-					
-					
+						
 				}
-				
-				
 			}
-		}catch(ConcurrentModificationException c) {}
-		
 		
 	}
 

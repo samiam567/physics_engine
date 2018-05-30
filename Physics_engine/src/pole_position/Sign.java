@@ -14,6 +14,7 @@ public class Sign extends Box {
 		setParentObject(track);
 		setRotation(Math.PI/4,Math.PI/16,0);
 		setHasNormalCollisions(false);
+		isTangible = false;
 	}
 	
 	public void tertiaryUpdate() {
@@ -22,7 +23,7 @@ public class Sign extends Box {
 		if (centerY > Settings.height + 100) {
 			setPos(centerX,-100,centerZ);
 		}else {
-			setPos(track.getXAtY(centerY),centerY,centerZ);
+			setPos(track.getXAtY(centerY) + 500,centerY,centerZ);
 		}
 	}
 

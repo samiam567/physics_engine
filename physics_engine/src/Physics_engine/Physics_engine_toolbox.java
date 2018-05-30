@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.colorchooser.ColorSelectionModel;
 
+import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 import calculator.Settings;
 
 public class Physics_engine_toolbox {
@@ -32,7 +33,13 @@ public class Physics_engine_toolbox {
 			
 			((massive) current_object).checkForCollisions(current_object.getDrawer().getTangibles());
 			
-			((pointed) current_object).updatePoints();
+			if (((pointed) current_object).getPointOfRotationPlace() != pointOfRotationPlaces.center) {
+				
+				((pointed) current_object).updatePointConstants();
+				((pointed) current_object).updatePoints();
+			}else {
+				((pointed) current_object).updatePoints();
+			}
 			
 
 		}catch(ClassCastException c) {

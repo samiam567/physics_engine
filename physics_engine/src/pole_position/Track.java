@@ -1,10 +1,8 @@
 package pole_position;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
-import Physics_engine.Physics_3DPolygon;
+import java.awt.Color;
+
 import Physics_engine.PointSet;
 import Physics_engine.object_draw;
 import Physics_engine.point;
@@ -24,11 +22,14 @@ public class Track extends PointSet {
 		setSize(Settings.width/2,Settings.height * 2,1);
 		calculateCenter = true;
 		
+		isTangible = false;
 		setHasNormalCollisions(false);
 	
 		generateTrack();
 		
-//		setPointOfRotation(new point(drawer,Pole_position_runner.PlayerCar.getXReal(),Pole_position_runner.PlayerCar.getYReal(),Pole_position_runner.PlayerCar.getZReal()));
+		isFilled = true;
+		setColor(Color.RED);
+		//setPointOfRotation(new point(drawer,Pole_position_runner.PlayerCar.getXReal(),Pole_position_runner.PlayerCar.getYReal(),Pole_position_runner.PlayerCar.getZReal()));
 		
 		
 		
@@ -36,10 +37,11 @@ public class Track extends PointSet {
 	
 	public void tertiaryUpdate() {
 			
+		
 		if ((points[0].getYReal() >= 0) && (points[0].getXReal() >= 0) && (points[0].getXReal() <= Settings.width)  ) {
 			setPos(centerX,0,centerY);
 			System.out.println("Finished");
-			T += Settings.height/2;
+			T += Settings.height;
 			updatePoints();
 			generateTrack();
 			updatePoints();
@@ -51,8 +53,12 @@ public class Track extends PointSet {
 		
 		double xRotTemp = getXRotation(),yRotTemp = getYRotation(),zRotTemp = getZRotation();
 		setRotation(0,0,0);
-		setPos(0,0,0);
+		if (points.length > 1) {
+			updatePoints();
+		}
 		
+		setPos(Settings.width/2,0,0);
+			
 		pointsAL.clear();
 		System.out.println(centerX + "," + centerY + "," + centerZ);
 		
@@ -77,16 +83,13 @@ public class Track extends PointSet {
 			addPoint(new point(drawer,centerX + getXT(T),t,centerZ));
      	}
      	
-     	
-     	setRotation(xRotTemp,yRotTemp,zRotTemp);
-		
-     	
 		initialize();
 		
 		finalize();
 		
+		setRotation(xRotTemp,yRotTemp,zRotTemp);
 		
-		setPos(centerX,0,0);
+		setPos(Settings.width/2,0,0);
 		
 		pointRenderOrder = new int[points.length];
 		for (int i = 0; i < points.length; i++) {
@@ -125,7 +128,7 @@ public class Track extends PointSet {
 	}
 	
 	public double getXT(double T) {
-		return  Settings.width * Math.sin(T/Settings.height );
+		return  Settings.width/2 * Math.sin(T/Settings.height/5 );
 	}
 	
 	public void setT(double t) {

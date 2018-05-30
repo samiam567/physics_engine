@@ -239,7 +239,7 @@ public class Pong_runner extends physicsRunner{
 		//wait for the user to close the window to end the game
 		while (frame.isShowing()) {
 			try {
-				Thread.sleep(10);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -376,7 +376,7 @@ public class Pong_runner extends physicsRunner{
 		Settings.rotationAlgorithm = 6;
 		Settings.timeOutTime = 1000;
 		
-		drawer.setFrameTimeMultiplier(200);
+		drawer.setFrameTimeMultiplier(300);
 		Settings.distanceFromScreenMeters = 0.0001;
 		
 		Settings.width = 1400;
