@@ -14,7 +14,7 @@ public class New_object_listeners {
 	public KeyListener keyListener;
 	public MouseListener mouseListener;
 	public massive objectBeingChanged;
-	private boolean createFreeForm = false, mouseIsPressed = false;
+	public boolean createFreeForm = false, mouseIsPressed = false,switchColorsWithMouseEnter = false;
 	
 	public New_object_listeners(object_draw drawer1) {
 		drawer = drawer1;
@@ -74,13 +74,14 @@ public class New_object_listeners {
 
 				public void mouseEntered(MouseEvent arg0) {
 					drawer.inactivity_timer = 0;
-					drawer.frame.setColor(Color.green);
+				
+					if(switchColorsWithMouseEnter)drawer.frame.setColor(Color.green);
 				}
 
 				
 				public void mouseExited(MouseEvent arg0) {
 					drawer.inactivity_timer = 0;
-					drawer.frame.setColor(Color.gray);
+					if(switchColorsWithMouseEnter)drawer.frame.setColor(Color.gray);
 				}
 
 				
@@ -252,6 +253,11 @@ public class New_object_listeners {
 				objectBeingChanged.setName(JOptionPane.showInputDialog(drawer.frame, "What is the new name?"), 1);
 			break;
 			
+			case("delete"):
+				drawer.remove((physics_object)objectBeingChanged);
+				objectBeingChanged = null;
+			break;
+			
 		
 			
 			default:
@@ -320,6 +326,10 @@ public class New_object_listeners {
 				
 			case("sphere"):
 				objectBeingChanged = new Sphere(drawer,-200,-200,0,50,10,Settings.thetaStep);
+				break;
+			
+			case("circle"):
+				objectBeingChanged = new PolarObject(drawer,-200,-200,0,50,"circle",Settings.thetaStep,2*Math.PI);
 				break;
 				
 			case("free-form"):

@@ -7,8 +7,7 @@ public class Documentation {
  * sets it apart from the others is what I call subCalculations. These are "sub-frames" which aren't rendered but in which the objects move only a fraction of the distance of 
  * their speed and the computer still checks for collisions. These sub-calculations allow the collisions to be WAYY more accurate and precise without slowing the engine down
  * since the subCalculations aren't rendered.
- * The number of subCalculations in-between every rendered frame can be controlled by the frame_step in the settings 
- * class.
+ * The number of subCalculations in-between every rendered frame is the frame-step and is automatically controlled by how fast the computer is running
  * 
  * 
  * 
@@ -53,6 +52,7 @@ The reduceThetas() method just reduces the angle to a 0-2pi range (like how 4pi 
 	
 	ROTATION V6:
 	IT WORKS!!!
+	-uses three 2D vectors to calculate rotation in each dimension individually
 	
 	
 	
@@ -73,6 +73,31 @@ lol i wrote this a bit ago and didn't really know where to put it so here's a cr
 	 I also have used the engine to create multiple games including JetPack_JoyRide. I started out with a square, and some rectangles that you have to dodge. After peer review I decided to add coins and stuff to buy, and polished up the graphics a lot. Through testing I found that 
 	 I needed performance enhancements which I achieved with the V4.0 update of the physics_engine which added a much larger class hierarchy which reduces RAM usage by making the classes more lightweight and makes the whole thing run faster for the same reason. 
 	 I also added multithreading to the whole engine which added capabilities for multiple environments and support for lots of other cool features such as a Minimap. I also added a particle effect with small rotating squares for the jetpack fire as suggested by a peer review
+	
+	
+	
+	
+	
+	
+	
+	WHAT TO DO IF AN OBJECT ISN'T SHOWING::
+	
+	-check if you added it to the drawer
+	-check if the drawer is started
+	-check what the x,y, and z positions of the object are
+	-if it is pointed, check that the positions of the points are inside the boundaries of the frame (Physics_frame.checkIsInFrame(pointed cObject)) 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 */	
 }

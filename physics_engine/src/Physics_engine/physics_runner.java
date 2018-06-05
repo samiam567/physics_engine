@@ -43,28 +43,9 @@ public class physics_runner extends physicsRunner {
 		
 		resize();
 		
-		
+			
 		New_object_listeners newObs = new New_object_listeners(drawer);
 		
-		Square square2 = new Square(drawer,400,200,0,100,10);
-		square2.setColor(Color.MAGENTA);
-		
-		Square square1 = new Square(drawer,200,200,0,100,10);
-		
-		square2.setParentObject(square1);
-		square1.setName("square1", 1);
-		
-		square2.setPointOfRotationPlace(pointOfRotationPlaces.parentCenter);
-		square2.setPointOfRotation(new point(drawer,200,200,0));
-		square2.setSpeed(5, 0, 0);
-		
-		drawer.setFrameTimeMultiplier(100);
-		
-		
-		Track t = new Track(drawer, Settings.width/2);
-		drawer.add(square1);
-		drawer.add(square2);
-		drawer.add(t);
 		drawer.start();
 		
 		waitForEnd();

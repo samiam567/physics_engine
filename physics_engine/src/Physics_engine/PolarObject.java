@@ -3,7 +3,13 @@ package Physics_engine;
 import java.util.ArrayList;
 
 public class PolarObject extends Physics_3DPolygon {
-	
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3615166220662028303L;
+
 	public PolarObject(object_draw drawer1, double x1, double y1, double z1, double size,String shape) {
 		super(drawer1);
 		drawMethod = "paint";

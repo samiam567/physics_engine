@@ -42,11 +42,9 @@ public class AlGames_runner extends physicsRunner {
 			
 			switch(games[gameToPlay]) {
 				case("Pong3D"):
-					Pong_runner.setDrawer(drawer); 
 					Pong_runner.run();
 					break;
 				case("JetPack JoyRide"):
-					JetPack_JoyRide.setDrawer(drawer);
 					JetPack_JoyRide.run();
 					break;
 				case("Calculator"):
@@ -55,7 +53,6 @@ public class AlGames_runner extends physicsRunner {
 					
 				case("Physics Simulator"):
 					Physics_engine.Settings.displayObjectNames = true;
-					physics_runner.setDrawer(drawer);
 					physics_runner.run();
 					Physics_engine.Settings.displayObjectNames = false;
 					break;

@@ -19,6 +19,7 @@ public class Laser extends rectangle{
 	}
 	
 	public void secondaryUpdate() {
+		points[0].setPos(xReal, yReal, zReal);
 		if (getXReal() < 0) {
 			setPos(Math.random() * 1500 + Settings.width+100, Math.random() * (Settings.height-getXSize()-150), getZReal());
 			setSpeed(-JetPack_JoyRide.jetpack_speed, 0,0);

@@ -142,6 +142,7 @@ public class JetPack_JoyRide extends physicsRunner {
 	            	  
 	            	  JetPack_fire jetPackFire2 = new JetPack_fire(drawer,(jetpack.getX() + jetpack.getXSize()) - jetpack.getXSize()*0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2,-Math.random() / 2 ,1);
 		            	 
+	            
 	              }
 	
 				@Override
@@ -400,7 +401,7 @@ public class JetPack_JoyRide extends physicsRunner {
 		distanceHighScoreBoard.setScore(distanceHighScore);	
 	
 		
-		drawer.doFrame(50);
+	//	drawer.doFrame(50);
 		
 		drawer.resume();
 	}

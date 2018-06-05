@@ -16,9 +16,9 @@ public class Physics_engine_toolbox {
 	public static String[] colorNames = {"black","blue","cyan","gray","green","magenta","orange","pink","red","white","yellow"};
 	public static Color[] colors = {Color.black,Color.blue,Color.cyan,Color.GRAY,Color.green,Color.MAGENTA,Color.orange,Color.pink,Color.red,Color.white,Color.YELLOW};
 	
-	public static String[] typesOfObjects = {"square","rectange","box","triangle","sphere","free-form"};
+	public static String[] typesOfObjects = {"square","rectange","box","triangle","circle","sphere","free-form"};
 	
-	public static String[] stuffToDo = {"position","speed","acceleration","rotation","angular velocity","angular acceleration","color","size","friction Coefficient","mass","name"};
+	public static String[] stuffToDo = {"position","speed","acceleration","rotation","angular velocity","angular acceleration","color","size","friction Coefficient","mass","name","delete"};
 
 	public static Font bigFont = new Font("TimesRoman", Font.BOLD, (int) (Math.sqrt(Math.pow(Settings.width, 2) + Math.sqrt(Math.pow(Settings.height, 2))) / 20  ));
 	
@@ -46,6 +46,7 @@ public class Physics_engine_toolbox {
 	//		System.out.println(((drawable) current_object).getObjectName() + " is not massive");
 		}catch(NullPointerException n) {
 			System.out.println("this object doesn't exist (PhysTools checkForCollis)");
+			return;
 		}
 		
 

@@ -14,6 +14,10 @@ import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 public class Physics_3DPolygon extends Physics_shape implements pointed, rotatable, massive {
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -630954532958631113L;
 	int[] pointXs = {}; //all of the x coordinates of the points in the object
 	int[] pointYs = {}; //all of the y coordinates of the points in the object
 	int[] pointZs = {}; //all of the y coordinates of the points in the object
@@ -31,7 +35,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	private double friction_coefficient,momentOfInertia;
 		
 	private Polygon polyXY, polyZY;
-	private Area areaXY,areaZY;
+	private PArea areaXY,areaZY;
 	
 	public double elasticity = Settings.elasticity;
 	
@@ -54,6 +58,10 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	private class Polygon_point extends point {
 		
 	
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -2615566272725032727L;
 		private double xComponent,yComponent,zComponent;
 		private double initialXComponent, initialYComponent, initialZComponent;
 		
@@ -151,8 +159,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	protected void updateAreas() {
 		updatePolygons();
 		
-		areaXY = new Area(polyXY);
-		areaZY = new Area(polyZY);
+		areaXY = new PArea(polyXY);
+		areaZY = new PArea(polyZY);
 	}
 	
 	public void calculateCenter() {
@@ -366,8 +374,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 					
 				}catch(NullPointerException n) {
 					System.out.println("bad point updatePoints");
-					n.printStackTrace();
-					while(true);
 				}
 				
 				

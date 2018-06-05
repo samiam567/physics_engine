@@ -1,13 +1,13 @@
 package Physics_engine;
 
 import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Component;
+
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
+import java.util.NoSuchElementException;
 
 public class object_draw extends Canvas {
 	
@@ -156,6 +156,13 @@ public class object_draw extends Canvas {
 		
 	}
 	
+	public void clearObjects() {
+		objects.clear();
+		drawables.clear();
+		tangibles.clear();
+		resizables.clear();
+	}
+
 	private void updateObjects(double frames) {
 		for (physics_object current_object : objects) {				
 			Physics_engine_toolbox.Update(current_object,frames);
@@ -206,7 +213,7 @@ public class object_draw extends Canvas {
 		//this is extended by child classes such as Mab_object_draw
 	}
 
-	
+	/*
 	public void doFrame() {
 		checkForResize();
 		frameStartTime = System.nanoTime();
@@ -219,46 +226,59 @@ public class object_draw extends Canvas {
 	
 	}
 	
-	public void doFrame(double frames) {
 	
-		frameStartTime = System.nanoTime();
-		current_frame += frames;
-		updateObjects(frames);
+	public void doFrame(double frames) {
 		
-		if ( Math.abs(current_frame - (int)current_frame ) < frameStep) { 
-			checkForResize();
-			repaint(); 
-			frameEndTime = System.nanoTime();
-			wait_time = getFrameTime() - (frameEndTime - frameStartTime);
+			frameStartTime = System.nanoTime();
+			current_frame += frames;
+			updateObjects(frames);
 			
-			if (wait_time < 0) {
-				Exception ex = new Exception("Wait time is less than 0! wait_time: " + wait_time);
-				ex.printStackTrace();
+			if ( Math.abs(current_frame - (int)current_frame ) < frameStep) { 
+				checkForResize();
+				repaint(); 
+				frameEndTime = System.nanoTime();
+				wait_time = getFrameTime() - (frameEndTime - frameStartTime);
+				
+				if (wait_time < 0) {
+					Exception ex = new Exception("Wait time is less than 0! wait_time: " + wait_time);
+					ex.printStackTrace();
+				}
+				
+				WaitNanotime(wait_time);
 			}
-			
-			WaitNanotime(wait_time);
-		}
+		
 	}
 	
 
 	
-	public void doThreadedFrame() {
-		
-		if (threadState == 1) {
-			frameStartTime = System.nanoTime();
-			repaint(); 
-			frameEndTime = System.nanoTime();
-			
-			wait_time_temp = (long) (frameTimeMultiplier * (frameEndTime - frameStartTime)/100000);
-			
-			//use machine learning to adjust to the right wait_time
-			if (wait_time_temp > wait_time) {
-				wait_time ++;
-			}else if (wait_time_temp < wait_time) {
-				wait_time --;
-			}
-			sleepThread(wait_time);
+	public void doFrame(String key) {
+		assert key == "step";
+		for (double i = 0; i < 1; i+= frameStep) {
+			checkForResize();
+			doFrame(frameStep);
 		}
+	}
+	
+	*/
+
+	public void doThreadedFrame() {
+		try {
+			if (threadState == 1) {
+				frameStartTime = System.nanoTime();
+				repaint(); 
+				frameEndTime = System.nanoTime();
+				
+				wait_time_temp = (long) (frameTimeMultiplier * (frameEndTime - frameStartTime)/100000);
+				
+				//use machine learning to adjust to the right wait_time
+				if (wait_time_temp > wait_time) {
+					wait_time ++;
+				}else if (wait_time_temp < wait_time) {
+					wait_time --;
+				}
+				sleepThread(wait_time);
+			}
+		}catch(ConcurrentModificationException c) {}
 		
 	}
 	
@@ -279,21 +299,17 @@ public class object_draw extends Canvas {
 				sleepThread(1);
 		
 				frameCount = 0;
-			}catch(ConcurrentModificationException c) {}
+			}catch(ConcurrentModificationException c) {	
+			}catch(NullPointerException e) {
+				System.out.println("nullPointer");
+			}catch(NoSuchElementException n) {} //if the element was deleted while this process was being run
+			
 		}
 		
-	}
-	
-	public void doFrame(String key) {
-		assert key == "step";
-		for (double i = 0; i < 1; i+= frameStep) {
-			checkForResize();
-			doFrame(frameStep);
-		}
 	}
 	
 	public void paint(Graphics page)  {
-		
+	
 		//sorting objects by z distance ----------------------------------
 		Collections.sort( drawables, new Comparator<drawable>() {
 	     
@@ -309,24 +325,93 @@ public class object_draw extends Canvas {
 			
 				
 				if ( current_object.getIsVisible() ) {
-				
-					if (   true  )  { //frame.checkIsInFrame((pointed) current_object)) {
-						
-						page.setColor(current_object.getColor());
-	
-						switch (current_object.getDrawMethod()) {
-						
-							case("pointDraw"):
-								try {
+					try {
+						if ( frame.checkIsInFrame((pointed) current_object)) {
+							
+							page.setColor(current_object.getColor());
+		
+							switch (current_object.getDrawMethod()) {
+							
+								case("pointDraw"):
+									
 									for (point cPoint : ((pointed) current_object).getPoints()) {
 										cPoint.paint(page);
 									}
-								}catch(ClassCastException c) {
-									System.out.println("Drawable not a pointed object (painting)");
-								}
+								
+									break;
+								case("ListedPointAlgorithm"):
+							
+										current_object = (pointed) current_object;
+										
+										int pointKey;
+										int next_pointKey;
+										point current_point;
+										point next_point;
+										point[] points = ((pointed) current_object).getPoints();
+										if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(((Physics_drawable) current_object).getCenterX()), (int) Math.round(((Physics_drawable) current_object).getCenterY()));
+										for (int i = 0; i < current_object.getPointRenderOrder().length-1 ; i++) {
+										
+											//calculate the pointkeys
+											pointKey = current_object.getPointRenderOrder()[i];
+											
+											if (i == current_object.getPointRenderOrder().length-1) {
+												break;
+												
+											}else {
+												next_pointKey = current_object.getPointRenderOrder()[i+1];
+											}
+											
+											
+									//		System.out.println(pointKey + "," + next_pointKey);
+											
+											//get the points
+											current_point = points[pointKey];
+											next_point = points[next_pointKey];
+											
+																		
+										
+											//draw line between points
+											page.drawLine(current_point.x, current_point.y, next_point.x, next_point.y);
+										}
+										
+										
+										if (Settings.showPointNumbers) { //display the point numbers	
+											for (int i = 0; i < points.length; i++) {
+												page.drawString("" + i, points[i].getX(), points[i].getY()); 
+											}
+										}
+										
+										break;
+								
+								case("paint"):
+									current_object.paint(page);
+									break;
+									
+								case("drawRect"):
+									page.drawRect(current_object.getX(),current_object.getY(),(int) current_object.getXSizeAppearance(), (int) current_object.getYSizeAppearance());
+									break;
+								case("fillRect"):
+									page.fillRect(current_object.getX(),current_object.getY(),(int) current_object.getXSizeAppearance(), (int) current_object.getYSizeAppearance());
+									break;
+								default:
+									current_object.paint(page);
+									break;
+							} 
+						}
+							
+					}catch(ClassCastException c) {
+						page.setColor(current_object.getColor());
+						
+						switch (current_object.getDrawMethod()) {
+						
+							case("pointDraw"):
+									for (point cPoint : ((pointed) current_object).getPoints()) {
+										cPoint.paint(page);
+									}
+								
 								break;
 							case("ListedPointAlgorithm"):
-								try {
+						
 									current_object = (pointed) current_object;
 									
 									int pointKey;
@@ -368,9 +453,6 @@ public class object_draw extends Canvas {
 									}
 									
 									break;
-								}catch(ClassCastException c) {
-									System.out.println("Drawable not a pointed object (painting)");
-								}
 							
 							case("paint"):
 								current_object.paint(page);
@@ -387,7 +469,6 @@ public class object_draw extends Canvas {
 								break;
 						} 
 					}
-						
 				}
 			}
 		

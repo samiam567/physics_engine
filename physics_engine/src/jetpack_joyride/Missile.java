@@ -24,9 +24,11 @@ public class Missile extends rectangle {
 	}
 
 	public void secondaryUpdate() {
+		setSpeed(-JetPack_JoyRide.jetpack_speed * missileSpeedMultiplier,ySpeed,0);
+		points[0].setPos(xReal - 1000, yReal, zReal);
+		points[(points.length-1)/2].setPos(xReal, yReal, zReal);
 		if (getXReal() < 0) {
 			setPos(Settings.width+1000 + Math.random() * 1500, Math.random() * (Settings.height-getXSize()-150), getZReal());
-			setSpeed(-JetPack_JoyRide.jetpack_speed * missileSpeedMultiplier,ySpeed,0);
 		}else if ( (getXReal()+10 < JetPack_JoyRide.jetpack.getXReal()) || (getXReal()-50 >JetPack_JoyRide.jetpack.getXReal()) ) {
 			isTangible = false;
 		}else {

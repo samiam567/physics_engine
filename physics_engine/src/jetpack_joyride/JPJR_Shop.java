@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import Physics_engine.Settings;
-import Physics_engine.force;
 import Physics_engine.object_draw;
 
 public class JPJR_Shop extends JFrame {

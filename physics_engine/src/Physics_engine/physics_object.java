@@ -1,9 +1,14 @@
 package Physics_engine;
 
+import java.io.Serializable;
 
-
-public abstract class physics_object implements physics_engine_compatible{
+public abstract class physics_object implements physics_engine_compatible, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2692811287390819079L;
+
 	public enum object_types {none,physics_object,drawable,movable,massive,pointed,rotatable};
 	
 	public String name = "unNamed"; //the name of the object

@@ -10,8 +10,6 @@ public class point extends Physics_drawable {
 	private double thetaXY, thetaZX, thetaZY; //angle relative to the center of rotation
 	private double theta,phi;
 	private double r; //distance from the center of rotation
-	private Vector pointVector;
-	private Vector3D pointVector3D;
 	private int quadrant; //the quad this point is in (if applicable)
 	
 	public point(object_draw drawer1,double[] dimensions,int id1) { //dimensions = {x,y,z}
@@ -76,18 +74,6 @@ public class point extends Physics_drawable {
 		yReal = y1;
 		zReal = z1;
 		updatePos();
-	}
-	
-	public void setPointVector(Vector vector) {
-		pointVector = vector;
-		point vectorTip = pointVector.getVectorTip();
-		setPos(vectorTip.getXReal(),vectorTip.getYReal(),vectorTip.getZReal());
-	}
-	
-	public void setPointVector(Vector3D vector3D) {
-		pointVector3D = vector3D;
-		point vectorTip = pointVector3D.getVectorTip();
-		setPos(vectorTip.getXReal(),vectorTip.getYReal(),vectorTip.getZReal());
 	}
 	
 	protected void updateCenter() {

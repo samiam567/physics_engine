@@ -1,12 +1,17 @@
 package Physics_engine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Physics_engine.Physics_engine_toolbox.faces;
 
 
 
-public class border_bounce extends rectangle {
+public class border_bounce extends rectangle implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6603405988501987566L;
 	public Physics_frame frame;
 	
 	

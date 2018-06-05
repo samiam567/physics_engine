@@ -23,10 +23,6 @@ public class Tessellation_runner {
 	private static double[] lSizes;
 	
 	private static border_bounce boundries;
-
-	public static Vector vec1;
-	
-	public static Vector3D Vec;
 	
 	public static object_draw drawer;
 	

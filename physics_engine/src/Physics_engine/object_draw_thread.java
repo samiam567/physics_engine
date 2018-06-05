@@ -1,8 +1,13 @@
 package Physics_engine;
 
+import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 
-public class object_draw_thread extends Thread {
+public class object_draw_thread extends Thread implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1667890055673545138L;
 	public object_draw objectDrawer;
 	public int state = 0; //0 = stopped, 1 = running, 2 = paused
 	

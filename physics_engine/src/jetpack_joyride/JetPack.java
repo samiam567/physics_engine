@@ -22,6 +22,7 @@ public class JetPack extends rectangle {
 	public void tertiaryUpdate() {
 		setSpeed(0,ySpeed,0);
 		current_power = power + JetPack_JoyRide.jetpack_speed ;
+		points[0].setPos(xReal, yReal, zReal);
 	}
 	
 	public void isCollided(physics_object object, faces side) {
@@ -59,7 +60,7 @@ public class JetPack extends rectangle {
 	
 	
 	public void paint(Graphics page) {
-	
+
 		page.setColor(color);
 		page.fillRect(x, y, (int) Math.round(ySize/2), (int) Math.round(ySize));
 		page.fillRect((int) Math.round(x + ySize/2) - 3, y, (int) Math.round(ySize/2), (int) Math.round(ySize));
