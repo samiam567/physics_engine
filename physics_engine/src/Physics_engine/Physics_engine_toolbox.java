@@ -293,5 +293,5 @@ public class Physics_engine_toolbox {
 	public static double distance(point point1, point point2) {
 		return Math.sqrt( Math.pow(( point2.getXReal() - point1.getXReal() ), 2) + Math.pow(( point2.getYReal() - point1.getYReal() ), 2) + Math.pow(( point2.getZReal() - point1.getZReal() ), 2) );
 	}
-	
+
 }
