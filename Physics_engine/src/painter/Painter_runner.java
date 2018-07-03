@@ -39,17 +39,8 @@ public class Painter_runner extends physicsRunner {
 	}
 	
 	public static void run() {
-		boundries = new border_bounce(drawer);
-		boundries.setName("boundries", 1);
-		drawer.add(boundries);
-		
-		frame.setVisible(true);
-	
-		FPS_display fps = new FPS_display(drawer,30,30);
-		drawer.add(fps);
 
-		FCPS_display fcps = new FCPS_display(drawer,30,50);
-		drawer.add(fcps);
+		frame.setVisible(true);
 		
 		resize();
 		
@@ -101,12 +92,11 @@ public class Painter_runner extends physicsRunner {
 	
 	
 	public static void savePainting() {
-//		if (false) {
 		if (newObs.createFreeForm) {
 			newObs.createFreeForm = false;
   			((PointSet)newObs.objectBeingChanged).initialize();
 			System.out.println("free-form force-Created for saving");
-			((PointSet)newObs.objectBeingChanged).finalize();
+			((PointSet)newObs.objectBeingChanged).finish();
 		}
 		ObjectOutputStream saver;
 		try {

@@ -31,24 +31,23 @@ public class New_object_listeners {
 		
 		freeFormBoard = new ScoreBoard(drawer,Settings.width * 0.5, Settings.height * 0.1, "FreeForm Creation Started \n New-Point Z Coordinate:",freeFormPointZ);
 		
+		objectBeingChanged = new Square(drawer,200,200,0,50,10);
+		drawer.add((physics_object) objectBeingChanged);
 		
 		mouseMotionListener = new MouseMotionListener() {
 
 			@Override
-			public void mouseDragged(MouseEvent e) {
-				objectBeingChanged.setRotation((objectBeingChanged.getCenterY() - e.getY())/50,(e.getX() - objectBeingChanged.getCenterX() )/50, objectBeingChanged.getZRotation());
+			public void mouseDragged(MouseEvent e) {	
+				
+				if (! createFreeForm) objectBeingChanged.setRotation((objectBeingChanged.getCenterY() - e.getY())/100,(e.getX() - objectBeingChanged.getCenterX() )/100, objectBeingChanged.getZRotation());
 				
 			}
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				
-				if (counter > 100) {
-					objectBeingChanged.setPos(e.getX(), e.getY(), objectBeingChanged.getCenterZ());
-				}else {
-					counter++;
-					System.out.println(counter);
-				}
+//				objectBeingChanged.setPos(e.getX(), e.getY(), objectBeingChanged.getCenterZ());
+		
 			}
 			
 		};
@@ -146,8 +145,9 @@ public class New_object_listeners {
 							createFreeForm = false;
 	        	  			((PointSet)objectBeingChanged).initialize();
 							System.out.println("free-form Created");
-							((PointSet)objectBeingChanged).finalize();
+							((PointSet)objectBeingChanged).finish();
 							drawer.remove(freeFormBoard);
+							objectBeingChanged.setRotation(0, 0, 0);
 						}else {
 							System.out.println(arg0.getButton());
 						}
@@ -238,8 +238,9 @@ public class New_object_listeners {
 			        	  			createFreeForm = false;
 			        	  			((PointSet)objectBeingChanged).initialize();
 									System.out.println("free-form Created");
-									((PointSet)objectBeingChanged).finalize();
+									((PointSet)objectBeingChanged).finish();
 									drawer.remove(freeFormBoard);
+									objectBeingChanged.setRotation(0, 0, 0);
 			        	  		}
 			        	  	break;
 			        	  		        	  	
@@ -273,7 +274,7 @@ public class New_object_listeners {
 	public void add() {	
 		drawer.addMouseListener(mouseListener);
 		drawer.addKeyListener(keyListener);
-		drawer.addMouseMotionListener(mouseMotionListener);
+	//	drawer.addMouseMotionListener(mouseMotionListener);
 		
 		JOptionPane.showMessageDialog(drawer.frame, "Press \"n\" to create a new object \n click on an object to select it \n right-click once an object is selected to change properties of that object \n use the middle mouse button to deselect an object","Physics Simulator Instructions", 1);
 	}
@@ -281,7 +282,7 @@ public class New_object_listeners {
 	public void remove() {
 		drawer.removeMouseListener(mouseListener);
 		drawer.removeKeyListener(keyListener);
-		drawer.removeMouseMotionListener(mouseMotionListener);
+	//	drawer.removeMouseMotionListener(mouseMotionListener);
 	}
 	
 	

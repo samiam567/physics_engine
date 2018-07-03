@@ -2,6 +2,12 @@ package Physics_engine;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -292,6 +298,43 @@ public class Physics_engine_toolbox {
 	
 	public static double distance(point point1, point point2) {
 		return Math.sqrt( Math.pow(( point2.getXReal() - point1.getXReal() ), 2) + Math.pow(( point2.getYReal() - point1.getYReal() ), 2) + Math.pow(( point2.getZReal() - point1.getZReal() ), 2) );
+	}
+	
+	public static physics_object loadObjectFromFile(String fileName) {
+		
+		try {
+			System.out.println("Loading object from ile...");
+			
+			
+			ObjectInputStream loader = new ObjectInputStream(new FileInputStream(fileName));
+			
+			
+			
+		
+			
+			physics_object readOb = (physics_object) loader.readObject();
+			
+			loader.close();
+			
+			System.out.println("load successful");
+			
+			return readOb;
+			
+		}catch(InvalidClassException e) {
+			System.out.println("Corrupted Save_file"); 
+		}catch(EOFException e) {
+			System.out.println("Corrupted Save_file");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("load failed");
+		
+		return null;
 	}
 
 }

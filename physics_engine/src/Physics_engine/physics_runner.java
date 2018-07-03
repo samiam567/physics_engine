@@ -46,6 +46,7 @@ public class physics_runner extends physicsRunner {
 			
 		New_object_listeners newObs = new New_object_listeners(drawer);
 		
+		
 		drawer.start();
 		
 		waitForEnd();

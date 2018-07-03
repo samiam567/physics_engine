@@ -38,7 +38,7 @@ public class Car extends PointSet {
 		addPoint(new point(drawer,cenX, cenY - size/2,cenZ));
 		
 		initialize();
-		finalize();
+		finish();
 
 	}
 	

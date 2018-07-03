@@ -85,7 +85,7 @@ public class Track extends PointSet {
      	
 		initialize();
 		
-		finalize();
+		finish();
 		
 		setRotation(xRotTemp,yRotTemp,zRotTemp);
 		

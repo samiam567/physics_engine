@@ -125,7 +125,6 @@ public class Pole_position_runner extends physicsRunner {
 	}
 	
 	private static void runGame() {
-//		New_object_listeners New = new New_object_listeners(drawer);
 
 		drawer.add(PlayerCar);
 		drawer.add(trackL);
