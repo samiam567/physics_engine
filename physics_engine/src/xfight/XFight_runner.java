@@ -17,6 +17,7 @@ import Physics_engine.New_object_listeners;
 import Physics_engine.Physics_engine_toolbox;
 import Physics_engine.Physics_frame;
 import Physics_engine.PointSet;
+import Physics_engine.ScoreBoard;
 import Physics_engine.SpeedTimer;
 import Physics_engine.Square;
 import Physics_engine.Vector2D;
@@ -31,16 +32,21 @@ import pole_position.Car;
 
 public class XFight_runner extends physicsRunner {
 	
-	public static final String Version = "V1.0.1";
+	public static final String Version = "1.0.3";
 	
 	public static final int speed = 7;
 	public static final int pewSpeed = 20;
 	
+
+	
 	private static final String spaceShipFileName = "spaceShip.txt";
 	private static final String enemyFileName = "astroid.txt";
-	private static final String pewFileName = "spaceShip.txt";
+	private static final String pewFileName = "pew.txt";
+
+	public static int Score = 0;
 	
-	static SpaceShip ship;
+	public static SpaceShip ship;
+	private static ScoreBoard scoreboard;
 	private static point[] enemyBlueprint;
 	private static point[] pewBlueprint;
 	
@@ -83,6 +89,10 @@ public class XFight_runner extends physicsRunner {
 	        	  	break;
 	        	  	
 	        	  	
+	        	  	case(10): //ENTER
+	        	  		drawer.add(new Enemy(drawer,enemyBlueprint));
+	        	  	break;
+	        	  	
 	        	  	case(68): //d
 	        	  		ship.setRotation(ship.getXRotation(), ship.getYRotation(), Math.PI/16);
 	        	  		ship.setSpeed(SpaceShip.turningSpeed, 0, 0);
@@ -112,21 +122,25 @@ public class XFight_runner extends physicsRunner {
 		
 		
 	//setting up
-		boundries = new border_bounce(drawer);
-		boundries.setName("boundries", 1);
-		drawer.add(boundries);
+		
 		
 		frame.setVisible(true);
 	
+		frame.setTitle("XFight V" + Version);
+		
 		FPS_display fps = new FPS_display(drawer,30,30);
 		drawer.add(fps);
 
 		FCPS_display fcps = new FCPS_display(drawer,30,50);
 		drawer.add(fcps);
 		
+		scoreboard = new ScoreBoard(drawer,Settings.width * 0.9,Settings.height * 0.1,"Score:",0);
+		drawer.add(scoreboard);
+		
 		resize();
 		
 		drawer.start();
+		
 	
 		
 	//loading blueprints
@@ -143,8 +157,14 @@ public class XFight_runner extends physicsRunner {
 		
 		
 	
-		
-		waitForEnd();
+		while(frame.isActive()) {
+			scoreboard.setScore(Score);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 

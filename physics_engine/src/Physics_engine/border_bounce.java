@@ -22,6 +22,7 @@ public class border_bounce extends rectangle implements Serializable{
 		isAnchored = true;
 		isRotatable = false;
 		isVisible = false;
+		setName("boundries",1);
 	}
 	
 	public void updatePoints() {

@@ -1,22 +1,20 @@
 package xfight;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import Physics_engine.Physics_engine_toolbox.faces;
-import jetpack_joyride.JetPack_JoyRide;
 import Physics_engine.PointSet;
 import Physics_engine.object_draw;
 import Physics_engine.physics_object;
 import Physics_engine.point;
-import Physics_engine.resizable;
-import Physics_engine.Settings;
 import Physics_engine.Vector2D;
 
 public class Pew extends PointSet {
 
 	public Pew(object_draw drawer1,point[] constPoints) {
 		super(drawer1);
-		setPos(Settings.width * 0.5,Settings.height * 0.1,0);
+		
 		for (point cP : constPoints) {
 			addPoint(cP);
 		}
@@ -35,6 +33,11 @@ public class Pew extends PointSet {
   		setRotation(XFight_runner.ship.getXRotation(),XFight_runner.ship.getYRotation(),XFight_runner.ship.getZRotation());
   		setPos(XFight_runner.ship.getPoints()[0].getXReal(), XFight_runner.ship.getPoints()[0].getYReal()-100, 0);
   		
+  		setMass(100);
+  		
+  		hasNormalCollisions = false;
+  		
+  	
 		
 	}
 	
@@ -44,8 +47,10 @@ public class Pew extends PointSet {
 		}
 	}
 	
-	public void isCollided(physics_object object, faces side) {
 	
+	public void paint(Graphics page) {
+		
+		super.paint(page);
 	}
 	
 

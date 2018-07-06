@@ -1,16 +1,18 @@
 package Physics_engine;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class PointSet extends Physics_3DPolygon {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3055858664592563443L;
 	protected ArrayList<point> pointsAL;
 	
 	public PointSet(object_draw drawer1) {
 		super(drawer1);
 		drawMethod = "paint";
-		setSize(1,1,1);
+		setSize(100,100,100);
 		setPos(200,200,200);
 		
 		setRotation(0,0,0);
@@ -22,10 +24,15 @@ public class PointSet extends Physics_3DPolygon {
 	}
 	
 	public void addPoint(point nP) {
+		setRotation(0,0,0);
+		
 		pointsAL.add(nP);
 	}
 	
 	public void initialize() {
+		
+		setRotation(0,0,0);
+		
 		points = new point[pointsAL.size()];
 		
 		for (int i = 0; i < points.length; i++) {
@@ -35,21 +42,27 @@ public class PointSet extends Physics_3DPolygon {
 		setPoints(points);
 		
 		
+		
 	
 	}
 	
 	public void finish() {	
-				
 		
-		//calculateSize(); this breaks it
+		setRotation(0,0,0);
+		
+		
+		
 		setMass(10);
 		
 		calculateCenter();
 		
 		updatePointOfRotation();
-		
+		calculateSize(); //this breaks it
 		calculatePointValues();	
 		
+		updatePointOfRotation();
+		
+	
 	
 		System.out.println("finalized");
 
@@ -63,17 +76,23 @@ public class PointSet extends Physics_3DPolygon {
 					smallestX = cP.getX();
 				}else if (cP.getX() > largestX) {
 					largestX = cP.getX();
-				}else if (cP.getY() < smallestY) {
+				}
+				
+				if (cP.getY() < smallestY) {
 					smallestY = cP.getY();
 				}else if (cP.getY() > largestY) {
 					largestY = cP.getY();
-				}else if (cP.getZ() < smallestZ) {
+				}
+				
+				if (cP.getZ() < smallestZ) {
 					smallestZ = cP.getZ();
 				}else if (cP.getZ() > largestZ) {
 					largestZ = cP.getZ();
 				}
 			}
-				setSize(largestX-smallestX,largestY-smallestY,largestZ-smallestZ);
+				setSize(largestX-smallestX,largestY-smallestY,1 +largestZ-smallestZ);
+				
+				System.out.println("Size: " + xSize + "," + ySize + "," + zSize);
 	}
 	
 }

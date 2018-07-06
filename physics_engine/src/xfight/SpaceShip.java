@@ -26,9 +26,10 @@ public class SpaceShip extends PointSet implements resizable{
 		initialize();
 		finish();
 		
-		isFilled = true;
+		isFilled = false;
 		setColor(Color.RED);
-		affectedByBorder = false;
+	
+	
 		resize();
 		
 	}

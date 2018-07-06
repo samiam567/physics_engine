@@ -156,7 +156,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	}
 	
-	protected void updateAreas() {
+	public void updateAreas() {
 		updatePolygons();
 		
 		areaXY = new PArea(polyXY);
@@ -731,10 +731,10 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			cObject.isCollided(this, side);
 	
 		
-			//bouncing
-			setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() * cObject.getMass() - ySpeed * getMass()) / getMomentOfInertia())) * 10 - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) / getMomentOfInertia())) * 10);
-			
-			setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * (cOb.getXSpeed() - getXSpeed()),((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getYSpeed() - getYSpeed()) ,((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getZSpeed() - getZSpeed()) );}
+				//bouncing
+				setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() * cObject.getMass() - ySpeed * getMass()) / getMomentOfInertia())) * 10 - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) / getMomentOfInertia())) * 10);
+				
+				setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * (cOb.getXSpeed() - getXSpeed()),((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getYSpeed() - getYSpeed()) ,((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getZSpeed() - getZSpeed()) );}
 			
 		}
 	
@@ -742,15 +742,15 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { 
 		
 		if (Settings.collision_algorithm == 5) {
-			updatePointXsYsAndZs();
-			updateAreas();
+			
 			point cPoint;
-		
+			
 			try {
+				
 				faces side = faces.none;
 				for (int i = 0; i < ((pointed) current_physics_object).getPoints().length; i++) {
 					cPoint = ((pointed) current_physics_object).getPoints()[i];
-		
+					
 					
 					if (cPoint.isIn(this)) {
 						System.out.println("Collision:");

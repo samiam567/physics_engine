@@ -74,7 +74,7 @@ public class New_object_listeners {
 						
 						for (massive cObject : drawer.tangibles) {
 							cObject.updatePolygons();
-							if (mousePoint1.isIn((Physics_3DPolygon) cObject)) {
+							if (mousePoint1.isIn((Physics_3DPolygon) cObject) && (cObject.getObjectName() != "boundries") ) {
 								System.out.println(cObject.getObjectName() + " has been selected");
 								objectBeingChanged = cObject;
 								break;
@@ -157,7 +157,7 @@ public class New_object_listeners {
 				
 						for (massive cObject : drawer.tangibles) {
 							cObject.updatePolygons();
-							if (mousePoint1.isIn((Physics_3DPolygon) cObject)) {
+							if ((mousePoint1.isIn((Physics_3DPolygon) cObject) && (cObject.getObjectName() != "boundries"))) {
 								System.out.println(cObject.getObjectName() + " has been selected");
 								objectBeingChanged = cObject;
 								break;
@@ -274,7 +274,7 @@ public class New_object_listeners {
 	public void add() {	
 		drawer.addMouseListener(mouseListener);
 		drawer.addKeyListener(keyListener);
-	//	drawer.addMouseMotionListener(mouseMotionListener);
+		drawer.addMouseMotionListener(mouseMotionListener);
 		
 		JOptionPane.showMessageDialog(drawer.frame, "Press \"n\" to create a new object \n click on an object to select it \n right-click once an object is selected to change properties of that object \n use the middle mouse button to deselect an object","Physics Simulator Instructions", 1);
 	}
@@ -282,7 +282,7 @@ public class New_object_listeners {
 	public void remove() {
 		drawer.removeMouseListener(mouseListener);
 		drawer.removeKeyListener(keyListener);
-	//	drawer.removeMouseMotionListener(mouseMotionListener);
+		drawer.removeMouseMotionListener(mouseMotionListener);
 	}
 	
 	

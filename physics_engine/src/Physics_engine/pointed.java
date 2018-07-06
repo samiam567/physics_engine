@@ -45,6 +45,8 @@ public abstract interface pointed extends movable { //made up of points
 	public pointOfRotationPlaces getPointOfRotationPlace();
 
 	public void updatePointConstants();
+
+	public void updateAreas();
 	
 	
 }

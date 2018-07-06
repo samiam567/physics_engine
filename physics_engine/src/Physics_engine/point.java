@@ -51,8 +51,6 @@ public class point extends Physics_drawable {
 	
 	public boolean isIn(Physics_3DPolygon pObject) { //returns true if the point is inside the passed object
 		
-		pObject.updateAreas();
-		
 		Area areaXY = pObject.getAreaXY();		
 
 		return areaXY.contains(xReal,yReal) && ( Math.abs(zReal - pObject.centerZ) < (pObject.zSize + drawer.frameStep) );

@@ -20,7 +20,7 @@ public class Enemy extends PointSet implements resizable{
 			addPoint(cP);
 		}
 		
-		initialize();
+		initialize(); 
 		finish();
 		
 		setPos(Settings.width * 0.5,Settings.height * 0.1,0);
@@ -29,23 +29,32 @@ public class Enemy extends PointSet implements resizable{
 		
 		setName("enemy",1);
 		
+		hasNormalCollisions = false;
+
 	}
 	
 	public void tertiaryUpdate() {
 		points[0].setPos(xReal, yReal, zReal);
-		if (getXReal() < 0) {
+		if (getYReal() >Settings.height) {
 			setPos(Math.random() * (Settings.width-getXSize()-150),Math.random() * -1500 - Settings.height-100,  getZReal());
 			setSpeed(0,XFight_runner.speed,0);
 		}else if ( (getYReal()+10 < XFight_runner.ship.getYReal()) || (getXReal()-50 >XFight_runner.ship.getYReal()) ) {
-			isTangible = false;
+			
 		}else {
-			isTangible = true;
+			
 		}
 		
 		setSpeed(0,XFight_runner.speed,0);
 	}
 	
 	public void isCollided(physics_object object, faces side) {
+		System.out.println("enemy hit");
+		
+		if (object.getObjectName() == "pew" ) {
+			drawer.remove(this);
+			drawer.remove(object);
+			XFight_runner.Score++;
+		}
 		
 	}
 	

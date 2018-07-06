@@ -34,26 +34,7 @@ public class Physics_engine_toolbox {
 		
 		//use try-catch to update each object depending on which interfaces it implements 
 		
-		try {
-			current_object = (massive) current_object;
-			
-			((massive) current_object).checkForCollisions(current_object.getDrawer().getTangibles());
-			
-			if (((pointed) current_object).getPointOfRotationPlace() != pointOfRotationPlaces.center) {
-				
-				((pointed) current_object).updatePointConstants();
-				((pointed) current_object).updatePoints();
-			}else {
-				((pointed) current_object).updatePoints();
-			}
-			
-
-		}catch(ClassCastException c) {
-	//		System.out.println(((drawable) current_object).getObjectName() + " is not massive");
-		}catch(NullPointerException n) {
-			System.out.println("this object doesn't exist (PhysTools checkForCollis)");
-			return;
-		}
+		
 		
 
 		
@@ -178,6 +159,35 @@ public class Physics_engine_toolbox {
 		}catch(ClassCastException c) {
 //			System.out.println("catch: " + current_object.getObjectName());
 		}
+		
+	
+		
+		
+		try {
+			current_object = (massive) current_object;
+			
+			((massive) current_object).checkForCollisions(current_object.getDrawer().getTangibles());
+			
+			((pointed) current_object).updatePointXsYsAndZs();
+			((pointed) current_object).updateAreas();
+			
+			if (((pointed) current_object).getPointOfRotationPlace() != pointOfRotationPlaces.center) {
+				
+				((pointed) current_object).updatePointConstants();
+				((pointed) current_object).updatePoints();
+			
+			}else {
+				((pointed) current_object).updatePoints();
+			}
+			
+
+		}catch(ClassCastException c) {
+	//		System.out.println(((drawable) current_object).getObjectName() + " is not massive");
+		}catch(NullPointerException n) {
+	//		System.out.println("this object doesn't exist (PhysTools checkForCollis)");
+			return;
+		}
+		
 		
 		//these are subclass-specific update methods that can be overridden to allow for each child class to be updated differently
 		current_object.secondaryUpdate(); 
