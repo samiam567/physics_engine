@@ -48,7 +48,10 @@ public class Simple_calc implements Calculator{
 	
 	private double[] getAB(String eq, String op) {
 		boolean debug = false;
-		eq.replaceAll(" ", ""); //get rid of annoying spaces
+		eq = eq.replaceAll(" ", ""); //get rid of annoying spaces
+		
+		eq = eq.replaceAll("ans", Calculator_runner.prevCalculation);
+		
 		array eqArray = new array("double");
 	
 		//avoiding PatternSyntax exception by changing the op to "," so that "," can be the delimiter
@@ -149,6 +152,11 @@ public class Simple_calc implements Calculator{
 	}
 	
 	public void output() {
+		
+		//updating previous answer
+		Calculator_runner.prevCalculation = "" + answer;
+		System.out.println(Calculator_runner.prevCalculation);
+		
 		System.out.println(answer);
 		System.out.println("Output " + answer);
 		JOptionPane.showMessageDialog(Calculator_runner.calculatorAnchor, "" + answer);

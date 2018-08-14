@@ -184,6 +184,9 @@ public class algebreic_calc {
 		return eqGraph;
 	}
 	public void output() {
+		//updating previous answer
+		Calculator_runner.prevCalculation = "" + answers;
+				
 		System.out.println("Output " + answers);
 		JOptionPane.showMessageDialog(Calculator_runner.calculatorAnchor, answers.toString());
 	}

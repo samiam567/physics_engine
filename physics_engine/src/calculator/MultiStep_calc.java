@@ -196,6 +196,9 @@ public class MultiStep_calc {
 	}
 
 	public void output() {
+		//updating previous answer
+		Calculator_runner.prevCalculation = "" + answer;
+				
 		System.out.println(answer);
 		System.out.println("Output " + answer);
 		JOptionPane.showMessageDialog(Calculator_runner.calculatorAnchor, "" + answer);

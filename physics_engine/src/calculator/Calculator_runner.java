@@ -10,7 +10,7 @@ public class Calculator_runner {
 	public enum eqTypes {Simple,Algebreic,Calculus,Command,MultiStep,None};
 	
 	
-	public static String version = "4.2.2";
+	public static String version = "4.2.3";
 	
 	public static int colorCounter = 0;
 	public static Color[] colors = {Color.BLACK,Color.blue,Color.CYAN,Color.DARK_GRAY,Color.GREEN,Color.MAGENTA,Color.ORANGE,Color.PINK,Color.RED,Color.YELLOW}; 
@@ -25,6 +25,8 @@ public class Calculator_runner {
 	public static JFrame calculatorAnchor = new JFrame();
 	
 	public static ArrayList<String> errors = new ArrayList<String>();
+
+	public static String prevCalculation = "0";
 	
 	public static void main(String[] args) {
 		run();
