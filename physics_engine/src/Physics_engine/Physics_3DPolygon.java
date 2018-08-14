@@ -39,6 +39,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	public double elasticity = Settings.elasticity;
 	
+	private double maxSize; //the distance from the center that the furthest point is 
+	
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
 	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,isShaded = false,calculateCenter = true;
 	protected boolean hasNormalCollisions = true;
@@ -700,7 +702,13 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 		points[0].setPos(cPoint.getXReal(), cPoint.getYReal(), cPoint.getZReal());
 		
+		double distanceCenter = Physics_engine_toolbox.distance(getCenter(), points[0]);
+		
 		for (int i = 1; i < points.length; i++) {
+			
+			if (distanceCenter > maxSize) {
+				maxSize = distanceCenter;
+			}
 			
 			cPoint.setNext(new Polygon_point(this,points[i].getXReal(),points[i].getYReal(),points[i].getZReal()));
 			
@@ -712,6 +720,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			
 			points[i].setPos(cPoint.xReal, cPoint.yReal, cPoint.zReal);
+			
+			distanceCenter = Physics_engine_toolbox.distance(getCenter(), points[i]);
+			
 		}
 		
 		if (isShaded) calculateClosestPoints(); // gajhga ghagh reghgoiehg poh opH oPHH HGHSG HSGH SLG SRGHSR GIHRG OIHG WOPHOIGH GO IHWH OG HR GOERG H OHGHG
@@ -743,39 +754,42 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 		if (Settings.collision_algorithm == 5) {
 			
-			point cPoint;
+			if (Physics_engine_toolbox.distance(center, current_physics_object.getCenter()) < maxSize + current_physics_object.getMaxSize() + 2 * Settings.frameStep) {
+				
+				point cPoint;
 			
-			try {
-				
-				faces side = faces.none;
-				for (int i = 0; i < ((pointed) current_physics_object).getPoints().length; i++) {
-					cPoint = ((pointed) current_physics_object).getPoints()[i];
+				try {
 					
-					
-					if (cPoint.isIn(this)) {
-						System.out.println("Collision:");
+					faces side = faces.none;
+					for (int i = 0; i < ((pointed) current_physics_object).getPoints().length; i++) {
+						cPoint = ((pointed) current_physics_object).getPoints()[i];
 						
-						if (getHasNormalCollisions() && current_physics_object.getHasNormalCollisions()) {
-							collision(current_physics_object,cPoint, side);
-							current_physics_object.collision(this,cPoint, side);
+						
+						if (cPoint.isIn(this)) {
+							System.out.println("Collision:");
 							
-							current_physics_object.setPos(current_physics_object.getXSpeed()*drawer.getFrameStep() + current_physics_object.getCenterX(), current_physics_object.getYSpeed()*drawer.getFrameStep() + current_physics_object.getCenterY(), current_physics_object.getZSpeed()*drawer.getFrameStep() + current_physics_object.getCenterZ());
+							if (getHasNormalCollisions() && current_physics_object.getHasNormalCollisions()) {
+								collision(current_physics_object,cPoint, side);
+								current_physics_object.collision(this,cPoint, side);
+								
+								current_physics_object.setPos(current_physics_object.getXSpeed()*drawer.getFrameStep() + current_physics_object.getCenterX(), current_physics_object.getYSpeed()*drawer.getFrameStep() + current_physics_object.getCenterY(), current_physics_object.getZSpeed()*drawer.getFrameStep() + current_physics_object.getCenterZ());
+								
+								setPos(getXSpeed()*drawer.getFrameStep() + getCenterX(), getYSpeed()*drawer.getFrameStep() + getCenterY(), getZSpeed()*drawer.getFrameStep() + getCenterZ());
+							}else {
+								isCollided((physics_object) current_physics_object,side);
+								
+								current_physics_object.isCollided(this, side);
+							}
 							
-							setPos(getXSpeed()*drawer.getFrameStep() + getCenterX(), getYSpeed()*drawer.getFrameStep() + getCenterY(), getZSpeed()*drawer.getFrameStep() + getCenterZ());
-						}else {
-							isCollided((physics_object) current_physics_object,side);
+							System.out.println("--");
 							
-							current_physics_object.isCollided(this, side);
 						}
-						
-						System.out.println("--");
-						
 					}
+				}catch(ClassCastException c) {
+					System.out.println("catch: " + name);
+				}catch(NullPointerException n) {
+					
 				}
-			}catch(ClassCastException c) {
-				System.out.println("catch: " + name);
-			}catch(NullPointerException n) {
-				
 			}
 			
 			
@@ -978,6 +992,11 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	@Override
 	public void setIsTangible(boolean isTang) {
 		isTangible = isTang;
+	}
+
+	@Override
+	public double getMaxSize() {
+		return maxSize;
 	}
 	
 }

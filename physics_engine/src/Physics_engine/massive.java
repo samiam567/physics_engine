@@ -29,5 +29,7 @@ public interface massive extends pointed {
 	public double getMomentOfInertia();
 	public boolean getHasNormalCollisions();
 	public void setIsTangible(boolean b);
+	public point getCenter();
+	public double getMaxSize();
 	
 }
