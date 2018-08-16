@@ -10,9 +10,9 @@ public class Calculator_runner {
 	public enum eqTypes {Simple,Algebreic,Calculus,Command,MultiStep,None};
 	
 	
-	public static String version = "4.2.3";
+	public static String version = "4.2.4";
 	
-	public static int colorCounter = 0;
+	public static int colorCounter = -1;
 	public static Color[] colors = {Color.BLACK,Color.blue,Color.CYAN,Color.DARK_GRAY,Color.GREEN,Color.MAGENTA,Color.ORANGE,Color.PINK,Color.RED,Color.YELLOW}; 
 	public static String degRadMode = "deg";
 	public static eqTypes eqType = eqTypes.None;
@@ -53,8 +53,12 @@ public class Calculator_runner {
 		try {
 			Grapher.frame.setVisible(false);
 			
-			input = JOptionPane.showInputDialog(calculatorAnchor,"Type in what you want to solve");
-			System.out.println("Input: " + input);
+			input = "";
+			
+			while (input.length() == 0) {
+				input = JOptionPane.showInputDialog(calculatorAnchor,"Type in what you want to solve");
+				System.out.println("Input: " + input);
+			}
 			
 			Grapher.graphs.add(new Axis()); //adding the axis onto the graph screen
 			
@@ -111,16 +115,24 @@ public class Calculator_runner {
 	private static void displayErrors() {
 		String[] options = {"Next Error","Skip"};
 		String error;
-		for (int i = 0; i < errors.size(); i++) {
-			error = errors.get(i);
+
+		
 			
-			if (JOptionPane.showOptionDialog(calculatorAnchor, error, "Choose Game Game?", 1, 1,null, options, null) == 1) { //display the error and check if the user wants to skip the rest
+		while(errors.size() > 1) {
+			error = errors.get(0);
+			
+			if (JOptionPane.showOptionDialog(calculatorAnchor, error, "ERROR IN CALCULATION", 1, 1,null, options, null) == 1) { //display the error and check if the user wants to skip the rest
 				errors.clear();
 				break;
 			}
-			errors.remove(i); //remove the error from the list
+			errors.remove(0); //remove the error from the list
 		}
-	
+		
+		//displaying the last error
+		if (errors.size() > 0) {	
+			JOptionPane.showOptionDialog(calculatorAnchor, errors.get(errors.size()-1), "ERROR IN CALCULATION", 1, 1,null, options, null);
+		}
+		
 	}
 	
 	public static void WaitNanotime(long time) { //more accurate wait method for nanotime

@@ -50,7 +50,9 @@ public class Simple_calc implements Calculator{
 		boolean debug = false;
 		eq = eq.replaceAll(" ", ""); //get rid of annoying spaces
 		
-		eq = eq.replaceAll("ans", Calculator_runner.prevCalculation);
+		eq = eq.replaceAll("ans", Calculator_runner.prevCalculation.replaceAll("-", "_")); // replacing ans with the answer to the previous calculation (the replaceAll("-","_") is for answers that contain scientific notation ex: 4e-2)
+		
+		eq = eq.replaceAll("PI", "" + Math.PI);
 		
 		array eqArray = new array("double");
 	

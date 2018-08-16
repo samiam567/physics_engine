@@ -16,13 +16,15 @@ public class graph extends Canvas {
 	protected Color color;
 	
 	public graph() {
-		color = Calculator_runner.colors[Calculator_runner.colorCounter];
 		
-		if (Calculator_runner.colorCounter >= Calculator_runner.colors.length) {
+		if (Calculator_runner.colorCounter > Calculator_runner.colors.length) {
 			Calculator_runner.colorCounter = 0;
 		}else {
 			Calculator_runner.colorCounter++;
 		}
+		
+		color = Calculator_runner.colors[Calculator_runner.colorCounter];
+		
 		
 	}
 

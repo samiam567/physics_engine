@@ -250,7 +250,13 @@ public class array {
 						repeat = true;
 						i++;
 					}catch(ArrayIndexOutOfBoundsException q) {
-						Calculator_runner.errors.add("BAD-INPUT in array.getValues \n Input: " + value);	
+						if (Calculator_runner.errors.size() <= 10) {
+							Calculator_runner.errors.add("BAD-INPUT in array.getValues \n Input: " + value);	
+						}else {
+							System.out.println("Error: too many errors");
+							Calculator_runner.errors.add("-Other Errors not displayed-");
+							break;
+						}
 					}
 				}while (repeat);
 			}
