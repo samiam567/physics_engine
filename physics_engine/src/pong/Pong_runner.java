@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+
 import javax.swing.JOptionPane;
 import Physics_engine.FCPS_display;
 import Physics_engine.FPS_display;
@@ -15,14 +18,16 @@ import Physics_engine.array;
 import Physics_engine.border_bounce;
 import Physics_engine.object_draw;
 import Physics_engine.physicsRunner;
+import Physics_engine.point;
 
 public class Pong_runner extends physicsRunner{
 
-	public static final String Version = "2.1.4";
+	public static final String Version = "2.2.0";
 	
 	
 	public static boolean cheatMode = false;
 	
+	public static boolean mouseControl = false;
 	
 	public static boolean p2AI = false;
 	public static double gameSetSpeed = 1; //speeds up or slows down all aspects of the game
@@ -103,7 +108,7 @@ public class Pong_runner extends physicsRunner{
 		drawer.start();
 		
 		
-		for (int i = 0; i < 4000; i++) {
+		for (int i = 0; i < 1000; i++) {
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e1) {
@@ -118,13 +123,57 @@ public class Pong_runner extends physicsRunner{
 		
 		
 		
+		//mouse motion listener
+		drawer.addMouseMotionListener( new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {	
+
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				
+				mouseControl = true;
+				nearPaddle.affectedByBorder = false;
+			
+			//	nearPaddle.setSpeed(e.getX() - nearPaddle.getCenterX() ,nearPaddle.getCenterY() - e.getY(),nearPaddle.getCenterZ());
+			//	nearPaddle.setPos(e.getX(), e.getY(), nearPaddle.getCenterZ());
+				
+			
+					if ((e.getX() - nearPaddle.getCenterX()) > 15) {
+						nearPaddle.setSpeed(200,nearPaddle.getYSpeed(),nearPaddle.getZSpeed());
+						
+					}else if ((e.getX() - nearPaddle.getCenterX()) < -15){
+						nearPaddle.setSpeed(-200,nearPaddle.getYSpeed(),nearPaddle.getZSpeed());
+					}else {
+						nearPaddle.setSpeed(0, nearPaddle.getYSpeed(), nearPaddle.getZSpeed());
+					}
+					
+					if ((e.getY() - nearPaddle.getCenterY()) > 15) {
+						nearPaddle.setSpeed(nearPaddle.getXSpeed(),200,nearPaddle.getZSpeed());
+						
+					}else if ((e.getY() - nearPaddle.getCenterY()) < -15) {
+						nearPaddle.setSpeed(nearPaddle.getXSpeed(),-200,nearPaddle.getZSpeed());
+					}else {
+						nearPaddle.setSpeed(nearPaddle.getXSpeed(), 0, nearPaddle.getZSpeed());
+					}
+				
+				
+			}
+			
+		});
+		
 		//key listener
 		drawer.addKeyListener(new KeyListener() {
 			   
 			@Override
 	         public void keyPressed(KeyEvent e) {
 	        	  drawer.inactivity_timer = 0;      	     	
-
+	        	  
+	        	  mouseControl = false;
+	        	  nearPaddle.affectedByBorder = true;
+					
 	        	  //player1
 	        	  switch (e.getKeyCode()) {
 	        	  	case(87): //w
@@ -240,6 +289,10 @@ public class Pong_runner extends physicsRunner{
 		while (frame.isShowing()) {
 			try {
 				Thread.sleep(100);
+			
+				if (mouseControl) nearPaddle.setSpeed(0, 0, 0);
+				farPaddle.setSpeed(0, 0, 0);
+				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
