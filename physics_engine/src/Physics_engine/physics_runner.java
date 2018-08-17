@@ -45,7 +45,9 @@ public class physics_runner extends physicsRunner {
 			
 		New_object_listeners newObs = new New_object_listeners(drawer);
 		
-
+		Square sq = new Square(drawer, 500,200,0,50,10);
+		sq.setSpeed(-5, 0, 0);
+		drawer.add(sq);
 
 		drawer.start();
 		

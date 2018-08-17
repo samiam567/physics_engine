@@ -1,124 +1,38 @@
 --------------------------------------------------------------------------------------
-Catagory Names:
-Med Administration
-Math
-Basic Nursing Skills
-Antepartum
-Intrapartum
-Newborn
-Postpartum
-Cultural/Spiritual
-Documentation
-Leadership
-Legal/Ethical
-Nursing Process
-Research/Theory
-Teaching
-Abuse
-Anxty/Commnictns
-Depress/Grief
-Psychoses
-Cardiovascular
-Endocrine
-GI/Hepatic
-Gwth & Devlp
-Immune/Hematology
-Integumentary
-Musculoskeletal
-Neurological
-Oncology
-Operative
-Physical Assessment
-Renal
-Respiratory
-Reproductive
-Sensory
  
-Catagory Scores (in the same order as the names):
-857
-869
-914
-997
-271
-629
-1011
-924
-860
-1137
-1102
-857
-988
-1093
-752
-868
-1114
-621
-994
-849
-889
-939
-884
-799
-1022
-853
-673
-985
-884
-1079
-871
-645
-813
- 
-Retrieving student from database
-Waiting for database to load... please wait
-Database loaded
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-printing to the screen
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
-green
+Printing to file
 --------------------------------------------------------------------------------------
+Psychoses   Score: 621 Questions: 5 RedZone
+Oncology   Score: 673 Questions: 5 RedZone
+Reproductive   Score: 645 Questions: 4 RedZone
+Intrapartum   Score: 271 Questions: 2 RedZone
+Newborn   Score: 629 Questions: 2 RedZone
+Endocrine   Score: 849 Questions: 14 YellowZone
+Integumentary   Score: 799 Questions: 7 YellowZone
+Abuse   Score: 752 Questions: 6 YellowZone
+Sensory   Score: 813 Questions: 4 YellowZone
+Basic Nursing Skills   Score: 914 Questions: 48 GreenZone
+Nursing Process   Score: 857 Questions: 37 GreenZone
+Physical Assessment   Score: 884 Questions: 29 GreenZone
+Med Administration   Score: 857 Questions: 25 GreenZone
+Leadership   Score: 1137 Questions: 22 GreenZone
+Neurological   Score: 853 Questions: 21 GreenZone
+Cardiovascular   Score: 994 Questions: 21 GreenZone
+Teaching   Score: 1093 Questions: 18 GreenZone
+Respiratory   Score: 871 Questions: 17 GreenZone
+GI/Hepatic   Score: 889 Questions: 15 GreenZone
+Legal/Ethical   Score: 1102 Questions: 15 GreenZone
+Immune/Hematology   Score: 884 Questions: 12 GreenZone
+Musculoskeletal   Score: 1022 Questions: 9 GreenZone
+Renal   Score: 1079 Questions: 8 GreenZone
+Operative   Score: 985 Questions: 7 GreenZone
+Gwth & Devlp   Score: 939 Questions: 6 GreenZone
+Documentation   Score: 860 Questions: 5 GreenZone
+Math   Score: 869 Questions: 5 GreenZone
+Anxty/Commnictns   Score: 868 Questions: 4 GreenZone
+Cultural/Spiritual   Score: 924 Questions: 4 GreenZone
+Antepartum   Score: 997 Questions: 3 GreenZone
+Postpartum   Score: 1011 Questions: 3 GreenZone
+Depress/Grief   Score: 1114 Questions: 2 GreenZone
+Research/Theory   Score: 988 Questions: 1 GreenZone
  
-Terminating program

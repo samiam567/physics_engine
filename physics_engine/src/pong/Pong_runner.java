@@ -288,7 +288,7 @@ public class Pong_runner extends physicsRunner{
 		//wait for the user to close the window to end the game
 		while (frame.isShowing()) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(600);
 			
 				if (mouseControl) nearPaddle.setSpeed(0, 0, 0);
 				farPaddle.setSpeed(0, 0, 0);

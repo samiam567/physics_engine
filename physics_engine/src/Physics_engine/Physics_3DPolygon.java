@@ -46,9 +46,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	protected boolean hasNormalCollisions = true;
 	private int numberOfPoints;
 	
-	private massive objectJustHit = this;
-	private int obJustHitCounter = 0;
-	
 	private boolean momentOfInertiaCalculated = false; 
 	
 	private point pointConstCenterInitial; //where the center was the last time the point constants were updated
@@ -754,10 +751,10 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	
 	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { 
-	//	System.out.println(obJustHitCounter);
+	
 		if (Settings.collision_algorithm == 5) {
 			
-			if ((! objectJustHit.equals(current_physics_object)) && (Physics_engine_toolbox.distance(center, current_physics_object.getCenter()) < maxSize + current_physics_object.getMaxSize() + 1 + 100 * Settings.frameStep)) {
+			if ((Physics_engine_toolbox.distance(center, current_physics_object.getCenter()) < maxSize + current_physics_object.getMaxSize() + 1 + 100 * Settings.frameStep)) {
 				
 				point cPoint;
 			
@@ -771,12 +768,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 						if (cPoint.isIn(this)) {
 							System.out.println("Collision:");
 							
-							objectJustHit = current_physics_object;
-							obJustHitCounter = (int) (10000 * Settings.frameStep);
-							
-							((Physics_3DPolygon) current_physics_object).objectJustHit = this;
-							((Physics_3DPolygon) current_physics_object).obJustHitCounter = (int) (10000 * Settings.frameStep);
-							
+						
 							if (getHasNormalCollisions() && current_physics_object.getHasNormalCollisions()) {
 								collision(current_physics_object,cPoint, side);
 								current_physics_object.collision(this,cPoint, side);
@@ -791,21 +783,16 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 							}
 							
 							System.out.println("--");
-							
+							break;
 						}
 					}
 				}catch(ClassCastException c) {
 					System.out.println("catch: " + name);
-				}catch(NullPointerException n) {
-					
+				}catch(NullPointerException n) {				
 				}
+				
 			}
-			//objectJustHit = this; //reset object just hit (this is basically nullifying it)
-			if (obJustHitCounter <= 0) {
-				objectJustHit = this; //reset object just hit (this is basically nullifying it)
-			} else {
-				obJustHitCounter--;
-			}
+	
 			
 			
 			
