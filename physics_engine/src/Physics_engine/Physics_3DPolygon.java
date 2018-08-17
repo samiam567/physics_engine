@@ -46,6 +46,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	protected boolean hasNormalCollisions = true;
 	private int numberOfPoints;
 	
+	private massive objectJustHit = this;
+	private int obJustHitCounter = 0;
+	
 	private boolean momentOfInertiaCalculated = false; 
 	
 	private point pointConstCenterInitial; //where the center was the last time the point constants were updated
@@ -743,7 +746,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 		
 				//bouncing
-				setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() * cObject.getMass() - ySpeed * getMass()) / getMomentOfInertia())) * 10 - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) / getMomentOfInertia())) * 10);
+				//setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() * cObject.getMass() - ySpeed * getMass()) / getMomentOfInertia())) * 10 - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) / getMomentOfInertia())) * 10);
 				
 				setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * (cOb.getXSpeed() - getXSpeed()),((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getYSpeed() - getYSpeed()) ,((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getZSpeed() - getZSpeed()) );}
 			
@@ -751,10 +754,10 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	
 	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { 
-		
+	//	System.out.println(obJustHitCounter);
 		if (Settings.collision_algorithm == 5) {
 			
-			if (Physics_engine_toolbox.distance(center, current_physics_object.getCenter()) < maxSize + current_physics_object.getMaxSize() + 2 * Settings.frameStep) {
+			if ((! objectJustHit.equals(current_physics_object)) && (Physics_engine_toolbox.distance(center, current_physics_object.getCenter()) < maxSize + current_physics_object.getMaxSize() + 1 + 100 * Settings.frameStep)) {
 				
 				point cPoint;
 			
@@ -768,13 +771,19 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 						if (cPoint.isIn(this)) {
 							System.out.println("Collision:");
 							
+							objectJustHit = current_physics_object;
+							obJustHitCounter = (int) (10000 * Settings.frameStep);
+							
+							((Physics_3DPolygon) current_physics_object).objectJustHit = this;
+							((Physics_3DPolygon) current_physics_object).obJustHitCounter = (int) (10000 * Settings.frameStep);
+							
 							if (getHasNormalCollisions() && current_physics_object.getHasNormalCollisions()) {
 								collision(current_physics_object,cPoint, side);
 								current_physics_object.collision(this,cPoint, side);
 								
 								current_physics_object.setPos(current_physics_object.getXSpeed()*drawer.getFrameStep() + current_physics_object.getCenterX(), current_physics_object.getYSpeed()*drawer.getFrameStep() + current_physics_object.getCenterY(), current_physics_object.getZSpeed()*drawer.getFrameStep() + current_physics_object.getCenterZ());
 								
-								setPos(getXSpeed()*drawer.getFrameStep() + getCenterX(), getYSpeed()*drawer.getFrameStep() + getCenterY(), getZSpeed()*drawer.getFrameStep() + getCenterZ());
+								setPos(getXSpeed()*10*drawer.getFrameStep() + getCenterX(), getYSpeed()*10*drawer.getFrameStep() + getCenterY(), getZSpeed()*10*drawer.getFrameStep() + getCenterZ());
 							}else {
 								isCollided((physics_object) current_physics_object,side);
 								
@@ -791,6 +800,13 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 					
 				}
 			}
+			//objectJustHit = this; //reset object just hit (this is basically nullifying it)
+			if (obJustHitCounter <= 0) {
+				objectJustHit = this; //reset object just hit (this is basically nullifying it)
+			} else {
+				obJustHitCounter--;
+			}
+			
 			
 			
 		}else {

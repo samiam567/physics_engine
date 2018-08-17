@@ -45,10 +45,8 @@ public class physics_runner extends physicsRunner {
 			
 		New_object_listeners newObs = new New_object_listeners(drawer);
 		
-		Sphere sp = new Sphere(drawer,500,500,0,100,10,Math.PI/50);
-		sp.setAngularVelocity(0.1, 0.2, 0.3);
-		sp.isShaded = false;
-		drawer.add(sp);
+
+
 		drawer.start();
 		
 		waitForEnd();
