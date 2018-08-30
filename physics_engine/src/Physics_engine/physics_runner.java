@@ -46,10 +46,48 @@ public class physics_runner extends physicsRunner {
 		New_object_listeners newObs = new New_object_listeners(drawer);
 		
 		Square sq = new Square(drawer, 500,200,0,50,10);
-		sq.setSpeed(-5, 0, 0);
+		
+	
+		
+		Square sq2 = new Square(drawer, Settings.width/2,Settings.height/2,0,50,10);
+		
+		
+		sq.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,0));
+		
+		PointSet xAxis = new PointSet(drawer);
+		xAxis.addPoint(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
+		xAxis.addPoint(new point(drawer,2*Settings.width/3,1 + Settings.height/2,Settings.depth/2));
+		xAxis.initialize();
+		xAxis.finish();
+		xAxis.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
+		xAxis.setParentObject(sq);
+	
+		PointSet yAxis = new PointSet(drawer);
+		yAxis.addPoint(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
+		yAxis.addPoint(new point(drawer,1+Settings.width/2,Settings.height/3,Settings.depth/2));
+		yAxis.initialize();
+		yAxis.finish();
+		yAxis.setParentObject(xAxis);
+		yAxis.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
+		
+		
+		PointSet zAxis = new PointSet(drawer);
+		zAxis.addPoint(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
+		zAxis.addPoint(new point(drawer,1+Settings.width/2,1+Settings.height/2,Settings.depth/2 - Settings.height/3));
+		zAxis.initialize();
+		zAxis.finish();
+		zAxis.setParentObject(xAxis);
+		zAxis.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
+		
+		
+		drawer.add(xAxis);
+		drawer.add(yAxis);
+		drawer.add(zAxis);
 		drawer.add(sq);
+		
 
 		drawer.start();
+		
 		
 		waitForEnd();
 		

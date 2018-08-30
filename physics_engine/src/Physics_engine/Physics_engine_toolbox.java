@@ -171,14 +171,9 @@ public class Physics_engine_toolbox {
 			((pointed) current_object).updatePointXsYsAndZs();
 			((pointed) current_object).updateAreas();
 			
-			if (((pointed) current_object).getPointOfRotationPlace() != pointOfRotationPlaces.center) {
-				
-				((pointed) current_object).updatePointConstants();
-				((pointed) current_object).updatePoints();
+	
+			((pointed) current_object).updatePoints();
 			
-			}else {
-				((pointed) current_object).updatePoints();
-			}
 			
 
 		}catch(ClassCastException c) {

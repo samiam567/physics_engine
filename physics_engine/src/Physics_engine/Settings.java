@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.10.5";
+	public static final String version = "4.11.0";
 	
 	
 	public static int width = 1500;
@@ -19,7 +19,7 @@ public class Settings {
 	
 	public static final double elasticity = 1; //a number between 0 and 1
 	
-	
+
 	public static boolean perspective = false;
 	public static double distanceFromScreenMeters = 0.3025; //the distance in meters the viewer is away from the screen
 	public static final double distanceFromScreen = distanceFromScreenMeters / 0.000115; //should not be changed

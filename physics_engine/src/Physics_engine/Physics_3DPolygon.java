@@ -409,14 +409,30 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 		pointOfRotationPlace = pointOfRotationPlaces.custom;
 		
-		calculatePointValues();
+		instantiatePointOfRotation();
 	
+	}
+	
+	private void instantiatePointOfRotation() {
+		double xRot = xRotation;
+		double yRot = yRotation;
+		double zRot = zRotation;
+		
+		setRotation(0,0,0);
+		
+		calculatePointValues();
+		
+		setRotation(xRot,yRot,zRot);
+		
 	}
 	
 	public void setPointOfRotationPlace(pointOfRotationPlaces newPlace) {
 		pointOfRotationPlace = newPlace;
 
 		updatePointOfRotation();
+		
+		instantiatePointOfRotation();
+	
 	}
 	
 	private void updateMomentOfInertia() {
@@ -656,6 +672,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	}
 	
 	public void updatePointConstants() {
+		
 		Polygon_point cPoint = polyPointsStart;
 		double[] rotation = {getXRotation(),getYRotation(),getZRotation()};
 		setRotation(0,0,0);
