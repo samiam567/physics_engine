@@ -77,7 +77,6 @@ public class JetPack_JoyRide extends physicsRunner {
 	}
 	
 	public static void run() {
-		drawer = new object_draw(frame);
 		init();
 	}
 	
@@ -401,7 +400,7 @@ public class JetPack_JoyRide extends physicsRunner {
 		distanceHighScoreBoard.setScore(distanceHighScore);	
 	
 		
-	//	drawer.doFrame(50);
+
 		
 		drawer.resume();
 	}

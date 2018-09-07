@@ -46,12 +46,12 @@ public class Pong_runner extends physicsRunner{
 	public static double diagonal = Math.sqrt(Math.pow(Settings.width,2) + Math.pow(Settings.height,2));
 	
 	public static void main(String[] args) {
-		drawer = new object_draw(frame);
+		
 		run();
 	}
 	
 	public static void run() {
-		
+		drawer = new object_draw(frame);
 		frame = (Pong_frame) frame;
 		gameSpeed = gameSetSpeed * diagonal/100;
 

@@ -47,12 +47,15 @@ public class physics_runner extends physicsRunner {
 		
 		Square sq = new Square(drawer, 500,200,0,50,10);
 		
-	
+		Sphere sp = new Sphere(drawer,Settings.width/2 + 50 ,Settings.height/2 - 50,Settings.depth/2 - 50 ,100,10,Settings.thetaStep);
+		
+		sp.isTangible = false;
+		sp.isShaded = false;
 		
 		Square sq2 = new Square(drawer, Settings.width/2,Settings.height/2,0,50,10);
 		
 		
-		sq.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,0));
+		sp.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
 		
 		PointSet xAxis = new PointSet(drawer);
 		xAxis.addPoint(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
@@ -60,7 +63,7 @@ public class physics_runner extends physicsRunner {
 		xAxis.initialize();
 		xAxis.finish();
 		xAxis.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
-		xAxis.setParentObject(sq);
+		xAxis.setParentObject(sp);
 	
 		PointSet yAxis = new PointSet(drawer);
 		yAxis.addPoint(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
@@ -83,10 +86,12 @@ public class physics_runner extends physicsRunner {
 		drawer.add(xAxis);
 		drawer.add(yAxis);
 		drawer.add(zAxis);
-		drawer.add(sq);
+		drawer.add(sp);
 		
 
 		drawer.start();
+		
+		sp.setAngularVelocity(0.1, 0, 0.1);
 		
 		
 		waitForEnd();

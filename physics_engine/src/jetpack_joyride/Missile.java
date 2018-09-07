@@ -49,8 +49,6 @@ public class Missile extends rectangle {
 			setSpeed(xSpeed,0,0);
 		}
 		
-		setSpeed(-JetPack_JoyRide.jetpack_speed*missileSpeedMultiplier, ySpeed,0);
-		
 	}
 	
 	public void paint(Graphics page) {
