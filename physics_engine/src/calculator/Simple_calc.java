@@ -18,11 +18,11 @@ public class Simple_calc implements Calculator{
 		String op = "";
 		
 		for(String cOp : Calculator_runner.operations) {
-			if (eq.contains(cOp)) {
+			if (eq.contains(cOp.substring(1))) {
 				if (op == "") {
-					op = cOp;
+					op = cOp.substring(1);
 				}else{ //there has already been an operation assigned!
-					if (op.contains(cOp)) { //this means that the real operation has another inside it (atan and tan) and therefore isn't a problem
+					if (op.contains(cOp.substring(1))) { //this means that the real operation has another inside it (atan and tan) and therefore isn't a problem
 						
 					}else {
 						return "multi-op";

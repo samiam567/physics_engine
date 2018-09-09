@@ -10,7 +10,7 @@ public class Calculator_runner {
 	public enum eqTypes {Simple,Algebreic,Calculus,Command,MultiStep,None};
 	
 	
-	public static String version = "4.2.4";
+	public static String version = "4.3.0";
 	
 	public static int colorCounter = -1;
 	public static Color[] colors = {Color.BLACK,Color.blue,Color.CYAN,Color.DARK_GRAY,Color.GREEN,Color.MAGENTA,Color.ORANGE,Color.PINK,Color.RED,Color.YELLOW}; 
@@ -18,7 +18,7 @@ public class Calculator_runner {
 	public static eqTypes eqType = eqTypes.None;
 	public static String input;
 	public static double answer;
-	public static String[] operations = {"rev/min","rev/sec","sqrt","pow","sq","sin","cos","tan","*","/","++","+","-"};
+	public static String[] operations = {"0rev/min","0rev/sec","1sin","1cos","1tan","2sqrt","2pow","2sq","3*","3/","4+","4-"}; //[priority(lower#=highPriority)][operation]
 	public static String[] commands = {"/degRadMode","/help","/move"};
 	public static int[] numbers = {1,2,3,4,5,6,7,8,9,0};
 	
@@ -27,6 +27,8 @@ public class Calculator_runner {
 	public static ArrayList<String> errors = new ArrayList<String>();
 
 	public static String prevCalculation = "0";
+
+	public static final boolean debug = false;
 	
 	public static void main(String[] args) {
 		run();

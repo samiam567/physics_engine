@@ -8,8 +8,8 @@ public class MultiStep_calc {
 	private String input;
 	private String input_original;
 	private double answer;
-	private array[] ops = new array[(Calculator_runner.operations).length];
-	private array allOps = new array("int");
+	private array ops; //ops in the order of order of operations
+	private array allOps = new array("int"); //ops in the order that they appear in the input
 	
 	
 	public MultiStep_calc(String input1) {
@@ -25,53 +25,75 @@ public class MultiStep_calc {
 	
 	public void getOperations() {
 		
+		
 		boolean debug = false;
 		
 		//resetting arrays
-		ops = new array[(Calculator_runner.operations).length];
+		ops = new array("int");
 		allOps = new array("int");
 		
-		//setting up op arrays
-		for (int i = 0; i < ops.length; i++) {
-			ops[i] = new array("int");
-			ops[i].setValues(new int[] {});
+		String input_temp = input, testStr = "",cOp;  
+		int opPriority = 0,addIndx,opIndex;
+		
+		while (opPriority < Calculator_runner.operations.length ) { //stop when the priority is greater than the number of operations (this works because it is the max value that the priority could get to if each op's priority increased by one each operation)
+			
+			for (int i = 0; i < input.length(); i++) { //iterate through the eq
+				
+				for  (String op : Calculator_runner.operations) {
+					
+					//if (debug) System.out.print("op: " + op + " ~  current priority: " + opPriority + " ~ " );
+					
+					if (Integer.parseInt(op.substring(0,1)) == opPriority) { //check if the operation is of the current priority level
+						
+						//if (debug) System.out.println("true");
+						
+						
+						cOp = op.substring(1); //removes the priority indicator from the op (ex: 3+ -> + )
+						
+						if (i + cOp.length() < input.length()) {
+							testStr = input.substring(i, i + cOp.length());
+						
+
+							//testing if the testStr is equal to the cOp
+							if (debug) System.out.print("if " + testStr + " equals " + cOp + " ~ ");
+							if (testStr.equals(cOp)) {
+								
+								if (debug) System.out.println("true");
+								
+								//adding this op's index to the appropriate list  AND   adding this op's index to the list of all the ops
+								opIndex = input_temp.indexOf(cOp);
+								ops.add(opIndex);
+								allOps.add(opIndex);					
+		
+								//getting ready for next test
+								try {
+									input_temp = input_temp.replaceFirst(cOp, " ");
+								}catch(PatternSyntaxException e) {
+									input_temp = input_temp.replaceFirst("\\" + cOp, " ");
+								}
+								
+								i += cOp.length();
+								
+							}else if (debug) System.out.println("false");
+						}
+						
+					}//else if (debug) System.out.println("false");
+					
+				}
+				
+			}
+			
+			opPriority++;
+			
 		}
 		
-		boolean retest = false;
-		String cOp;
-		int opIndex;
-		String input_temp = input;
-		for (int i = 0; i < (Calculator_runner.operations).length; i++) {
-			cOp = (Calculator_runner.operations)[i];
-			do {
-				if (debug) System.out.print(cOp + " : " + input_temp +  " > ");
-				if (input_temp.contains(cOp)) {
-					
-					//adding this op's index to the appropriate list  AND   adding this op's index to the list of all the ops
-					opIndex = input_temp.indexOf(cOp);
-					ops[i].add(opIndex);
-					allOps.add(opIndex);
-					
-					//getting ready for next test
-					try {
-						input_temp = input_temp.replaceFirst(cOp, " ");
-					}catch(PatternSyntaxException e) {
-						input_temp = input_temp.replaceFirst("\\" + cOp, " ");
-					}
-					if (debug) System.out.println("true");
-					retest = true;
-				}else { 
-					if (debug) System.out.println("false");
-					retest = false;
-				}
-			}while(retest);
-		}
+	
 		
 		//test output
 		if (debug) {
-			for (array cArray : ops) {
-				System.out.println(cArray);
-			}
+			
+			System.out.println(ops);
+			
 		}
 		
 		if (debug) System.out.println("AllOps: " + allOps);
@@ -83,22 +105,32 @@ public class MultiStep_calc {
 	}
 
 
-	public static int checkForMultiOp(String eq) { //returns the number of operations in a string
-		boolean retest = false;
+	public static int checkForMultiOp(String eq) { //returns the number of operations in a string     eq stands for equation
+		 
 		boolean debug = false;
-		int counter = 0;
+		
+		
+		
+		if (debug) System.out.println("--checkForMultiOp--");
+		
+		//op stands for operation and cOp stands for current operation
+		
+		boolean retest = false;
 		String cOp;
-		int opIndex;
+		int counter = 0;
 		String input_temp = eq;
 		for (int i = 0; i < (Calculator_runner.operations).length; i++) {
-			cOp = (Calculator_runner.operations)[i];
+			
+			if (debug) System.out.println("i: " + i);
+			
+			cOp = (Calculator_runner.operations)[i].substring(1);
 			do {
 				if (debug) System.out.print(cOp + " : " + input_temp +  " > ");
+				
 				if (input_temp.contains(cOp)) {
 					
-					//adding this op's index to the appropriate list  AND   adding this op's index to the list of all the ops
-					opIndex = input_temp.indexOf(cOp);
-					counter++;
+			
+					counter++; //add to the count
 					
 					//getting ready for next test
 					try {
@@ -114,6 +146,9 @@ public class MultiStep_calc {
 				}
 			}while(retest);
 		}
+		
+		if (debug) System.out.println("OP COUNT: " + counter);
+		
 		return counter;
 	}
 	
@@ -134,22 +169,22 @@ public class MultiStep_calc {
 		String cOpSubStr = "";
 		
 		do { //use as do while loop to make sure there are no residual ops that were missed
-			for (int i = 0; i < ops.length; i++) {
-				cOp = (Calculator_runner.operations)[i];
-				if (debug) System.out.println("cOp: " + cOp);
-				for (int a = 0; a < ops[i].getArray(1).length; a++) {
-					opIndex = ops[i].getArray(1)[a];
-					getOperations(); //getting all the ops lists
-					if (debug) System.out.println("i: " + i +  " a: " + a);
+			
+			for (int a = 0; a < ops.getArray(1).length; a++) {
 					
-					if (debug) System.out.println("Array " + ops[i]);
+					opIndex = ops.getArray(1)[a];
+					
+					getOperations();
+					
+					if (debug) System.out.println(" a: " + a);
+					
+					if (debug) System.out.println("Array " + ops);
 	
+					
 					//finding the start and end of the sub calculation -=-=-=-=-=-=-=-=-=-
-					
-					
-					
+
 					try {					
-						opIndex = ops[i].getArray(1)[a];
+						opIndex = ops.getArray(1)[a];
 						opIndexInAllOps = allOps.indexOf(opIndex) - 1;
 						startOfSubCalc = allOps.getArray(1)[opIndexInAllOps] + 1;
 					}catch(ArrayIndexOutOfBoundsException e) {
@@ -158,7 +193,7 @@ public class MultiStep_calc {
 					}
 					
 					try {
-						opIndex = ops[i].getArray(1)[a];
+						opIndex = ops.getArray(1)[a];
 						opIndexInAllOps = allOps.indexOf(opIndex) + 1;
 						endOfSubCalc = (allOps.getArray(1)[opIndexInAllOps]);
 					}catch(ArrayIndexOutOfBoundsException q) {
@@ -176,15 +211,17 @@ public class MultiStep_calc {
 					sub_calc_ans = simp_calculator.calculate();
 					
 			
-					ans_Str = (String)( "" + sub_calc_ans);
+					ans_Str = (String) ( "" + sub_calc_ans).replaceAll("-", "_"); //use replaceAll("-", "_") in case the answer to the subCalculation is negative
 					
 					if (debug) System.out.println("Replace " + cOpSubStr + " in " + input + " with " + ans_Str);
 					input = input.replace(cOpSubStr,ans_Str);
 					
 					if (debug) System.out.println("NewInp " + input);
 				}
-			}
+			
 		}while (checkForMultiOp(input) > 0);
+		
+		input = input.replaceAll("_", "-"); //turn the "_" signs into "-" to allow to be converted into a double
 		
 		answer = Double.parseDouble(input); // set the answer to the input (which now = the answer)
 		input = input_original; //reset the input
@@ -199,8 +236,8 @@ public class MultiStep_calc {
 		//updating previous answer
 		Calculator_runner.prevCalculation = "" + answer;
 				
-		System.out.println(answer);
-		System.out.println("Output " + answer);
+		
+		if (Calculator_runner.debug) System.out.println("Output " + answer);
 		JOptionPane.showMessageDialog(Calculator_runner.calculatorAnchor, "" + answer);
 	}
 	

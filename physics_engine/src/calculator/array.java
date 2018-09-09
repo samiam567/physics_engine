@@ -235,6 +235,7 @@ public class array {
 				value = value.replaceFirst("_", "-");
 			}
 		
+			
 			arrayListString = value.split(delimiter);
 			
 		
