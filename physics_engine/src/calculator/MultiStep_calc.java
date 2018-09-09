@@ -155,7 +155,7 @@ public class MultiStep_calc {
 	public double calculate() {
 		getOperations(); //getting all the ops lists
 		
-		boolean debug = false;
+		boolean debug = true;
 		input = input_original; //reseting the input to the original input that the user put in in case of tampering (which there has been from the getOperations Method)
 		//setting up vars
 		String cOp = "";
@@ -172,8 +172,6 @@ public class MultiStep_calc {
 			
 			for (int a = 0; a < ops.getArray(1).length; a++) {
 					
-					opIndex = ops.getArray(1)[a];
-					
 					getOperations();
 					
 					if (debug) System.out.println(" a: " + a);
@@ -184,7 +182,7 @@ public class MultiStep_calc {
 					//finding the start and end of the sub calculation -=-=-=-=-=-=-=-=-=-
 
 					try {					
-						opIndex = ops.getArray(1)[a];
+						opIndex = ops.getArray(1)[0];
 						opIndexInAllOps = allOps.indexOf(opIndex) - 1;
 						startOfSubCalc = allOps.getArray(1)[opIndexInAllOps] + 1;
 					}catch(ArrayIndexOutOfBoundsException e) {
@@ -193,7 +191,7 @@ public class MultiStep_calc {
 					}
 					
 					try {
-						opIndex = ops.getArray(1)[a];
+						opIndex = ops.getArray(1)[0];
 						opIndexInAllOps = allOps.indexOf(opIndex) + 1;
 						endOfSubCalc = (allOps.getArray(1)[opIndexInAllOps]);
 					}catch(ArrayIndexOutOfBoundsException q) {
@@ -213,7 +211,7 @@ public class MultiStep_calc {
 			
 					ans_Str = (String) ( "" + sub_calc_ans).replaceAll("-", "_"); //use replaceAll("-", "_") in case the answer to the subCalculation is negative
 					
-					if (debug) System.out.println("Replace " + cOpSubStr + " in " + input + " with " + ans_Str);
+					if (Calculator_runner.debug) System.out.println("Replace " + cOpSubStr + " in " + input + " with " + ans_Str);
 					input = input.replace(cOpSubStr,ans_Str);
 					
 					if (debug) System.out.println("NewInp " + input);
