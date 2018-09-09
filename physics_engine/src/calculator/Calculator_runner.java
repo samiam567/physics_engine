@@ -10,7 +10,7 @@ public class Calculator_runner {
 	public enum eqTypes {Simple,Algebreic,Calculus,Command,MultiStep,None};
 	
 	
-	public static String version = "4.3.1";
+	public static String version = "4.3.2";
 	
 	public static int colorCounter = -1;
 	public static Color[] colors = {Color.BLACK,Color.blue,Color.CYAN,Color.DARK_GRAY,Color.GREEN,Color.MAGENTA,Color.ORANGE,Color.PINK,Color.RED,Color.YELLOW}; 
@@ -28,7 +28,7 @@ public class Calculator_runner {
 
 	public static String prevCalculation = "0";
 
-	public static final boolean debug = true;
+	public static final boolean debug = false;
 	
 	public static void main(String[] args) {
 		run();
@@ -135,6 +135,7 @@ public class Calculator_runner {
 			JOptionPane.showOptionDialog(calculatorAnchor, errors.get(errors.size()-1), "ERROR IN CALCULATION", 1, 1,null, options, null);
 		}
 		
+		errors.clear();
 	}
 	
 	public static void WaitNanotime(long time) { //more accurate wait method for nanotime

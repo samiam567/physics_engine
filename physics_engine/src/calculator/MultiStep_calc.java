@@ -155,7 +155,7 @@ public class MultiStep_calc {
 	public double calculate() {
 		getOperations(); //getting all the ops lists
 		
-		boolean debug = true;
+		boolean debug = false;
 		input = input_original; //reseting the input to the original input that the user put in in case of tampering (which there has been from the getOperations Method)
 		//setting up vars
 		String cOp = "";

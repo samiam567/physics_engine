@@ -209,6 +209,12 @@ public class array {
 		}else if (arrayType.equals(Type.Int)){
 			calculateSize(value);
 			arrayListInt = new int[length];
+			
+			// dealing with negatives (ex: _1 = -1)
+			while (value.contains("_")) {
+				value = value.replaceFirst("_", "-");
+			}
+						
 			arrayListString = value.split(delimiter);
 			
 			for (int i = 0; i < arrayListString.length; i++) {
@@ -231,7 +237,7 @@ public class array {
 			
 			
 			// dealing with negatives (ex: _1 = -1)
-			if (value.contains("_")) {
+			while (value.contains("_")) {
 				value = value.replaceFirst("_", "-");
 			}
 		
