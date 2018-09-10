@@ -10,7 +10,7 @@ public class Calculator_runner {
 	public enum eqTypes {Simple,Algebreic,Calculus,Command,MultiStep,None};
 	
 	
-	public static String version = "4.3.2";
+	public static String version = "4.3.3";
 	
 	public static int colorCounter = -1;
 	public static Color[] colors = {Color.BLACK,Color.blue,Color.CYAN,Color.DARK_GRAY,Color.GREEN,Color.MAGENTA,Color.ORANGE,Color.PINK,Color.RED,Color.YELLOW}; 
@@ -18,7 +18,8 @@ public class Calculator_runner {
 	public static eqTypes eqType = eqTypes.None;
 	public static String input;
 	public static double answer;
-	public static String[] operations = {"0rev/min","0rev/sec","1sin","1cos","1tan","2sqrt","2pow","2sq","3*","3/","4+","4-"}; //[priority(lower#=highPriority)][operation]
+	public static String[] operations = {"0rev/min","0rev/sec","1sin","1cos","1tan","2sqrt","2pow","2sq","3*","3/","4+","4-"}; //[priority(lower#=highPriority)][operation] PRIORITY CAN ONLY HAVE ONE DIGIT
+	public static String[] opsVisual; //ops w/out priority (created in the constructor of this class)
 	public static String[] commands = {"/degRadMode","/help","/move"};
 	public static int[] numbers = {1,2,3,4,5,6,7,8,9,0};
 	
@@ -39,6 +40,10 @@ public class Calculator_runner {
 		calculatorAnchor.setSize(300,10);
 		calculatorAnchor.setTitle("Calculator V" + version + "   Programmed by Alec Pannunzio");
 		
+		opsVisual = new String[operations.length];
+		for (int i = 0; i < operations.length; i++) {
+			opsVisual[i] = operations[i].substring(1);
+		}
 		
 		do {
 			runCalc();
@@ -172,7 +177,7 @@ public class Calculator_runner {
 				break;
 			case ("/help"):
 				array opsArray = new array("String");
-				opsArray.setValues(operations);
+				opsArray.setValues(opsVisual);
 				array commandsArray = new array("String");
 				commandsArray.setValues(commands);
 				System.out.println("Output: " + "Possible operations: " + opsArray + "\n Possible commands: " + commandsArray);
