@@ -10,6 +10,7 @@ import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.colorchooser.ColorSelectionModel;
 
@@ -217,19 +218,19 @@ public class Physics_engine_toolbox {
 		return num;
 	}
 	
-	public static double getDoubleFromUser(Physics_frame frame, String message) {
+	public static double getDoubleFromUser(JFrame calculatorAnchor, String message) {
 		
 		boolean error = false;
 		double num = 0;
 		
 		try {
-			String numStr = JOptionPane.showInputDialog(frame,message);
+			String numStr = JOptionPane.showInputDialog(calculatorAnchor,message);
 			num = Double.parseDouble(numStr);
 		}catch(NumberFormatException n) {
 			error = true;
 			while (error) {
 				try {
-					String numStr = JOptionPane.showInputDialog(frame,"Invalid Number\n" + message);
+					String numStr = JOptionPane.showInputDialog(calculatorAnchor,"Invalid Number\n" + message);
 					num = Double.parseDouble(numStr);
 					error = false;
 				}catch(NumberFormatException t) {

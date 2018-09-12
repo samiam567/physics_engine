@@ -4,10 +4,14 @@ import java.util.regex.PatternSyntaxException;
 
 import javax.swing.JOptionPane;
 
+import Physics_engine.Physics_engine_toolbox;
+import Physics_engine.Physics_frame;
+
 public class algebreic_calc {
 	int yPos;
 	array answers = new array("double");
 	array xPoses = new array("int");
+	private boolean solved = false;
 	int equalsPos;
 	String input;
 	String input_original;
@@ -123,6 +127,7 @@ public class algebreic_calc {
 		double testAns;
 		double ans_rounded;
 		double x_rounded;
+		
 		for (double x = 0; x < bound; x += xStep) {
 			input_temp = input_exe;
 			while (input_temp.contains("x")) {
@@ -139,8 +144,9 @@ public class algebreic_calc {
 			x_rounded =  Math.round(x * 1/(xStep));
 			x_rounded *= xStep;
 			
-			if (Math.abs(testAns-yTarget) < 0.000001) {
+			if (Math.abs(testAns-yTarget) < 0.0001) {
 				answers.add(x_rounded);
+				solved = true;
 			}
 			
 			eqGraph.addPoint(new point(x,ans_rounded));
@@ -171,6 +177,7 @@ public class algebreic_calc {
 			
 			if (Math.abs(testAns-yTarget) < 0.000001) {
 				answers.add(x_rounded);
+				solved = true;
 			}
 			
 			eqGraph.addPoint(new point(x_rounded,testAns));	
@@ -178,6 +185,13 @@ public class algebreic_calc {
 			if (debug) System.out.println("Ans: " + testAns);
 			
 		}	
+		
+		if (! solved) {
+			if (JOptionPane.showConfirmDialog(Calculator_runner.calculatorAnchor,"No solutions found. \n would you like to try again with a different xStep?", "retry solving?", 1, 1, null) == 0) {
+				xStep = Physics_engine_toolbox.getDoubleFromUser(Calculator_runner.calculatorAnchor, "what do you want the xStep to be? (smaller # = more precise) \n (it is currently " + xStep + ")");
+				calculate();
+			}
+		}
 	}
 	
 	public graph getGraph() {

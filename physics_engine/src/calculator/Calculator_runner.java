@@ -10,7 +10,7 @@ public class Calculator_runner {
 	public enum eqTypes {Simple,Algebreic,Calculus,Command,MultiStep,None};
 	
 	
-	public static String version = "4.3.3";
+	public static String version = "4.3.4";
 	
 	public static int colorCounter = -1;
 	public static Color[] colors = {Color.BLACK,Color.blue,Color.CYAN,Color.DARK_GRAY,Color.GREEN,Color.MAGENTA,Color.ORANGE,Color.PINK,Color.RED,Color.YELLOW}; 
