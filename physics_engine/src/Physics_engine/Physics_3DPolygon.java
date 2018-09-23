@@ -41,6 +41,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	private double maxSize; //the distance from the center that the furthest point is 
 	
+	private double prevXRotation = 0, prevYRotation = 0, prevZRotation = 0;
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
 	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,isShaded = false,calculateCenter = true;
 	protected boolean hasNormalCollisions = true;
@@ -55,7 +56,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	double xSizePrev,ySizePrev,zSizePrev,xSizeInit,ySizeInit,zSizeInit; //used to see if the size has changed
 	
-	
+	private double initialXDistanceFromPointOfRot,initialYDistanceFromPointOfRot,initialZDistanceFromPointOfRot;
 	
 	private class Polygon_point extends point {
 		
@@ -306,7 +307,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public void updatePoints() { //creates a vector from the pointOfRotation to each point in the object			
 		
 		if (isRotatable){
-			
+	
 			Polygon_point cPoint = polyPointsStart;
 			int pointCounter = 0;
 			double[] rotComponents;
@@ -315,6 +316,10 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			double xI = pointOfRotation.getXReal();
 			double yI = pointOfRotation.getYReal();
 			double zI = pointOfRotation.getZReal();
+			
+			double shiftX = (centerX-xI) - initialXDistanceFromPointOfRot;
+			double shiftY = (centerY-yI) - initialYDistanceFromPointOfRot;
+			double shiftZ = (centerZ-zI) - initialZDistanceFromPointOfRot;
 			
 		/*	
 			double xI = centerX;
@@ -343,7 +348,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			do {
 				try {
 			
-					cPoint.setPos(pointOfRotation.getXReal() + cPoint.initialXComponent * xSizeAppearance/xSizeInit, pointOfRotation.getYReal() + cPoint.initialYComponent * ySizeAppearance/ySizeInit, pointOfRotation.getZReal() + cPoint.initialZComponent * zSizeAppearance/zSizeInit);
+					cPoint.setPos(pointOfRotation.getXReal()  + cPoint.initialXComponent * xSizeAppearance/xSizeInit, pointOfRotation.getYReal() + cPoint.initialYComponent * ySizeAppearance/ySizeInit, pointOfRotation.getZReal() + cPoint.initialZComponent * zSizeAppearance/zSizeInit);
 		
 					
 					//zRotation
@@ -358,7 +363,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				
 					//yRotation
 					rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getZReal(),yRotation);
-					cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0] + xI, cPoint.getYReal() + yI, pointOfRotation.getZReal() + rotComponents[1] + zI);
+					cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0] + xI + shiftX , cPoint.getYReal() + yI + shiftY , pointOfRotation.getZReal() + rotComponents[1] + zI + shiftZ );
 					
 					
 	
@@ -413,7 +418,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	}
 	
-	private void instantiatePointOfRotation() {
+	public void instantiatePointOfRotation() {
 		double xRot = xRotation;
 		double yRot = yRotation;
 		double zRot = zRotation;
@@ -716,6 +721,11 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		cPoint.initialXComponent = cPoint.getXReal() - pointOfRotation.getXReal();
 		cPoint.initialYComponent = cPoint.getYReal() - pointOfRotation.getYReal();
 		cPoint.initialZComponent = cPoint.getZReal() - pointOfRotation.getZReal();
+		
+	
+		initialXDistanceFromPointOfRot = centerX - pointOfRotation.getXReal();
+		initialYDistanceFromPointOfRot = centerY - pointOfRotation.getYReal();
+		initialZDistanceFromPointOfRot = centerZ - pointOfRotation.getZReal();
 		
 		points[0].setPos(cPoint.getXReal(), cPoint.getYReal(), cPoint.getZReal());
 		

@@ -13,6 +13,7 @@ import Physics_engine.Square;
 import Physics_engine.border_bounce;
 import Physics_engine.object_draw;
 import Physics_engine.physicsRunner;
+import Physics_engine.Physics_3DPolygon;
 import calculator.Settings;
 
 public class Pole_position_runner extends physicsRunner {
@@ -25,7 +26,9 @@ public class Pole_position_runner extends physicsRunner {
 	
 	private static String Version = "1.0.3";
 	
-	static Track trackL, trackR;
+	static Physics_3DPolygon trackL, trackR;
+	
+	static Track tLc,tRc;
 	
 	private static Sign sign1;
 	
@@ -45,12 +48,16 @@ public class Pole_position_runner extends physicsRunner {
 		
 		AI1 = new Car(drawer,Settings.width * 0.5, Settings.height * 0.5,10,false);
 		
-		trackL = new Track(drawer,Settings.width * 0.4);
+		tLc = new Track(drawer,Settings.width * 0.4);
 		
-		trackR = new Track(drawer,Settings.width * 0.9);
+		tRc = new Track(drawer,Settings.width * 0.9);
+		
+		trackL = tLc;
+		
+		trackR = tRc;
 		
 		
-		sign1 = new Sign(drawer,Settings.height/2,trackL);
+		sign1 = new Sign(drawer,Settings.height/2,tLc);
 		
 		drawer.addMouseListener(new MouseAdapter() {
 			public void MouseClicked() {
@@ -65,6 +72,7 @@ public class Pole_position_runner extends physicsRunner {
 	        	  	case(87): //w
 	        	  		trackL.setSpeed(trackL.getXSpeed(),Car.speed, 0);
 	        	 		trackR.setSpeed(trackR.getXSpeed(),Car.speed, 0);
+	        	 	
 	        	  		break;
 	        	  	
 	        	  	case(65): //a
@@ -97,17 +105,17 @@ public class Pole_position_runner extends physicsRunner {
 				
 				int key = arg0.getKeyCode();
 				
-				//add timers so that the paddle will stop when the key is released
+			
 				if ((key == 65) || (key == 68)) {
 					PlayerCar.setRotation(PlayerCar.getXRotation(), PlayerCar.getYRotation(), 0);
 					trackL.setAngularVelocity(0, 0, 0.0);
         	  		trackR.setAngularVelocity(0, 0, 0.0);
-        	  		drawer.add(new SpeedTimer(drawer,0.2,"seconds",0,trackL.getYSpeed(),0,trackL));
-					drawer.add(new SpeedTimer(drawer,0.2,"seconds",0,trackR.getYSpeed(),0,trackR));
+//        	  		drawer.add(new SpeedTimer(drawer,0.2,"seconds",0,tLc.getYSpeed(),0,tLc));
+//					drawer.add(new SpeedTimer(drawer,0.2,"seconds",0,tRc.getYSpeed(),0,tRc));
 			
 				}else if ((key == 87) || (key == 83)) {
-					drawer.add(new SpeedTimer(drawer,0.2,"seconds",trackL.getXSpeed(),0,0,trackL));
-//					drawer.add(new SpeedTimer(drawer,0.2,"seconds",trackR.getXSpeed(),0,0,trackR));
+//					drawer.add(new SpeedTimer(drawer,0.2,"seconds",tLc.getXSpeed(),0,0,tLc));
+//					drawer.add(new SpeedTimer(drawer,0.2,"seconds",tRc.getXSpeed(),0,0,tRc));
 				}
 				
 				
@@ -127,8 +135,8 @@ public class Pole_position_runner extends physicsRunner {
 	private static void runGame() {
 
 		drawer.add(PlayerCar);
-		drawer.add(trackL);
-		drawer.add(trackR);
+		drawer.add(tLc);
+		drawer.add(tRc);
 		drawer.add(AI1);
 		drawer.add(sign1);
 		drawer.start();

@@ -41,6 +41,8 @@ public class Physics_engine_toolbox {
 		
 		
 		try {	
+			
+	
 			if (((Physics_drawable) current_object).hasParentObject()) {
 				Physics_drawable parent_object = (Physics_drawable) ((Physics_drawable)current_object).getParentObject();
 				

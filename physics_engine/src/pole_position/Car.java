@@ -48,10 +48,10 @@ public class Car extends PointSet {
 		if (! playerControlled) {
 			
 			if (centerY > Settings.height + 100) {
-				setPos(Pole_position_runner.trackL.getXAtY(centerY),-100,centerZ);
+				setPos(Pole_position_runner.tLc.getXAtY(centerY),-100,centerZ);
 			}
 			
-			double targX1 = (Pole_position_runner.trackL.getXAtY(centerY) + Pole_position_runner.trackR.getXAtY(centerY))/2 ;
+			double targX1 = (Pole_position_runner.tLc.getXAtY(centerY) + Pole_position_runner.tRc.getXAtY(centerY))/2 ;
 			
 			targX = targX1;
 			

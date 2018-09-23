@@ -3,38 +3,36 @@ package pole_position;
 
 import java.awt.Color;
 
+import Physics_engine.Physics_3DPolygon;
+import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 import Physics_engine.PointSet;
+import Physics_engine.PolarObject;
 import Physics_engine.object_draw;
 import Physics_engine.point;
-import calculator.Settings;
+import Physics_engine.Settings;
+import Physics_engine.Square;
 
-public class Track extends PointSet {
+public class Track extends PolarObject {
 	
 	private double T, accuracy = 70, theta = Math.PI/6;
 	
-	
+
 	
 	public Track(object_draw drawer1,double x) {
-		super(drawer1);
-		T = 0;
-		setPos(x,0,0);
-		drawMethod  = "ListedPointAlgorithm";
-		setSize(Settings.width/2,Settings.height * 2,1);
-		calculateCenter = true;
-		
+		super(drawer1,0,0,0,Settings.width/2,"circle");
+	
+
+	
 		isTangible = false;
-		setHasNormalCollisions(false);
 	
-		generateTrack();
-		
-		isFilled = true;
-		setColor(Color.RED);
-		//setPointOfRotation(new point(drawer,Pole_position_runner.PlayerCar.getXReal(),Pole_position_runner.PlayerCar.getYReal(),Pole_position_runner.PlayerCar.getZReal()));
 		
 		
-		
+		setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,0));
 	}
+
 	
+	
+	/*
 	public void tertiaryUpdate() {
 			
 		
@@ -48,6 +46,7 @@ public class Track extends PointSet {
 			
 		}
 	}
+	
 	
 	public void generateTrack() {
 		
@@ -74,7 +73,7 @@ public class Track extends PointSet {
 			addPoint(new point(drawer,centerX + getXT(T),t,centerZ));
 			
 		}
-		*/
+		
 		
 		
      	for (double t = -Settings.height;t < Settings.height + accuracy; t += accuracy) {
@@ -101,7 +100,7 @@ public class Track extends PointSet {
 	
 	
 	}
-	
+	*/
 	public int getPointIndex(double Y, int lower, int upper) {
 		
 		double val = points[(upper+lower)/2].getYReal();

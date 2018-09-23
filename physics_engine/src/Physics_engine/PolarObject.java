@@ -17,7 +17,7 @@ public class PolarObject extends Physics_3DPolygon {
 		setSize(size,size,size);
 		setRotation(0,0,0);
 		
-		points = new point[(int) (2*Math.PI/Settings.thetaStep )];
+		points = new point[(int) (4*Math.PI/Settings.thetaStep )];
 		
 		
 		ArrayList<point> pointsAL = new ArrayList<point>();
@@ -30,11 +30,11 @@ public class PolarObject extends Physics_3DPolygon {
 			}
 
 		}else {
-			for (int i = 0; i < points.length; i ++) {
+			for (int i = -points.length/2; i < points.length/2; i ++) {
 				t = i * Settings.thetaStep;		
 				
 				
-				for (int z = 0; z < points.length; z++) {
+				for (int z = -points.length/2; z < points.length/2; z++) {
 					q = z * Settings.thetaStep;
 					
 					switch(shape) {
@@ -53,6 +53,9 @@ public class PolarObject extends Physics_3DPolygon {
 					case ("thing2"):
 						pointsAL.add(thing2(t,q));
 						break;
+					case("ellipsoid"):
+						pointsAL.add(ellipsoid(t,q));
+					break;
 					}
 				}
 				
@@ -101,11 +104,11 @@ public class PolarObject extends Physics_3DPolygon {
 			}
 
 		}else {
-			for (int i = 0; i < points.length * 5; i ++) {
-				t = i * accuracy/5;		
+			for (int i = -points.length/2; i < points.length/2; i ++) {
+				t = i * accuracy;		
 				
 				
-				for (int z = 0; z < points.length; z++) {
+				for (int z = -points.length/2; z < points.length/2; z++) {
 					q = z * accuracy;
 					
 					switch(shape) {
@@ -124,6 +127,9 @@ public class PolarObject extends Physics_3DPolygon {
 					case ("thing2"):
 						pointsAL.add(thing2(t,q));
 						break;
+					case("ellipsoid"):
+						pointsAL.add(ellipsoid(t,q));
+					break;
 					}
 				}
 				
@@ -178,6 +184,15 @@ public class PolarObject extends Physics_3DPolygon {
 		double y1 =ySize * Math.sin(t) * Math.sin(z);
 		double z1 =zSize * Math.cos(t);
 		return  new point(drawer,centerX + x1,centerY - y1 ,centerZ + z1 );
+	}
+	
+	public point ellipsoid(double t, double z) {
+		
+		double x1 = xSize * t;
+		double y1 = ySize * -t;
+		double z1 = zSize * 2*t*t;
+		return  new point(drawer,centerX + x1,centerY - y1 ,centerZ + z1 );
+		
 	}
 	
 	public point thing2(double z, double t) {

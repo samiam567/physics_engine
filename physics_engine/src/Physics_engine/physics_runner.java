@@ -45,9 +45,13 @@ public class physics_runner extends physicsRunner {
 			
 		New_object_listeners newObs = new New_object_listeners(drawer);
 		
+		/*
 		Square sq = new Square(drawer, 500,200,0,50,10);
 		
-		Sphere sp = new Sphere(drawer,Settings.width/2 + 50 ,Settings.height/2 - 50,Settings.depth/2 - 50 ,100,10,Settings.thetaStep);
+		
+		PolarObject sp = new PolarObject(drawer,Settings.width/2 + 50 ,Settings.height/2 - 50,Settings.depth/2 - 50 ,50,"ellipsoid",Settings.thetaStep,2*Math.PI);
+		
+	
 		
 		sp.isTangible = false;
 		sp.isShaded = false;
@@ -89,12 +93,43 @@ public class physics_runner extends physicsRunner {
 		drawer.add(sp);
 		
 
+	
+		
+		sp.setAngularVelocity(0.05, 0.03, 0.04);
+		*/
+		
+		
+		
+		Square sq = new Square(drawer,500,500,0,50,1);
+		sq.setSpeed(-5, 0, 0);
+		sq.setAngularVelocity(0, 0, 0);
+		
+		Triangle t = new Triangle(drawer,600,600,0,50,30,1);
+		
+	
+		t.setParentObject(sq);
+		
+		t.setPointOfRotationPlace(pointOfRotationPlaces.parentsPlace);
+		
+		
+		drawer.add(sq);
+		drawer.add(t);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		drawer.start();
-		
-		sp.setAngularVelocity(0.1, 0, 0.1);
-		
-		
+
 		waitForEnd();
+		
+	
+		
 		
 		
 		
