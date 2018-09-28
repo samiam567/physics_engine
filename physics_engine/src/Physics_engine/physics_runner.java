@@ -45,7 +45,7 @@ public class physics_runner extends physicsRunner {
 			
 		New_object_listeners newObs = new New_object_listeners(drawer);
 		
-		/*
+		
 		Square sq = new Square(drawer, 500,200,0,50,10);
 		
 		
@@ -96,10 +96,10 @@ public class physics_runner extends physicsRunner {
 	
 		
 		sp.setAngularVelocity(0.05, 0.03, 0.04);
-		*/
 		
 		
 		
+		/*
 		Square sq = new Square(drawer,500,500,0,50,1);
 		sq.setSpeed(-5, 0, 0);
 		sq.setAngularVelocity(0, 0, 0);
@@ -115,7 +115,7 @@ public class physics_runner extends physicsRunner {
 		drawer.add(sq);
 		drawer.add(t);
 		
-		
+		*/
 		
 		
 		

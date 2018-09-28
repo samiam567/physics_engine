@@ -4,6 +4,11 @@ import java.awt.Color;
 
 public abstract class Physics_drawable extends physics_object implements movable, drawable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9189940711362964625L;
+
 	protected double centerX,centerY, centerZ;
 	
 	protected point center;
@@ -117,6 +122,8 @@ public abstract class Physics_drawable extends physics_object implements movable
 		}catch(NullPointerException n) {
 			center = new point(drawer,centerX1,centerY1,centerZ1);
 		}
+		
+		updatePos();
 	}
 
 	

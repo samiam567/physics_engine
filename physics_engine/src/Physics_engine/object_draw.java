@@ -309,7 +309,7 @@ public class object_draw extends Canvas {
 	}
 	
 	public void paint(Graphics page)  {
-	
+		try {
 		//sorting objects by z distance ----------------------------------
 		Collections.sort( drawables, new Comparator<drawable>() {
 	     
@@ -471,6 +471,9 @@ public class object_draw extends Canvas {
 					}
 				}
 			}
+		}catch(ConcurrentModificationException c) {
+			System.out.println("concModExc");
+		}
 		
 	}
 

@@ -300,7 +300,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 
 
 	public double[] calculateRotation(double x, double y, double angle) {
-		double[] polar = Vector2D.rectangularToPolar(x - pointOfRotation.getXReal(), y - pointOfRotation.getYReal());
+		double[] polar = Vector2D.rectangularToPolar(x, y);
 		return Vector2D.polarToRectangular(polar[0], polar[1] + angle);
 	}
 	
@@ -321,11 +321,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			double shiftY = (centerY-yI) - initialYDistanceFromPointOfRot;
 			double shiftZ = (centerZ-zI) - initialZDistanceFromPointOfRot;
 			
-		/*	
-			double xI = centerX;
-			double yI = centerY;
-			double zI = centerZ;
-		*/
+		
 			Vector2D normalLightVec = new Vector2D(drawer,center, drawer.lightSource);
 			double normalLightAngle = normalLightVec.getTheta();
 			
@@ -337,36 +333,71 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			setPos(xI,yI,zI);
 		*/
 			
-
+			
+	
+		
+	
 			updatePointOfRotation();
-			pointOfRotation.setPos(0,0, 0);
+			
 			
 			updateSize();
+			
+		
+		//Center Rotation
+			
+		
+			center.setPos( (center.getXReal() - xI) , (center.getYReal() - yI) ,(center.getZReal() - zI) );
+			
+			//zRotation
+			rotComponents = calculateRotation(center.getXReal(),center.getYReal(),zRotation - prevZRotation);
+			center.setPos(rotComponents[0],rotComponents[1],center.getZReal() );
+			
+			
+			//xRotation
+			rotComponents = calculateRotation(center.getZReal(),center.getYReal(),xRotation - prevXRotation);
+			center.setPos(center.getXReal(),  rotComponents[1], rotComponents[0]);
+			
+		
+			//yRotation
+			rotComponents = calculateRotation(center.getXReal(),center.getZReal(),yRotation - prevYRotation);
+			center.setPos(xI + rotComponents[0]  ,yI + center.getYReal(), zI + rotComponents[1] );
+			setPos(center.getXReal(), center.getYReal(), center.getZReal());
+			
+			updateCenter();
+		//points rotation
+
+
+			
+			double xCI = center.getXReal();
+			double yCI = center.getYReal();
+			double zCI = center.getZReal();
+			
+		
+			
+			
 			
 			
 			
 			do {
 				try {
 			
-					cPoint.setPos(pointOfRotation.getXReal()  + cPoint.initialXComponent * xSizeAppearance/xSizeInit, pointOfRotation.getYReal() + cPoint.initialYComponent * ySizeAppearance/ySizeInit, pointOfRotation.getZReal() + cPoint.initialZComponent * zSizeAppearance/zSizeInit);
+					cPoint.setPos( cPoint.initialXComponent * xSizeAppearance/xSizeInit,cPoint.initialYComponent * ySizeAppearance/ySizeInit,cPoint.initialZComponent * zSizeAppearance/zSizeInit);
 		
 					
 					//zRotation
 					rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getYReal(),zRotation);
-					cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0],pointOfRotation.getYReal() + rotComponents[1],cPoint.getZReal() );
+					cPoint.setPos( rotComponents[0],rotComponents[1],cPoint.getZReal() );
 					
 					
 					//xRotation
 					rotComponents = calculateRotation(cPoint.getZReal(),cPoint.getYReal(),xRotation);
-					cPoint.setPos(cPoint.getXReal(), pointOfRotation.getYReal() + rotComponents[1], pointOfRotation.getZReal() + rotComponents[0]);
+					cPoint.setPos(cPoint.getXReal(),  rotComponents[1], rotComponents[0]);
 					
 				
 					//yRotation
 					rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getZReal(),yRotation);
-					cPoint.setPos(pointOfRotation.getXReal() + rotComponents[0] + xI + shiftX , cPoint.getYReal() + yI + shiftY , pointOfRotation.getZReal() + rotComponents[1] + zI + shiftZ );
+					cPoint.setPos(xCI + rotComponents[0],yCI + cPoint.getYReal()  , zCI + rotComponents[1] );
 					
-					
-	
 					points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );			
 					
 					
@@ -386,8 +417,14 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				
 			} while (cPoint != null);
 			
+			setPos(xCI,yCI,zCI);
+			
+		
 			pointOfRotation.setPos(xI, yI, zI);
 			
+			prevXRotation = xRotation;
+			prevYRotation = yRotation;
+			prevZRotation = zRotation;
 			
 		}else {
 			double xChange = xReal - points[0].getX();
@@ -677,6 +714,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	}
 	
 	public void updatePointConstants() {
+		updateCenter();
 		
 		Polygon_point cPoint = polyPointsStart;
 		double[] rotation = {getXRotation(),getYRotation(),getZRotation()};
@@ -718,14 +756,14 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 		cPoint = polyPointsStart;
 		
-		cPoint.initialXComponent = cPoint.getXReal() - pointOfRotation.getXReal();
-		cPoint.initialYComponent = cPoint.getYReal() - pointOfRotation.getYReal();
-		cPoint.initialZComponent = cPoint.getZReal() - pointOfRotation.getZReal();
+		cPoint.initialXComponent = cPoint.getXReal() - center.getXReal();
+		cPoint.initialYComponent = cPoint.getYReal() - center.getYReal();
+		cPoint.initialZComponent = cPoint.getZReal() - center.getZReal();
 		
 	
-		initialXDistanceFromPointOfRot = centerX - pointOfRotation.getXReal();
-		initialYDistanceFromPointOfRot = centerY - pointOfRotation.getYReal();
-		initialZDistanceFromPointOfRot = centerZ - pointOfRotation.getZReal();
+		initialXDistanceFromPointOfRot = centerX - center.getXReal();
+		initialYDistanceFromPointOfRot = centerY - center.getYReal();
+		initialZDistanceFromPointOfRot = centerZ - center.getZReal();
 		
 		points[0].setPos(cPoint.getXReal(), cPoint.getYReal(), cPoint.getZReal());
 		
@@ -741,9 +779,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			cPoint = cPoint.nextPoint;
 			
-			cPoint.initialXComponent = cPoint.getXReal() - pointOfRotation.getXReal();
-			cPoint.initialYComponent = cPoint.getYReal() - pointOfRotation.getYReal();
-			cPoint.initialZComponent = cPoint.getZReal() - pointOfRotation.getZReal();
+			cPoint.initialXComponent = cPoint.getXReal() - center.getXReal();
+			cPoint.initialYComponent = cPoint.getYReal() - center.getYReal();
+			cPoint.initialZComponent = cPoint.getZReal() - center.getZReal();
 			
 			
 			points[i].setPos(cPoint.xReal, cPoint.yReal, cPoint.zReal);
