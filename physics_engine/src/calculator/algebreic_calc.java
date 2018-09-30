@@ -204,5 +204,25 @@ public class algebreic_calc {
 		System.out.println("Output " + answers);
 		JOptionPane.showMessageDialog(Calculator_runner.calculatorAnchor, answers.toString());
 	}
+
+	public static String quadraticFormula(double a, double b, double c) {
+	
+		String ans1,ans2;
+		
+		double determinant = (b*b - 4 * a * c);
+		
+		System.out.println("determinant: " + determinant);
+		
+		if (determinant > 0) {
+			ans1 = "" + ( Math.sqrt(determinant)) / (2*a);
+			ans2 = "" + (-b - Math.sqrt(determinant)) / (2*a);
+		} else {
+			ans1 = "" + -b/(2*a) + " + " + (Math.sqrt(-determinant)/(2*a)) + "i" ;
+			ans2 = "" + -b/(2*a) + " - " + (Math.sqrt(-determinant)/(2*a)) + "i" ;
+		}
+			
+		
+		return ans1 + " , " + ans2;
+	}
 	
 }

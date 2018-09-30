@@ -195,19 +195,19 @@ public class Physics_engine_toolbox {
 		
 	}
 	
-	public static double getDoubleFromUser(Physics_frame frame) {
+	public static double getDoubleFromUser(JFrame calculatorAnchor) {
 		
 		boolean error = false;
 		double num = 0;
 		
 		try {
-			String numStr = JOptionPane.showInputDialog(frame,"what number?");
+			String numStr = JOptionPane.showInputDialog(calculatorAnchor,"what number?");
 			num = Double.parseDouble(numStr);
 		}catch(NumberFormatException n) {
 			error = true;
 			while (error) {
 				try {
-					String numStr = JOptionPane.showInputDialog(frame,"Invalid Number");
+					String numStr = JOptionPane.showInputDialog(calculatorAnchor,"Invalid Number");
 					num = Double.parseDouble(numStr);
 					error = false;
 				}catch(NumberFormatException t) {
