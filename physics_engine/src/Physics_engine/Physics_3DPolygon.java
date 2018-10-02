@@ -343,30 +343,29 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			updateSize();
 			
 		
-		//Center Rotation
+			if (pointOfRotationPlace != pointOfRotationPlaces.center) {
+			//Center Rotation
+				center.setPos( (center.getXReal() - xI) , (center.getYReal() - yI) ,(center.getZReal() - zI) );
+				
+				//zRotation
+				rotComponents = calculateRotation(center.getXReal(),center.getYReal(),zRotation - prevZRotation);
+				center.setPos(rotComponents[0],rotComponents[1],center.getZReal() );
+				
+				
+				//xRotation
+				rotComponents = calculateRotation(center.getZReal(),center.getYReal(),xRotation - prevXRotation);
+				center.setPos(center.getXReal(),  rotComponents[1], rotComponents[0]);
+				
 			
+				//yRotation
+				rotComponents = calculateRotation(center.getXReal(),center.getZReal(),yRotation - prevYRotation);
+				center.setPos(xI + rotComponents[0]  ,yI + center.getYReal(),zI +  rotComponents[1] );
+				setPos(center.getXReal(), center.getYReal(), center.getZReal());
+			}
 		
-			center.setPos( (center.getXReal() - xI) , (center.getYReal() - yI) ,(center.getZReal() - zI) );
-			
-			//zRotation
-			rotComponents = calculateRotation(center.getXReal(),center.getYReal(),zRotation - prevZRotation);
-			center.setPos(rotComponents[0],rotComponents[1],center.getZReal() );
-			
-			
-			//xRotation
-			rotComponents = calculateRotation(center.getZReal(),center.getYReal(),xRotation - prevXRotation);
-			center.setPos(center.getXReal(),  rotComponents[1], rotComponents[0]);
-			
-		
-			//yRotation
-			rotComponents = calculateRotation(center.getXReal(),center.getZReal(),yRotation - prevYRotation);
-			center.setPos(xI + rotComponents[0]  ,yI + center.getYReal(), zI + rotComponents[1] );
-			setPos(center.getXReal(), center.getYReal(), center.getZReal());
-			
-			updateCenter();
 		//points rotation
 
-
+			updateCenter();
 			
 			double xCI = center.getXReal();
 			double yCI = center.getYReal();
@@ -374,7 +373,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 		
 			
-			
+		
 			
 			
 			
@@ -421,6 +420,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 		
 			pointOfRotation.setPos(xI, yI, zI);
+	
 			
 			prevXRotation = xRotation;
 			prevYRotation = yRotation;

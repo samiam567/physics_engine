@@ -42,7 +42,7 @@ public class physics_runner extends physicsRunner {
 		
 		resize();
 		
-			
+			/*
 		New_object_listeners newObs = new New_object_listeners(drawer);
 		
 		
@@ -97,16 +97,17 @@ public class physics_runner extends physicsRunner {
 		
 		sp.setAngularVelocity(0.05, 0.03, 0.04);
 		
+		*/
 		
 		
-		/*
 		Square sq = new Square(drawer,500,500,0,50,1);
 		sq.setSpeed(-5, 0, 0);
 		sq.setAngularVelocity(0, 0, 0);
 		
 		Triangle t = new Triangle(drawer,600,600,0,50,30,1);
 		
-	
+		sq.setAngularVelocity(0,0,0.1);
+		
 		t.setParentObject(sq);
 		
 		t.setPointOfRotationPlace(pointOfRotationPlaces.parentsPlace);
@@ -115,7 +116,7 @@ public class physics_runner extends physicsRunner {
 		drawer.add(sq);
 		drawer.add(t);
 		
-		*/
+		
 		
 		
 		
