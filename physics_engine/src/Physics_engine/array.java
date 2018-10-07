@@ -4,12 +4,13 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 public class array {
-	public static enum Type {Int,String,Double};
+	public static enum Type {Int,String,Double,Long};
 	private  Type arrayType;
 	private String delimiter = ",";
 	private  int[] arrayListInt = new int[0];
 	private  String[] arrayListString = new String[0];
 	private  double[] arrayListDouble = new double[0];
+	private  long[] arrayListLong = new long[0];
 	private int length = 0;
 	
 	public array(String arrayTypeStr) {
@@ -22,6 +23,9 @@ public class array {
 				break;
 			case "double":
 				arrayType = Type.Double;
+				break;
+			case "long":
+				arrayType = Type.Long;
 				break;
 			default:
 				try {
@@ -38,6 +42,8 @@ public class array {
 			arrayListString = new String[1];
 		}else if  (arrayType.equals(Type.Double)){
 			arrayListDouble = new double[1];
+		}else if  (arrayType.equals(Type.Long)){
+			arrayListLong = new long[1];
 		}
 	}
 	
@@ -67,6 +73,10 @@ public class array {
 		arrayListString = newArrayList;
 	}
 	
+	public void setValues(long[] newArrayList) {
+		arrayListLong = newArrayList;
+	}
+	
 	public void add(int newElement) {
 		length++;
 		resizeArrayList();
@@ -85,10 +95,18 @@ public class array {
 		arrayListString[length-1] = newElement;
 	}
 	
+	public void add(long newElement) {
+		length++;
+		resizeArrayList();
+		arrayListLong[length-1] = newElement;
+	}
+	
 	public void removeLast() {
 		length--;
 		resizeArrayList();
 	}
+	
+	
 	
 	public int indexOf(int element) { //returns the first index of the passed value in the array (returns -1 if it is not present)
 		int index = -1;
@@ -108,6 +126,20 @@ public class array {
 		double cEl;
 		for (int i = 0; i < arrayListDouble.length; i++) {
 			cEl = arrayListDouble[i];
+			if (cEl == element) {
+				index = i;
+				break;
+			}
+		}
+		return index;
+	}
+	
+
+	public int indexOf(long element) { //returns the first index of the passed value in the array (returns -1 if it is not present)
+		int index = -1;
+		long cEl;
+		for (int i = 0; i < arrayListLong.length; i++) {
+			cEl = arrayListLong[i];
 			if (cEl == element) {
 				index = i;
 				break;
@@ -155,6 +187,9 @@ public class array {
 		case String:
 			Arrays.sort(arrayListString);
 			break;
+		case Long:
+			Arrays.sort(arrayListLong);
+			break;
 		}
 	}
 	
@@ -196,6 +231,16 @@ public class array {
 					stringRep += "" + cChar + ",";
 				}
 			}
+		}else if (arrayType.equals(Type.Long)) {
+			long cChar;
+			for (int i = 0; i < arrayListLong.length; i++) {
+				cChar = arrayListLong[i];
+				if (i == arrayListLong.length-1) {
+					stringRep += "" + cChar;
+				}else {
+					stringRep += "" + cChar + ",";
+				}
+			}
 		}
 		stringRep+="}";
 		return stringRep;
@@ -219,6 +264,25 @@ public class array {
 				do {
 					try {
 						arrayListInt[a] = Integer.parseInt(arrayListString[i]);	
+						repeat = false;
+						a++;
+					}catch(NumberFormatException e) {				
+						System.out.println(arrayListString[i]);
+						length = length - 1;
+						repeat = true;
+						i++;
+					}
+				}while (repeat);
+			}
+		}else if (arrayType.equals(Type.Long)){
+			calculateSize(value);
+			arrayListLong = new long[length];
+			arrayListString = value.split(delimiter);
+			
+			for (int i = 0; i < arrayListString.length; i++) {
+				do {
+					try {
+						arrayListLong[a] = Long.parseLong(arrayListString[i]);	
 						repeat = false;
 						a++;
 					}catch(NumberFormatException e) {				
