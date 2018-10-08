@@ -242,13 +242,13 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 		try {
 			for (int i = 0; i < points.length; i++) {
-				pointXs[i] = points[i].getX();
-				pointYs[i] = points[i].getY();
-				pointZs[i] = points[i].getZ();
+				pointXs[i] = (int) Math.round(points[i].getX() * Settings.pixelConversion);
+				pointYs[i] = (int) Math.round(points[i].getY() * Settings.pixelConversion);
+				pointZs[i] = (int) Math.round(points[i].getZ() * Settings.pixelConversion);
 				
-				pointXReals[i] = points[i].getXReal();
-				pointYReals[i] = points[i].getYReal();
-				pointZReals[i] = points[i].getZReal();
+				pointXReals[i] = points[i].getXReal() * Settings.pixelConversion;
+				pointYReals[i] = points[i].getYReal() * Settings.pixelConversion;
+				pointZReals[i] = points[i].getZReal() * Settings.pixelConversion;
 			}
 		}catch(ArrayIndexOutOfBoundsException a) {
 			pointXs = new int[points.length];
@@ -260,13 +260,13 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			pointZReals = new double[points.length];
 			
 			for (int i = 0; i < points.length; i++) {
-				pointXs[i] = points[i].getX();
-				pointYs[i] = points[i].getY();
-				pointZs[i] = points[i].getZ();
+				pointXs[i] = (int) Math.round(points[i].getX() * Settings.pixelConversion);
+				pointYs[i] = (int) Math.round(points[i].getY() * Settings.pixelConversion);
+				pointZs[i] = (int) Math.round(points[i].getZ() * Settings.pixelConversion);
 				
-				pointXReals[i] = points[i].getXReal();
-				pointYReals[i] = points[i].getYReal();
-				pointZReals[i] = points[i].getZReal();
+				pointXReals[i] = points[i].getXReal() * Settings.pixelConversion;
+				pointYReals[i] = points[i].getYReal() * Settings.pixelConversion;
+				pointZReals[i] = points[i].getZReal() * Settings.pixelConversion;
 			}
 		}catch(NullPointerException n) { //object has not finished being made
 			

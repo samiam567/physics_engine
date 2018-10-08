@@ -23,7 +23,7 @@ public class object_draw_update_thread extends Thread implements Serializable{
 						objectDrawer.doUpdate();
 						
 						if (objectDrawer.inactivity_timer < Settings.timeOutTime) {
-							objectDrawer.inactivity_timer += objectDrawer.frameStep;
+							//objectDrawer.inactivity_timer += objectDrawer.frameStep;
 						}else {
 							System.out.println("Session Timed Out. Terminating...");
 							System.exit(0);

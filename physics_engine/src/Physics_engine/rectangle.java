@@ -13,7 +13,7 @@ public class rectangle extends Physics_3DPolygon {
 	public rectangle(object_draw drawer1,double x, double y, double z, double e, double f, double mass) {
 		super(drawer1);
 		setPos(x,y,z);
-		setSize(e,f,0);
+		setSize(e,f,0.00000001);
 		
 		updatePos();
 		

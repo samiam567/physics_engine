@@ -20,13 +20,13 @@ public class object_draw extends Canvas {
 	public double frameStep = Settings.frameStep;
 
 	public double current_frame = 0; //what frame we are on
-	private int frameCount;
+	private double frameCount;
 	
 	private long frameStartTime,updateStartTime;
 	private long frameEndTime,updateEndTime;
-	private long wait_time = 100,wait_time_temp;
+	private int wait_time = 20000000,wait_time_temp,subCalcTime,repaintTime;
 	
-	private double frameTimeMultiplier = 300;
+	private long frameTimeMultiplier = 200000000;
 	
 	public double inactivity_timer = 0;
 	
@@ -39,6 +39,7 @@ public class object_draw extends Canvas {
 	public object_draw_update_thread updateThreader;
 	
 	public point lightSource = new point(this,0,0,0);
+
 
 	public object_draw(Physics_frame frame1) {
 		frame = frame1;
@@ -261,43 +262,54 @@ public class object_draw extends Canvas {
 	
 	*/
 
-	public void doThreadedFrame() {
-		try {
-			if (threadState == 1) {
-				frameStartTime = System.nanoTime();
-				repaint(); 
-				frameEndTime = System.nanoTime();
+	public int doThreadedFrame() {
+		
+		
+			frameStartTime = System.nanoTime();
+			repaint(); 
+			frameEndTime = System.nanoTime();
 				
-				wait_time_temp = (long) (frameTimeMultiplier * (frameEndTime - frameStartTime)/100000);
+			repaintTime = (int) (frameEndTime - frameStartTime);
+			wait_time_temp = (int) (frameTimeMultiplier * repaintTime/1000000000);
 				
-				//use machine learning to adjust to the right wait_time
-				if (wait_time_temp > wait_time) {
-					wait_time ++;
-				}else if (wait_time_temp < wait_time) {
-					wait_time --;
-				}
-				sleepThread(wait_time);
+			//use machine learning to adjust to the right wait_time
+			if (wait_time_temp > wait_time) {
+				wait_time ++;
+			}else if (wait_time_temp < wait_time) {
+				wait_time --;
 			}
-		}catch(ConcurrentModificationException c) {}
+//			System.out.println("w" + wait_time);
+			return (wait_time);
 		
 	}
 	
 	public void doUpdate() { //for update thread. Updates the objects
 		if (threadState == 1) {
 			try {
-				while ( frameCount < 1) {
+				doThreadedFrame();
+				while ( frameCount < wait_time) {
+					
 					updateStartTime = System.nanoTime();
+					
 					checkForResize();
 					updateObjects(frameStep); //update the objects
 					current_frame += frameStep;
-					frameCount += frameStep;
+					
+					
 					updateEndTime = System.nanoTime();
 					
-					frameStep = ((double) (updateEndTime - updateStartTime)) / 100000000; //automatically set the accuracy of the subCalculations depending on how fast the cpu is going
+					subCalcTime = ((int) (updateEndTime - updateStartTime));
+					
+					frameCount += subCalcTime;
+					
+					frameStep =  ((float) wait_time)/((float)subCalcTime);
+					//frameStep = 1/frameStep/2;
+					frameStep = 1/frameStep/20;
 				}
-		
-				sleepThread(1);
-		
+				
+				
+//				System.out.println("fs" + frameStep);
+//				System.out.println("sc" +subCalcTime);
 				frameCount = 0;
 			}catch(ConcurrentModificationException c) {	
 			}catch(NullPointerException e) {
@@ -348,7 +360,7 @@ public class object_draw extends Canvas {
 										point current_point;
 										point next_point;
 										point[] points = ((pointed) current_object).getPoints();
-										if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(((Physics_drawable) current_object).getCenterX()), (int) Math.round(((Physics_drawable) current_object).getCenterY()));
+										if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(((Physics_drawable) current_object).getCenterX() * Settings.pixelConversion), (int) Math.round(((Physics_drawable) current_object).getCenterY() * Settings.pixelConversion));
 										for (int i = 0; i < current_object.getPointRenderOrder().length-1 ; i++) {
 										
 											//calculate the pointkeys
@@ -371,13 +383,13 @@ public class object_draw extends Canvas {
 																		
 										
 											//draw line between points
-											page.drawLine(current_point.x, current_point.y, next_point.x, next_point.y);
+											page.drawLine((int)(current_point.x * Settings.pixelConversion), (int)(current_point.y* Settings.pixelConversion), (int)(next_point.x* Settings.pixelConversion), (int)(next_point.y* Settings.pixelConversion));
 										}
 										
 										
 										if (Settings.showPointNumbers) { //display the point numbers	
 											for (int i = 0; i < points.length; i++) {
-												page.drawString("" + i, points[i].getX(), points[i].getY()); 
+												page.drawString("" + i, (int) (points[i].getX()* Settings.pixelConversion),(int)( points[i].getY()* Settings.pixelConversion)); 
 											}
 										}
 										
@@ -387,12 +399,8 @@ public class object_draw extends Canvas {
 									current_object.paint(page);
 									break;
 									
-								case("drawRect"):
-									page.drawRect(current_object.getX(),current_object.getY(),(int) current_object.getXSizeAppearance(), (int) current_object.getYSizeAppearance());
-									break;
-								case("fillRect"):
-									page.fillRect(current_object.getX(),current_object.getY(),(int) current_object.getXSizeAppearance(), (int) current_object.getYSizeAppearance());
-									break;
+				
+								
 								default:
 									current_object.paint(page);
 									break;
@@ -419,7 +427,7 @@ public class object_draw extends Canvas {
 									point current_point;
 									point next_point;
 									point[] points = ((pointed) current_object).getPoints();
-									if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(((Physics_drawable) current_object).getCenterX()), (int) Math.round(((Physics_drawable) current_object).getCenterY()));
+									if (Settings.displayObjectNames) page.drawString(current_object.getObjectName(),(int) Math.round(((Physics_drawable) current_object).getCenterX()* Settings.pixelConversion), (int) Math.round(((Physics_drawable) current_object).getCenterY()* Settings.pixelConversion));
 									for (int i = 0; i < current_object.getPointRenderOrder().length-1 ; i++) {
 									
 										//calculate the pointkeys
@@ -442,13 +450,13 @@ public class object_draw extends Canvas {
 																	
 									
 										//draw line between points
-										page.drawLine(current_point.x, current_point.y, next_point.x, next_point.y);
+										page.drawLine((int)(current_point.x * Settings.pixelConversion), (int)(current_point.y* Settings.pixelConversion), (int)(next_point.x* Settings.pixelConversion), (int)(next_point.y* Settings.pixelConversion));
 									}
 									
 									
 									if (Settings.showPointNumbers) { //display the point numbers	
 										for (int i = 0; i < points.length; i++) {
-											page.drawString("" + i, points[i].getX(), points[i].getY()); 
+											page.drawString("" + i, (int) (points[i].getX()* Settings.pixelConversion),(int)( points[i].getY()* Settings.pixelConversion)); 
 										}
 									}
 									
@@ -457,13 +465,7 @@ public class object_draw extends Canvas {
 							case("paint"):
 								current_object.paint(page);
 								break;
-								
-							case("drawRect"):
-								page.drawRect(current_object.getX(),current_object.getY(),(int) current_object.getXSizeAppearance(), (int) current_object.getYSizeAppearance());
-								break;
-							case("fillRect"):
-								page.fillRect(current_object.getX(),current_object.getY(),(int) current_object.getXSizeAppearance(), (int) current_object.getYSizeAppearance());
-								break;
+							
 							default:
 								current_object.paint(page);
 								break;

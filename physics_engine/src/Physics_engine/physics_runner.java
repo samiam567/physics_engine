@@ -101,20 +101,13 @@ public class physics_runner extends physicsRunner {
 		
 		
 		Square sq = new Square(drawer,500,500,0,50,1);
-		sq.setSpeed(-5, 0, 0);
-		sq.setAngularVelocity(0, 0, 0);
-		
-		Triangle t = new Triangle(drawer,600,600,0,50,30,1);
-		
-		sq.setAngularVelocity(0,0,0.1);
-		
-		t.setParentObject(sq);
-		
-		t.setPointOfRotationPlace(pointOfRotationPlaces.parentsPlace);
+	//	sq.setSpeed(1, 0, 0);
+
+	
 		
 		
 		drawer.add(sq);
-		drawer.add(t);
+
 		
 		
 		

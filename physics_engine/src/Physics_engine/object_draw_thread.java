@@ -21,7 +21,7 @@ public class object_draw_thread extends Thread implements Serializable{
 			try {
 				if (state == 1) { //running
 					try {
-						objectDrawer.doThreadedFrame();
+					//	objectDrawer.doThreadedFrame();
 						
 						
 					}catch (ConcurrentModificationException c) {}

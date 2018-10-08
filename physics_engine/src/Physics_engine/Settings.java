@@ -4,12 +4,14 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.11.6";
+	public static final String version = "4.12.0";
 	
 	
-	public static int width = 1500;
-	public static int height = 1000;
-	public static long depth = 10000;
+	public static double pixelConversion = 1; //37.65;
+	
+	public static int width = (int) (1500 / pixelConversion);
+	public static int height = (int) (1000/ pixelConversion);
+	public static long depth =  (long) (1000 / pixelConversion);
 
 	
 	public static final long frameTime = 2500000; //this doesn't do anything anymore
@@ -24,6 +26,7 @@ public class Settings {
 	public static double distanceFromScreenMeters = 0.3025; //the distance in meters the viewer is away from the screen
 	public static final double distanceFromScreen = distanceFromScreenMeters / 0.000115; //should not be changed
 	
+
 	
 	public static boolean displayObjectNames = false; 
 	public static final boolean showPointNumbers = false;
