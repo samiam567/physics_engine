@@ -51,6 +51,9 @@ public class Pong_runner extends physicsRunner{
 	}
 	
 	public static void run() {
+		
+		Settings.timeSpeed = 1;
+		
 		drawer = new object_draw(frame);
 		frame = (Pong_frame) frame;
 		gameSpeed = gameSetSpeed * diagonal/100;
@@ -137,9 +140,9 @@ public class Pong_runner extends physicsRunner{
 				mouseControl = true;
 				nearPaddle.affectedByBorder = false;
 			
-			//	nearPaddle.setSpeed(e.getX() - nearPaddle.getCenterX() ,nearPaddle.getCenterY() - e.getY(),nearPaddle.getCenterZ());
-			//	nearPaddle.setPos(e.getX(), e.getY(), nearPaddle.getCenterZ());
-				
+				nearPaddle.setSpeed(gameSpeed * (e.getX() - nearPaddle.getCenterX() ) /10,gameSpeed * (-nearPaddle.getCenterY() + e.getY())/10,0);
+		
+			/*	
 			
 					if ((e.getX() - nearPaddle.getCenterX()) > 15) {
 						nearPaddle.setSpeed(200,nearPaddle.getYSpeed(),nearPaddle.getZSpeed());
@@ -158,8 +161,8 @@ public class Pong_runner extends physicsRunner{
 					}else {
 						nearPaddle.setSpeed(nearPaddle.getXSpeed(), 0, nearPaddle.getZSpeed());
 					}
-				
-				
+				*/
+				//	nearPaddle.setPos(e.getX(), e.getY(), nearPaddle.getCenterZ());
 			}
 			
 		});

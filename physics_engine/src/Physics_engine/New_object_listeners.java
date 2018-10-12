@@ -72,7 +72,7 @@ public class New_object_listeners {
 						Point mousePoint = new Point(arg0.getX(), arg0.getY());
 						point mousePoint1 = new point(drawer,arg0.getX(), arg0.getY(),0);
 						
-						for (massive cObject : drawer.tangibles) {
+						for (massive cObject : drawer.getTangibles()) {
 							cObject.updatePolygons();
 							if (mousePoint1.isIn((Physics_3DPolygon) cObject) && (cObject.getObjectName() != "boundries") ) {
 								System.out.println(cObject.getObjectName() + " has been selected");
@@ -155,7 +155,7 @@ public class New_object_listeners {
 						
 					}else {
 				
-						for (massive cObject : drawer.tangibles) {
+						for (massive cObject : drawer.getTangibles()) {
 							cObject.updatePolygons();
 							if ((mousePoint1.isIn((Physics_3DPolygon) cObject) && (cObject.getObjectName() != "boundries"))) {
 								System.out.println(cObject.getObjectName() + " has been selected");

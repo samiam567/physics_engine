@@ -195,19 +195,19 @@ public class Physics_engine_toolbox {
 		
 	}
 	
-	public static double getDoubleFromUser(JFrame calculatorAnchor) {
+	public static double getDoubleFromUser(JFrame messageAnchor) {
 		
 		boolean error = false;
 		double num = 0;
 		
 		try {
-			String numStr = JOptionPane.showInputDialog(calculatorAnchor,"what number?");
+			String numStr = JOptionPane.showInputDialog(messageAnchor,"what number?");
 			num = Double.parseDouble(numStr);
 		}catch(NumberFormatException n) {
 			error = true;
 			while (error) {
 				try {
-					String numStr = JOptionPane.showInputDialog(calculatorAnchor,"Invalid Number");
+					String numStr = JOptionPane.showInputDialog(messageAnchor,"Invalid Number");
 					num = Double.parseDouble(numStr);
 					error = false;
 				}catch(NumberFormatException t) {
@@ -220,20 +220,72 @@ public class Physics_engine_toolbox {
 		return num;
 	}
 	
-	public static double getDoubleFromUser(JFrame calculatorAnchor, String message) {
+	public static double getDoubleFromUser(JFrame messageAnchor, String message) {
 		
 		boolean error = false;
 		double num = 0;
 		
 		try {
-			String numStr = JOptionPane.showInputDialog(calculatorAnchor,message);
+			String numStr = JOptionPane.showInputDialog(messageAnchor,message);
 			num = Double.parseDouble(numStr);
 		}catch(NumberFormatException n) {
 			error = true;
 			while (error) {
 				try {
-					String numStr = JOptionPane.showInputDialog(calculatorAnchor,"Invalid Number\n" + message);
+					String numStr = JOptionPane.showInputDialog(messageAnchor,"Invalid Number\n" + message);
 					num = Double.parseDouble(numStr);
+					error = false;
+				}catch(NumberFormatException t) {
+					error = true;
+				}
+			}
+		}
+
+		return num;
+	}
+	
+	
+	
+public static int getIntegerFromUser(JFrame messageAnchor) {
+		
+		boolean error = false;
+		int num = 0;
+		
+		try {
+			String numStr = JOptionPane.showInputDialog(messageAnchor,"what number?");
+			num = Integer.parseInt(numStr);
+		}catch(NumberFormatException n) {
+			error = true;
+			while (error) {
+				try {
+					String numStr = JOptionPane.showInputDialog(messageAnchor,"Invalid Number\n" + "what number?");
+					num = Integer.parseInt(numStr);
+					error = false;
+				}catch(NumberFormatException t) {
+					error = true;
+				}
+			}
+		}
+
+		return num;
+	}
+	
+
+
+public static int getIntegerFromUser(JFrame messageAnchor, String message) {
+		
+		boolean error = false;
+		int num = 0;
+		
+		try {
+			String numStr = JOptionPane.showInputDialog(messageAnchor,message);
+			num = Integer.parseInt(numStr);
+		}catch(NumberFormatException n) {
+			error = true;
+			while (error) {
+				try {
+					String numStr = JOptionPane.showInputDialog(messageAnchor,"Invalid Number\n" + message);
+					num = Integer.parseInt(numStr);
 					error = false;
 				}catch(NumberFormatException t) {
 					error = true;
@@ -317,9 +369,6 @@ public class Physics_engine_toolbox {
 			ObjectInputStream loader = new ObjectInputStream(new FileInputStream(fileName));
 			
 			
-			
-		
-			
 			physics_object readOb = (physics_object) loader.readObject();
 			
 			loader.close();
@@ -344,5 +393,7 @@ public class Physics_engine_toolbox {
 		
 		return null;
 	}
+
+
 
 }

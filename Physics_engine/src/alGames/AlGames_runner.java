@@ -12,6 +12,7 @@ import Physics_engine.Text;
 import Physics_engine.object_draw;
 import Physics_engine.physicsRunner;
 import Physics_engine.physics_runner;
+import Physics_engine.point;
 import calculator.Calculator_runner;
 import calculator.Settings;
 import jetpack_joyride.JetPack_JoyRide;
@@ -21,7 +22,7 @@ public class AlGames_runner extends physicsRunner {
 	
 	public static String[] games = {"Pong3D","JetPack JoyRide","Calculator","Physics Simulator","global thermonuclear warfare","exit"};
 	
-	private static String thermoWar = "Are you crazy?!?\nHave you even SEEN war games?\nI'm not letting you start WWIII!\nJoshua has learned his lesson :) ";
+	private static String thermoWar = "Are you crazy?!?\nI'm not letting you start WWIII! ";
 
 	private static String version = "1.1.2";
 	
@@ -34,6 +35,7 @@ public class AlGames_runner extends physicsRunner {
 	
 	public static void run() {
 		int gameToPlay = 0;
+		
 		
 		JOptionPane.showMessageDialog(frame, "Welcome to AlGames!\nAlGames is a collection of games and programs designed to entertain people!\nmake sure you read all messages carefully and completely as they contain valuable information.\nNote: some games will prompt you if you want to exit and for others you simply have to close the window\n--Built on game engine V" + Physics_engine.Settings.version + "--", "AlGames V" + version  + "      Programmed by Alec Pannunzio", 1);
 		do { 
@@ -58,8 +60,8 @@ public class AlGames_runner extends physicsRunner {
 					break;
 					
 				case("global thermonuclear warfare"):
-					
-					
+					Physics_engine.Settings.timeSpeed = 3;
+					drawer.setFrameTimeMultiplier(999999999);					
 					frame.setVisible(true);
 					drawer.add(new Text(drawer,Settings.width * 0.1,Settings.height * 0.1,thermoWar, new Font("TimesRoman", Font.BOLD, (int) (Math.sqrt(Math.pow(Settings.width, 2) + Math.sqrt(Math.pow(Settings.height, 2))) / 20  ))));
 					PolarObject heart = new PolarObject(drawer,Settings.width/2,Settings.height * 0.5, 5,100,"heart",Math.PI/10,2*Math.PI);
@@ -67,8 +69,9 @@ public class AlGames_runner extends physicsRunner {
 					heart.setColor(Color.red);
 					drawer.add(heart);
 					
-					PolarObject missile = new PolarObject(drawer,Settings.width/2,Settings.height * 0.7, 5,600,"thing1",Math.PI/7,1.5715*Math.PI);
+					PolarObject missile = new PolarObject(drawer,Settings.width/2,Settings.height * 0.7, 5,600,"thing1",Math.PI/20,1.5715*Math.PI);
 					missile.setRotation(-5*Math.PI/4, Math.PI/4, -Math.PI/4);
+					missile.setPos(Settings.width/2, Settings.height * 0.7, 0);
 					missile.setAngularVelocity(0,0.05,0.3);
 					drawer.add(missile);
 					

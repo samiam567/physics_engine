@@ -30,11 +30,11 @@ public class PolarObject extends Physics_3DPolygon {
 			}
 
 		}else {
-			for (int i = -points.length/2; i < points.length/2; i ++) {
+			for (int i = 0; i < points.length; i ++) {
 				t = i * Settings.thetaStep;		
 				
 				
-				for (int z = -points.length/2; z < points.length/2; z++) {
+				for (int z = 0; z < points.length; z++) {
 					q = z * Settings.thetaStep;
 					
 					switch(shape) {
@@ -104,11 +104,11 @@ public class PolarObject extends Physics_3DPolygon {
 			}
 
 		}else {
-			for (int i = -points.length/2; i < points.length/2; i ++) {
+			for (int i =0; i < points.length; i ++) {
 				t = i * accuracy;		
 				
 				
-				for (int z = -points.length/2; z < points.length/2; z++) {
+				for (int z = 0; z < points.length; z++) {
 					q = z * accuracy;
 					
 					switch(shape) {

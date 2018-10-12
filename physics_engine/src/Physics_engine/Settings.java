@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.12.0";
+	public static final String version = "4.12.1";
 	
 	
 	public static double pixelConversion = 1; //37.65;
@@ -13,11 +13,12 @@ public class Settings {
 	public static int height = (int) (1000/ pixelConversion);
 	public static long depth =  (long) (1000 / pixelConversion);
 
+	public static int timeSpeed = 20;
 	
 	public static final long frameTime = 2500000; //this doesn't do anything anymore
 	public static int timeOutTime = 10000;
 	
-	public static final Color frameColor = Color.GRAY;
+	public static Color frameColor = Color.GRAY;
 	
 	public static final double elasticity = 1; //a number between 0 and 1
 	
@@ -37,6 +38,8 @@ public class Settings {
 	public static int rotationAlgorithm = 6; // v3,v4, v5, and 0 disables V6 is housed in the Physics_3DPolygon class
 	public static final int forceMethod = 1;
 	public static int collision_algorithm = 5; //possibles are 1, 2, 3, 4, 5, and 6  as 2 was a complete failure
+
+
 
 	
 	public static final double thetaStep = Math.PI/10;

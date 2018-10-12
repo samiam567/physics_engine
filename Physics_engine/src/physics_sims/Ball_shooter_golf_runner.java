@@ -20,11 +20,15 @@ import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 import Physics_engine.Settings;
 
 public class Ball_shooter_golf_runner extends physicsRunner{
-	private static final String version = "2.0.1";
+	private static final String version = "2.0.2";
+	
+	private static final boolean actualSpeed = true;
 	
 	private static double g = -980, launchVelocity,launchAngle, launchAngle2, xDistFromTarg,yDistFromTarg,lADeg,lADeg2;
 	
 	private static Physics_3DPolygon launcher, ball, target;
+	
+	private static double[] launchSpeeds = {295,450,620};
 	
 	public static void main(String[] args) {
 		
@@ -39,12 +43,17 @@ public class Ball_shooter_golf_runner extends physicsRunner{
 	
 	public static void run() {
 		
+		Settings.timeSpeed = 20;
+		
 		String[] solveForOptions = {"angle","xDistance","launchVelocity"};
 		
 		do {
 			frame = new Physics_frame();
-			drawer = new object_draw(frame);
+			Settings.frameColor = Color.orange;
+			frame.setBackground(Color.orange);
 			
+			drawer = new object_draw(frame);
+			drawer.setBackground(Color.ORANGE);
 			frame.setVisible(true);
 			
 			FPS_display fps = new FPS_display(drawer,30,30);
@@ -52,7 +61,6 @@ public class Ball_shooter_golf_runner extends physicsRunner{
 
 			FCPS_display fcps = new FCPS_display(drawer,30,50);
 			drawer.add(fcps);
-			
 			
 			
 			launcher = new rectangle(drawer, Settings.width * 0.1,Settings.height * 0.7,0,50/Settings.pixelConversion,10/Settings.pixelConversion,1);
@@ -78,6 +86,7 @@ public class Ball_shooter_golf_runner extends physicsRunner{
 					do {
 					launchAngle = -Physics_engine_toolbox.getDoubleFromUser(frame, "What is the launch angle? (degrees)");
 					}while((-launchAngle % 360) >= 90);
+					launchAngle = launchAngle % 360;
 					launchAngle = Math.PI * launchAngle/180; //convert to radians
 					launcher.setRotation(0, 0, launchAngle);	
 				}
@@ -100,7 +109,17 @@ public class Ball_shooter_golf_runner extends physicsRunner{
 				target.setPos(Settings.width * 0.1 + xDistFromTarg,Settings.height * 0.7 - yDistFromTarg ,0);
 				
 				if (solvingFor != 2) {
-					launchVelocity = Physics_engine_toolbox.getDoubleFromUser(frame,"What is the launch velocity? (cm/s)");
+					if (actualSpeed) {
+						launchVelocity = Physics_engine_toolbox.getDoubleFromUser(frame,"What is the launch velocity? (cm/s)");
+					}else {
+						int launchSetting = 0;
+						do {
+							launchSetting = Physics_engine_toolbox.getIntegerFromUser(frame,"What is the launcher setting");
+						}while((0 > launchSetting) || (4 < launchSetting));
+						
+				
+						launchVelocity = launchSpeeds[launchSetting];
+					}
 				}
 				
 				target.setPos(Settings.width * 0.1 + xDistFromTarg,Settings.height * 0.7 - yDistFromTarg ,0);

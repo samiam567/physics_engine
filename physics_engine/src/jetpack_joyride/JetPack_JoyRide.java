@@ -39,7 +39,7 @@ public class JetPack_JoyRide extends physicsRunner {
 	
 	static double distance = 0, distanceHighScore = 0, frames, jetpack_speed = 40;
 	
-	private static int gravityStart = 600,gravity;
+	private static int gravityStart = 600, gravity;
 	
 	static final boolean pictureGraphics = false;
 	
@@ -81,7 +81,7 @@ public class JetPack_JoyRide extends physicsRunner {
 	}
 	
 	public static void init()  {
-			
+		Settings.timeSpeed = 5;	
 		
 		FPS_display fps = new FPS_display(drawer,30,30);
 		drawer.add(fps);
@@ -343,7 +343,7 @@ public class JetPack_JoyRide extends physicsRunner {
 		setSettings();
 		
 	
-		for (Physics_drawable pOb : drawer.drawables) {
+		for (Physics_drawable pOb : drawer.getDrawables()) {
 			if (pOb.name == "thing") {
 				
 				try {

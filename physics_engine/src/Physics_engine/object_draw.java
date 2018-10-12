@@ -12,21 +12,22 @@ import java.util.NoSuchElementException;
 public class object_draw extends Canvas {
 	
 	private ArrayList<physics_object> objects = new ArrayList<physics_object>();
-	public ArrayList<Physics_drawable> drawables = new ArrayList<Physics_drawable>();
-	public ArrayList<massive> tangibles = new ArrayList<massive>();
-	public ArrayList<resizable> resizables = new ArrayList<resizable>();
+	private ArrayList<Physics_drawable> drawables = new ArrayList<Physics_drawable>();
+	private ArrayList<massive> tangibles = new ArrayList<massive>();
+	private ArrayList<resizable> resizables = new ArrayList<resizable>();
 	
 	private long frameTime = Settings.frameTime;
 	public double frameStep = Settings.frameStep;
 
 	public double current_frame = 0; //what frame we are on
+	
 	private double frameCount;
 	
 	private long frameStartTime,updateStartTime;
 	private long frameEndTime,updateEndTime;
-	private int wait_time = 20000000,wait_time_temp,subCalcTime,repaintTime;
+	private int wait_time = 30000000,wait_time_temp,subCalcTime,repaintTime;
 	
-	private long frameTimeMultiplier = 200000000;
+	private long frameTimeMultiplier = 300000000;
 	
 	public double inactivity_timer = 0;
 	
@@ -34,9 +35,7 @@ public class object_draw extends Canvas {
 	
 	public Physics_frame frame;
 
-	public object_draw_thread threader;
-	
-	public object_draw_update_thread updateThreader;
+	private object_draw_update_thread updateThreader;
 	
 	public point lightSource = new point(this,0,0,0);
 
@@ -45,7 +44,6 @@ public class object_draw extends Canvas {
 		frame = frame1;
 		frame.getContentPane().add(this);
 		frame.drawer = this;
-		threader = new object_draw_thread(this);
 		updateThreader = new object_draw_update_thread(this);
 	}
 	
@@ -53,7 +51,6 @@ public class object_draw extends Canvas {
 		frame = new Physics_frame();
 		frame.getContentPane().add(this);
 		frame.drawer = this;
-		threader = new object_draw_thread(this);
 		updateThreader = new object_draw_update_thread(this);
 	}
 	
@@ -64,26 +61,22 @@ public class object_draw extends Canvas {
 	}
 	
 	public void boot() {
-		threader = new object_draw_thread(this);
 		updateThreader = new object_draw_update_thread(this);
 	}
 	
 	public void start() {
-		threader.state = 1;
 		updateThreader.state = 1;
 		threadState = 1;
-		threader.start();
 		updateThreader.start();
 		setSize(Settings.width, Settings.height);
 	}
 	
 	@SuppressWarnings("deprecation")
 	public void end() {
-		threader.suspend();
 		updateThreader.suspend();
 		threadState = 0;
-		while (! ((threader.state == 0) && (updateThreader.state == 0) )  ) {
-			threader.state = 0;
+		while (! (updateThreader.state == 0) )  {
+		
 			updateThreader.state = 0;
 		}
 	}
@@ -99,15 +92,13 @@ public class object_draw extends Canvas {
 	
 	public void pause() {
 		threadState = 2;
-		while (! ((threader.state == 2) && (updateThreader.state == 2) )  ) {
-			threader.state = 2;
+		while (! (updateThreader.state == 2) )  {
 			updateThreader.state = 2;
 		}
 	}
 	
 	public void resume() {
 		threadState = 1;
-		threader.state = 1;
 		updateThreader.state = 1;
 	}
 	
@@ -214,53 +205,6 @@ public class object_draw extends Canvas {
 		//this is extended by child classes such as Mab_object_draw
 	}
 
-	/*
-	public void doFrame() {
-		checkForResize();
-		frameStartTime = System.nanoTime();
-		current_frame++;
-		updateObjects(1);
-		repaint();
-		frameEndTime = System.nanoTime();
-		wait_time = getFrameTime() - (frameEndTime - frameStartTime);
-		WaitNanotime(wait_time);
-	
-	}
-	
-	
-	public void doFrame(double frames) {
-		
-			frameStartTime = System.nanoTime();
-			current_frame += frames;
-			updateObjects(frames);
-			
-			if ( Math.abs(current_frame - (int)current_frame ) < frameStep) { 
-				checkForResize();
-				repaint(); 
-				frameEndTime = System.nanoTime();
-				wait_time = getFrameTime() - (frameEndTime - frameStartTime);
-				
-				if (wait_time < 0) {
-					Exception ex = new Exception("Wait time is less than 0! wait_time: " + wait_time);
-					ex.printStackTrace();
-				}
-				
-				WaitNanotime(wait_time);
-			}
-		
-	}
-	
-
-	
-	public void doFrame(String key) {
-		assert key == "step";
-		for (double i = 0; i < 1; i+= frameStep) {
-			checkForResize();
-			doFrame(frameStep);
-		}
-	}
-	
-	*/
 
 	public int doThreadedFrame() {
 		
@@ -304,7 +248,7 @@ public class object_draw extends Canvas {
 					
 					frameStep =  ((float) wait_time)/((float)subCalcTime);
 					//frameStep = 1/frameStep/2;
-					frameStep = 1/frameStep/20;
+					frameStep = 1/frameStep/Settings.timeSpeed;
 				}
 				
 				
@@ -480,7 +424,7 @@ public class object_draw extends Canvas {
 	}
 
 	public Thread getThread() {
-		return threader;
+		return updateThreader;
 	}
 
 	public ArrayList<physics_object> getObjects() {

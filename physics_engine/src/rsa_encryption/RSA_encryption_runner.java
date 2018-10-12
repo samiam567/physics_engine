@@ -6,15 +6,14 @@ import javax.swing.JOptionPane;
 
 import Physics_engine.Physics_engine_toolbox;
 import Physics_engine.array;
-
+/// N: 264 e: 5
 public class RSA_encryption_runner {
-	private static final String Version = "1.0.2";
-	
+	private static final String Version = "1.0.3";
+	//1279, q = 1283
 	private static final int p = 1279, q = 1283; //two prime numbers (these are what are used to derive the private key)
 	private static long N = p*q; //N and e make up the public key and are used to encrypt messages
 	private static long e,d; //N and d make up the private key which you keep to yourself and is used to decrypt messages
 	
-	private static final String version = "1.0.0";
 	
 	private static String[] chars = {"","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"," ",".",",","'",";",":","<",">","?","/","!","@","#","$","%","^","&","*","(",")","-","_","+","=","[","]","{","}","1","2","3","4","5","6","7","8","9","0"};
 			
@@ -26,46 +25,18 @@ public class RSA_encryption_runner {
 	public static void main(String[] args) {
 		int c = (p-1) * (q-1);
 	
-		e = c/2;
 		
 	//guessing the rest of the numbers 
-		//find e
-		int i = 0;
-		while (((c % e) == 0) && (i < c)) {
-			e = e + (i * (((i % 2) * 2) + -1) );
-			i++;
-
+		//find e 
+		e = 2;
+		while ((c % e) == 0) {
+			e++;
 		}
-		
-		if (i == c) { //the algorithm above only does every other number so if a number was not found then try the numbers the previous algorithm skipped
-			i = 0;
-			e = c/2 + 1;
-			while (((c % e) == 0) && (i < c)) {
-				e = e + (i * (((i % 2) * 2) + -1) );
-				i++;
-
-			}
-		}
-		
 		
 		//find d 
-		d = e*2 ;
-		i = 0;
-		while (((e*d) % c != 1)&& (i < Math.pow(d, 3))) {
-			d = d + (i * (((i % 2) * 2) + -1) );
-		
-			i++;
-		}
-		
-		
-		if (i == Math.pow(d, 3)) { //the algorithm above only does every other number so if a number was not found then try the numbers the previous algorithm skipped
-			i = 0;
-			d = e*2 + 1;
-			while (((e*d) % c != 1)&& (i < Math.pow(d, 3))) {
-				d = d + (i * (((i % 2) * 2) + -1) );
-				System.out.println(d);
-				i++;
-			}
+		d = 2;
+		while ((e*d) % c != 1) {
+			d++;
 		}
 
 	//////////////
@@ -169,6 +140,7 @@ public class RSA_encryption_runner {
 		
 		for (int i = 0; i < values.length; i++) {
 			values[i] = RSA(values[i],e,N); 
+			System.out.println(values[i]);
 		}
 	
 	
@@ -200,8 +172,6 @@ public class RSA_encryption_runner {
 		for (int q=0; q < values.length; q++) values[q] = Long.parseLong(valuesStr[q]);
 		
 		for (int i = 0; i < values.length; i++) {
-			System.out.println("decodee::");
-			System.out.println(RSA(values[i],d,N));
 			values[i] = RSA(values[i],d,N);
 		}
 		
