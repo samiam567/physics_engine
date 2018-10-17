@@ -299,7 +299,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	}
 
 
-	public double[] calculateRotation(double x, double y, double angle) {
+	private double[] calculateRotation(double x, double y, double angle) {
 		double[] polar = Vector2D.rectangularToPolar(x, y);
 		return Vector2D.polarToRectangular(polar[0], polar[1] + angle);
 	}

@@ -45,6 +45,7 @@ public class JetPack extends rectangle {
 			try {
 			    Coin coin = (Coin) object;
 			    JetPack_JoyRide.coins++;
+			    JetPack_JoyRide.coinsEarned++;
 			    coin.coinReLocate();
 			    
 			    if (side.equals(faces.top) || side.equals(faces.bottom)) {

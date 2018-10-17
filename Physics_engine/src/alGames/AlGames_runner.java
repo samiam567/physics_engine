@@ -20,11 +20,11 @@ import pong.Pong_runner;
 
 public class AlGames_runner extends physicsRunner {
 	
-	public static String[] games = {"Pong3D","JetPack JoyRide","Calculator","Physics Simulator","global thermonuclear warfare","exit"};
+	public static String[] games = {"Pong3D","JetPack Collect","Physics Simulator","global thermonuclear warfare","exit"};
 	
 	private static String thermoWar = "Are you crazy?!?\nI'm not letting you start WWIII! ";
 
-	private static String version = "1.1.2";
+	private static String version = "1.1.4";
 	
 	public static void main(String[] args) {
 		frame = new Physics_frame(); 
@@ -46,7 +46,7 @@ public class AlGames_runner extends physicsRunner {
 				case("Pong3D"):
 					Pong_runner.run();
 					break;
-				case("JetPack JoyRide"):
+				case("JetPack Collect"):
 					JetPack_JoyRide.run();
 					break;
 				case("Calculator"):

@@ -55,7 +55,9 @@ public class Pong_runner extends physicsRunner{
 		Settings.timeSpeed = 1;
 		
 		drawer = new object_draw(frame);
+		frame.setVisible(false);
 		frame = (Pong_frame) frame;
+		
 		gameSpeed = gameSetSpeed * diagonal/100;
 
 		frame.setColor(Color.BLUE);
@@ -108,8 +110,18 @@ public class Pong_runner extends physicsRunner{
 	
 		PongStartScreen startScreen = new PongStartScreen(drawer);
 		
+
 		drawer.start();
 		
+		for (int i = 0; i < 100; i++) {
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		frame.setVisible(true);
 		
 		for (int i = 0; i < 1000; i++) {
 			try {
@@ -432,7 +444,7 @@ public class Pong_runner extends physicsRunner{
 		Settings.rotationAlgorithm = 6;
 		Settings.timeOutTime = 1000;
 		
-		drawer.setFrameTimeMultiplier(300);
+		
 		Settings.distanceFromScreenMeters = 0.0001;
 		
 		Settings.width = 1400;

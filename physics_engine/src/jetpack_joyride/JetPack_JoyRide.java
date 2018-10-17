@@ -81,7 +81,7 @@ public class JetPack_JoyRide extends physicsRunner {
 	}
 	
 	public static void init()  {
-		Settings.timeSpeed = 5;	
+		Settings.timeSpeed = 3;	
 		
 		FPS_display fps = new FPS_display(drawer,30,30);
 		drawer.add(fps);
@@ -137,9 +137,9 @@ public class JetPack_JoyRide extends physicsRunner {
 	            	  jetpack.fireSize = 0.75;
 	            	  drawer.inactivity_timer = 0;
 	            	  
-	            	  JetPack_fire jetPackFire = new JetPack_fire(drawer,jetpack.getX() + jetpack.getXSize()* 0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2 ,Math.random() /2 ,-1);
+//	            	  JetPack_fire jetPackFire = new JetPack_fire(drawer,jetpack.getX() + jetpack.getXSize()* 0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2 ,Math.random() /2 ,-1);
 	            	  
-	            	  JetPack_fire jetPackFire2 = new JetPack_fire(drawer,(jetpack.getX() + jetpack.getXSize()) - jetpack.getXSize()*0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2,-Math.random() / 2 ,1);
+//	            	  JetPack_fire jetPackFire2 = new JetPack_fire(drawer,(jetpack.getX() + jetpack.getXSize()) - jetpack.getXSize()*0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2,-Math.random() / 2 ,1);
 		            	 
 	            
 	              }

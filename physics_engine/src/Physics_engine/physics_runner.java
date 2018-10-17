@@ -32,6 +32,10 @@ public class physics_runner extends physicsRunner {
 		boundries = new border_bounce(drawer);
 		drawer.add(boundries);
 		
+	
+		@SuppressWarnings("unused")
+		New_object_listeners News = new New_object_listeners(drawer);
+		
 		frame.setVisible(true);
 	
 		FPS_display fps = new FPS_display(drawer,30,30);
@@ -40,83 +44,28 @@ public class physics_runner extends physicsRunner {
 		FCPS_display fcps = new FCPS_display(drawer,30,50);
 		drawer.add(fcps);
 		
+		Square sq1 = new Square(drawer, Settings.width/2, Settings.height/2, 0,50,1);
+		sq1.setAngularVelocity(0, 0, 0.5);
+		
+		
+		Sphere sp1 = new Sphere(drawer, Settings.width/3,Settings.height/2,0,50, 1, Settings.thetaStep);
+	//	sp1.setParentObject(sq1);
+		sp1.setPointOfRotation(sq1.center);
+		sp1.setSpeed(1, 20, 0);
+		sp1.setAngularVelocity(0, 0, -0.5);
+		
+		drawer.add(sq1);
+		drawer.add(sp1);
+		
+	//	Physics_frame frame2 = new Physics_frame();
+		
+	//	Map_object_draw drawer2 = new Map_object_draw(frame2,drawer,sq1,10000,10000);
+		
+	//	drawer2.start();
+		
+		
+		
 		resize();
-		
-			/*
-		New_object_listeners newObs = new New_object_listeners(drawer);
-		
-		
-		Square sq = new Square(drawer, 500,200,0,50,10);
-		
-		
-		PolarObject sp = new PolarObject(drawer,Settings.width/2 + 50 ,Settings.height/2 - 50,Settings.depth/2 - 50 ,50,"ellipsoid",Settings.thetaStep,2*Math.PI);
-		
-	
-		
-		sp.isTangible = false;
-		sp.isShaded = false;
-		
-		Square sq2 = new Square(drawer, Settings.width/2,Settings.height/2,0,50,10);
-		
-		
-		sp.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
-		
-		PointSet xAxis = new PointSet(drawer);
-		xAxis.addPoint(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
-		xAxis.addPoint(new point(drawer,2*Settings.width/3,1 + Settings.height/2,Settings.depth/2));
-		xAxis.initialize();
-		xAxis.finish();
-		xAxis.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
-		xAxis.setParentObject(sp);
-	
-		PointSet yAxis = new PointSet(drawer);
-		yAxis.addPoint(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
-		yAxis.addPoint(new point(drawer,1+Settings.width/2,Settings.height/3,Settings.depth/2));
-		yAxis.initialize();
-		yAxis.finish();
-		yAxis.setParentObject(xAxis);
-		yAxis.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
-		
-		
-		PointSet zAxis = new PointSet(drawer);
-		zAxis.addPoint(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
-		zAxis.addPoint(new point(drawer,1+Settings.width/2,1+Settings.height/2,Settings.depth/2 - Settings.height/3));
-		zAxis.initialize();
-		zAxis.finish();
-		zAxis.setParentObject(xAxis);
-		zAxis.setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,Settings.depth/2));
-		
-		
-		drawer.add(xAxis);
-		drawer.add(yAxis);
-		drawer.add(zAxis);
-		drawer.add(sp);
-		
-
-	
-		
-		sp.setAngularVelocity(0.05, 0.03, 0.04);
-		
-		*/
-		
-		
-		Square sq = new Square(drawer,500,500,0,50,1);
-	//	sq.setSpeed(1, 0, 0);
-
-	
-		
-		
-		drawer.add(sq);
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		drawer.start();
 

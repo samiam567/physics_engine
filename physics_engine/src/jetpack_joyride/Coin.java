@@ -20,19 +20,7 @@ public class Coin extends Square {
 	public void coinReLocate() {
 		setPos(Settings.width * 20 * Math.random() + (Settings.width+100), Math.random() * (Settings.height-xSize-150), getZReal());
 		setSpeed(-JetPack_JoyRide.jetpack_speed, 0,0);
-	}
-	
-	public void checkForCollision(physics_object current_object,ArrayList<physics_object> objects) {
-		if ( (Math.abs(getCenterX() - ((Physics_drawable) current_object).getCenterX()) < (((Physics_drawable) current_object).getXSize()/2+xSize/2)) && (Math.abs(getCenterY() - ((Physics_drawable) current_object).getCenterY()) < (((Physics_drawable) current_object).getYSize()/2+ySize/2)) /* && (Math.abs(centerZ - current_object.centerZ) < (current_object.getZSize()/2+zSize/2))*/ ) {	
-			if (current_object.name == "jetpack") {
-				coinReLocate();
-				JetPack_JoyRide.coinsEarned++;
-				JetPack_JoyRide.coins++;
-				
-			}
-		}
-	}
-	
+	}	
 	
 	public void secondaryUpdate() {
 		

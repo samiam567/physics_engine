@@ -25,9 +25,9 @@ public class object_draw extends Canvas {
 	
 	private long frameStartTime,updateStartTime;
 	private long frameEndTime,updateEndTime;
-	private int wait_time = 30000000,wait_time_temp,subCalcTime,repaintTime;
+	private int wait_time = 55000000,wait_time_temp,subCalcTime,repaintTime;
 	
-	private long frameTimeMultiplier = 300000000;
+	private long frameTimeMultiplier = 200;
 	
 	public double inactivity_timer = 0;
 	
@@ -206,7 +206,7 @@ public class object_draw extends Canvas {
 	}
 
 
-	public int doThreadedFrame() {
+	public long doThreadedFrame() {
 		
 		
 			frameStartTime = System.nanoTime();
@@ -214,16 +214,16 @@ public class object_draw extends Canvas {
 			frameEndTime = System.nanoTime();
 				
 			repaintTime = (int) (frameEndTime - frameStartTime);
-			wait_time_temp = (int) (frameTimeMultiplier * repaintTime/1000000000);
+			wait_time_temp = (int) (frameTimeMultiplier * repaintTime/1);
 				
 			//use machine learning to adjust to the right wait_time
-			if (wait_time_temp > wait_time) {
-				wait_time ++;
-			}else if (wait_time_temp < wait_time) {
-				wait_time --;
+			if (wait_time_temp > getWaitTime()) {
+				setWaitTime(getWaitTime() + 5000);
+			}else if (wait_time_temp < getWaitTime()) {
+				setWaitTime(getWaitTime() - 5000);
 			}
 //			System.out.println("w" + wait_time);
-			return (wait_time);
+			return (getWaitTime());
 		
 	}
 	
@@ -231,7 +231,7 @@ public class object_draw extends Canvas {
 		if (threadState == 1) {
 			try {
 				doThreadedFrame();
-				while ( frameCount < wait_time) {
+				while ( frameCount < getWaitTime()) {
 					
 					updateStartTime = System.nanoTime();
 					
@@ -246,7 +246,7 @@ public class object_draw extends Canvas {
 					
 					frameCount += subCalcTime;
 					
-					frameStep =  ((float) wait_time)/((float)subCalcTime);
+					frameStep =  ((float) getWaitTime())/((float)subCalcTime);
 					//frameStep = 1/frameStep/2;
 					frameStep = 1/frameStep/Settings.timeSpeed;
 				}
@@ -447,8 +447,12 @@ public class object_draw extends Canvas {
 		frameTimeMultiplier = frameTime;
 	}
 	
-	public long getWaitTime() {
+	public int getWaitTime() {
 		return wait_time;
+	}
+
+	public void setWaitTime(long wait_time) {
+		this.wait_time = (int) wait_time;
 	}
 
 	public double getFrameStep() {

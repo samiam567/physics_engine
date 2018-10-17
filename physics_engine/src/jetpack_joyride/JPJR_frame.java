@@ -12,11 +12,11 @@ public class JPJR_frame extends Physics_frame{
 	
 	public JPJR_frame() {
 	
-		setTitle("Jetpack Joyride V" + JetPack_JoyRide.version + "  -  By Alec Pannunzio");
+		setTitle("Jetpack Collect V" + JetPack_JoyRide.version + "  -  By Alec Pannunzio");
 		setBackground(Color.black);		
 		
 		cp = getContentPane();
-		cp.setBackground(Color.BLACK);
+		cp.setBackground(Color.black);
 	
 	}
 	
