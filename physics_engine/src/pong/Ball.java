@@ -64,7 +64,7 @@ public class Ball extends Sphere implements resizable {
 			updatePoints();
 			
 			//spin
-			setAccel((xSpeed + cPad.getXSpeed())/200,(ySpeed - cPad.getYSpeed())/200,0);
+			setAccel(-(xSpeed + cPad.getXSpeed())/200,(ySpeed - cPad.getYSpeed())/200,0);
 			setAngularVelocity(0.01 *(ySpeed - cPad.getYSpeed()),(xSpeed + cPad.getXSpeed())/200,0);
 			
 			System.out.println((ySpeed - cPad.getYSpeed()));

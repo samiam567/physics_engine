@@ -124,7 +124,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			}
 		}		
 		
-		updatePointXsYsAndZs();
+		
 
 		if (isFilled) {
 			page.fillPolygon(polyXY);
@@ -437,6 +437,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			}
 			
 		}
+		
+		//updatePointXsYsAndZs();
 		
 	}
 

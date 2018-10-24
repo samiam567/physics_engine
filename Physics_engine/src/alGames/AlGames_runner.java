@@ -20,7 +20,7 @@ import pong.Pong_runner;
 
 public class AlGames_runner extends physicsRunner {
 	
-	public static String[] games = {"Pong3D","JetPack Collect","Physics Simulator","global thermonuclear warfare","exit"};
+	public static String[] games = {"Pong3D","JetPack Collect","Physics Simulator","exit"};
 	
 	private static String thermoWar = "Are you crazy?!?\nI'm not letting you start WWIII! ";
 
