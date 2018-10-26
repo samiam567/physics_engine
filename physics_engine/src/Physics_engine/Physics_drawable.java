@@ -18,7 +18,7 @@ public abstract class Physics_drawable extends physics_object implements movable
 	protected point[] points = null; //there are no points
 	int[] pointRenderOrder = null;
 	
-	protected int x,y,z;
+//    protected int x,y,z;
 	protected double xReal,yReal,zReal;
 
 
@@ -79,9 +79,7 @@ public abstract class Physics_drawable extends physics_object implements movable
 		xReal = centerX - xSize/2;
 		yReal = centerY - ySize/2;
 		zReal = centerZ - zSize/2;
-		x = (int) Math.round(xReal);
-		y = (int) Math.round(yReal);
-		z = (int) Math.round(zReal);
+		
 	}
 	
 	public void setSize(double xSize1,double ySize1,double zSize1) { //sets the size of the object
@@ -128,15 +126,15 @@ public abstract class Physics_drawable extends physics_object implements movable
 
 	
 	public int getX() {
-		return x;
+		return (int) Math.round(xReal);
 	}
 	
 	public int getY() {
-		return y;
+		return (int) Math.round(yReal);
 	}
 	
 	public int getZ() {
-		return z;
+		return (int) Math.round(zReal);
 	}
 	
 	public double getXReal() {

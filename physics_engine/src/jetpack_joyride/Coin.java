@@ -43,7 +43,7 @@ public class Coin extends Square {
 		
 		}else {
 			page.setColor(color);
-			page.fillOval(x, y, (int) Math.round(xSize),(int) Math.round(ySize));
+			page.fillOval(getX(), getY(), (int) Math.round(xSize),(int) Math.round(ySize));
 		}
 	}
 }

@@ -327,7 +327,7 @@ public class object_draw extends Canvas {
 																		
 										
 											//draw line between points
-											page.drawLine((int)(current_point.x * Settings.pixelConversion), (int)(current_point.y* Settings.pixelConversion), (int)(next_point.x* Settings.pixelConversion), (int)(next_point.y* Settings.pixelConversion));
+											page.drawLine((int)(current_point.getX() * Settings.pixelConversion), (int)(current_point.getY()* Settings.pixelConversion), (int)(next_point.getX()* Settings.pixelConversion), (int)(next_point.getY()* Settings.pixelConversion));
 										}
 										
 										
@@ -394,7 +394,7 @@ public class object_draw extends Canvas {
 																	
 									
 										//draw line between points
-										page.drawLine((int)(current_point.x * Settings.pixelConversion), (int)(current_point.y* Settings.pixelConversion), (int)(next_point.x* Settings.pixelConversion), (int)(next_point.y* Settings.pixelConversion));
+										page.drawLine((int)(current_point.getX() * Settings.pixelConversion), (int)(current_point.getY()* Settings.pixelConversion), (int)(next_point.getX()* Settings.pixelConversion), (int)(next_point.getY()* Settings.pixelConversion));
 									}
 									
 									

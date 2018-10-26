@@ -139,9 +139,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 					
 					try {
 						//page.drawLine(cPoint.x,cPoint.y,cPoint.nextPoint.x,cPoint.nextPoint.y);
-						page.fillPolygon(new int[] {cPoint.x, cPoint.closestPoints[0].x, cPoint.closestPoints[1].x},new int[] {cPoint.y, cPoint.closestPoints[0].y, cPoint.closestPoints[1].y},3);
+						page.fillPolygon(new int[] {cPoint.getX(), cPoint.closestPoints[0].getY(), cPoint.closestPoints[1].getX()},new int[] {cPoint.getY(), cPoint.closestPoints[0].getY(), cPoint.closestPoints[1].getY()},3);
 					}catch(NullPointerException n) {	
-						page.drawLine(cPoint.x,cPoint.y,polyPointsStart.x,polyPointsStart.y);
+						page.drawLine(cPoint.getX(),cPoint.getY(),polyPointsStart.getX(),polyPointsStart.getY());
 					}
 					
 					cPoint = cPoint.nextPoint;
@@ -279,7 +279,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		vec1 = new Vector2D(drawer,cPoint,cPoint.closestPoints[1]);		
 	
 		
-		double lightLevel = 1; Math.abs(normalLightAngle - vec1.getTheta() );
+		double lightLevel = Math.abs(normalLightAngle - vec1.getTheta() );
 		
 	
 		if (lightLevel >= 3.3) {
@@ -956,31 +956,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		momentOfInertiaCalculated = false;
 	}
 
-	@Override
-	public double getXAccel() {
-		return xAccel;
-	}
 
-	@Override
-	public double getYAccel() {
-		return yAccel;
-	}
-
-	@Override
-	public double getZAccel() {
-		return zAccel;
-	}
-
-	@Override
-	public boolean getIsVisible() {
-		return isVisible;
-	}
-
-	@Override
-	public String getDrawMethod() {
-		return drawMethod;
-	}
-
+	
 	@Override
 	public int[] getPointRenderOrder() {
 		return pointRenderOrder;

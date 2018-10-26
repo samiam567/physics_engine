@@ -87,9 +87,6 @@ public class Vector2D extends Physics_shape {
 		xReal = xReal1;
 		yReal = yReal1;
 		zReal = zReal1;
-		x = (int) Math.round(xReal);
-		y = (int) Math.round(yReal);
-		z = (int) Math.round(zReal);
 		updatePoints();
 	}
 	

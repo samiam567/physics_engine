@@ -56,15 +56,15 @@ public class Missile extends rectangle {
 		
 		//fire
 		page.setColor(Color.orange);
-		page.fillRect(x + (int) Math.round(0.9 * xSizeAppearance) , y + (int)Math.round(ySizeAppearance)/5, (int) Math.round(xSizeAppearance)/2, 2 * (int)Math.round(ySizeAppearance)/3 );
+		page.fillRect(getX() + (int) Math.round(0.9 * xSizeAppearance) , getY() + (int)Math.round(ySizeAppearance)/5, (int) Math.round(xSizeAppearance)/2, 2 * (int)Math.round(ySizeAppearance)/3 );
 			
 		page.setColor(Color.red);	
 		
 		//body
-		page.fillRoundRect(x, y, (int) Math.round(xSizeAppearance), (int)Math.round(ySizeAppearance),  (int)( ySize/2) ,(int)(ySize/2));
+		page.fillRoundRect(getX(), getY(), (int) Math.round(xSizeAppearance), (int)Math.round(ySizeAppearance),  (int)( ySize/2) ,(int)(ySize/2));
 			
 		//missile warning sign
-		if (x > Settings.width) {
+		if (getX() > Settings.width) {
 			page.fillRoundRect(Settings.width - (int)(2.2 * ySize), getY(), (int)( ySize), (int)( ySize), (int)( ySize/2) ,(int)(ySize/2));
 		}
 		

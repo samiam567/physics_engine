@@ -63,22 +63,22 @@ public class JetPack extends rectangle {
 	public void paint(Graphics page) {
 
 		page.setColor(color);
-		page.fillRect(x, y, (int) Math.round(ySize/2), (int) Math.round(ySize));
-		page.fillRect((int) Math.round(x + ySize/2) - 3, y, (int) Math.round(ySize/2), (int) Math.round(ySize));
+		page.fillRect(getX(), getY(), (int) Math.round(ySize/2), (int) Math.round(ySize));
+		page.fillRect((int) Math.round(getX() + ySize/2) - 3, getY(), (int) Math.round(ySize/2), (int) Math.round(ySize));
 		
 		page.setColor(Color.DARK_GRAY);
-		page.drawRect(x, y, (int) Math.round(ySize/2), (int) Math.round(ySize));
-		page.drawRect((int) Math.round(x + ySize/2) , y, (int) Math.round(ySize/2)-3, (int) Math.round(ySize));
+		page.drawRect(getX(), getY(), (int) Math.round(ySize/2), (int) Math.round(ySize));
+		page.drawRect((int) Math.round(getX() + ySize/2) , getY(), (int) Math.round(ySize/2)-3, (int) Math.round(ySize));
 		
 		if (fireSize > 0.4) {
 			page.setColor(Color.yellow);
-			page.fillRect(x+3,(int) ( y+Math.round(ySize)), (int) Math.round(ySize/2)-6, (int) Math.round(fireSize*ySize/2));
-			page.fillRect((int) Math.round(ySize/2)+x+1,(int) ( y+Math.round(ySize)), (int) Math.round(ySize/2)-6, (int) Math.round(fireSize*ySize/2));
+			page.fillRect(getX()+3,(int) ( getY()+Math.round(ySize)), (int) Math.round(ySize/2)-6, (int) Math.round(fireSize*ySize/2));
+			page.fillRect((int) Math.round(ySize/2)+getX()+1,(int) ( getY()+Math.round(ySize)), (int) Math.round(ySize/2)-6, (int) Math.round(fireSize*ySize/2));
 		}
 		
 		page.setColor(Color.orange);
-		page.fillRect(x+2,(int) ( y+Math.round(ySize)), (int) Math.round(ySize/2)-4, (int) Math.round(0.45*ySize/2));
-		page.fillRect((int) Math.round(ySize/2)+x,(int) ( y+Math.round(ySize)), (int) Math.round(ySize/2)-4, (int) Math.round(0.45*ySize/2));
+		page.fillRect(getX()+2,(int) ( getY()+Math.round(ySize)), (int) Math.round(ySize/2)-4, (int) Math.round(0.45*ySize/2));
+		page.fillRect((int) Math.round(ySize/2)+getX(),(int) ( getY()+Math.round(ySize)), (int) Math.round(ySize/2)-4, (int) Math.round(0.45*ySize/2));
 	
 		}
 

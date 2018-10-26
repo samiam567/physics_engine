@@ -78,9 +78,9 @@ public class ScoreBoard extends Physics_drawable {
 		page.setFont(font);
 		
 		if (roundScore) {
-			page.drawString(score_phrase + " " + (int) Math.round(score) + end_phrase, x, y);
+			page.drawString(score_phrase + " " + (int) Math.round(score) + end_phrase, getX(), getY());
 		}else {
-			page.drawString(score_phrase + " " + score + end_phrase, x, y);
+			page.drawString(score_phrase + " " + score + end_phrase, getX(), getY());
 		}
 	}
 

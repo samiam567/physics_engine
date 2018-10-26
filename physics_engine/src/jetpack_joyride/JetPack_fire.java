@@ -28,9 +28,9 @@ public class JetPack_fire extends Physics_shape {
 	}
 	
 	public void tertiaryUpdate() {
-		if (y > (Settings.height)) {
+		if (getY() > (Settings.height)) {
 			drawer.remove(this);
-		}else if (y < 0) {
+		}else if (getY() < 0) {
 			drawer.remove(this);
 		}
 	}
@@ -40,7 +40,7 @@ public class JetPack_fire extends Physics_shape {
 	@Override
 	public void paint(Graphics page) {
 		page.setColor(Color.ORANGE);
-		page.fillRect(x, y,(int) xSize,(int) ySize);
+		page.fillRect(getX(), getY(),(int) xSize,(int) ySize);
 		
 	}
 

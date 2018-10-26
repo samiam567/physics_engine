@@ -4,7 +4,7 @@ import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 import Physics_engine.physics_object.object_types;
 
 
-public interface rotatable extends pointed { //the ability to be rotated
+public interface rotatable extends movable { //the ability to be rotated
 	public object_types object_type = object_types.rotatable;
 	
 	/* variables needed:

@@ -115,10 +115,10 @@ public class Ball extends Sphere implements resizable {
 		
 		
 		//distance bars
-		page.fillRect(0, 0, Settings.width/100, (int) (((Settings.height*0.85) * z)/Settings.depth));
+		page.fillRect(0, 0, Settings.width/100, (int) (((Settings.height*0.85) * getZ())/Settings.depth));
 		page.drawRect(0, 0, Settings.width/100, (int) (Settings.height*0.85));
 		
-		page.fillRect((int) (Settings.width - Settings.width/100 - 20), 0, Settings.width/100, (int) (((Settings.height*0.85) * z)/Settings.depth));
+		page.fillRect((int) (Settings.width - Settings.width/100 - 20), 0, Settings.width/100, (int) (((Settings.height*0.85) * getZ())/Settings.depth));
 		page.drawRect((int) (Settings.width - Settings.width/100 - 20), 0, Settings.width/100, (int) (Settings.height*0.85));
 
 	}

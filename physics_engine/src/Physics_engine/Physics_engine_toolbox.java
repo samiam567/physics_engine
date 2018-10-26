@@ -36,9 +36,8 @@ public class Physics_engine_toolbox {
 		//use try-catch to update each object depending on which interfaces it implements 
 		
 		
-		
+		current_object.Update(frames);
 
-		
 		
 		try {	
 			

@@ -82,9 +82,6 @@ public class point extends Physics_drawable {
 		centerX = xReal;
 		centerY = yReal;
 		centerZ = zReal;
-		x = (int) Math.round(xReal);
-		y = (int) Math.round(yReal);
-		z = (int) Math.round(zReal);
 	}
 
 	public void setR(double r1) {
@@ -130,8 +127,8 @@ public class point extends Physics_drawable {
 	}
 
 	public void paint(Graphics page) {
-		if (Settings.displayObjectNames) page.drawString(name, x, y); //display the name of the point
-		page.drawLine(x, y, x, y); //draw the point
+		if (Settings.displayObjectNames) page.drawString(name, getX(), getY()); //display the name of the point
+		page.drawLine(getX(), getY(), getX(), getY()); //draw the point
 	}
 
 	

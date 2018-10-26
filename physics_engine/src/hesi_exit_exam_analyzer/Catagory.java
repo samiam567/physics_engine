@@ -73,10 +73,10 @@ public class Catagory extends Physics_drawable implements Serializable {
 		page.setFont(catFont);
 		
 		page.setColor(color);
-		page.fillRect(x, y-20,(int) (Settings.width/10 * Math.sqrt(questions)), 20);
+		page.fillRect(getX(), getY()-20,(int) (Settings.width/10 * Math.sqrt(questions)), 20);
 		
 		page.setColor(Color.black);
-		page.drawString(name + "   Score: " + getScore() + "    Questions: " + getQuestions(), x, y-5);
+		page.drawString(name + "   Score: " + getScore() + "    Questions: " + getQuestions(), getX(), getY()-5);
 		
 	}
 }

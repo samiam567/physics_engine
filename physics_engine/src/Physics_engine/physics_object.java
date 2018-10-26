@@ -20,6 +20,10 @@ public abstract class physics_object implements physics_engine_compatible, Seria
 	public physics_object(object_draw drawer1) {
 		drawer = drawer1;
 	}
+	
+	public void Update(double frames) { 
+		//updates the object
+	}
 
 	public void secondaryUpdate() {
 		//this is a subclass-specific update method that can be overridden to allow for each child class to be updated differently

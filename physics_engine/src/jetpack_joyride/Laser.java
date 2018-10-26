@@ -37,7 +37,7 @@ public class Laser extends rectangle{
 	
 	
 	public void paint(Graphics page) {
-		page.fillRect(x,y, (int) Math.round(xSizeAppearance),(int) Math.round(ySizeAppearance));
+		page.fillRect(getX(),getY(), (int) Math.round(xSizeAppearance),(int) Math.round(ySizeAppearance));
 //		page.setColor(Color.ORANGE);
 //		page.fillRect(x + (int) Math.round(xSizeAppearance/4),y + (int) Math.round(ySizeAppearance/4), (int) Math.round(xSizeAppearance/2),(int) Math.round(ySizeAppearance/2));
 	}

@@ -44,19 +44,19 @@ public class Text extends Physics_drawable {
 			}
 			
 			//go through the text and add a newline marker (`) when the text gets to the end of the frame
-			int xPosOfTheEnd = x;
+			int xPosOfTheEnd = getX();
 			String firstPart;
 			String endPart;
 			for (int i = 0; i < text.length(); i++) { 
 				xPosOfTheEnd += fontSize;
 				
 				if (text.substring(i, i+1).equals("`")) {
-					xPosOfTheEnd = x;
+					xPosOfTheEnd = getX();
 				}
 				
 				if (xPosOfTheEnd >= 1.8 * Settings.width) {
 					System.out.println("| \n" + text);
-					xPosOfTheEnd = x;
+					xPosOfTheEnd = getX();
 					firstPart = text.substring(0, i);
 					endPart = text.substring(i);
 					text = firstPart + "`" + endPart;
@@ -79,11 +79,11 @@ public class Text extends Physics_drawable {
 		
 		try {
 			for (int i = 0; i < lines.length; i++) {
-				page.drawString( lines[i] ,x,(int) Math.round(y + fontSize * i * 1.1));
+				page.drawString( lines[i] ,getX(),(int) Math.round(getY() + fontSize * i * 1.1));
 			}
 		}catch(NullPointerException n) {
 			text = "null";
-			page.drawString(text, x, y);
+			page.drawString(text, getX(), getY());
 		}
 		
 	}
