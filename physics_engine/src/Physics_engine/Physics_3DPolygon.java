@@ -59,8 +59,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	private double initialXDistanceFromPointOfRot,initialYDistanceFromPointOfRot,initialZDistanceFromPointOfRot;
 	
 	private class Polygon_point extends point {
-		
-	
 		/**
 		 * 
 		 */
