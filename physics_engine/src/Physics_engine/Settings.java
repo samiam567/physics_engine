@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.12.3";
+	public static final String version = "4.13.0";
 	
 	
 	public static double pixelConversion = 1; //37.65;
@@ -15,7 +15,7 @@ public class Settings {
 
 	public static int timeSpeed = 20;
 	
-	public static double[] lightSource = {0,0,0};
+	public static double[] lightSource = {Settings.width/2,Settings.height/2,-1000};
 	
 	public static final long frameTime = 2500000; //this doesn't do anything anymore
 	public static int timeOutTime = 10000;

@@ -28,4 +28,17 @@ public interface rotatable extends movable { //the ability to be rotated
 	public pointOfRotationPlaces getPointOfRotationPlace();
 	public point getPointOfRotation();
 	
+	public double getAngularVelocityX();
+	public double getAngularVelocityY();
+	public double getAngularVelocityZ();
+
+	public double getAngularAccelX();
+	public double getAngularAccelY();
+	public double getAngularAccelZ();
+	
+
+	public boolean getIsRotatable();
+	
+
+	
 }

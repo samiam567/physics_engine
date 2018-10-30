@@ -17,9 +17,6 @@ public abstract interface pointed extends movable { //made up of points
 	void updatePointXsYsAndZs();
 	public point[] getPoints();
 	
-	public double getAngularVelocityX();
-	public double getAngularVelocityY();
-	public double getAngularVelocityZ();
 	public void setAngularVelocity(double angularVelocityX, double angularVelocityY, double angularVelocityZ);
 
 	public double getAngularAccelX();
@@ -30,20 +27,21 @@ public abstract interface pointed extends movable { //made up of points
 	public double getYRotation();
 	public double getZRotation();
 	
-	public void updatePolygons();
-	
 	public boolean getIsRotatable();
 	
+	public void setPointOfRotation(point point);
+	public void setPointOfRotationPlace(pointOfRotationPlaces custom);
+	public pointOfRotationPlaces getPointOfRotationPlace();
+	
+
+		
+	public void updatePolygons();
+
 	public void calculatePointValues();
 	
 	public Polygon getPolyXY();
 
-	public void setPointOfRotation(point point);
-
-	public void setPointOfRotationPlace(pointOfRotationPlaces custom);
-
-	public pointOfRotationPlaces getPointOfRotationPlace();
-
+	
 	public void updatePointConstants();
 
 	public void updateAreas();

@@ -55,27 +55,27 @@ public class Physics_engine_toolbox {
 				try {
 					
 				
-					((massive)current_object).setAngularVelocity(((massive)parent_object).getAngularVelocityX(), ((massive)parent_object).getAngularVelocityY(),((massive)parent_object).getAngularVelocityZ());
-	
+					
 					((massive)current_object).setMass(((massive)parent_object).getMass());
 					((massive)current_object).setFrictionCoefficient(((massive)parent_object).getFrictionCoefficient());
 				
+				}catch(ClassCastException c) {
+					
+				}	
 					//updating angular velocity
-					((massive)current_object).setAngularVelocity(((massive)current_object).getAngularVelocityX() + ((massive)current_object).getAngularAccelX() * frames,((massive)current_object).getAngularVelocityY() + ((massive)current_object).getAngularAccelY() * frames,((massive)current_object).getAngularVelocityZ() + ((massive)current_object).getAngularAccelZ() * frames );
+					((rotatable)current_object).setAngularVelocity(((rotatable)current_object).getAngularVelocityX() + ((massive)current_object).getAngularAccelX() * frames,((rotatable)current_object).getAngularVelocityY() + ((massive)current_object).getAngularAccelY() * frames,((rotatable)current_object).getAngularVelocityZ() + ((rotatable)current_object).getAngularAccelZ() * frames );
 
 					
 					//updating rotation
-					((massive)current_object).setRotation( 
-							((massive)current_object).getXRotation() +  ((massive)current_object).getAngularVelocityX() * frames,
-							((massive)current_object).getYRotation() +  ((massive)current_object).getAngularVelocityY() * frames,
-							((massive)current_object).getZRotation() +  ((massive)current_object).getAngularVelocityZ() * frames
+					((rotatable)current_object).setRotation( 
+							((rotatable)current_object).getXRotation() +  ((rotatable)current_object).getAngularVelocityX() * frames,
+							((rotatable)current_object).getYRotation() +  ((rotatable)current_object).getAngularVelocityY() * frames,
+							((rotatable)current_object).getZRotation() +  ((rotatable)current_object).getAngularVelocityZ() * frames
 					);
 					
 					((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
 	
-				}catch(ClassCastException c) {
-					
-				}
+				
 				
 				//update real pos
 				((Physics_drawable)current_object).centerX += (((Physics_drawable)current_object).xSpeed * frames);
@@ -92,34 +92,31 @@ public class Physics_engine_toolbox {
 				
 			}else {
 		
-				//pointed
+				//rotatable
 				try {
 				
-					if (((massive)current_object).getIsRotatable()) { //rotation shouldn't be updated if the object isn't rotatable
-						
+					if (((rotatable)current_object).getIsRotatable()) { //rotation shouldn't be updated if the object isn't rotatable
+		
 						
 						//updating angular velocity
-						((massive)current_object).setAngularVelocity(((massive)current_object).getAngularVelocityX() + ((massive)current_object).getAngularAccelX() * frames,((massive)current_object).getAngularVelocityY() + ((massive)current_object).getAngularAccelY() * frames,((massive)current_object).getAngularVelocityZ() + ((massive)current_object).getAngularAccelZ() * frames );
-
+						((rotatable)current_object).setAngularVelocity(((rotatable)current_object).getAngularVelocityX() + ((rotatable)current_object).getAngularAccelX() * frames,((rotatable)current_object).getAngularVelocityY() + ((rotatable)current_object).getAngularAccelY() * frames,((rotatable)current_object).getAngularVelocityZ() + ((rotatable)current_object).getAngularAccelZ() * frames );
+					
 						
 						//updating rotation
-						((massive)current_object).setRotation( 
-								((massive)current_object).getXRotation() +  ((massive)current_object).getAngularVelocityX() * frames,
-								((massive)current_object).getYRotation() +  ((massive)current_object).getAngularVelocityY() * frames,
-								((massive)current_object).getZRotation() +  ((massive)current_object).getAngularVelocityZ() * frames
+						((rotatable)current_object).setRotation( 
+								((rotatable)current_object).getXRotation() +  ((rotatable)current_object).getAngularVelocityX() * frames,
+								((rotatable)current_object).getYRotation() +  ((rotatable)current_object).getAngularVelocityY() * frames,
+								((rotatable)current_object).getZRotation() +  ((rotatable)current_object).getAngularVelocityZ() * frames
 						);
 						
-						((massive) current_object).updatePointXsYsAndZs();
+				
 					}	
 					
-					((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
 					
-			
 				
 				}catch(ClassCastException c) {
-					
+			
 				}
-				
 				
 				///movable
 				try {
@@ -172,8 +169,8 @@ public class Physics_engine_toolbox {
 			
 			((pointed) current_object).updatePointXsYsAndZs();
 			((pointed) current_object).updateAreas();
+
 			
-	
 			((pointed) current_object).updatePoints();
 			
 			

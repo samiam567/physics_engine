@@ -17,24 +17,28 @@ public class physics_runner extends physicsRunner {
 
 	
 	public static void main(String[] args) {
+		Settings.frameColor = Color.blue;
 		frame = new Physics_frame();
 		drawer = new object_draw(frame);
 		run();
 	}
 	
 	public static void setDrawer(object_draw drawer1) {
+		Settings.frameColor = Color.blue;
 		frame =  new Physics_frame();
 		drawer = drawer1;
 		drawer.setFrame(frame);
 	}
 	
 	public static void run() {
+		
 		boundries = new border_bounce(drawer);
 		drawer.add(boundries);
 		
 	
-		@SuppressWarnings("unused")
-		New_object_listeners News = new New_object_listeners(drawer);
+	//	@SuppressWarnings("unused")
+	//	New_object_listeners News = new New_object_listeners(drawer);
+		
 		
 		frame.setVisible(true);
 	
@@ -44,30 +48,22 @@ public class physics_runner extends physicsRunner {
 		FCPS_display fcps = new FCPS_display(drawer,30,50);
 		drawer.add(fcps);
 		
-		Square sq1 = new Square(drawer, Settings.width/2, Settings.height/2, 0,50,1);
-		sq1.setAngularVelocity(0, 0, 0.5);
 		
-		
-		Sphere sp1 = new Sphere(drawer, Settings.width/3,Settings.height/2,0,50, 1, Settings.thetaStep);
-	//	sp1.setParentObject(sq1);
-		sp1.setPointOfRotation(sq1.center);
-		sp1.setSpeed(1, 20, 0);
-		sp1.setAngularVelocity(0, 0, -0.5);
-		
-		drawer.add(sq1);
-		drawer.add(sp1);
-		
-	//	Physics_frame frame2 = new Physics_frame();
-		
-	//	Map_object_draw drawer2 = new Map_object_draw(frame2,drawer,sq1,10000,10000);
-		
-	//	drawer2.start();
+		Physics_3DShape shape1 = new Physics_3DShape(drawer,200,200,0,50,50,50,"1+1");
+		shape1.setAngularVelocity(0.1, 0.1, 0.2);
+		shape1.setSpeed(10, 0, 0);
+		drawer.add(shape1);
+	
+	
 		
 		
 		
 		resize();
 		
 		drawer.start();
+
+		
+		shape1.setRotation(1,0,0);
 
 		waitForEnd();
 		

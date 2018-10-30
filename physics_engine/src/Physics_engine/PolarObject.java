@@ -197,7 +197,7 @@ public class PolarObject extends Physics_3DPolygon {
 	
 	public point thing2(double z, double t) {
 		double x1 = xSize * Math.cos(z);
-		double y1 =ySize *  Math.sin(z);
+		double y1 = ySize *  Math.sin(z);
 		double z1 = zSize * Math.sin(t);
 		return  new point(drawer,centerX + x1,centerY - y1 ,centerZ + z1 );
 	}

@@ -25,9 +25,9 @@ public class object_draw extends Canvas {
 	
 	private long frameStartTime,updateStartTime;
 	private long frameEndTime,updateEndTime;
-	private int wait_time = 55000000,wait_time_temp,subCalcTime,repaintTime;
+	private int wait_time = 75000000,wait_time_temp,subCalcTime,repaintTime;
 	
-	private long frameTimeMultiplier = 200;
+	private long frameTimeMultiplier = 2000;
 	
 	public double inactivity_timer = 0;
 	
@@ -418,7 +418,7 @@ public class object_draw extends Canvas {
 				}
 			}
 		}catch(ConcurrentModificationException c) {
-			System.out.println("concModExc");
+		
 		}
 		
 	}

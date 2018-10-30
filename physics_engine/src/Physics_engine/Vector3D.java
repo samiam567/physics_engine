@@ -121,6 +121,10 @@ public class Vector3D extends Physics_shape {
 		return new Vector3D(u.drawer,u.getI() * mult, u.getJ() * mult, u.getK() * mult);
 	}
 	
+	public void divide(double div) {
+		setIJK(getI() / div,getJ() / div,getK() / div);
+	}
+	
 	public static Vector3D cross(Vector3D u, Vector3D q) {
 		return new Vector3D(u.getDrawer(),u.getJ()*q.getK()-u.getK()*q.getJ(),-(u.getI()*q.getK()-u.getK()*q.getI()),u.getI()*q.getJ()-u.getJ()*q.getI());
 	}
