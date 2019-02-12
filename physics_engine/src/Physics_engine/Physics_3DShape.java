@@ -176,9 +176,9 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 	
 	
 	private double[] equation(double t, double z) {
-		double x1 =50 * Math.cos(t) * Math.cos(z);
-		double y1 =50 * Math.cos(t) * Math.sin(z);
-		double z1 =50 * t;
+		double x1 = xSize * Math.cos(z);
+		double y1 = ySize *  Math.sin(z);
+		double z1 = zSize * Math.sin(t);
 		return  new double[] {x1,y1 ,z1 };
 	}
 	
@@ -204,7 +204,8 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 		setPos(x1,y1,z1);
 		setSize(xSize1,ySize1,zSize1);
 		
-		double delta = 0.001 * Math.sqrt(xSize*xSize + ySize*ySize + zSize * zSize);
+		//double delta = 0.001 * Math.sqrt(xSize*xSize + ySize*ySize + zSize * zSize);
+		double delta = 0.3;
 		int pointsPerPolygon = 3;
 		
 		

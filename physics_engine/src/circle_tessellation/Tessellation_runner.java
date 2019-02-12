@@ -19,7 +19,7 @@ public class Tessellation_runner {
 	public static Physics_frame frame;
 	
 	private static String shape = "circle";
-	private static int levels = 5,size = 120,startX=0,startY=0,endX=Settings.width,endY=Settings.height;
+	private static int levels = 4,size = 120,startX=0,startY=0,endX=Settings.width,endY=Settings.height;
 	private static double[] lSizes;
 	
 	private static border_bounce boundries;

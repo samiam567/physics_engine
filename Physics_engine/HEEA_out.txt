@@ -1,5 +1,57 @@
 --------------------------------------------------------------------------------------
  
+Retrieving student from database
+Waiting for database to load... please wait
+Database loaded
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+printing to the screen
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+green
+--------------------------------------------------------------------------------------
+ 
 Printing to file
 --------------------------------------------------------------------------------------
 Psychoses   Score: 621 Questions: 5 RedZone
@@ -36,3 +88,4 @@ Postpartum   Score: 1011 Questions: 3 GreenZone
 Depress/Grief   Score: 1114 Questions: 2 GreenZone
 Research/Theory   Score: 988 Questions: 1 GreenZone
  
+Terminating program

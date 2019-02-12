@@ -358,27 +358,32 @@ public class Pong_runner extends physicsRunner{
 			case(0):
 				System.out.println("Difficulty: Easy");
 				AI_difficulty = 1;
-				gameSetSpeed = 1;
+	
 				break;
 			
 			case(1):
 				System.out.println("Difficulty: Normal");
 				AI_difficulty = 2;
-				gameSetSpeed = 1;
+				gameSetSpeed *= 2;
+		
 				break;
 			
 			case(2):
 				System.out.println("Difficulty: Hard");
-				AI_difficulty = 3.1;
-				gameSetSpeed = 1;
+				AI_difficulty = 3;
+				gameSetSpeed *= 3;
+		
 				break;
 				
 			case(3):
 				System.out.println("Difficulty: EXTREME!!");
 				AI_difficulty = 3.2;
-				gameSetSpeed = 2.3;
+				gameSetSpeed *= 5;
+		
 				break;
 		}
+		
+		ball.tertiaryUpdate();
 	}
 	
 	public static void reColor(Color primary, Color secondary, Color tertiary) {

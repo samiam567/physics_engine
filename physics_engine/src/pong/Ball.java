@@ -33,6 +33,7 @@ public class Ball extends Sphere implements resizable {
 	}
 	
 	public void tertiaryUpdate() {
+		ballZSpeed = Pong_runner.gameSetSpeed * 100;
 		double size = 100 * Settings.width/(zReal + 500);
 		setSize(size,size,size);
 		
