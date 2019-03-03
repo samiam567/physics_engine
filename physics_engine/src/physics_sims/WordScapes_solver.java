@@ -4,22 +4,23 @@ import java.util.ArrayList;
 
 public class WordScapes_solver {
 	
-	private static String[] letters = {"t","r","t","i","e","f"};
-	private static String[] wordConstraints = {"t","","","",""};
+	private static String[] letters = {"r","n","a","b"};
+	private static String[] wordConstraints = {"","","",""};
+	
 	
 	public static void main(String[] args) {
 			
-		
+		ArrayList<String> doneGuesses = new ArrayList<String>();
 		ArrayList<String> wordPossibilities = new ArrayList<String>();
 		ArrayList<String> lettersLst = new ArrayList<String>();
 		
 		int wordSize = wordConstraints.length; 
 		
-		long combinations = factorial(letters.length)/factorial(letters.length - wordSize);
+		long combinations = factorial(letters.length)/factorial(letters.length - wordSize)-1;
 		
 		String guess,letter;
 		int indx;
-		for (int x = 0; x < combinations; x++) {
+		for (int numGuesses = 0; numGuesses < combinations; ) {
 			
 			do{
 				do {
@@ -35,8 +36,14 @@ public class WordScapes_solver {
 						}while(countLetter(guess,letter) >= countLetter(letters,letter));
 						guess += letter;
 					}
-				}while(! wordFollowsConstraints(guess));
-			}while (wordPossibilities.contains(guess));
+					if (! doneGuesses.contains(guess)) {
+						numGuesses++;
+						doneGuesses.add(guess);
+					}
+				}while (wordPossibilities.contains(guess));
+				
+			}while(! wordFollowsConstraints(guess));
+	
 			System.out.println(guess);
 			wordPossibilities.add(guess);
 		
