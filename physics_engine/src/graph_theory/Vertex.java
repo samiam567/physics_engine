@@ -24,7 +24,7 @@ public class Vertex extends Physics_drawable {
 	
 	public void runHamiltonConnection(int currentVertexCounter,ArrayList<Integer> currentPath,double cost1) {
 		try {
-			Thread.sleep(10);
+			Thread.sleep(300);
 		}catch(Exception e) {}
 		
 		int timesUsedTemp = timesUsed; //used to reset timesUsed after this method

@@ -10,29 +10,10 @@ public class IUPUIMathComp {
 	private static ArrayList<Long> cAns = new ArrayList<Long>();
 	
 	public static void main(String[] args) {
-		IQ();
+		Q1();
 	}
 	
-	private static void IQ() {
-		int numRolls = 10000000;
-		double[] numbers = new double[6];
-		System.out.println("Rolling die " + numRolls + " times");
-		
-		int roll = 0,count=0;
-		while (roll < numRolls) {
-			count = 0;
-			while (count < 1000) {
-				count += (int) Math.round(Math.random()*6);
-			}
-			numbers[count%1000]++;
-			roll++;
-		}
-		
-		for (int i = 0; i < numbers.length; i++) numbers[i] = numbers[i]/numRolls;
-		
-		for (int i = 0; i < numbers.length; i++) System.out.println(i+1001 + ": " + numbers[i]);
-		
-	}
+	
 	
 	private static void Q1() {
 		Scanner key = new Scanner(System.in);
@@ -94,5 +75,27 @@ public class IUPUIMathComp {
 		}else {
 			return x;
 		}
+	}
+	
+	
+	private static void IQ() {
+		int numRolls = 10000000;
+		double[] numbers = new double[6];
+		System.out.println("Rolling die " + numRolls + " times");
+		
+		int roll = 0,count=0;
+		while (roll < numRolls) {
+			count = 0;
+			while (count < 1000) {
+				count += (int) Math.round(Math.random()*6);
+			}
+			numbers[count%1000]++;
+			roll++;
+		}
+		
+		for (int i = 0; i < numbers.length; i++) numbers[i] = numbers[i]/numRolls;
+		
+		for (int i = 0; i < numbers.length; i++) System.out.println(i+1001 + ": " + numbers[i]);
+		
 	}
 }

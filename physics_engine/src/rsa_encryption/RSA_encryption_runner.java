@@ -1,6 +1,7 @@
 package rsa_encryption;
 
 import java.awt.List;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -10,7 +11,7 @@ import Physics_engine.array;
 public class RSA_encryption_runner {
 	private static final String Version = "1.0.3";
 	//1279, q = 1283
-	private static final int p = 1279, q = 1283; //two prime numbers (these are what are used to derive the private key)
+	private static  int p = 1279, q = 1283; //two prime numbers (these are what are used to derive the private key)
 	private static long N = p*q; //N and e make up the public key and are used to encrypt messages
 	private static long e,d; //N and d make up the private key which you keep to yourself and is used to decrypt messages
 	
@@ -22,29 +23,22 @@ public class RSA_encryption_runner {
 	
 	private static array list = new array("String");
 	
-	public static void main(String[] args) {
-		int c = (p-1) * (q-1);
+	private static int indexOfInList(String thing)  {
+		for (int i = 0; i < chars.length; i++) {
+			if (thing.equals(chars[i])) return i;
+		}
+		return -1;
+	}
 	
+	public static void main(String[] args) {
 		
-	//guessing the rest of the numbers 
-		//find e 
-		e = 2;
-		while ((c % e) == 0) {
-			e++;
-		}
+		//initialize();
 		
-		//find d 
-		d = 2;
-		while ((e*d) % c != 1) {
-			d++;
-		}
-
-	//////////////
+		System.out.println(passwordCrypt(JOptionPane.showInputDialog("Type what you want to encode/decode"),"Sierra Allen",2));
 		
-		System.out.println("N: " + N);
-		System.out.println("e: " + e);
-		System.out.println("d: " + d);
+		
 			
+		/*
 		String message = "";
 		
 		do {
@@ -60,7 +54,73 @@ public class RSA_encryption_runner {
 			}
 			
 		}while (JOptionPane.showConfirmDialog(null,"Do you want to do another?", "Another?", 1, 1, null) == 0);
+		*/
+	}
+	
+	public static String passwordCrypt(String input,String password, int mode) {
+		password = "Sierra Allen";
 		
+		
+		password = password.toLowerCase();
+		Scanner passScan = new Scanner(password);
+		
+		String first = passScan.next();
+		String second = passScan.next();
+		int firstPrime = 0, secondPrime = 0;
+		
+		for (int i = 0; i < first.length(); i++) {
+			firstPrime += Math.pow(indexOfInList(first.substring(i, i+1)),2);
+		}
+		firstPrime *= 2;
+		firstPrime += 5;
+		
+		for (int i = 0; i < second.length(); i++) {
+			secondPrime += Math.pow(indexOfInList(second.substring(i, i+1)),2);
+		}
+		secondPrime -= 1;
+		
+		System.out.println(firstPrime);
+		System.out.println(secondPrime);
+		
+		p = firstPrime;
+		q = secondPrime;
+		
+		N = p*q;
+		
+		if (mode == 2) {
+			if (input.substring(0,1).equals("{")) {
+				mode = 1;
+			}else {
+				mode = 0;
+			}
+		}
+		
+		initialize();
+		return crypt(input,mode,N,e);
+
+	}
+	
+	public static void initialize() {
+		int c = (p-1) * (q-1);
+		
+ 	//guessing the rest of the numbers 
+		//find e 
+		e = 2;
+		while ((c % e) == 0) {
+			e++;
+		}
+		
+		//find d 
+		d = 2;
+		while ((e*d) % c != 1) {
+			d++;
+		}
+		
+		System.out.println("N: " + N);
+		System.out.println("e: " + e);
+		System.out.println("d: " + d);
+
+	//////////////
 	}
 	
 	public static String crypt(String input) {
@@ -72,6 +132,23 @@ public class RSA_encryption_runner {
 		if  (mode == 0) {//encrypt     //(input.substring(0, 1).equals("{")) { 
 			N = (long) Physics_engine_toolbox.getDoubleFromUser(null, "What is the other person's N?");
 			e = (long) Physics_engine_toolbox.getDoubleFromUser(null, "What is the other person's e?");	
+			String message = encrypt(input);
+			message = encode(message);
+			return message;
+		}else if (mode == 1) { //decrypt
+			String message = decode(input);
+		
+			message = decrypt(message);
+			return message;
+		}else {
+			return "logic error";
+		}
+	}
+	
+	public static String crypt(String input, int mode, long N1, long e1) {
+		if  (mode == 0) {//encrypt     //(input.substring(0, 1).equals("{")) { 
+			N = N1;
+			e = e1;
 			String message = encrypt(input);
 			message = encode(message);
 			return message;
@@ -158,6 +235,7 @@ public class RSA_encryption_runner {
 			answer *= b % m;
 			answer = answer % m;
 		}
+		System.out.println(answer);
 		return answer;
 	}
 	
