@@ -4,15 +4,18 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
+import Physics_engine.Physics_engine_toolbox;
+
 public class Essay_Generator {
 	
 	private static Database_loader databaseLoader;
 	
+	private static int essaySize = 100;
 	
 	public static void main(String[] args) {
 		databaseLoader = new Database_loader("EssayDatabase.txt");
 		databaseLoader.getDatabase();
-		String[] options = {"write essay","scan in essay","insert direct input","clear database","save database and quit","quit"};
+		String[] options = {"write essay","scan in essay","insert direct input","change essay size","clear database","save database and quit","output database","quit"};
 		
 		int thingToDo = 0;
 		while (! options[thingToDo].equals("quit")) {
@@ -28,9 +31,18 @@ public class Essay_Generator {
 				databaseLoader.getDatabase().importEssay(scan);
 			}else if (options[thingToDo].equals("clear database")) { 
 				databaseLoader.clearDatabase();
+			}else if (options[thingToDo].equals("change essay size")) { 
+				essaySize = Physics_engine_toolbox.getIntegerFromUser(null, "Essay Size");
 			}else if (options[thingToDo].equals("save database and quit")) {
 				databaseLoader.closeDatabase();
 				break;
+			}else if (options[thingToDo].equals("output database")) { 
+				String output = "";
+				for (int i = 0; i < databaseLoader.getDatabase().words.size(); i++) {
+					output += databaseLoader.getDatabase().getWord(i).toString();
+				}
+				System.out.println(output);
+				JOptionPane.showMessageDialog(null,output);
 			}else if (options[thingToDo].equals("quit")) {
 				System.exit(1);
 			}
@@ -48,7 +60,7 @@ public class Essay_Generator {
 		System.out.println(databaseLoader.getDatabase().words.size());
 		System.out.println(nextWord.getName());
 		String Essay = "";
-		while (Essay.length() < 500) {
+		while (Essay.length() < essaySize) {
 			Essay += nextWord.getName() + " ";
 			nextWord = nextWord.getNextWord();
 			

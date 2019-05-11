@@ -71,5 +71,23 @@ public class Word implements Serializable {
 		}
 		wordConnections.add(new wordConnection(databaseLoader.getDatabase().getWord(newWordName)));
 	}
+	
+	public String toString() {
+		String output = "";
+		
+		for (int i = 0; i < wordConnections.size(); i++) {
+
+			for (int z = 0; z < ( (wordConnection)wordConnections.get(i) ).getInstances(); z++ ) {
+				output += (name);
+				output += " ";
+				output += ((wordConnection)wordConnections.get(i)).getInstances();
+				output += (" terminationWord934582934820 ");
+				
+			}
+		}
+		
+		return output;
+		
+	}
 
 }
