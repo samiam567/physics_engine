@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import Physics_engine.Physics_engine_toolbox.faces;
 import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 
 public class Physics_3DShape extends Physics_drawable implements rotatable, Serializable {
@@ -46,7 +45,7 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 	
 	private boolean isRotatable = true;
 	
-	private class Physics_polygon implements Serializable,pPolyCompat {
+	private class Physics_polygon extends Physics_3DPolygon implements Serializable,pPolyCompat  {
 		/**
 		 * 
 		 */
@@ -58,10 +57,20 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 		private float brightness;
 		private Vector3D normalVec;
 		
-		private double centerX,centerY,centerZ;
+		private double centerX,centerY,centerZ,polyRadius;
 		
-		public Physics_polygon(point[] points1) {
-			pPoints = points1;
+		public Physics_polygon(object_draw drawer,Physics_3DShape parentShape, point point1, int pointsPerPolygon, double polyRadius1) {
+			super(drawer);
+			drawer.add(this);
+			setParentObject(parentShape);
+			pPoints = new point[pointsPerPolygon];
+			pPoints[0] = point1;
+			polyRadius = polyRadius1;
+			for (int i = 1; i < pointsPerPolygon; i++) {
+				pPoints[i] = new Polygon_point(parentShape, Math.cos(i * 2*Math.PI/pointsPerPolygon),Math.sin(i * 2*Math.PI/pointsPerPolygon),0);
+				
+			}
+			
 			normalVec = new Vector3D(drawer,1,1,1);
 			Update();
 		}
@@ -71,31 +80,24 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 			calculateNormalVec();
 			calculateBrightness();
 			calculateColor();
-
+			setRotation(normalVec.getAlpha(),normalVec.getBeta()-Math.PI/2,normalVec.getPhi());
 		}
 		
 		
-		private void calculateCenter() {
-			centerX = 0;
-			centerY = 0;
-			centerZ = 0;
-			for (point cPoint : pPoints) {
-				centerX += cPoint.getXReal();
-				centerY += cPoint.getYReal();
-				centerZ += cPoint.getZReal();
-			}
-			centerX /= pPoints.length;
-			centerY /= pPoints.length;
-			centerZ /= pPoints.length;
+		public void calculateCenter() {
+			centerX = pPoints[0].getXReal();
+			centerY = pPoints[0].getYReal();
+			centerZ = pPoints[0].getZReal();
 		}
 		
 		
-		
+	////////////////////////////////////////////////	
 		private void calculateNormalVec() {
-			normalVec.setIJK(Vector3D.cross(pPoints[0].getXReal() - pPoints[1].getXReal(), pPoints[0].getYReal() - pPoints[1].getYReal(), pPoints[0].getZReal() - pPoints[1].getZReal(), pPoints[0].getXReal() - pPoints[2].getXReal(), pPoints[0].getYReal() - pPoints[2].getYReal(), pPoints[0].getZReal() - pPoints[2].getZReal()));
+			getParentObject().setNormalVec(normalVec);
 			normalVec.setPos(centerX,centerY,centerZ);
 			normalVec.divide(normalVec.getR());
 		}
+		
 		
 		private void calculateBrightness() {
 			Vector3D lightVec = new Vector3D(drawer,normalVec.getCenterX()-Settings.lightSource[0],normalVec.getCenterY()-Settings.lightSource[1],normalVec.getCenterZ()-Settings.lightSource[2]);
@@ -107,22 +109,7 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 			
 
 			color = Color.getHSBColor(0.3f,0.7f, brightness );
-			//System.out.println(brightness);
-			/*
-			if (brightness >= 350) {
-				color = Color.WHITE;
-			}else if (brightness >= 250) {
-				color = Color.LIGHT_GRAY;
-			}else if (brightness >= 150) {
-				color = Color.GRAY;
-			}else if (brightness >= 50) {
-				color = Color.DARK_GRAY;
-			}else if (brightness >= 0) {
-				color = Color.BLACK;
-			}else {
-				System.out.println("logic Error for lightLevel: " + brightness);
-			}
-			*/
+	
 		}
 		
 		public Polygon get2DPolygon() {
@@ -175,26 +162,36 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 	}
 	
 	
-	private double[] equation(double t, double z) {
-		double x1 = xSize * Math.cos(z);
-		double y1 = ySize *  Math.sin(z);
-		double z1 = zSize * Math.sin(t);
-		return  new double[] {x1,y1 ,z1 };
-	}
-	
 	private double[] equation(double x, double y, double dX, double dY) {
 		return equation (x+dX,y+dY);
 	}
 	
-	private double[] predictEquation(double t, double q, double dT, double dQ) {
-		double[] initial_coordinates = equation(t,q);
-		double x = initial_coordinates[0];
-		double y = initial_coordinates[1];
-		double z = initial_coordinates[2];
-		double dX = xSize*(Math.cos(t)*Math.cos(q)*dT - Math.sin(t)*Math.sin(q)*dQ);
-		double dY = ySize*(Math.cos(t)*Math.sin(q)*dT + Math.sin(q)*Math.cos(q)*dQ);
-		double dZ = -zSize*Math.sin(t)*dT;
-		return new double[] {x+dX,y+dY,z+dZ};
+	private double[] equation(double t, double z) {
+		double x1 = xSize * t;
+		double y1 = ySize * z;
+	//	double z1 = zSize * Math.sin(t);
+		double r1 = Math.sqrt(Math.pow((x1-10*xSize),2)+Math.pow((y1-10*ySize),2));
+		double r2 = Math.sqrt(Math.pow((x1+10*xSize),2)+Math.pow((y1+10*ySize),2));
+		double z1 = zSize * (8.99*Math.pow(10, -10)*10*(1/r1 - 1/r2));
+		
+		
+		return  new double[] {x1,y1 ,z1};
+	}
+	
+	
+	
+	//input partials for calculation of the normal vector
+	private Vector3D setNormalVec(Vector3D normalVec, double t, double z) {
+		
+		//Set these for every equation
+		double partialXwT = xSize;
+		double partialXwZ = 0;
+		double partialYwT = 0;
+		double partialYwZ = ySize;
+		double partialZwT =
+		double partialZwZ =
+		
+		return null;
 	}
 	
 	public Physics_3DShape(object_draw drawer1, double x1, double y1, double z1, double xSize1, double ySize1, double zSize1, String equation) {
@@ -205,8 +202,9 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 		setSize(xSize1,ySize1,zSize1);
 		
 		//double delta = 0.001 * Math.sqrt(xSize*xSize + ySize*ySize + zSize * zSize);
-		double delta = 0.3;
+		double delta = 0.05;
 		int pointsPerPolygon = 3;
+		double polyRadius = 0.05;
 		
 		
 		if (displayProgress) System.out.println("creatingPoints");
@@ -244,84 +242,10 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 		Polygon_point[] pPoints;
 		polygons = new Physics_polygon[pointCount];
 		for (int i = 0; i < pointCount; i++) {
-			pPoints = new Polygon_point[pointsPerPolygon];
-			pPoints[0] = (Polygon_point) points[i];
 			
-			
-			for (int p = 0; p < pPoints.length-1; p++) {
-				try {
-					pointCoord = equation(((Polygon_point) points[i]).getT(),((Polygon_point) points[i]).getQ(),delta * Math.cos(p * 90/(pointsPerPolygon-1)), delta * Math.sin(p * 90/(pointsPerPolygon-1)));
-					pPoints[p+1] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
-					points[pointCount2] = pPoints[p+1];
-					pointCount2++;
-				}catch(Exception e) {
-					e.printStackTrace();
-					Polygon_point[] pPointsTemp = pPoints;
-					pPoints = new Polygon_point[pPointsTemp.length-1];
-					for (int h = 0; h < pPoints.length; h++) {
-						pPoints[h] = pPointsTemp[h];
-					}
-				}
-			}
-			
-			
-			
-		/*	
-		///Adding supplementary points to polygon -----------------
-			//1
-			try {
-				pointCoord = predictEquation(points[i].getXReal(),points[i].getYReal(),delta * Math.cos(0 * 90/(pointsPerPolygon-1)), delta * Math.sin(0 * 90/(pointsPerPolygon-1)));
-				pPoints[0+1] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
-				points[pointCount2] = pPoints[0+1];
-				pointCount2++;
-			}catch(Exception e) {
-				e.printStackTrace();
-				Polygon_point[] pPointsTemp = pPoints;
-				pPoints = new Polygon_point[pPointsTemp.length-1];
-				for (int h = 0; h < pPoints.length; h++) {
-					pPoints[h] = pPointsTemp[h];
-				}
-			}
-			
-			//2
-			try {
-				pointCoord = predictEquation(points[i].getXReal(),points[i].getYReal(),Math.sqrt(2) * delta/2,Math.sqrt(2) * delta/2);
-				pPoints[2] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
-				points[pointCount2] = pPoints[2];
-				pointCount2++;
-			}catch(Exception e) {
-				e.printStackTrace();
-				Polygon_point[] pPointsTemp = pPoints;
-				pPoints = new Polygon_point[pPointsTemp.length-1];
-				for (int h = 0; h < pPoints.length; h++) {
-					pPoints[h] = pPointsTemp[h];
-				}
-			}
-			
-			//3
-			try {
-				pointCoord = predictEquation(points[i].getXReal(),points[i].getYReal(),delta, 0);
-				pPoints[3] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
-				points[pointCount2] = pPoints[3];
-				pointCount2++;
-			}catch(Exception e) {
-				e.printStackTrace();
-				Polygon_point[] pPointsTemp = pPoints;
-				pPoints = new Polygon_point[pPointsTemp.length-1];
-				for (int h = 0; h < pPoints.length; h++) {
-					pPoints[h] = pPointsTemp[h];
-				}
-			}
-			
-		//------------------------------------------------------------
-			*/
-			
-			if (pPoints.length >= 3) {
-				polygons[i] = new Physics_polygon(pPoints);
-				polygonsAList.add((pPolyCompat) polygons[i]);
-			}else { 
-				System.out.println("Invalid polygon. Not enough points.  Points:" + pPoints.length + "  Indx:" + i);
-			}
+			polygons[i] = new Physics_polygon(drawer,this, points[i],pointsPerPolygon,polyRadius);
+			polygonsAList.add((pPolyCompat) polygons[i]);
+		
 		}
 		
 		if (displayProgress) System.out.println("re-creating points list");

@@ -158,5 +158,17 @@ public class Vector3D extends Physics_shape {
 	public double getR() {
 		return r;
 	}
+	
+	public double getAlpha() {
+		return alpha;
+	}
+	
+	public double getBeta() {
+		return beta;
+	}
+	
+	public double getPhi() {
+		return phi;
+	}
 
 }

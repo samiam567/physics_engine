@@ -49,9 +49,10 @@ public class physics_runner extends physicsRunner {
 		drawer.add(fcps);
 		
 		
-		Physics_3DShape shape1 = new Physics_3DShape(drawer,200,200,0,50,50,50,"1+1");
-		shape1.setAngularVelocity(0.1, 0.1, 0.2);
-		shape1.setSpeed(10, 0, 0);
+		Physics_3DShape shape1 = new Physics_3DShape(drawer,500,500,0,18,18,18,"1+1");
+		shape1.setAngularVelocity(0.2, 0.3, 0.4);
+		shape1.setSpeed(0, 0, 0);
+		
 		drawer.add(shape1);
 	
 	

@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path=""/>
+	<classpathentry kind="lib" path="C:/Users/Alec/Documents/GitHub/physics_engine/physics_engine/jexcelapi_2_6_12/jexcelapi/jxl.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
