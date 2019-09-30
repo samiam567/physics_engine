@@ -59,7 +59,7 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 		
 		private double centerX,centerY,centerZ,polyRadius;
 		
-		public Physics_polygon(object_draw drawer,Physics_3DShape parentShape, point point1, int pointsPerPolygon, double polyRadius1) {
+		public Physics_polygon(object_draw drawer,Physics_3DShape parentShape, Polygon_point point1, int pointsPerPolygon, double polyRadius1) {
 			super(drawer);
 			drawer.add(this);
 			setParentObject(parentShape);
@@ -91,9 +91,9 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 		}
 		
 		
-	////////////////////////////////////////////////	
+		
 		private void calculateNormalVec() {
-			getParentObject().setNormalVec(normalVec);
+			((Physics_3DShape)getParentObject()).setNormalVec(normalVec, ((Polygon_point)pPoints[0]).getT(),((Polygon_point)pPoints[0]).getQ());
 			normalVec.setPos(centerX,centerY,centerZ);
 			normalVec.divide(normalVec.getR());
 		}
@@ -181,17 +181,22 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 	
 	
 	//input partials for calculation of the normal vector
-	private Vector3D setNormalVec(Vector3D normalVec, double t, double z) {
+	private Vector3D setNormalVec(Vector3D normalVec, double t, double w) {
+			
+		//finding partials
+		double[] partialsT = new double[3], partialsW = new double[3];
 		
-		//Set these for every equation
-		double partialXwT = xSize;
-		double partialXwZ = 0;
-		double partialYwT = 0;
-		double partialYwZ = ySize;
-		double partialZwT =
-		double partialZwZ =
+		double[] partials1 = equation(t,w);
+		double[] partialsTadj = equation(t+0.00000001,w);
+		double[] partialsWadj = equation(t,w+0.00000001);
+		for(int i = 0; i < partials1.length; i++) {
+			partialsT[i] = (partialsTadj[i] - partials1[i])/0.000001;
+			partialsW[i] = (partialsWadj[i] - partials1[i])/0.000001;
+		}
 		
-		return null;
+		normalVec.setIJK(partialsT[1]*partialsW[2]-partialsW[1]*partialsW[2],-(partialsT[0]*partialsW[2]-partialsT[2]*partialsW[0]),partialsT[0]*partialsW[2]-partialsW[0]*partialsT[2]);
+		
+		return normalVec;
 	}
 	
 	public Physics_3DShape(object_draw drawer1, double x1, double y1, double z1, double xSize1, double ySize1, double zSize1, String equation) {
@@ -239,11 +244,10 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 		if (displayProgress) System.out.println("creatingPolygons");
 		//creating polygons
 		int pointCount2 = pointCount;
-		Polygon_point[] pPoints;
 		polygons = new Physics_polygon[pointCount];
 		for (int i = 0; i < pointCount; i++) {
 			
-			polygons[i] = new Physics_polygon(drawer,this, points[i],pointsPerPolygon,polyRadius);
+			polygons[i] = new Physics_polygon(drawer,this, (Polygon_point) points[i],pointsPerPolygon,polyRadius);
 			polygonsAList.add((pPolyCompat) polygons[i]);
 		
 		}
