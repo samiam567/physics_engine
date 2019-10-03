@@ -4,9 +4,9 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.14.0";
+	public static final String version = "4.14.2";
 	
-	
+	public static boolean debugMode = true;
 	public static double pixelConversion = 1; //37.65;
 	
 	public static int width = (int) (1500 / pixelConversion);
@@ -22,7 +22,7 @@ public class Settings {
 	
 	public static Color frameColor = Color.GRAY;
 	
-	public static final double elasticity = 1; //a number between 0 and 1
+	public static final double elasticity = 1; //a number between 0 and 1 which determines what % of kinetic is conserved in a collision
 	
 
 	public static boolean perspective = false;

@@ -24,7 +24,7 @@ import Physics_engine.*;
 
 public class JetPack_JoyRide extends physicsRunner {
 
-	public static final String version = "2.1.2";
+	public static final String version = "2.1.3";
 	
 	static JPJR_frame frame = new JPJR_frame();
 	
@@ -137,9 +137,9 @@ public class JetPack_JoyRide extends physicsRunner {
 	            	  jetpack.fireSize = 0.75;
 	            	  drawer.inactivity_timer = 0;
 	            	  
-//	            	  JetPack_fire jetPackFire = new JetPack_fire(drawer,jetpack.getX() + jetpack.getXSize()* 0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2 ,Math.random() /2 ,-1);
+	            	  JetPack_fire jetPackFire = new JetPack_fire(drawer,jetpack.getX() + jetpack.getXSize()* 0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2 ,Math.random() /2 ,-1);
 	            	  
-//	            	  JetPack_fire jetPackFire2 = new JetPack_fire(drawer,(jetpack.getX() + jetpack.getXSize()) - jetpack.getXSize()*0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2,-Math.random() / 2 ,1);
+	            	  JetPack_fire jetPackFire2 = new JetPack_fire(drawer,(jetpack.getX() + jetpack.getXSize()) - jetpack.getXSize()*0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2,-Math.random() / 2 ,1);
 		            	 
 	            
 	              }

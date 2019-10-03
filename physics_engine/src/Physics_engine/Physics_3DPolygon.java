@@ -271,28 +271,23 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		}
 	}
 	
-	public void updateShading(Polygon_point cPoint,double normalLightAngle) {
-		Vector2D vec1;
-	
-		vec1 = new Vector2D(drawer,cPoint,cPoint.closestPoints[1]);		
-	
+	private Vector3D vec1 = new Vector3D(drawer,0,0,0);	
+	private Vector3D vec2 = new Vector3D(drawer,0,0,0);
+	public void updateShading(Polygon_point cPoint) {
+			
+		vec1.set(cPoint, cPoint.closestPoints[1]);
+		vec2.set(cPoint, cPoint.closestPoints[0]);
 		
-		double lightLevel = Math.abs(normalLightAngle - vec1.getTheta() );
+		Vector3D normalVec = Vector3D.cross(vec1, vec2);
+	
+		Vector3D lightVec = new Vector3D(drawer,normalVec.getCenterX()-Settings.lightSource[0],normalVec.getCenterY()-Settings.lightSource[1],normalVec.getCenterZ()-Settings.lightSource[2]);
+		lightVec.divide(lightVec.getR());
+		float lightLevel = (float) Vector3D.proj(lightVec,normalVec).getR();
+		
+		 
 		
 	
-		if (lightLevel >= 3.3) {
-			cPoint.color = Color.WHITE;
-		}else if (lightLevel >= 3.1) {
-			cPoint.color = Color.LIGHT_GRAY;
-		}else if (lightLevel >= 2.8) {
-			cPoint.color = Color.GRAY;
-		}else if (lightLevel >= 2.6) {
-			cPoint.color = Color.DARK_GRAY;
-		}else if (lightLevel >= 0) {
-			cPoint.color = Color.BLACK;
-		}else {
-			System.out.println("logic Error for lightLevel: " + lightLevel);
-		}
+		cPoint.color = Color.getHSBColor(0.3f,0.7f, (float) (1-lightLevel) );
 		
 	}
 
@@ -319,9 +314,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			double shiftY = (centerY-yI) - initialYDistanceFromPointOfRot;
 			double shiftZ = (centerZ-zI) - initialZDistanceFromPointOfRot;
 			
-		
-			Vector2D normalLightVec = new Vector2D(drawer,center, drawer.lightSource);
-			double normalLightAngle = normalLightVec.getTheta();
 			
 		/*
 			setPos(0,0,0);
@@ -399,7 +391,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 					
 					
 					if (isShaded) {
-						updateShading(cPoint,normalLightAngle);
+						updateShading(cPoint);
 					}
 					
 					cPoint = cPoint.nextPoint;

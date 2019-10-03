@@ -257,7 +257,8 @@ public class object_draw extends Canvas {
 				frameCount = 0;
 			}catch(ConcurrentModificationException c) {	
 			}catch(NullPointerException e) {
-				System.out.println("nullPointer");
+				System.out.println("nullPointer in object_draw.java");
+				if (Settings.debugMode) e.printStackTrace();
 			}catch(NoSuchElementException n) {} //if the element was deleted while this process was being run
 			
 		}

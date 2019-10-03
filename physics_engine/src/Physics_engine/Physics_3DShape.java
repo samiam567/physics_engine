@@ -10,7 +10,7 @@ import java.util.Comparator;
 
 import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 
-public class Physics_3DShape extends Physics_drawable implements rotatable, Serializable {
+public abstract class Physics_3DShape extends Physics_drawable implements rotatable, Serializable {
 	
 	/**
 	 * 
@@ -43,9 +43,10 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 	
 	private int numberOfPoints;
 	
+	private double delta;
 	private boolean isRotatable = true;
 	
-	private class Physics_polygon extends Physics_3DPolygon implements Serializable,pPolyCompat  {
+	private class Physics_polygon implements Serializable,pPolyCompat {
 		/**
 		 * 
 		 */
@@ -57,20 +58,15 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 		private float brightness;
 		private Vector3D normalVec;
 		
-		private double centerX,centerY,centerZ,polyRadius;
+		private double centerX,centerY,centerZ,t,q;
 		
-		public Physics_polygon(object_draw drawer,Physics_3DShape parentShape, Polygon_point point1, int pointsPerPolygon, double polyRadius1) {
-			super(drawer);
-			drawer.add(this);
-			setParentObject(parentShape);
-			pPoints = new point[pointsPerPolygon];
-			pPoints[0] = point1;
-			polyRadius = polyRadius1;
-			for (int i = 1; i < pointsPerPolygon; i++) {
-				pPoints[i] = new Polygon_point(parentShape, Math.cos(i * 2*Math.PI/pointsPerPolygon),Math.sin(i * 2*Math.PI/pointsPerPolygon),0);
-				
-			}
-			
+		private Physics_3DShape parentshape;
+		
+		public Physics_polygon(Physics_3DShape parent,point[] points1) {
+			parentshape = parent;
+			pPoints = points1;
+			t = ((Polygon_point)pPoints[0]).getT();
+			q = ((Polygon_point)pPoints[0]).getQ();
 			normalVec = new Vector3D(drawer,1,1,1);
 			Update();
 		}
@@ -80,36 +76,80 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 			calculateNormalVec();
 			calculateBrightness();
 			calculateColor();
-			setRotation(normalVec.getAlpha(),normalVec.getBeta()-Math.PI/2,normalVec.getPhi());
+
 		}
 		
 		
-		public void calculateCenter() {
-			centerX = pPoints[0].getXReal();
-			centerY = pPoints[0].getYReal();
-			centerZ = pPoints[0].getZReal();
+		private void calculateCenter() {
+			centerX = 0;
+			centerY = 0;
+			centerZ = 0;
+			for (point cPoint : pPoints) {
+				centerX += cPoint.getXReal();
+				centerY += cPoint.getYReal();
+				centerZ += cPoint.getZReal();
+			}
+			centerX /= pPoints.length;
+			centerY /= pPoints.length;
+			centerZ /= pPoints.length;
 		}
 		
-		
+		//input partials for calculation of the normal vector
+		private Vector3D setNormalVec(Vector3D normalVec, double t, double q) {
+				
+			//finding partials
+			double[] partialsT = new double[3], partialsQ = new double[3];
+			
+			double[] partials1 = equation(t,q);
+			double[] partialsTadj = equation(t+0.0001,q);
+			double[] partialsQadj = equation(t,q+0.0001);
+			for(int i = 0; i < partials1.length; i++) {
+				partialsT[i] =   (partialsTadj[i] - partials1[i])/0.0001;
+				partialsQ[i] =  (partialsQadj[i] - partials1[i])/0.0001;
+			}
+			
+			normalVec.setIJK(partialsT[1]*partialsQ[2]-partialsQ[1]*partialsQ[2],-(partialsT[0]*partialsQ[2]-partialsT[2]*partialsQ[0]),partialsT[0]*partialsQ[2]-partialsQ[0]*partialsT[2]);
+			
+			return normalVec;
+		}
+
 		
 		private void calculateNormalVec() {
-			((Physics_3DShape)getParentObject()).setNormalVec(normalVec, ((Polygon_point)pPoints[0]).getT(),((Polygon_point)pPoints[0]).getQ());
+			setNormalVec(normalVec,t,q);
 			normalVec.setPos(centerX,centerY,centerZ);
 			normalVec.divide(normalVec.getR());
+			
 		}
-		
 		
 		private void calculateBrightness() {
 			Vector3D lightVec = new Vector3D(drawer,normalVec.getCenterX()-Settings.lightSource[0],normalVec.getCenterY()-Settings.lightSource[1],normalVec.getCenterZ()-Settings.lightSource[2]);
 			lightVec.divide(lightVec.getR());
 			brightness = (float) Vector3D.proj(lightVec,normalVec).getR();
+
 		}
 
 		private void calculateColor() {
 			
-
-			color = Color.getHSBColor(0.3f,0.7f, brightness );
-	
+			int alpha = 50;
+			color = Color.getHSBColor(parentshape.getColor().getRGB(),1f, brightness );
+			color = new Color(color.getRed(),color.getGreen(),color.getBlue(),alpha);
+			//System.out.println(brightness);
+			/*
+			if (brightness >= 350) {
+				color = Color.WHITE;
+			}else if (brightness >= 250) {
+				color = Color.LIGHT_GRAY;
+			}else if (brightness >= 150) {
+				color = Color.GRAY;
+			}else if (brightness >= 50) {
+				color = Color.DARK_GRAY;
+			}else if (brightness >= 0) {
+				color = Color.BLACK;
+			}else {
+				System.out.println("logic Error for lightLevel: " + brightness);
+			}
+			*/
+			
 		}
 		
 		public Polygon get2DPolygon() {
@@ -162,54 +202,32 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 	}
 	
 	
-	private double[] equation(double x, double y, double dX, double dY) {
-		return equation (x+dX,y+dY);
-	}
-	
-	private double[] equation(double t, double z) {
-		double x1 = xSize * t;
-		double y1 = ySize * z;
-	//	double z1 = zSize * Math.sin(t);
-		double r1 = Math.sqrt(Math.pow((x1-10*xSize),2)+Math.pow((y1-10*ySize),2));
-		double r2 = Math.sqrt(Math.pow((x1+10*xSize),2)+Math.pow((y1+10*ySize),2));
-		double z1 = zSize * (8.99*Math.pow(10, -10)*10*(1/r1 - 1/r2));
+	protected double[] equation(double t, double z) {
+		double x1 = xSize * Math.sin(t);
+		double y1 = ySize * Math.cos(t);
+		double z1 = zSize *z;
 		
 		
 		return  new double[] {x1,y1 ,z1};
 	}
 	
-	
-	
-	//input partials for calculation of the normal vector
-	private Vector3D setNormalVec(Vector3D normalVec, double t, double w) {
-			
-		//finding partials
-		double[] partialsT = new double[3], partialsW = new double[3];
-		
-		double[] partials1 = equation(t,w);
-		double[] partialsTadj = equation(t+0.00000001,w);
-		double[] partialsWadj = equation(t,w+0.00000001);
-		for(int i = 0; i < partials1.length; i++) {
-			partialsT[i] = (partialsTadj[i] - partials1[i])/0.000001;
-			partialsW[i] = (partialsWadj[i] - partials1[i])/0.000001;
-		}
-		
-		normalVec.setIJK(partialsT[1]*partialsW[2]-partialsW[1]*partialsW[2],-(partialsT[0]*partialsW[2]-partialsT[2]*partialsW[0]),partialsT[0]*partialsW[2]-partialsW[0]*partialsT[2]);
-		
-		return normalVec;
+	private double[] equation(double x, double y, double dX, double dY) {
+		return equation (x+dX,y+dY);
 	}
 	
-	public Physics_3DShape(object_draw drawer1, double x1, double y1, double z1, double xSize1, double ySize1, double zSize1, String equation) {
+
+	
+	public Physics_3DShape(object_draw drawer1) {
 		super(drawer1);
+	}
+	
+	public void construct( double x1, double y1, double z1, double xSize1, double ySize1, double zSize1, double delta1) {
 		boolean displayProgress = true;
-		
+		delta = delta1;
 		setPos(x1,y1,z1);
 		setSize(xSize1,ySize1,zSize1);
 		
-		//double delta = 0.001 * Math.sqrt(xSize*xSize + ySize*ySize + zSize * zSize);
-		double delta = 0.05;
 		int pointsPerPolygon = 3;
-		double polyRadius = 0.05;
 		
 		
 		if (displayProgress) System.out.println("creatingPoints");
@@ -244,12 +262,88 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 		if (displayProgress) System.out.println("creatingPolygons");
 		//creating polygons
 		int pointCount2 = pointCount;
+		Polygon_point[] pPoints;
 		polygons = new Physics_polygon[pointCount];
 		for (int i = 0; i < pointCount; i++) {
+			pPoints = new Polygon_point[pointsPerPolygon];
+			pPoints[0] = (Polygon_point) points[i];
 			
-			polygons[i] = new Physics_polygon(drawer,this, (Polygon_point) points[i],pointsPerPolygon,polyRadius);
-			polygonsAList.add((pPolyCompat) polygons[i]);
-		
+			
+			for (int p = 0; p < pPoints.length-1; p++) {
+				try {
+					
+					pointCoord = equation(((Polygon_point) points[i]).getT(),((Polygon_point) points[i]).getQ(),delta * Math.cos(p * 90/(pointsPerPolygon-1)), delta * Math.sin(p * 90/(pointsPerPolygon-1)));
+					pPoints[p+1] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
+					points[pointCount2] = pPoints[p+1];
+					pointCount2++;
+				}catch(Exception e) {
+					e.printStackTrace();
+					Polygon_point[] pPointsTemp = pPoints;
+					pPoints = new Polygon_point[pPointsTemp.length-1];
+					for (int h = 0; h < pPoints.length; h++) {
+						pPoints[h] = pPointsTemp[h];
+					}
+				}
+			}
+			
+			
+			
+		/*	
+		///Adding supplementary points to polygon -----------------
+			//1
+			try {
+				pointCoord = predictEquation(points[i].getXReal(),points[i].getYReal(),delta * Math.cos(0 * 90/(pointsPerPolygon-1)), delta * Math.sin(0 * 90/(pointsPerPolygon-1)));
+				pPoints[0+1] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
+				points[pointCount2] = pPoints[0+1];
+				pointCount2++;
+			}catch(Exception e) {
+				e.printStackTrace();
+				Polygon_point[] pPointsTemp = pPoints;
+				pPoints = new Polygon_point[pPointsTemp.length-1];
+				for (int h = 0; h < pPoints.length; h++) {
+					pPoints[h] = pPointsTemp[h];
+				}
+			}
+			
+			//2
+			try {
+				pointCoord = predictEquation(points[i].getXReal(),points[i].getYReal(),Math.sqrt(2) * delta/2,Math.sqrt(2) * delta/2);
+				pPoints[2] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
+				points[pointCount2] = pPoints[2];
+				pointCount2++;
+			}catch(Exception e) {
+				e.printStackTrace();
+				Polygon_point[] pPointsTemp = pPoints;
+				pPoints = new Polygon_point[pPointsTemp.length-1];
+				for (int h = 0; h < pPoints.length; h++) {
+					pPoints[h] = pPointsTemp[h];
+				}
+			}
+			
+			//3
+			try {
+				pointCoord = predictEquation(points[i].getXReal(),points[i].getYReal(),delta, 0);
+				pPoints[3] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
+				points[pointCount2] = pPoints[3];
+				pointCount2++;
+			}catch(Exception e) {
+				e.printStackTrace();
+				Polygon_point[] pPointsTemp = pPoints;
+				pPoints = new Polygon_point[pPointsTemp.length-1];
+				for (int h = 0; h < pPoints.length; h++) {
+					pPoints[h] = pPointsTemp[h];
+				}
+			}
+			
+		//------------------------------------------------------------
+			*/
+			
+			if (pPoints.length >= 3) {
+				polygons[i] = new Physics_polygon(this,pPoints);
+				polygonsAList.add((pPolyCompat) polygons[i]);
+			}else { 
+				System.out.println("Invalid polygon. Not enough points.  Points:" + pPoints.length + "  Indx:" + i);
+			}
 		}
 		
 		if (displayProgress) System.out.println("re-creating points list");
@@ -291,7 +385,7 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 				Collections.sort( polygonsAList, new Comparator<pPolyCompat>() {
 			     
 			        public int compare(pPolyCompat o1, pPolyCompat o2) {
-			            return Double.compare(o2.getNormalVec().getZReal(), o1.getNormalVec().getZReal());
+			            return Double.compare(o1.getNormalVec().getZReal(), o2.getNormalVec().getZReal());
 			        }
 
 			
@@ -399,10 +493,10 @@ public class Physics_3DShape extends Physics_drawable implements rotatable, Seri
 	@Override
 	public void paint(Graphics page) {
 		for (pPolyCompat cPoly : polygonsAList) {
-			if (cPoly.getNormalVec().getZReal() > centerZ) {
+	
 			page.setColor(cPoly.getColor());
 			page.fillPolygon(cPoly.get2DPolygon());
-			}
+			
 		}
 	}
 

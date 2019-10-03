@@ -25,6 +25,7 @@ public class JetPack_fire extends Physics_shape {
   	  	setColor(Color.ORANGE);
   	  	setSpeed(xSpeed * 10, 200, 0);
   	  	drawer.add(this);
+  	  
 	}
 	
 	public void tertiaryUpdate() {

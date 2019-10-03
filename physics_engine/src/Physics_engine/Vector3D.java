@@ -2,6 +2,8 @@ package Physics_engine;
 
 import java.awt.Graphics;
 
+import Physics_engine.point;
+
 public class Vector3D extends Physics_shape {
 	/**
 	 * 
@@ -37,6 +39,14 @@ public class Vector3D extends Physics_shape {
 		k = pF.getZReal() - pI.getZReal();
 		rectangularToPolar();
 		super.setSize(i, j, k);
+	}
+	
+	public void set(point pI, point pF) {
+		setPos(pI.getXReal(),pI.getYReal(),pI.getZReal());
+		i = pF.getXReal() - pI.getXReal();
+		j = pF.getYReal() - pI.getYReal();
+		k = pF.getZReal() - pI.getZReal();
+		rectangularToPolar();
 	}
 	
 	public void setIJK(double i1, double j1, double k1) {
@@ -170,5 +180,7 @@ public class Vector3D extends Physics_shape {
 	public double getPhi() {
 		return phi;
 	}
+
+
 
 }
