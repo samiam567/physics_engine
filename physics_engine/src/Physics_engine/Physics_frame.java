@@ -24,7 +24,8 @@ public class Physics_frame extends JFrame{
 		
 		boundingRectangle = new Rectangle(0,0,getWidth(),getHeight());
 		boundingRectangle.setRect(0,0,getWidth(),getHeight());
-
+		
+		
 		setVisible(true);
 	}
 	

@@ -1,4 +1,16 @@
 /Pong.class
+/.classpath
+/.gitignore
+/.project
+/Physics_engine/
+/alGames/
+/calculator/
+/circle_tessellation/
+/desktop.ini
+/encryption/
+/essay_writer/
+/graph_theory/
+/hesi_exit_exam_analyzer/
 /jetpack_joyride/
 /painter/
 /physics_sims/
@@ -6,5 +18,3 @@
 /pong/
 /rsa_encryption/
 /xfight/
-/Physics_engine/
-/alGames/

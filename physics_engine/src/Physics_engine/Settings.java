@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.14.2";
+	public static final String version = "4.15.0";
 	
 	public static boolean debugMode = true;
 	public static double pixelConversion = 1; //37.65;
@@ -13,16 +13,16 @@ public class Settings {
 	public static int height = (int) (1000/ pixelConversion);
 	public static long depth =  (long) (1000 / pixelConversion);
 
-	public static int timeSpeed = 20;
+	public static double timeSpeed = 1;
 	
 	public static double[] lightSource = {Settings.width/2,Settings.height/2,-1000};
 	
-	public static final long frameTime = 2500000; //this doesn't do anything anymore
+	public static long frameTime = 100; //the time (in milliseconds) we allow for a single unit of game time
 	public static int timeOutTime = 10000;
 	
 	public static Color frameColor = Color.GRAY;
 	
-	public static final double elasticity = 1; //a number between 0 and 1 which determines what % of kinetic is conserved in a collision
+	public static double elasticity = 0.3; //a number between 0 and 1 which determines what % of kinetic is conserved in a collision
 	
 
 	public static boolean perspective = false;

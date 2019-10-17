@@ -16,7 +16,7 @@ public class Ball extends Sphere implements resizable {
 	public static double ballZSpeed = Pong_runner.gameSetSpeed * 100;
 	
 	public Ball(object_draw drawer) {
-		super(drawer,Settings.width/2,Settings.height/2,Settings.depth/2,Settings.width/15,10,Math.PI/20);
+		super(drawer,Settings.width/2,Settings.height/2,Settings.depth/2,Settings.width/15,10,Math.PI/25);
 		hasNormalCollisions = false;
 		int direction;
 		if (Math.random() < 0) {

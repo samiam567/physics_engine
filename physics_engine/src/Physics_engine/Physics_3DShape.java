@@ -130,7 +130,7 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 
 		private void calculateColor() {
 			
-			int alpha = 50;
+			int alpha = 80; // 1/transparency of the shape
 			color = Color.getHSBColor(parentshape.getColor().getRGB(),1f, brightness );
 			color = new Color(color.getRed(),color.getGreen(),color.getBlue(),alpha);
 			//System.out.println(brightness);

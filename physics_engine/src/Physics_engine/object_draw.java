@@ -9,7 +9,9 @@ import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 
-public class object_draw extends Canvas {
+import javax.swing.JPanel;
+
+public class object_draw extends JPanel {
 	
 	private ArrayList<physics_object> objects = new ArrayList<physics_object>();
 	private ArrayList<Physics_drawable> drawables = new ArrayList<Physics_drawable>();
@@ -18,6 +20,7 @@ public class object_draw extends Canvas {
 	
 	private long frameTime = Settings.frameTime;
 	public double frameStep = Settings.frameStep;
+	private double frameStepCalc = 1;
 
 	public double current_frame = 0; //what frame we are on
 	
@@ -25,9 +28,9 @@ public class object_draw extends Canvas {
 	
 	private long frameStartTime,updateStartTime;
 	private long frameEndTime,updateEndTime;
-	private int wait_time = 75000000,wait_time_temp,subCalcTime,repaintTime;
+	private int wait_time = 40000,wait_time_temp,subCalcTime = 100000,repaintTime;
 	
-	private long frameTimeMultiplier = 2000;
+	private long frameTimeMultiplier = 30000;
 	
 	public double inactivity_timer = 0;
 	
@@ -45,6 +48,7 @@ public class object_draw extends Canvas {
 		frame.getContentPane().add(this);
 		frame.drawer = this;
 		updateThreader = new object_draw_update_thread(this);
+		setFocusable(true);
 	}
 	
 	public object_draw() {
@@ -52,6 +56,7 @@ public class object_draw extends Canvas {
 		frame.getContentPane().add(this);
 		frame.drawer = this;
 		updateThreader = new object_draw_update_thread(this);
+		setFocusable(true);
 	}
 	
 	public void setFrame(Physics_frame frame1) {
@@ -204,68 +209,66 @@ public class object_draw extends Canvas {
 	public void resize() {
 		//this is extended by child classes such as Mab_object_draw
 	}
-
-
-	public long doThreadedFrame() {
-		
-		
-			frameStartTime = System.nanoTime();
-			repaint(); 
-			frameEndTime = System.nanoTime();
-				
-			repaintTime = (int) (frameEndTime - frameStartTime);
-			wait_time_temp = (int) (frameTimeMultiplier * repaintTime/1);
-				
-			//use machine learning to adjust to the right wait_time
-			if (wait_time_temp > getWaitTime()) {
-				setWaitTime(getWaitTime() + 5000);
-			}else if (wait_time_temp < getWaitTime()) {
-				setWaitTime(getWaitTime() - 5000);
-			}
-//			System.out.println("w" + wait_time);
-			return (getWaitTime());
-		
+	
+	@Override
+	public void update(Graphics page) {
+		paint(page);
 	}
+
+
+	
 	
 	public void doUpdate() { //for update thread. Updates the objects
 		if (threadState == 1) {
 			try {
-				doThreadedFrame();
-				while ( frameCount < getWaitTime()) {
+						
+				
+				while ( frameCount < 1) {
 					
 					updateStartTime = System.nanoTime();
 					
+					frameStartTime = System.nanoTime();
+					repaint();
+					frameEndTime = System.nanoTime();		
+				
 					checkForResize();
 					updateObjects(frameStep); //update the objects
 					current_frame += frameStep;
 					
-					
+					frameCount += frameStep;
 					updateEndTime = System.nanoTime();
 					
-					subCalcTime = ((int) (updateEndTime - updateStartTime));
-					
-					frameCount += subCalcTime;
-					
-					frameStep =  ((float) getWaitTime())/((float)subCalcTime);
-					//frameStep = 1/frameStep/2;
-					frameStep = 1/frameStep/Settings.timeSpeed;
+					subCalcTime = ((int)( (updateEndTime - updateStartTime)));
+
+					frameStep = ((double)subCalcTime/1000000)/(Settings.frameTime);
+				
 				}
+													
 				
 				
-//				System.out.println("fs" + frameStep);
-//				System.out.println("sc" +subCalcTime);
+				
+				
+				
+
+
+				
+		
+				//System.out.println("fs" + frameStep);
+				//System.out.println("sc" +subCalcTime);
 				frameCount = 0;
 			}catch(ConcurrentModificationException c) {	
 			}catch(NullPointerException e) {
 				System.out.println("nullPointer in object_draw.java");
 				if (Settings.debugMode) e.printStackTrace();
-			}catch(NoSuchElementException n) {} //if the element was deleted while this process was being run
-			
+			}catch(NoSuchElementException n) {} //if the element was deleted while this process was being run			
 		}
 		
 	}
 	
 	public void paint(Graphics page)  {
+		
+		page.setColor(frame.getBackground());
+		page.fillRect(0, 0, Settings.width, Settings.height);
 		try {
 		//sorting objects by z distance ----------------------------------
 		Collections.sort( drawables, new Comparator<drawable>() {

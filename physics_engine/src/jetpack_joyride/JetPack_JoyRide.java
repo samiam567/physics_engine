@@ -81,7 +81,9 @@ public class JetPack_JoyRide extends physicsRunner {
 	}
 	
 	public static void init()  {
-		Settings.timeSpeed = 2;	
+		Settings.frameTime = 100;	
+		
+		Settings.elasticity = 0.5;
 		
 		FPS_display fps = new FPS_display(drawer,30,30);
 		drawer.add(fps);

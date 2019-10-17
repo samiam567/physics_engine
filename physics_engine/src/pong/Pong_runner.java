@@ -22,7 +22,7 @@ import Physics_engine.point;
 
 public class Pong_runner extends physicsRunner{
 
-	public static final String Version = "2.2.0";
+	public static final String Version = "2.2.1";
 	
 	
 	public static boolean cheatMode = false;
@@ -53,6 +53,8 @@ public class Pong_runner extends physicsRunner{
 	public static void run() {
 		
 		Settings.timeSpeed = 1;
+		Settings.frameTime = 100;	
+		Settings.elasticity = 1;
 		
 		drawer = new object_draw(frame);
 		frame.setVisible(false);

@@ -1035,6 +1035,8 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	public double getMaxSize() {
 		return maxSize;
 	}
+
+
 	
 }
 
