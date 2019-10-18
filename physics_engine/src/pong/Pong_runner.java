@@ -53,7 +53,7 @@ public class Pong_runner extends physicsRunner{
 	public static void run() {
 		
 		Settings.timeSpeed = 1;
-		Settings.frameTime = 100;	
+		Settings.frameTime = 70;	
 		Settings.elasticity = 1;
 		
 		drawer = new object_draw(frame);
