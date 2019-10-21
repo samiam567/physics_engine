@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Settings {
 	
-	public static final String version = "4.15.1";
+	public static final String version = "4.15.2";
 	
 	public static boolean debugMode = true;
 	public static double pixelConversion = 1; //37.65;

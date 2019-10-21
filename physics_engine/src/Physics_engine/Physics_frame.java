@@ -47,7 +47,7 @@ public class Physics_frame extends JFrame{
 	public boolean checkIsInFrame(pointed current_object) { //this dont work
 		//return boundingRectangle.intersects((current_object.getPolyXY().getBounds()));
 
-		if ( (current_object.getPoints()[0].getXReal() < getWidth()) && (current_object.getPoints()[0].getXReal() > 0) && (current_object.getPoints()[0].getYReal() < getHeight()) && (current_object.getPoints()[0].getYReal() > 0) || ( (current_object.getPoints()[(current_object.getPoints().length - 1)/2].getXReal() < getWidth()) && (current_object.getPoints()[(current_object.getPoints().length - 1)/2].getXReal() > 0) && (current_object.getPoints()[(current_object.getPoints().length - 1)/2].getYReal() < getHeight()) && (current_object.getPoints()[(current_object.getPoints().length - 1)/2].getYReal() > 0))) {
+		if ( (current_object.getCenterX() - current_object.getXSize() < getWidth()) && (current_object.getCenterX() + current_object.getXSize() > 0) && (current_object.getCenterY() - current_object.getYSize() < getHeight()) && (current_object.getCenterY() + current_object.getYSize() > 0)) {
 				return true;
 		}
 		

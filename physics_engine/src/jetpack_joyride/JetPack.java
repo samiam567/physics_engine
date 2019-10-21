@@ -31,13 +31,16 @@ public class JetPack extends rectangle {
 			//this try/catch checks if the object is of the Laser class
 			    Laser c = (Laser) object;
 			    System.out.println("game over");
+			    System.out.println("you hit " + object.getObjectName());
 				JetPack_JoyRide.game_over = 1;
+				
 			} catch (ClassCastException e) {}
 			
 			try {
 				//this try/catch checks if the object is of the Missile class
 			    Missile c = (Missile) object;
 			    System.out.println("game over");
+			    System.out.println("you hit " + object.getObjectName());
 				JetPack_JoyRide.game_over = 1;
 			} catch (ClassCastException e) {}
 			

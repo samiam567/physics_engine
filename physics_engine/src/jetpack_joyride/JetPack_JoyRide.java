@@ -24,7 +24,7 @@ import Physics_engine.*;
 
 public class JetPack_JoyRide extends physicsRunner {
 
-	public static final String version = "2.1.3";
+	public static final String version = "2.1.4";
 	
 	static JPJR_frame frame = new JPJR_frame();
 	
@@ -49,6 +49,7 @@ public class JetPack_JoyRide extends physicsRunner {
 	static border_bounce boundries;
 	static JetPack jetpack;
 	static Laser laser1,laser2;
+	static MIT_Laser MITLaser1;
 	static Missile Missile1;
 	static ScoreBoard coinScore,distanceScore,distanceHighScoreBoard;
 	static Coin coin1,coin2,coin3;
@@ -83,7 +84,7 @@ public class JetPack_JoyRide extends physicsRunner {
 	public static void init()  {
 		Settings.frameTime = 100;	
 		
-		Settings.elasticity = 0.5;
+		Settings.elasticity = 0.9;
 		
 		FPS_display fps = new FPS_display(drawer,30,30);
 		drawer.add(fps);
@@ -116,11 +117,16 @@ public class JetPack_JoyRide extends physicsRunner {
 		jetpack.setColor(Color.blue);
 		jetpack.name = "jetpack";
 		
-		laser1 = new Laser(drawer,100,200,Settings.width/100,Settings.width/10,0,0,0);
-		laser2 = new Laser(drawer,2*Settings.width/3,200,Settings.width/100,Settings.width/10,0,0,0);
+		laser1 = new Laser(drawer,Settings.width/3,200,Settings.width/100,Settings.width/10);
+		laser1.setName("_Laser1",0);
+		laser2 = new Laser(drawer,Settings.width/2,200,Settings.width/100,Settings.width/10);
+		laser2.setName("_Laser2",0);
+		
+		MITLaser1 = new MIT_Laser(drawer, 4 * Settings.width/5,200);
+		MITLaser1.setName("_MITLaser1", 0);
 	
 		Missile1 = new Missile(drawer,0,200);
-		Missile1.setName("thing",1);
+		Missile1.setName("thing",0);
 		
 		coin1 = new Coin(drawer,350, 270);
 		coin2 = new Coin(drawer,530, 300);
@@ -171,6 +177,7 @@ public class JetPack_JoyRide extends physicsRunner {
 		drawer.add(distanceHighScoreBoard);
 		drawer.add(laser1);
 		drawer.add(laser2);
+		drawer.add(MITLaser1);
 		drawer.add(Missile1);
 		drawer.add(coin1);
 		drawer.add(coin2);
@@ -211,10 +218,11 @@ public class JetPack_JoyRide extends physicsRunner {
 		game_over = 0;
 		
 		for (physics_object pObject : drawer.getObjects()) {
-			
-			if (pObject.getObjectName() == "thing") {
+		
+			if (pObject.getObjectName().substring(0, 1) == "_") {
 				((Physics_drawable) pObject).setSpeed(-jetpack_speed, ((Physics_drawable) pObject).getYSpeed(), 0);
 			}
+			
 		}
 		
 		
@@ -248,8 +256,7 @@ public class JetPack_JoyRide extends physicsRunner {
 					
 					try {
 						for (physics_object pObject : drawer.getObjects()) {
-							
-							if (pObject.getObjectName() == "thing") {
+							if (pObject.getObjectName().substring(0, 1) == "_") {
 								((Physics_drawable) pObject).setSpeed(-jetpack_speed, ((Physics_drawable) pObject).getYSpeed(), 0);
 							}
 						}
@@ -344,28 +351,35 @@ public class JetPack_JoyRide extends physicsRunner {
 		
 		setSettings();
 		
-	
+		
 		for (Physics_drawable pOb : drawer.getDrawables()) {
-			if (pOb.name == "thing") {
+			if (pOb.getObjectName().substring(0, 1) == "_") {
+				try {
+					pOb = (Missile) pOb;
+					pOb.setSize(diagonal/35,diagonal/120,0);
+				}catch(ClassCastException e) {}
 				
 				try {
-					pOb = (Laser) pOb;
-					pOb.setSize(diagonal/100,diagonal/10,0);
-				}catch(ClassCastException c) {}
+					pOb = (MIT_Laser) pOb;
+					pOb.setSize(15 * diagonal/100 + diagonal/20, diagonal/10, 1);
+				}catch(ClassCastException c) {
+					try {
+						pOb = (Laser) pOb;
+						pOb.setSize(diagonal/100,diagonal/10,0);
+					}catch(ClassCastException b) {}
+				}
 				
 				try {
 					pOb = (Coin) pOb;
 					pOb.setSize(diagonal/60,diagonal/60,0);
-				}catch(ClassCastException c) {}
-				
-				try {
-					pOb = (Missile) pOb;
-					pOb.setSize(diagonal/35,diagonal/120,0);
-				}catch(ClassCastException c) {}
+				}catch(ClassCastException d) {
+					
+				}
 
 			}
 		}
-		
+		Missile1.setSize(diagonal/35,diagonal/120,0);
+		MITLaser1.setSize(15 * diagonal/100 + diagonal/20, diagonal/10, 1);
 		shop.setLocation(Settings.width + 20, 25 + Settings.height/2);
 		shop.setSize(Settings.width/4,Settings.height/2);
 	
@@ -385,7 +399,8 @@ public class JetPack_JoyRide extends physicsRunner {
 		jetpack.applyComponentForce(0, 9.8, 0);
 		
 		laser1.setPos(Math.random() * 100,Math.random() * 300,0);
-		laser2.setPos(Math.random() * 2*Settings.width/3,Math.random() * 200,0);
+		laser2.setPos(Math.random() * Settings.width/2,Math.random() * 200,0);
+		MITLaser1.setPos(Math.random() * 4 * Settings.width/5,Math.random() * 200,0);
 		
 		Missile1.setPos(0,200,0);
 		

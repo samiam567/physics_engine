@@ -9,7 +9,12 @@ import Physics_engine.Physics_engine_toolbox.faces;
 
 public class Laser extends rectangle{
 
-	public Laser(object_draw drawer1, int x, int y, int xSize, int ySize, double xRotation1, double yRotation1, double zRotation1) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1946879174197910435L;
+
+	public Laser(object_draw drawer1, int x, int y, double xSize, double ySize) {
 		super(drawer1,x, y, 0, xSize, ySize, 1);
 		setColor(Color.red);
 		drawMethod = "paint";
@@ -38,7 +43,7 @@ public class Laser extends rectangle{
 	
 	public void paint(Graphics page) {
 		page.fillRect(getX(),getY(), (int) Math.round(xSizeAppearance),(int) Math.round(ySizeAppearance));
-//		page.setColor(Color.ORANGE);
-//		page.fillRect(x + (int) Math.round(xSizeAppearance/4),y + (int) Math.round(ySizeAppearance/4), (int) Math.round(xSizeAppearance/2),(int) Math.round(ySizeAppearance/2));
+		page.setColor(Color.ORANGE);
+		page.fillRect(getX() + (int) Math.round(xSizeAppearance/4),getY() + (int) Math.round(ySizeAppearance/4), (int) Math.round(xSizeAppearance/2),(int) Math.round(ySizeAppearance/2));
 	}
 }

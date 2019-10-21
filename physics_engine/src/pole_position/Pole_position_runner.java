@@ -24,7 +24,7 @@ public class Pole_position_runner extends physicsRunner {
 
 	private static Car AI1;
 	
-	private static String Version = "1.0.3";
+	private static String Version = "1.0.4";
 	
 	static Physics_3DPolygon trackL, trackR;
 	
@@ -48,7 +48,7 @@ public class Pole_position_runner extends physicsRunner {
 		
 		AI1 = new Car(drawer,Settings.width * 0.5, Settings.height * 0.5,10,false);
 		
-		tLc = new Track(drawer,Settings.width * 0.4);
+		tLc = new Track(drawer,Settings.width * 0.7);
 		
 		tRc = new Track(drawer,Settings.width * 0.9);
 		

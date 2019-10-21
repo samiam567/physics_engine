@@ -12,8 +12,8 @@ import Physics_engine.point;
 public class Car extends PointSet {
 	
 	private boolean playerControlled;
-	public static double turningRadius = 5,fudge = 1,speed = 20;
-	
+	public static double turningRadius = 5,fudge = 1,speed = 50;
+	 
 	private double deviationFromTargPos = 100,targX;
 	
 	public Car(object_draw drawer1,double cenX, double cenY,double cenZ, boolean PlayerControlled) {

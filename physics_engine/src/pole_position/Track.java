@@ -18,8 +18,8 @@ public class Track extends PolarObject {
 	
 
 	
-	public Track(object_draw drawer1,double x) {
-		super(drawer1,0,0,0,Settings.width/2,"circle");
+	public Track(object_draw drawer1,double size) {
+		super(drawer1,0,0,0,size,"circle");
 	
 
 	

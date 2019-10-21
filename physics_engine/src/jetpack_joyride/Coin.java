@@ -11,7 +11,7 @@ public class Coin extends Square {
 	public Coin(object_draw drawer1, int x, int y) {
 		super(drawer1, x, y, 1, 20, 0.1);
 		affectedByBorder = false;
-		name = "thing";
+		name = "_coin";
 		setColor(Color.YELLOW);
 		drawMethod = "paint";
 		

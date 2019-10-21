@@ -20,7 +20,7 @@ public class Missile extends rectangle {
 		drawMethod = "paint";
 		setColor(Color.red);
 		affectedByBorder = false;
-		name = "thing";
+		name = "_missile";
 	}
 
 	public void secondaryUpdate() {
