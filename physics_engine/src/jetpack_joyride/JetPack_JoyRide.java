@@ -1,10 +1,12 @@
 package jetpack_joyride;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -133,7 +135,41 @@ public class JetPack_JoyRide extends physicsRunner {
 		coin3 = new Coin(drawer,760, 230);
 		
 	
-		
+			
+		//mouseListener +==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+
+				drawer.addMouseListener(new MouseListener() {
+						
+						public void mousePressed(MouseEvent arg0) {
+							  jetpack.setAccel(0, 0, 0);
+			            	  jetpack.applyComponentForce(0, -jetpack.current_power, 0);
+			            	  jetpack.fireSize = 0.75;
+			            	  drawer.inactivity_timer = 0;
+			            	  
+			            	  JetPack_fire jetPackFire = new JetPack_fire(drawer,jetpack.getX() + jetpack.getXSize()* 0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2 ,Math.random() /2 ,-1);
+			            	  
+			            	  JetPack_fire jetPackFire2 = new JetPack_fire(drawer,(jetpack.getX() + jetpack.getXSize()) - jetpack.getXSize()*0.3,jetpack.getY() + jetpack.getYSize() + jetpack.getYSize()*0.2,-Math.random() / 2 ,1);
+				            
+							
+						}
+						
+						@Override
+						public void mouseReleased(MouseEvent e) {
+							jetpack.setAccel(0, 0, 0);
+							jetpack.applyComponentForce(0, jetpack.current_power, 0);
+							jetpack.applyComponentForce(0, gravity, 0);
+							jetpack.fireSize = 0.35;
+							drawer.inactivity_timer = 0;
+						}
+						
+						public void mouseClicked(MouseEvent arg0) {}
+						@Override
+						public void mouseEntered(MouseEvent e) {}
+						@Override
+						public void mouseExited(MouseEvent e) {}
+						
+				
+				});
+						
 			//key listener
 			drawer.addKeyListener(new KeyListener() {
 				   

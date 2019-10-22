@@ -13,7 +13,7 @@ public class MIT_Laser extends Laser {
 	private static double laserXSize = Settings.width/100, laserYSize = Settings.width/10;
 	
 	public MIT_Laser(object_draw drawer1, int x, int y) {
-		super(drawer1,400,200,(19*laserXSize),laserYSize);
+		super(drawer1,400,200,(15*laserXSize),laserYSize);
 		setSize(15*laserXSize,laserYSize,1);
 	}
 	
@@ -48,12 +48,12 @@ public class MIT_Laser extends Laser {
 		page.fillRect(x,y, (int) laserXSize,(int)laserYSize);
 		
 		//drawing I
-		x += 6 * laserXSize;
+		x += 4 * laserXSize;
 		page.fillRect(x,y, (int) laserXSize,(int)laserYSize);
 		
 		//drawing T
 		//I
-		x += 7 * laserXSize;
+		x += 5 * laserXSize;
 		page.fillRect(x,y, (int) laserXSize,(int)laserYSize);
 		
 		//--
