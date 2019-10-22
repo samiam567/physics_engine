@@ -44,6 +44,8 @@ public class Ball extends Sphere implements resizable {
 		}else {
 			setColor(Color.red);
 		}
+		
+		
 	}
 	
 	public void isCollided (physics_object cOb,faces side) {

@@ -156,27 +156,6 @@ public class Pong_runner extends physicsRunner{
 			
 				nearPaddle.setSpeed(gameSpeed * (e.getX() - nearPaddle.getCenterX() ) /10,gameSpeed * (-nearPaddle.getCenterY() + e.getY())/10,0);
 		
-			/*	
-			
-					if ((e.getX() - nearPaddle.getCenterX()) > 15) {
-						nearPaddle.setSpeed(200,nearPaddle.getYSpeed(),nearPaddle.getZSpeed());
-						
-					}else if ((e.getX() - nearPaddle.getCenterX()) < -15){
-						nearPaddle.setSpeed(-200,nearPaddle.getYSpeed(),nearPaddle.getZSpeed());
-					}else {
-						nearPaddle.setSpeed(0, nearPaddle.getYSpeed(), nearPaddle.getZSpeed());
-					}
-					
-					if ((e.getY() - nearPaddle.getCenterY()) > 15) {
-						nearPaddle.setSpeed(nearPaddle.getXSpeed(),200,nearPaddle.getZSpeed());
-						
-					}else if ((e.getY() - nearPaddle.getCenterY()) < -15) {
-						nearPaddle.setSpeed(nearPaddle.getXSpeed(),-200,nearPaddle.getZSpeed());
-					}else {
-						nearPaddle.setSpeed(nearPaddle.getXSpeed(), 0, nearPaddle.getZSpeed());
-					}
-				*/
-				//	nearPaddle.setPos(e.getX(), e.getY(), nearPaddle.getCenterZ());
 			}
 			
 		});
