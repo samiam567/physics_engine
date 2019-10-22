@@ -57,7 +57,7 @@ public class PointSet extends Physics_3DPolygon {
 		calculateCenter();
 		
 		updatePointOfRotation();
-		calculateSize(); //this breaks it
+		calculateSize();
 		calculatePointValues();	
 		
 		updatePointOfRotation();

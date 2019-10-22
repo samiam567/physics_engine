@@ -30,7 +30,6 @@ public class Pole_position_runner extends physicsRunner {
 	
 	static Track tLc,tRc;
 	
-	private static Sign sign1;
 	
 	public static void main(String[]  args) {
 		frame = new Physics_frame();
@@ -48,16 +47,18 @@ public class Pole_position_runner extends physicsRunner {
 		
 		AI1 = new Car(drawer,Settings.width * 0.5, Settings.height * 0.5,10,false);
 		
-		tLc = new Track(drawer,Settings.width * 0.7);
+		tLc = new Track(drawer,Settings.width * 0.5);
 		
-		tRc = new Track(drawer,Settings.width * 0.9);
+		tRc = new Track(drawer,Settings.width * 1);
 		
 		trackL = tLc;
 		
 		trackR = tRc;
 		
+		trackL.setPos(Settings.width/2,Settings.height/2, 1);
+		trackR.setPos(Settings.width/2,Settings.height/2, 1);
 		
-		sign1 = new Sign(drawer,Settings.height/2,tLc);
+		
 		
 		drawer.addMouseListener(new MouseAdapter() {
 			public void MouseClicked() {
@@ -138,7 +139,6 @@ public class Pole_position_runner extends physicsRunner {
 		drawer.add(tLc);
 		drawer.add(tRc);
 		drawer.add(AI1);
-		drawer.add(sign1);
 		drawer.start();
 	
 		System.out.println(PlayerCar.getXReal() + "," + PlayerCar.getYReal() + "," + PlayerCar.getZReal());
