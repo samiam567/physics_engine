@@ -2,6 +2,9 @@ package xfight;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,7 +35,7 @@ import pole_position.Car;
 
 public class XFight_runner extends physicsRunner {
 	
-	public static final String Version = "1.0.3";
+	public static final String Version = "1.0.4";
 	
 	public static final int speed = 7;
 	public static final int pewSpeed = 20;
@@ -63,6 +66,61 @@ public class XFight_runner extends physicsRunner {
 	}
 	
 	public static void run() {
+		//loading blueprints
+				point[] spaceShipBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(spaceShipFileName)).getPoints();
+				ship = new SpaceShip(drawer,spaceShipBlueprint);
+				drawer.add(ship);
+				
+				pewBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(pewFileName)).getPoints();
+				
+				enemyBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(enemyFileName)).getPoints();
+				
+				//adding enemies
+				drawer.add(new Enemy(drawer,enemyBlueprint));
+				drawer.add(new Enemy(drawer,enemyBlueprint));
+				drawer.add(new Enemy(drawer,enemyBlueprint));
+				
+				
+		drawer.addMouseMotionListener( new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {	
+
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				
+				
+			
+				ship.setSpeed((e.getX() - ship.getCenterX() )/10,(-ship.getCenterY() + e.getY())/10,0);
+				
+				if (e.getX() > ship.getCenterX()) {
+					ship.setRotation(0, 0,Math.PI/2 + Math.atan((-ship.getCenterY() + e.getY())/(e.getX() - ship.getCenterX())));
+				}else {
+					ship.setRotation(0, 0,3*Math.PI/2 + Math.atan((-ship.getCenterY() + e.getY())/(e.getX() - ship.getCenterX())));
+				}
+			}
+			
+		});
+		
+		drawer.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Pew newPew = new Pew(drawer,pewBlueprint);
+				newPew.setRotation(0,0,ship.getZRotation());
+    	       	drawer.add(newPew);
+			}
+			@Override
+			public void mouseEntered(MouseEvent arg0) {}
+			@Override
+			public void mouseExited(MouseEvent arg0) {}
+			@Override
+			public void mousePressed(MouseEvent arg0) {}
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}});
+		
 		drawer.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent m) {
 				switch(m.getKeyCode()) {
@@ -83,7 +141,7 @@ public class XFight_runner extends physicsRunner {
 	        	  	case(32): //space
 	        	  		
 	        	  		Pew newPew = new Pew(drawer,pewBlueprint);
-	        	       	drawer.add(newPew);
+        	       		drawer.add(newPew);
 	        	  		
 	        	  	
 	        	  	break;
@@ -143,20 +201,11 @@ public class XFight_runner extends physicsRunner {
 		
 	
 		
-	//loading blueprints
-		point[] spaceShipBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(spaceShipFileName)).getPoints();
-		ship = new SpaceShip(drawer,spaceShipBlueprint);
-		drawer.add(ship);
-		
-		pewBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(pewFileName)).getPoints();
-		
-		enemyBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(enemyFileName)).getPoints();
-		
-		Enemy en1 = new Enemy(drawer,enemyBlueprint);	
-		drawer.add(en1);
-		
-		
 	
+		
+		
+		
+		
 		while(frame.isActive()) {
 			scoreboard.setScore(Score);
 			try {

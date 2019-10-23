@@ -44,7 +44,9 @@ public class Pew extends PointSet {
 	public void tertiaryUpdate() {
 		if (getYReal() < 0 ) {
 			drawer.remove(this);
+			delete=true;
 		}
+		
 	}
 	
 	
