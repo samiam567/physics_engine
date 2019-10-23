@@ -286,7 +286,8 @@ public class object_draw extends JPanel {
 				
 				if ( current_object.getIsVisible() ) {
 					try {
-						if ( frame.checkIsInFrame((pointed) current_object)) {
+						
+						if ( frame.checkIsInFrame((pointed) current_object) || ((drawable) current_object).getIsAlwaysVisible()) {
 							
 							page.setColor(current_object.getColor());
 		

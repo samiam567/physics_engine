@@ -27,7 +27,7 @@ public class Paddle extends Rectangular_prism implements resizable {
 		switch (side) {
 			case("near"):
 				multi = -1;
-				setPos(Settings.width/2,Settings.height/1.5,100);
+				setPos(Settings.width/2,Settings.height/2,100);
 				setSize(Settings.width/5,Settings.height/5,Settings.width/5);
 				setColor(Color.green);
 				setRotation(0.02,0.02,0);
@@ -35,8 +35,8 @@ public class Paddle extends Rectangular_prism implements resizable {
 			
 			case("far"):
 				multi = 1;
-				setPos(Settings.width/2,Settings.height/3,Settings.depth-200);
-				setSize(Settings.width/20,Settings.height/20,Settings.width/10);
+				setPos(Settings.width/2,Settings.height/2,Settings.depth-200);
+				setSize(Ball.getRectSizeWidth(getCenterZ())/4,Ball.getRectSizeHeight(getCenterZ())/3,Settings.width/10);
 				setColor(Color.yellow);
 				
 			break;
@@ -48,7 +48,11 @@ public class Paddle extends Rectangular_prism implements resizable {
 	
 
 	public void paint(Graphics page) {
-		page.drawRect(getX(), getY(), (int) xSize,(int) ySize);
+		if (side.equals("near")) {
+			page.drawRect(getX(), getY(), (int) xSize,(int) ySize);
+		}else {
+			page.fillRect(getX(), getY(), (int) xSize,(int) ySize);
+		}
 	}
 
 	
@@ -62,6 +66,8 @@ public class Paddle extends Rectangular_prism implements resizable {
 				}
 			}
 		}
+		
+		
 		
 		
 		//homing in on ball
@@ -91,6 +97,25 @@ public class Paddle extends Rectangular_prism implements resizable {
 				setSpeed(xSpeed,ySpeed,zSpeed);
 			}
 
+		}
+		
+		
+		if (side.equals("far")) {
+			if (Math.sqrt(Math.pow(0.000000000001 + getCenterX()-Settings.width/2,2)) + getXSize() >= Ball.getRectSizeWidth(getCenterZ())/2) {
+				if (getXReal()-Settings.width/2 > 0) {
+					setSpeed(-Math.sqrt(0.00000001+Math.pow(getXSpeed(),2)),getYSpeed(),getZSpeed());
+				}else {
+					setSpeed(Math.sqrt(0.00000001+Math.pow(getXSpeed(),2)),getYSpeed(),getZSpeed());
+				}
+			}
+			
+			if (Math.sqrt(Math.pow(0.000000000001 + getCenterY()-Settings.height/2,2)) + getYSize() >= Ball.getRectSizeHeight(getCenterZ())/2) {
+				if (getYReal()-Settings.height/2 > 0) {
+					setSpeed(getXSpeed(),-Math.sqrt(0.00000001+Math.pow(getYSpeed(),2)),getZSpeed());
+				}else {
+					setSpeed(getXSpeed(),Math.sqrt(0.00000001+Math.pow(getYSpeed(),2)),getZSpeed());
+				}
+			}
 		}
 		
 	}

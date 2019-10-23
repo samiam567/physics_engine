@@ -26,7 +26,7 @@ import Physics_engine.*;
 
 public class JetPack_JoyRide extends physicsRunner {
 
-	public static final String version = "2.1.4";
+	public static final String version = "2.1.5";
 	
 	static JPJR_frame frame = new JPJR_frame();
 	
@@ -84,9 +84,7 @@ public class JetPack_JoyRide extends physicsRunner {
 	}
 	
 	public static void init()  {
-		Settings.frameTime = 100;	
 		
-		Settings.elasticity = 0.9;
 		
 		FPS_display fps = new FPS_display(drawer,30,30);
 		drawer.add(fps);
@@ -414,7 +412,7 @@ public class JetPack_JoyRide extends physicsRunner {
 
 			}
 		}
-		Missile1.setSize(diagonal/35,diagonal/120,0);
+		Missile1.setSize(diagonal/37,diagonal/120,0);
 		MITLaser1.setSize(15 * diagonal/100 + diagonal/20, diagonal/10, 1);
 		shop.setLocation(Settings.width + 20, 25 + Settings.height/2);
 		shop.setSize(Settings.width/4,Settings.height/2);
@@ -459,6 +457,8 @@ public class JetPack_JoyRide extends physicsRunner {
 	}
 	
 	public static void setSettings() {
+		Settings.frameTime = 100;	
+		Settings.elasticity = 1;
 		Settings.collision_algorithm = 4;
 		Settings.rotationAlgorithm = 6;
 		Settings.timeOutTime = 5000000;

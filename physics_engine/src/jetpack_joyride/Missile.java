@@ -11,15 +11,16 @@ import Physics_engine.rectangle;
 
 public class Missile extends rectangle {
 
-	public static final int missileHomingSpeed = 8;
+	public static final int missileHomingSpeed = 5;
 	
-	private static final double missileSpeedMultiplier = 2.5;
+	private static final double missileSpeedMultiplier = 2.3;
 	
 	public Missile(object_draw drawer1,double d, double y) {
 		super(drawer1,d, y, 0, 20, 5, 0);
 		drawMethod = "paint";
 		setColor(Color.red);
 		affectedByBorder = false;
+		isAlwaysVisible = true;
 		name = "_missile";
 	}
 

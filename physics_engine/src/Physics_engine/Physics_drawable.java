@@ -27,7 +27,7 @@ public abstract class Physics_drawable extends physics_object implements movable
 	
 	protected movable parent_object; //this object will move and act relative to it's parent object (useful for making complex objects out of multiple shapes)
 	
-	public boolean hasParentObject = false, isAnchored = false,isFilled = false, isVisible = true;
+	public boolean hasParentObject = false, isAnchored = false,isFilled = false, isVisible = true, isAlwaysVisible = false;
 	
 	 
 	public Physics_drawable() {
@@ -218,6 +218,11 @@ public abstract class Physics_drawable extends physics_object implements movable
 	@Override
 	public boolean getIsVisible() {
 		return isVisible;
+	}
+	
+	@Override
+	public boolean getIsAlwaysVisible() {
+		return isAlwaysVisible;
 	}
 
 	@Override

@@ -34,6 +34,8 @@ public interface drawable extends physics_engine_compatible { //the ability to b
 	public String getObjectName();
 
 	public boolean getIsVisible();
+	
+	public boolean getIsAlwaysVisible(); //paints the object even if it's not in frame
 
 	public String getDrawMethod();
 
@@ -54,5 +56,6 @@ public interface drawable extends physics_engine_compatible { //the ability to b
 	public double getCenterX();
 	public double getCenterY();
 	public double getCenterZ();
+	
 	
 }

@@ -22,7 +22,7 @@ import Physics_engine.point;
 
 public class Pong_runner extends physicsRunner{
 
-	public static final String Version = "2.2.1";
+	public static final String Version = "2.3.0";
 	
 	
 	public static boolean cheatMode = false;
@@ -62,7 +62,7 @@ public class Pong_runner extends physicsRunner{
 		
 		gameSpeed = gameSetSpeed * diagonal/100;
 
-		frame.setColor(Color.BLUE);
+		frame.setColor(Color.BLACK);
 
 		frame.setTitle("Pong: V" + Version + "         Programmed by Alec Pannunzio");
 		
@@ -76,18 +76,22 @@ public class Pong_runner extends physicsRunner{
 		
 		ball = new Ball(drawer);
 		ball.setName("pong ball",1);
-		ball.setColor(Color.white);
+		
 		
 		
 		FPS_display fps = new FPS_display(drawer,30,30);
+		fps.setColor(Color.GRAY);
 	
 		FCPS_display fcps = new FCPS_display(drawer,30,50);
+		fcps.setColor(Color.GRAY);
 	
 		nScore = new ScoreBoard(drawer, 0.3 * Settings.width, 0.1 * Settings.height,"",0);
 		nScore.setFont(new Font("TimesRoman", Font.BOLD, 70));
+		nScore.setColor(Color.green);
 		
 		fScore = new ScoreBoard(drawer, 0.7 * Settings.width, 0.1 * Settings.height,"",0);
 		fScore.setFont(new Font("TimesRoman", Font.BOLD, 70));
+		fScore.setColor(Color.green);
 
 		borders = new border_bounce(drawer);
 		borders.isVisible = false;
@@ -284,7 +288,7 @@ public class Pong_runner extends physicsRunner{
 		//wait for the user to close the window to end the game
 		while (frame.isShowing()) {
 			try {
-				Thread.sleep(600);
+				Thread.sleep(200);
 			
 				if (mouseControl) nearPaddle.setSpeed(0, 0, 0);
 				farPaddle.setSpeed(0, 0, 0);
@@ -297,7 +301,7 @@ public class Pong_runner extends physicsRunner{
 		drawer.end();
 		frame.remove(drawer);
 		frame.dispose();
-		
+	
 	}
 	
 	public static void init() {
@@ -338,28 +342,29 @@ public class Pong_runner extends physicsRunner{
 		switch(p2AI_diff_input) {
 			case(0):
 				System.out.println("Difficulty: Easy");
-				AI_difficulty = 1;
+				AI_difficulty = 0.4;
+				gameSetSpeed *= 1.5;
 	
 				break;
 			
 			case(1):
 				System.out.println("Difficulty: Normal");
-				AI_difficulty = 2;
+				AI_difficulty = 0.6;
 				gameSetSpeed *= 2;
 		
 				break;
 			
 			case(2):
 				System.out.println("Difficulty: Hard");
-				AI_difficulty = 3;
+				AI_difficulty = 1;
 				gameSetSpeed *= 3;
 		
 				break;
 				
 			case(3):
 				System.out.println("Difficulty: EXTREME!!");
-				AI_difficulty = 3.2;
-				gameSetSpeed *= 5;
+				AI_difficulty = 1.6;
+				gameSetSpeed *= 3.5;
 		
 				break;
 		}

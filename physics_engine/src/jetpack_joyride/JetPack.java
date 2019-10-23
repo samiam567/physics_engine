@@ -22,7 +22,13 @@ public class JetPack extends rectangle {
 	public void tertiaryUpdate() {
 		setSpeed(0,ySpeed,0);
 		current_power = power + JetPack_JoyRide.jetpack_speed ;
-		points[0].setPos(xReal, yReal, zReal);
+		if (getYReal() < 0) {
+			setPos(getCenterX(),40, getCenterZ());
+			setSpeed(0,Math.abs(getYSpeed()),0);
+		}else if (getYReal() + getYSize() > Settings.height-40) {
+			setPos(getCenterX(),Settings.height - 2*getYSize(), getCenterZ());
+			setSpeed(0,-Math.abs(getYSpeed()),0);
+		}
 	}
 	
 	public void isCollided(physics_object object, faces side) {
