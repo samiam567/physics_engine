@@ -26,7 +26,7 @@ import Physics_engine.*;
 
 public class JetPack_JoyRide extends physicsRunner {
 
-	public static final String version = "2.1.5";
+	public static final String version = "2.1.6";
 	
 	static JPJR_frame frame = new JPJR_frame();
 	

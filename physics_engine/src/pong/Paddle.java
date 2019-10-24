@@ -101,7 +101,7 @@ public class Paddle extends Rectangular_prism implements resizable {
 		
 		
 		if (side.equals("far")) {
-			if (Math.sqrt(Math.pow(0.000000000001 + getCenterX()-Settings.width/2,2)) + getXSize() >= Ball.getRectSizeWidth(getCenterZ())/2) {
+			if (Math.sqrt(Math.pow(0.000000000001 + getCenterX()-Settings.width/2,2)) + getXSize() >= Ball.getRectSizeWidth(getCenterZ())/1.5) {
 				if (getXReal()-Settings.width/2 > 0) {
 					setSpeed(-Math.sqrt(0.00000001+Math.pow(getXSpeed(),2)),getYSpeed(),getZSpeed());
 				}else {
@@ -109,7 +109,7 @@ public class Paddle extends Rectangular_prism implements resizable {
 				}
 			}
 			
-			if (Math.sqrt(Math.pow(0.000000000001 + getCenterY()-Settings.height/2,2)) + getYSize() >= Ball.getRectSizeHeight(getCenterZ())/2) {
+			if (Math.sqrt(Math.pow(0.000000000001 + getCenterY()-Settings.height/2,2)) + getYSize() >= Ball.getRectSizeHeight(getCenterZ())/1.5) {
 				if (getYReal()-Settings.height/2 > 0) {
 					setSpeed(getXSpeed(),-Math.sqrt(0.00000001+Math.pow(getYSpeed(),2)),getZSpeed());
 				}else {
