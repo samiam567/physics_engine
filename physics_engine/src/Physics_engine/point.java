@@ -50,10 +50,8 @@ public class point extends Physics_drawable {
 	
 	
 	public boolean isIn(Physics_3DPolygon pObject) { //returns true if the point is inside the passed object
-		
-		Area areaXY = pObject.getAreaXY();		
-
-		return areaXY.contains(xReal,yReal) && ( Math.abs(zReal - pObject.centerZ) < (pObject.zSize + drawer.frameStep) );
+			
+		return pObject.getAreaXY().contains(getXReal(),getYReal()) && ( Math.abs(getZReal() - pObject.getCenterZ()) < (pObject.getZSize() + drawer.getFrameStep()) );
 	}
 	
 	public void setAngle(double thetaXY1, double thetaZX1, double thetaZY1) {

@@ -16,7 +16,7 @@ public class Pew extends PointSet {
 		super(drawer1);
 		
 		for (point cP : constPoints) {
-			addPoint(cP);
+			addPoint(new point(drawer,cP.getXReal(),cP.getYReal(),cP.getZReal()));
 		}
 		
 		initialize();
@@ -29,11 +29,13 @@ public class Pew extends PointSet {
 		setName("pew",1);
 		
 		double[] pewSpeeds = Vector2D.polarToRectangular(XFight_runner.pewSpeed, Math.PI/2 - XFight_runner.ship.getZRotation());
-  		setSpeed(pewSpeeds[0] + XFight_runner.ship.getXSpeed(), -pewSpeeds[1], 0);        	  		
+  		setSpeed(pewSpeeds[0] + XFight_runner.ship.getXSpeed(), -pewSpeeds[1] + XFight_runner.ship.getYSpeed(), 0);        	  		
   		setRotation(XFight_runner.ship.getXRotation(),XFight_runner.ship.getYRotation(),XFight_runner.ship.getZRotation());
-  		setPos(XFight_runner.ship.getPoints()[0].getXReal(), XFight_runner.ship.getPoints()[0].getYReal()-100, 0);
+  		setPos(XFight_runner.ship.getCenterX() + pewSpeeds[0]*3, XFight_runner.ship.getCenterY() - pewSpeeds[1]*3, 0);
   		
   		setMass(100);
+  		
+  		setSize(getXSize(),getYSize(),5);
   		
   		hasNormalCollisions = false;
   		
@@ -42,9 +44,9 @@ public class Pew extends PointSet {
 	}
 	
 	public void tertiaryUpdate() {
-		if (getYReal() < 0 ) {
+		if (! drawer.frame.checkIsInFrame(this)) {
 			drawer.remove(this);
-			delete=true;
+			
 		}
 		
 	}

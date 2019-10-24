@@ -20,7 +20,7 @@ public class SpaceShip extends PointSet implements resizable{
 		super(drawer1);
 		
 		for (point cP : constPoints) {
-			addPoint(cP);
+			addPoint(new point(drawer,cP.getXReal(),cP.getYReal(),cP.getZReal()));
 		}
 		
 		initialize();

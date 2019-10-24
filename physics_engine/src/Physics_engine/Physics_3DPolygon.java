@@ -809,7 +809,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { 
 	
-		if (Settings.collision_algorithm == 5) {
+		//if (Settings.collision_algorithm == 5) {
 			
 			if ((Physics_engine_toolbox.distance(center, current_physics_object.getCenter()) < maxSize + current_physics_object.getMaxSize() + 1 + 100 * Settings.frameStep)) {
 				
@@ -853,9 +853,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			
 			
-		}else {
-			checkForCollision1((massive) current_physics_object, objects);
-		}
+		//}else {
+		//	checkForCollision1((massive) current_physics_object, objects);
+		//}
 		
 	
 	}

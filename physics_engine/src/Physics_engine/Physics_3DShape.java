@@ -409,9 +409,7 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 		double yI = pointOfRotation.getYReal();
 		double zI = pointOfRotation.getZReal();
 		
-		double shiftX = (centerX-xI) - initialXDistanceFromPointOfRot;
-		double shiftY = (centerY-yI) - initialYDistanceFromPointOfRot;
-		double shiftZ = (centerZ-zI) - initialZDistanceFromPointOfRot;
+
 	
 		updatePointOfRotation();
 		
