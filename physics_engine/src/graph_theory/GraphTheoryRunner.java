@@ -11,7 +11,7 @@ import Physics_engine.physicsRunner;
 
 public class GraphTheoryRunner extends physicsRunner {
 
-	
+	public static int waitTime = 50;
 	public static void main(String[] args) {
 		Settings.frameColor = Color.blue;
 		frame = new Physics_frame();
@@ -32,8 +32,8 @@ public class GraphTheoryRunner extends physicsRunner {
 				{{0},{1,30},{0},{1,10}}, //2
 				{{1,10},{1,30},{1,10},{0}}, //3		
 		};
-		*/
 		
+		*/
 		int[][][] adjacencyMatrix = {
 			{{0},{1,10},{0},{0},{0},{1,20}}, //0
 			{{1,10},{0},{1,20},{0},{1,10},{1,15}}, //1
@@ -47,5 +47,7 @@ public class GraphTheoryRunner extends physicsRunner {
 		drawer.start();
 		drawer.pause();
 		newGraph.optimizedHamiltonCircut();
+		
+		waitForEnd();
 	}
 }

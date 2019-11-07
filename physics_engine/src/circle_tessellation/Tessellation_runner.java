@@ -19,7 +19,7 @@ public class Tessellation_runner {
 	public static Physics_frame frame;
 	
 	private static String shape = "circle";
-	private static int levels = 4,size = 120,startX=0,startY=0,endX=Settings.width,endY=Settings.height;
+	private static int levels = 4,size = 200,startX=0,startY=0,endX=Settings.width,endY=Settings.height;
 	private static double[] lSizes;
 	
 	private static border_bounce boundries;
@@ -45,7 +45,7 @@ public class Tessellation_runner {
 		FCPS_display fcps = new FCPS_display(drawer,30,50);
 		drawer.add(fcps);
 		
-		
+		drawer.start();
 		
 		
 		drawTessellation(shape,size,levels,startX,startY,endX,endY);
@@ -54,14 +54,14 @@ public class Tessellation_runner {
 			
 		}
 		
-		drawer.start();
+		
 		
 	
 	  
 		resize();
 		
-		drawer.pause();
-	  
+		
+		resize();
 		
 		while (frame.isShowing()) {
 			try {
@@ -136,7 +136,7 @@ public class Tessellation_runner {
 			
 			drawer.add(cObject);
 			
-//		    System.out.println("level: " + level + " , side: "+ sideLevel);
+		    System.out.println("level: " + level + " , side: "+ sideLevel);
 			
 			if (level == 2) {
 				sideLevel = 1;
