@@ -26,7 +26,7 @@ import Physics_engine.drawable;
 
 public class XFight_runner extends physicsRunner {
 	
-	public static final String Version = "1.0.5";
+	public static final String Version = "1.1.1";
 	
 	public static final int speed = 10;
 	public static final int pewSpeed = 25;
@@ -50,7 +50,7 @@ public class XFight_runner extends physicsRunner {
 	public static void main(String[] args) {
 		
 		frame = new Physics_frame();
-		drawer = new object_draw(frame);
+		
 
 		run();
 		
@@ -98,6 +98,8 @@ public class XFight_runner extends physicsRunner {
 	}
 	
 	public static void run() {
+		
+		drawer = new object_draw(frame);
 		
 		addObjects();
 				
