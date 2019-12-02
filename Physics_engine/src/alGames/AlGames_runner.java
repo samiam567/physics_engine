@@ -17,10 +17,11 @@ import calculator.Calculator_runner;
 import calculator.Settings;
 import jetpack_joyride.JetPack_JoyRide;
 import pong.Pong_runner;
+import xfight.XFight_runner;
 
 public class AlGames_runner extends physicsRunner {
 	
-	public static String[] games = {"Pong3D","JetPack Collect","Physics Simulator","exit"};
+	public static String[] games = {"Pong3D","JetPack Collect","XFight","Calculator","Physics Simulator","global thermonuclear warfare","exit"};
 	
 	private static String thermoWar = "Are you crazy?!?\nI'm not letting you start WWIII! ";
 
@@ -58,8 +59,12 @@ public class AlGames_runner extends physicsRunner {
 					physics_runner.run();
 					Physics_engine.Settings.displayObjectNames = false;
 					break;
-					
+				
+				case("XFight"):
+					XFight_runner.run();
+					break;
 				case("global thermonuclear warfare"):
+					frame.setColor(Color.gray);
 					Physics_engine.Settings.timeSpeed = 3;
 					drawer.setFrameTimeMultiplier(999999999);					
 					frame.setVisible(true);

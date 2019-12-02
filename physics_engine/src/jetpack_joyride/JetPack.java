@@ -17,6 +17,7 @@ public class JetPack extends rectangle {
 	public JetPack(object_draw drawer1, int x, int y, int z, int size, double mass) {
 		super(drawer1,x, y, z, size*2,size, mass);
 		drawMethod = "paint";
+		elasticity = 1;
 	}
 	
 	public void tertiaryUpdate() {
@@ -56,10 +57,6 @@ public class JetPack extends rectangle {
 			    JetPack_JoyRide.coins++;
 			    JetPack_JoyRide.coinsEarned++;
 			    coin.coinReLocate();
-			    
-			    if (side.equals(faces.top) || side.equals(faces.bottom)) {
-			    	setSpeed(xSpeed,-ySpeed,zSpeed);
-			    }
 			    
 			} catch (ClassCastException e) {}
 			

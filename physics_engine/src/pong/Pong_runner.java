@@ -342,7 +342,7 @@ public class Pong_runner extends physicsRunner{
 		switch(p2AI_diff_input) {
 			case(0):
 				System.out.println("Difficulty: Easy");
-				AI_difficulty = 0.4;
+				AI_difficulty = 0.45;
 				gameSetSpeed *= 1.5;
 	
 				break;

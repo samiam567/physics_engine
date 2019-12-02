@@ -192,10 +192,10 @@ public class object_draw extends JPanel {
 	
 	public void checkForResize() {		
 		
-		if ( (Settings.width != frame.getWidth()) || (Settings.height != frame.getHeight())) {
+		if ( (Settings.width * Settings.pixelConversion != frame.getWidth()) || (Settings.height * Settings.pixelConversion != frame.getHeight())) {
 			if (Settings.autoResizeFrame) {
-				Settings.width = frame.getWidth();
-				Settings.height = frame.getHeight();
+				Settings.width = (int) (frame.getWidth()/Settings.pixelConversion);
+				Settings.height = (int) (frame.getHeight()/Settings.pixelConversion);
 				
 				resize();
 				

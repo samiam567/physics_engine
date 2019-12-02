@@ -36,8 +36,8 @@ public class physics_runner extends physicsRunner {
 		drawer.add(boundries);
 		
 	
-		//@SuppressWarnings("unused")
-		//New_object_listeners News = new New_object_listeners(drawer);
+		@SuppressWarnings("unused")
+		New_object_listeners News = new New_object_listeners(drawer);
 		
 		
 		frame.setVisible(true);
@@ -49,25 +49,24 @@ public class physics_runner extends physicsRunner {
 		drawer.add(fcps);
 		
 		
-		Physics_3DShape shape1 = new Shape3D(drawer,Shape3D.shape3dtype.cylinder,500,500,0,20,40,10,0.2);
-		Physics_3DShape shape2 = new Shape3D(drawer,Shape3D.shape3dtype.sphere,800,800,0,50,50,500,0.35);
+		
+		Physics_3DShape shape1 = new Shape3D(drawer,Shape3D.shape3dtype.torus,500,500,0,10,10,5,0.05);
 		shape1.setAngularVelocity(0.02, 0.03, 0.04);
 		shape1.setSpeed(0, 0, 0);
+		
+		
+		
 	
 		
 		drawer.add(shape1);
-	//	drawer.add(shape2);
+	
 		shape1.setColor(Color.red);
 		
-		Sphere sp1 = new Sphere(drawer,Settings.width/2,Settings.height/2,Settings.depth/2,Settings.width/15,10,Math.PI/20);
-		sp1.isFilled = false;
-		sp1.isShaded = false;
-		sp1.setAngularVelocity(0.1, 0.1, 0.1);
-		//drawer.add(sp1);
+
 		
 		drawer.start();
 		
-		resize();
+		resize(frame);
 		
 		
 
@@ -81,12 +80,12 @@ public class physics_runner extends physicsRunner {
 			e.printStackTrace();
 		}
 		
-	//drawer.pause();
+	
 	
 	System.out.println("drawer paused.");
 
-
-		waitForEnd();
+	drawer.repaint();
+	waitForEnd();
 		
 	
 		

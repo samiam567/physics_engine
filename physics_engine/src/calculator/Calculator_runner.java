@@ -96,19 +96,32 @@ public class Calculator_runner {
 			}else if (eqType.equals(eqTypes.Algebreic)){
 				boolean error = false;
 				double yValue = 0;
+				
+				String[] graphSolveOptions = {"Solve for a y value","Graph","exit eq manager"};
+				
+				int ans = 0;
+				
+				algebreic_calc alg_cal = new algebreic_calc(input,0);
+				boolean alg_cal_calculated = false;
 				do {
-					String yValueStr = JOptionPane.showInputDialog(calculatorAnchor,"What y do you want to test for?");
-					try {
-						yValue = Double.parseDouble(yValueStr);
-						error = false;
-					}catch(NumberFormatException e){
-						error = true;
+					ans = JOptionPane.showOptionDialog(calculatorAnchor, "What do you want to do with this equation?", input, 1, 1,null, graphSolveOptions, null);	
+					
+					if (graphSolveOptions[ans].equals("Solve for a y value")) {
+						yValue = Physics_engine_toolbox.getDoubleFromUser(calculatorAnchor, "What y do you want to test for?");
+						alg_cal.setYValue(yValue);
+						alg_cal.calculate();
+						alg_cal_calculated = true;
+						alg_cal.output();
+					}else if (graphSolveOptions[ans].equals("Graph")) {
+						Grapher drawer = new Grapher();
+						
+						if (! alg_cal_calculated) alg_cal.calculate();
+						
+						drawer.addEquation(alg_cal);
+						drawer.updateGraph();
 					}
-				}while (error);
-				Grapher drawer = new Grapher();
-				algebreic_calc alg_cal = new algebreic_calc(input, yValue);
-				drawer.addEquation(new algebreic_calc(input,yValue,"calculate,output"));
-				drawer.updateGraph();
+				}while (! graphSolveOptions[ans].equals("exit eq manager"));
+				
 			}else {
 				errors.add("I'm terribly sorry sir, but it appears that I have not been programmed to undertake that type of calculation yet.");
 				return;

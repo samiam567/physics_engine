@@ -349,7 +349,7 @@ public class JetPack_JoyRide extends physicsRunner {
 				
 				if (another == 0) {
 					resetGame();
-					
+					drawer.resume();
 					runGame();
 				}
 				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

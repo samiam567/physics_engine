@@ -15,7 +15,7 @@ public class Physics_frame extends JFrame{
 	
 	public Physics_frame() {
 		frameCount++;
-		setSize((int) (Settings.width * Settings.pixelConversion), (int) (Settings.height* Settings.pixelConversion));
+		setSize((int) (Settings.width * Settings.pixelConversion), (int) (Settings.height * Settings.pixelConversion));
 		setTitle("Physics-Engine V" + Settings.version + "           Programmed by Alec Pannunzio ID:" + frameCount);
 		cp = getContentPane();
 		
@@ -40,7 +40,9 @@ public class Physics_frame extends JFrame{
 
 
 	public void resizeObjects() {
-		physics_runner.resize();
+		Exception e = new Exception();
+		e.printStackTrace();
+		physicsRunner.resize(this);
 		boundingRectangle.setRect(0,0,getWidth(),getHeight());
 	}
 	

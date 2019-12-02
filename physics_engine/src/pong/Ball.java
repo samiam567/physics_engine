@@ -163,11 +163,11 @@ public class Ball extends Sphere implements resizable {
 		super.paint(page);	
 	
 		//distance bars
-		page.fillRect(0, 0, Settings.width/100, (int) (((Settings.height*0.85) * getZ())/Settings.depth));
-		page.drawRect(0, 0, Settings.width/100, (int) (Settings.height*0.85));
+		page.fillRect(0, 0, Settings.width/100, (int) (Settings.height - ((Settings.height) * getZ())/Settings.depth));
+		page.drawRect(0, 0, Settings.width/100, (int) (Settings.height));
 		
-		page.fillRect((int) (Settings.width - Settings.width/100 - 20), 0, Settings.width/100, (int) (((Settings.height*0.85) * getZ())/Settings.depth));
-		page.drawRect((int) (Settings.width - Settings.width/100 - 20), 0, Settings.width/100, (int) (Settings.height*0.85));
+		page.fillRect((int) (Settings.width - Settings.width/100 - 20), 0, Settings.width/100, (int) (Settings.height - ((Settings.height) * getZ())/Settings.depth));
+		page.drawRect((int) (Settings.width - Settings.width/100 - 20), 0, Settings.width/100, (int) (Settings.height));
 		
 		//drawing ball position box
 		page.drawRect(Settings.width/2-getRectSizeWidth(getCenterZ())/2,Settings.height/2-getRectSizeHeight(getCenterZ())/2,getRectSizeWidth(getCenterZ()),getRectSizeHeight(getCenterZ()));

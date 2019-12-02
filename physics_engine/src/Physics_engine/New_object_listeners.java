@@ -30,9 +30,7 @@ public class New_object_listeners {
 		
 		
 		freeFormBoard = new ScoreBoard(drawer,Settings.width * 0.5, Settings.height * 0.1, "FreeForm Creation Started \n New-Point Z Coordinate:",freeFormPointZ);
-		
-		objectBeingChanged = new Square(drawer,200,200,0,50,10);
-		drawer.add((physics_object) objectBeingChanged);
+
 		
 		mouseMotionListener = new MouseMotionListener() {
 
@@ -46,7 +44,6 @@ public class New_object_listeners {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				
-//				objectBeingChanged.setPos(e.getX(), e.getY(), objectBeingChanged.getCenterZ());
 		
 			}
 			

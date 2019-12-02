@@ -244,7 +244,7 @@ public class Ball_shooter_golf_runner extends physicsRunner{
 			drawer.add(ball);
 		
 		
-			resize();
+			resize(frame);
 			
 			int i = 0;
 			while ( (target.getCenterX() == Settings.width * 0.1 + xDistFromTarg) && (i < 100) ) {

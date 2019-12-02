@@ -23,9 +23,18 @@ public class Map_object_draw extends object_draw implements resizable { //uses a
 		centerYCoordOfMapPlace = camera_center.getY();
 	}
 	
+	@Override
+	public void checkForResize() {		
+		if ( (frameXSize != frame.getWidth()) || (frameYSize != frame.getHeight())) {
+				if (Settings.autoResizeFrame) {
+					frameXSize = (int) (frame.getWidth());
+					frameYSize = (int) (frame.getHeight());				
+				}
+		}
+	}
+	
 	public void paint(Graphics page) {
-		
-		drawerToMap.pause(); //we don't want the drawer to map's updater and collision handling to influence the resizing and moving stuff that we're doing here
+	//	drawerToMap.pause(); //we don't want the drawer to map's updater and collision handling to influence the resizing and moving stuff that we're doing here
 		
 		double object_X_temp,object_Y_temp,object_xSize_temp,object_ySize_temp;
 		
@@ -61,7 +70,7 @@ public class Map_object_draw extends object_draw implements resizable { //uses a
 					
 					((pointed) cObject).calculatePointValues();
 					
-		//			((pointed) cObject).setRotation(rotTempX, rotTempY, rotTempZ);
+		
 					
 					((massive)cObject).updatePoints();
 					
@@ -104,7 +113,7 @@ public class Map_object_draw extends object_draw implements resizable { //uses a
 			}
 		}
 		
-		drawerToMap.resume(); //now the drawerToMap can continue doing whatever it was doing now that we're done using it's objects
+	//	drawerToMap.resume(); //now the drawerToMap can continue doing whatever it was doing now that we're done using it's objects
 	}
 	
 	private double[] calculateRotation(double x, double y, double angle) {

@@ -12,7 +12,7 @@ import Physics_engine.resizable;
 import Physics_engine.Settings;
 import Physics_engine.massive;
 
-public class SpaceShip extends PointSet implements resizable{
+public class SpaceShip extends PointSet implements resizable {
 
 	public static final int turningSpeed = 15;
 	
@@ -29,14 +29,21 @@ public class SpaceShip extends PointSet implements resizable{
 		isFilled = true;
 		setColor(Color.RED);
 	
-	
+		name = "spaceShip";
 		resize();
 		
 	}
 	
 	public void isCollided(physics_object object, faces side) {
-		System.out.println("game over");
+		System.out.println("object hit");
 		System.out.println(object.getObjectName());
+		
+		if (object.getObjectName().equals("enemy")) {
+			XFight_runner.game_over = true;
+		}
+		
+	
+		
 		
 	}
 	

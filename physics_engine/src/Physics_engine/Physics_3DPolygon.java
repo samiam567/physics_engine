@@ -800,7 +800,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 		
 				//bouncing
-				//setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() * cObject.getMass() - ySpeed * getMass()) / getMomentOfInertia())) * 10 - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) / getMomentOfInertia())) * 10);
+				if (isRotatable) setAngularVelocity(0,0,(((contactPoint.getXReal() - center.getXReal()) * ( cObject.getYSpeed() * cObject.getMass() - ySpeed * getMass()) / getMomentOfInertia())) * 10 - (((-contactPoint.getYReal() + center.getYReal()) * (cObject.getXSpeed()-xSpeed) / getMomentOfInertia())) * 10);
 				
 				setSpeed(((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * (cOb.getXSpeed() - getXSpeed()),((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getYSpeed() - getYSpeed()) ,((mass - cOb.getMass())/(mass+cOb.getMass())) + ((2*cOb.getMass())/(mass + cOb.getMass())) * ( cOb.getZSpeed() - getZSpeed()) );}
 			
@@ -809,7 +809,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	public void checkForCollision(massive current_physics_object,ArrayList<massive> objects) { 
 	
-		//if (Settings.collision_algorithm == 5) {
+		if (Settings.collision_algorithm == 5) {
 			
 			if ((Physics_engine_toolbox.distance(center, current_physics_object.getCenter()) < maxSize + current_physics_object.getMaxSize() + 1 + 100 * Settings.frameStep)) {
 				
@@ -823,7 +823,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 						
 						
 						if (cPoint.isIn(this)) {
-							System.out.println("Collision:");
+						
 							
 						
 							if (getHasNormalCollisions() && current_physics_object.getHasNormalCollisions()) {
@@ -839,7 +839,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 								current_physics_object.isCollided(this, side);
 							}
 							
-							System.out.println("--");
+							
 							break;
 						}
 					}
@@ -853,9 +853,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			
 			
-		//}else {
-		//	checkForCollision1((massive) current_physics_object, objects);
-		//}
+		}else {
+			checkForCollision1((massive) current_physics_object, objects);
+		}
 		
 	
 	}

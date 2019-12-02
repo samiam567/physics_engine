@@ -29,13 +29,17 @@ public abstract class physicsRunner {
 
 	}
 	
-	public static void resize() {
+	public static void resize(Physics_frame frame) {
 		//resize stuff
-		System.out.println("Resizing");
+		System.out.println("Resizing for " + frame.getName());
 		
 		try {
 			drawer.resize();
+		}catch(NullPointerException n) {}
+		
+		try {
 			boundries.resize();
 		}catch(NullPointerException n) {}
+		
 	}
 }

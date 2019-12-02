@@ -17,8 +17,8 @@ public class algebreic_calc {
 	String input_original;
 	String input_exe;
 	private graph eqGraph = new graph();
-	double xStep = 0.01;
-	double bound = 1000;
+	double xStep = 0.5;
+	double bound = 10000;
 	double yTarget;
 	
 	public algebreic_calc(String input1,double yTarget1) {
@@ -223,6 +223,10 @@ public class algebreic_calc {
 			
 		
 		return ans1 + " , " + ans2;
+	}
+
+	public void setYValue(double yValue) {
+		yTarget = yValue;	
 	}
 	
 }

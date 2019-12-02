@@ -1,12 +1,19 @@
 package xfight;
 
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import Physics_engine.FCPS_display;
 import Physics_engine.FPS_display;
+import Physics_engine.Map_object_draw;
+import Physics_engine.Physics_drawable;
 import Physics_engine.Physics_engine_toolbox;
 import Physics_engine.Physics_frame;
 import Physics_engine.ScoreBoard;
@@ -15,13 +22,14 @@ import Physics_engine.physicsRunner;
 import Physics_engine.point;
 import Physics_engine.pointed;
 import Physics_engine.Settings;
+import Physics_engine.drawable;
 
 public class XFight_runner extends physicsRunner {
 	
 	public static final String Version = "1.0.5";
 	
-	public static final int speed = 7;
-	public static final int pewSpeed = 20;
+	public static final int speed = 10;
+	public static final int pewSpeed = 25;
 	
 
 	
@@ -33,37 +41,67 @@ public class XFight_runner extends physicsRunner {
 	
 	public static SpaceShip ship;
 	private static ScoreBoard scoreboard;
-	private static point[] enemyBlueprint;
+	public static point[] enemyBlueprint;
 	private static point[] pewBlueprint;
 	
+	public static boolean game_over = false;
+	
+		
 	public static void main(String[] args) {
+		
 		frame = new Physics_frame();
 		drawer = new object_draw(frame);
+
 		run();
+		
 	}
 	
 	public static void setDrawer(object_draw drawer1) {
 		frame =  new Physics_frame();
 		drawer = drawer1;
 		drawer.setFrame(frame);
+	
+		
+	}
+	
+	public static void reset() {
+		resize(); //this resets all of the enemies' positions 
+		Score = 0;
+		game_over = false;
+	}
+	
+	public static void addObjects() {
+		
+		//loading blueprints
+		point[] spaceShipBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(spaceShipFileName)).getPoints();
+		ship = new SpaceShip(drawer,spaceShipBlueprint);
+		drawer.add(ship);
+		
+		pewBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(pewFileName)).getPoints();
+		
+		enemyBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(enemyFileName)).getPoints();
+		
+		//adding enemies
+		for(int i=0; i<3; i++) drawer.add(new Enemy(drawer,enemyBlueprint));
+		
+		FPS_display fps = new FPS_display(drawer,30,30);
+		fps.setColor(Color.DARK_GRAY);
+		drawer.add(fps);
+
+		FCPS_display fcps = new FCPS_display(drawer,30,50);
+		fcps.setColor(Color.DARK_GRAY);
+		drawer.add(fcps);
+		
+		scoreboard = new ScoreBoard(drawer,Settings.width * 0.9,Settings.height * 0.1,"Score:",0);
+		scoreboard.setColor(Color.green);
+		drawer.add(scoreboard);
 	}
 	
 	public static void run() {
-		//loading blueprints
-				point[] spaceShipBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(spaceShipFileName)).getPoints();
-				ship = new SpaceShip(drawer,spaceShipBlueprint);
-				drawer.add(ship);
+		
+		addObjects();
 				
-				pewBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(pewFileName)).getPoints();
-				
-				enemyBlueprint = ((pointed) Physics_engine_toolbox.loadObjectFromFile(enemyFileName)).getPoints();
-				
-				//adding enemies
-				drawer.add(new Enemy(drawer,enemyBlueprint));
-				drawer.add(new Enemy(drawer,enemyBlueprint));
-				drawer.add(new Enemy(drawer,enemyBlueprint));
-				
-				Settings.frameTime = 100;
+		Settings.frameTime = 100;
 				
 		drawer.addMouseMotionListener( new MouseMotionListener() {
 
@@ -173,25 +211,13 @@ public class XFight_runner extends physicsRunner {
 		frame.setVisible(true);
 	
 		frame.setTitle("XFight V" + Version);
+		frame.setColor(Color.black);
 		
-		FPS_display fps = new FPS_display(drawer,30,30);
-		drawer.add(fps);
-
-		FCPS_display fcps = new FCPS_display(drawer,30,50);
-		drawer.add(fcps);
 		
-		scoreboard = new ScoreBoard(drawer,Settings.width * 0.9,Settings.height * 0.1,"Score:",0);
-		drawer.add(scoreboard);
 		
 		resize();
 		
 		drawer.start();
-		
-	
-		
-	
-		
-		
 		
 		
 		while(frame.isActive()) {
@@ -201,8 +227,36 @@ public class XFight_runner extends physicsRunner {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			if (game_over) {
+				drawer.pause();
+				JOptionPane.showMessageDialog(drawer, "GAME OVER\nYour score was " + Score);
+				if (JOptionPane.showConfirmDialog(null,"Do you want to play another game?", "Another?", 1, 1, null) == 0) {
+					//playing again
+					reset();
+					drawer.clearObjects();
+					
+					addObjects();
+					drawer.resume();
+				}else { 
+					//ending game
+					frame.dispose();
+					break;			
+				}
+			}
 		}
 		
+		
+	}
+	
+	public static void resize() {
+		physicsRunner.resize(frame);
+		for (drawable t : drawer.getDrawables()) {
+			try {
+				((Enemy) t).resetPos();
+			}catch(ClassCastException c) {}
+		}
+		scoreboard.setPos(Settings.width * 0.9,Settings.height * 0.1,0);
 	}
 
 }

@@ -15,6 +15,9 @@ public class MIT_Laser extends Laser {
 	public MIT_Laser(object_draw drawer1, int x, int y) {
 		super(drawer1,400,200,(15*laserXSize),laserYSize);
 		setSize(15*laserXSize,laserYSize,1);
+		
+		isTangible = false;
+		
 	}
 	
 	public void tertiaryUpdate() {

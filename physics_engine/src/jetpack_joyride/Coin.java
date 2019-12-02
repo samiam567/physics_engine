@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import Physics_engine.*;
+import Physics_engine.Physics_engine_toolbox.faces;
 
 public class Coin extends Square {
 	
@@ -22,6 +23,9 @@ public class Coin extends Square {
 		setSpeed(-JetPack_JoyRide.jetpack_speed, 0,0);
 	}	
 	
+	public void isCollided(physics_object object, faces side) {
+		coinReLocate();
+	}
 	public void secondaryUpdate() {
 		
 			if (getXReal() < 0) {

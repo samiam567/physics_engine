@@ -10,7 +10,7 @@ public class Settings {
 	public static double pixelConversion = 1; //37.65;
 	
 	public static int width = (int) (1500 / pixelConversion);
-	public static int height = (int) (800/ pixelConversion);
+	public static int height = (int) (1000/ pixelConversion);
 	public static long depth =  (long) (1000 / pixelConversion);
 
 	public static double timeSpeed = 1;
@@ -25,7 +25,7 @@ public class Settings {
 	public static double elasticity = 0.3; //a number between 0 and 1 which determines what % of kinetic is conserved in a collision
 	
 
-	public static boolean perspective = false;
+	public static boolean perspective = true;
 	public static double distanceFromScreenMeters = 0.3025; //the distance in meters the viewer is away from the screen
 	public static final double distanceFromScreen = distanceFromScreenMeters / 0.000115; //should not be changed
 	
@@ -39,7 +39,7 @@ public class Settings {
 	//algorithm select
 	public static int rotationAlgorithm = 6; // v3,v4, v5, and 0 disables V6 is housed in the Physics_3DPolygon class
 	public static final int forceMethod = 1;
-	public static int collision_algorithm = 5; //possibles are 1, 2, 3, 4, 5, and 6  as 2 was a complete failure
+	public static int collision_algorithm = 5; //possibles are 1,2,3, 4, and 5
 
 
 

@@ -42,12 +42,14 @@ public class Painter_runner extends physicsRunner {
 
 		frame.setVisible(true);
 		
-		resize();
+		resize(frame);
 		
 			
 
 		newObs = new New_object_listeners(drawer);
+		border_bounce borders = new border_bounce(drawer);
 		
+		drawer.add(borders);
 		drawer.start();
 		
 		
