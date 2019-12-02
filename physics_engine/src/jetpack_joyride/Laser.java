@@ -29,13 +29,13 @@ public class Laser extends rectangle{
 			setPos(Math.random() * 1500 + Settings.width+100, Math.random() * (Settings.height-getXSize()-150), getZReal());
 			setSpeed(-JetPack_JoyRide.jetpack_speed, 0,0);
 		}
-		/*
+		
 		else if ( (getXReal()+20 < JetPack_JoyRide.jetpack.getXReal()) || (getXReal()-50 >JetPack_JoyRide.jetpack.getXReal()) ) {
 			isTangible = false;
 		}else {
 			isTangible = true;
 		}
-		*/
+		
 		setSpeed(-JetPack_JoyRide.jetpack_speed, 0,0);
 	}
 		

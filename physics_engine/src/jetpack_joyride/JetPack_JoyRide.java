@@ -122,9 +122,12 @@ public class JetPack_JoyRide extends physicsRunner {
 		laser2 = new Laser(drawer,Settings.width/2,200,Settings.width/100,Settings.width/10);
 		laser2.setName("_Laser2",0);
 		
+		
 		MITLaser1 = new MIT_Laser(drawer, 4 * Settings.width/5,200);
 		MITLaser1.setName("_MITLaser1", 0);
-	
+		drawer.add(MITLaser1);
+		
+		
 		Missile1 = new Missile(drawer,0,200);
 		Missile1.setName("thing",0);
 		
@@ -211,7 +214,6 @@ public class JetPack_JoyRide extends physicsRunner {
 		drawer.add(distanceHighScoreBoard);
 		drawer.add(laser1);
 		drawer.add(laser2);
-		drawer.add(MITLaser1);
 		drawer.add(Missile1);
 		drawer.add(coin1);
 		drawer.add(coin2);
