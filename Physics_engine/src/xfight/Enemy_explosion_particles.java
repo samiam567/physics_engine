@@ -18,7 +18,7 @@ public class Enemy_explosion_particles extends Square {
 	public Enemy_explosion_particles(object_draw drawer1, double EnX, double EnY, double i) {
 		super(drawer1, EnX + 7*Math.cos(i) ,EnY +  7*Math.sin(i), 0, particleSize, 0.01);
 		setSpeed(speed * Math.cos(i), speed * Math.sin(i),0);
-		isTangible = false;
+		isTangible = false; 
 		setColor(Color.GRAY);
 		isFilled = true;
 		

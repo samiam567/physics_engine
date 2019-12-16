@@ -39,16 +39,7 @@ public class Ball extends Sphere implements resizable {
 		double size = 100 * Settings.width/(getCenterZ() + 500);
 		setSize(size,size,size);
 		
-		/*
-		if (zSpeed > 0) {
-			setColor(Color.yellow);
-		}else if (zSpeed < 0) {
-			setColor(Color.green);
-		}else {
-			setColor(Color.red);
-		}
-		*/
-		
+
 		if (Math.sqrt(Math.pow(0.000000000001 + getCenterX()-Settings.width/2,2)) + size >= getRectSizeWidth(getCenterZ())/2) {
 			if (getXReal()-Settings.width/2 > 0) {
 				setSpeed(-Math.sqrt(0.00000001+Math.pow(getXSpeed(),2)),getYSpeed(),getZSpeed());
@@ -150,10 +141,10 @@ public class Ball extends Sphere implements resizable {
 		
 		//drawing border boxes
 		
-		int alpha = 90; // 1/transparency of the shape
+		int alpha = 150; // 1/transparency of the shape
 		Color barsColor = Color.getHSBColor(Color.red.getRGB(),1f, 150 );
 		page.setColor(new Color(barsColor.getRed(),barsColor.getGreen(),barsColor.getBlue(),alpha));
-		for (int z = 0; z < Settings.depth; z+= 70) {
+		for (int z = 0; z < Settings.depth; z+= 40) {
 			page.drawRect(Settings.width/2-getRectSizeWidth(z)/2,Settings.height/2-getRectSizeHeight(z)/2,getRectSizeWidth(z),getRectSizeHeight(z));
 			
 		}
