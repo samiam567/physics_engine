@@ -10,7 +10,7 @@ import Physics_engine.Physics_engine_toolbox.faces;
 
 public class MIT_Laser extends Laser {
 	
-	private static final boolean mitLaserEnabled = true;
+	private static final boolean mitLaserEnabled = false;
 	
 	private static double laserXSize = Settings.width/100, laserYSize = Settings.width/10;
 	

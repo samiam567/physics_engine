@@ -297,7 +297,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		return Vector2D.polarToRectangular(polar[0], polar[1] + angle);
 	}
 	
-	public void updatePoints() { //creates a vector from the pointOfRotation to each point in the object			
+	public void updatePoints() { 
 		
 		if (isRotatable){
 	
@@ -332,9 +332,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			updateSize();
 			
-		
+			
 			if (pointOfRotationPlace != pointOfRotationPlaces.center) {
-			//Center Rotation
+			//rotation of the center around the point of rotation
 				center.setPos( (center.getXReal() - xI) , (center.getYReal() - yI) ,(center.getZReal() - zI) );
 				
 				//zRotation
@@ -366,7 +366,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		
 			
 			
-			
+			//rotation of each point around the center of the object 
 			do {
 				try {
 			
@@ -428,8 +428,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 		}
 		
-		//updatePointXsYsAndZs();
-		
+	
 	}
 
 	public void setRotation(double xRotation1, double yRotation1, double zRotation1) { //this is not a wise method to use as it frequently results in impossible rotations.

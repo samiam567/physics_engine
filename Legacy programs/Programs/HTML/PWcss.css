@@ -1,0 +1,20 @@
+html{
+    text-align: center; margin: 80; padding: 150;
+}
+#html {
+    margin: auto; width: 800px;
+}
+div {
+    height: 100px;
+    width: 100px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+
+h1 {
+    text-align: left;
+}
+table {
+    text-align: center;
+}

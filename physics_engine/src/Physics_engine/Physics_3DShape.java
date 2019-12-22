@@ -133,23 +133,7 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 			int alpha = 80; // 1/transparency of the shape
 			color = Color.getHSBColor(parentshape.getColor().getRGB(),1f, brightness );
 			color = new Color(color.getRed(),color.getGreen(),color.getBlue(),alpha);
-			//System.out.println(brightness);
-			/*
-			if (brightness >= 350) {
-				color = Color.WHITE;
-			}else if (brightness >= 250) {
-				color = Color.LIGHT_GRAY;
-			}else if (brightness >= 150) {
-				color = Color.GRAY;
-			}else if (brightness >= 50) {
-				color = Color.DARK_GRAY;
-			}else if (brightness >= 0) {
-				color = Color.BLACK;
-			}else {
-				System.out.println("logic Error for lightLevel: " + brightness);
-			}
-			*/
-			
+
 		}
 		
 		public Polygon get2DPolygon() {
@@ -286,57 +270,6 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 				}
 			}
 			
-			
-			
-		/*	
-		///Adding supplementary points to polygon -----------------
-			//1
-			try {
-				pointCoord = predictEquation(points[i].getXReal(),points[i].getYReal(),delta * Math.cos(0 * 90/(pointsPerPolygon-1)), delta * Math.sin(0 * 90/(pointsPerPolygon-1)));
-				pPoints[0+1] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
-				points[pointCount2] = pPoints[0+1];
-				pointCount2++;
-			}catch(Exception e) {
-				e.printStackTrace();
-				Polygon_point[] pPointsTemp = pPoints;
-				pPoints = new Polygon_point[pPointsTemp.length-1];
-				for (int h = 0; h < pPoints.length; h++) {
-					pPoints[h] = pPointsTemp[h];
-				}
-			}
-			
-			//2
-			try {
-				pointCoord = predictEquation(points[i].getXReal(),points[i].getYReal(),Math.sqrt(2) * delta/2,Math.sqrt(2) * delta/2);
-				pPoints[2] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
-				points[pointCount2] = pPoints[2];
-				pointCount2++;
-			}catch(Exception e) {
-				e.printStackTrace();
-				Polygon_point[] pPointsTemp = pPoints;
-				pPoints = new Polygon_point[pPointsTemp.length-1];
-				for (int h = 0; h < pPoints.length; h++) {
-					pPoints[h] = pPointsTemp[h];
-				}
-			}
-			
-			//3
-			try {
-				pointCoord = predictEquation(points[i].getXReal(),points[i].getYReal(),delta, 0);
-				pPoints[3] = new Polygon_point(this,pointCoord[0],pointCoord[1],pointCoord[2]);
-				points[pointCount2] = pPoints[3];
-				pointCount2++;
-			}catch(Exception e) {
-				e.printStackTrace();
-				Polygon_point[] pPointsTemp = pPoints;
-				pPoints = new Polygon_point[pPointsTemp.length-1];
-				for (int h = 0; h < pPoints.length; h++) {
-					pPoints[h] = pPointsTemp[h];
-				}
-			}
-			
-		//------------------------------------------------------------
-			*/
 			
 			if (pPoints.length >= 3) {
 				polygons[i] = new Physics_polygon(this,pPoints);

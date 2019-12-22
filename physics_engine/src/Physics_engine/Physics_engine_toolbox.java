@@ -374,11 +374,12 @@ public static int getIntegerFromUser(JFrame messageAnchor, String message) {
 			return readOb;
 			
 		}catch(InvalidClassException e) {
-			System.out.println("Corrupted Save_file"); 
+			System.out.println("Corrupted Save_file : " + fileName); 
 		}catch(EOFException e) {
-			System.out.println("Corrupted Save_file");
+			System.out.println("Corrupted Save_file : " + fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			System.out.println(fileName + " not found");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

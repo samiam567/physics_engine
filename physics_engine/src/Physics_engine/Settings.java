@@ -9,8 +9,8 @@ public class Settings {
 	public static boolean debugMode = true;
 	public static double pixelConversion = 1; //37.65;
 	
-	public static int width = (int) (1500 / pixelConversion);
-	public static int height = (int) (1000/ pixelConversion);
+	public static int width = (int) (1000 / pixelConversion);
+	public static int height = (int) (800/ pixelConversion);
 	public static long depth =  (long) (1000 / pixelConversion);
 
 	public static double timeSpeed = 1;

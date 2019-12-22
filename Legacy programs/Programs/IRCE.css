@@ -1,0 +1,12 @@
+h1 p{
+	font-family: sans-serif;
+	color: #0000FF;
+}
+span{
+	color: #FF0000;
+	font-family: cursive;
+}
+html{
+	background-color: #00FF00;
+	text-align: center;
+}

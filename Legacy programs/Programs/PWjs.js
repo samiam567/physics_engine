@@ -1,0 +1,153 @@
+var score = 0
+var question_num = 0
+$(document).ready(function() {
+    $(table).fadeOut('fast')
+    $(go).click(function() {
+        problem_set = prompt("Which problem set?")
+        $(go).fadeOut('slow')
+        $(table).fadeIn('slow')
+        
+        var question = function(ques, ans,value){
+            var1 = prompt(ques);
+            ans_lower = ans.toLowerCase()
+            ans_upper = ans.toUpperCase()
+            value = parseFloat(value)
+            alert("your answer is "+var1);
+            if (var1 === ans){
+                    alert(ans + " is CORRECT!");
+                    score = score + (value * 100);
+            }else if (var1 === ans_lower){
+                alert(ans + " is CORRECT!");
+                score = score + (value * 100);
+            }else if (var1 === ans_upper){
+                alert(ans + " is CORRECT!");
+                score = score + (value * 100);
+            }else{
+               confirm("That is INCORRECT! The correct answer is " + ans);
+            }
+            question_num = question_num + 1
+            if (question_num === 9){
+                alert("Your winnings are $" + score + "!")
+                alert("Good job! hope to see you again!")
+                $("div").fadeOut('slow')
+            }
+        };
+    /*
+        y = 0;
+        $('div2').click(function() {
+            if (y === 0){
+                question("What is mass? A the space that an object takes up, b, I don't know, or c: how much it weighs","a");
+            }else if(y ===2){
+                question("Do you like my jepordy game? a; yes, b; no.", "a");
+            }else if(y === 3){
+                question("If you were wrong for the prievious question, would you be derp? a: yes b: no","a");
+            }else if(y == 1){
+                question("You are walking down a street with your friend and you see Justin Bieber walking down the street. Your friend askes you who it is. what do you reply.A: UR MOM HAHAHAHAHAHAHAHAHA!, b: That is the #$#%$$%^%%^, Justin Bieber! , c: OMG! ITS JUSTIN BIEBER!!!! , or d: Wasn't he supposed to be deported or something?", "b")
+                
+            }
+                
+            $(this).fadeOut('slow');
+            y = (y + 1);
+            
+            $(this).fadeOut('slow');    
+        
+            
+    });
+        
+        
+    */ 
+        var problem_set_1 = function(){
+            $(u100).click(function() {
+               question("What is mass? A the space that an object takes up, b, the amount of matter in an object, or c: how much it weighs","b","1");
+               $(this).fadeOut('slow')
+            }); 
+            $(a100).click(function() {
+               question("Do you like my jepordy game? a; yes, b; no.", "a","1"); 
+                $(this).fadeOut('slow')
+            });
+            $(o100).click(function() {
+               question("You are walking down a street with your friend and you see Justin Bieber walking down the street. Your friend askes you who it is. what do you reply.A: UR MOM HAHAHAHAHAHAHAHAHA!, b: That is the #$#%$$%^%%^, Justin Bieber! , c: OMG! ITS JUSTIN BIEBER!!!! , or d: Wasn't he supposed to be deported or something?", "b","1");
+               $(this).fadeOut('slow')
+            });
+                
+            $(u200).click(function() {
+               alert("This is a bonus question");
+               $(this).fadeOut('slow')
+            });
+            $(a200).click(function() {
+               alert("This is a bonus question");
+               $(this).fadeOut('slow')
+            }); 
+            $(o200).click(function() {
+               alert("This is a bonus question");
+               $(this).fadeOut('slow')
+            }); 
+            $(u300).click(function() {
+               alert("This is a bonus question");
+               $(this).fadeOut('slow')
+            });
+            $(a300).click(function() {
+               alert("This is a bonus question");
+               $(this).fadeOut('slow')
+            }); 
+            $(o300).click(function() {
+               alert("This is a bonus question");
+               $(this).fadeOut('slow')
+            });
+        } 
+        var problem_set_2 = function(){
+            $(u100).click(function() {
+               question("What is the mass # of carbon 14? A: 10, B: you need a periodic table, C: 14, or D: not enough information","c","1");
+               $(this).fadeOut('slow')
+            }); 
+            $(a100).click(function() {
+               question("What was the first periodic table ordered by? a; atomic mass, b; mass #, c: Alphabetical order, or D: Atomic #", "a","1"); 
+                $(this).fadeOut('slow')
+            });
+            $(o100).click(function() {
+               question("How many neutrons are in hydrogen? a: 2, B: 235, C: 0, or D: This is impossible to figure out.","C","1")
+               $(this).fadeOut('slow')
+            });
+                
+            $(u200).click(function() {
+               question("What is the atomic mass of the imaginary element Zx (Zxon) if the isotopes are Zx-14 (70%), Zx-12 (30%)? A: 13.4, B: 26, C: 0, or D: 1","a","2");
+               $(this).fadeOut('slow')
+            });
+            $(a200).click(function() {
+               question("What is the amount of protons on helium? A: 12, b: 1, C: 3, or D: 2","d","2");
+               $(this).fadeOut('slow')
+            }); 
+            $(o200).click(function() {
+               question("What did Lord Earnest Rutherford's atom model represent? A: a solid sphere that is indivisable, B: A cookie or plum pudding, with a possitive mass that has negitive electrons embedded into it, C: a positively charged nucleus that is surrounded with a cloud of electrons, D: a nuclus that contains protons & neutrons with definate rings of electrons, or E: a positively charged nucleus with a cloud of electrons  surrounding it.","C","2");
+               $(this).fadeOut('slow')
+            }); 
+            $(u300).click(function() {
+               question("What did J.J. Thompson's atom model represent?  A: a solid sphere that is indivisable, B: A cookie or plum pudding, with a possitive mass that has negitive electrons embedded into it, C: a positively charged nucleus that is surrounded with a cloud of electrons, D: a nuclus that contains protons & neutrons with definate rings of electrons, or E: a positively charged nucleus with a cloud of electrons  surrounding it.","B","3");
+               $(this).fadeOut('slow')
+            });
+            $(a300).click(function() {
+               question("What did Bohr's atom model represent?  A: a solid sphere that is indivisable, B: A cookie or plum pudding, with a possitive mass that has negitive electrons embedded into it, C: a positively charged nucleus that is surrounded with a cloud of electrons, D: a nuclus that contains protons & neutrons with definate rings of electrons, or E: a positively charged nucleus with a cloud of electrons  surrounding it.", "D","3");
+               $(this).fadeOut('slow')
+            }); 
+            $(o300).click(function() {
+               question("What did John Dalton's atom model represent?  A: a solid sphere that is indivisable, B: A cookie or plum pudding, with a possitive mass that has negitive electrons embedded into it, C: a positively charged nucleus that is surrounded with a cloud of electrons, D: a nuclus that contains protons & neutrons with definate rings of electrons, or E: a positively charged nucleus with a cloud of electrons  surrounding it.", "A","3");
+               $(this).fadeOut('slow')
+            });
+        }
+        
+        
+        if (problem_set === '1'){
+            problem_set_1()
+        }else if(problem_set === '2'){
+            problem_set_2()
+        }else{
+            alert("invalid responce, reload page to try again")
+        } 
+        if (question_num === 9){
+            alert("your score is " + score)
+        }
+    });
+});
+
+
+
