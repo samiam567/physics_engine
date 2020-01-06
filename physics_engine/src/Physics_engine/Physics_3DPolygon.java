@@ -5,9 +5,6 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.geom.Area;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 import Physics_engine.Physics_engine_toolbox.faces;
 import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 
@@ -41,6 +38,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	private double maxSize; //the distance from the center that the furthest point is 
 	
+	private Vector3D VecRotation, VecAngularVelocity, VecAngularAccel;
 	private double prevXRotation = 0, prevYRotation = 0, prevZRotation = 0;
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
 	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,isShaded = false,calculateCenter = true;
@@ -56,6 +54,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	double xSizePrev,ySizePrev,zSizePrev,xSizeInit,ySizeInit,zSizeInit; //used to see if the size has changed
 	
+	@SuppressWarnings("unused")
 	private double initialXDistanceFromPointOfRot,initialYDistanceFromPointOfRot,initialZDistanceFromPointOfRot;
 	
 	private class Polygon_point extends point {
@@ -63,13 +62,14 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 		 * 
 		 */
 		private static final long serialVersionUID = -2615566272725032727L;
-		private double xComponent,yComponent,zComponent;
+		
 		private double initialXComponent, initialYComponent, initialZComponent;
 		
 		private Polygon_point[] closestPoints = new Polygon_point[2];
 		
 		private Color color = Color.black;
 		
+		@SuppressWarnings("unused")
 		private Physics_3DPolygon parent;
 		
 		private Polygon_point nextPoint;
@@ -81,6 +81,12 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			xReal = x1;
 			yReal = y1;
 			zReal = z1;
+			
+			this.parent = parent;
+			
+			VecRotation = new Vector3D(drawer,0.0000001,0.0000001,0.0000001);
+			VecAngularVelocity = new Vector3D(drawer,0,0,0);
+			VecAngularAccel = new Vector3D(drawer,0,0,0);
 		}
 		
 		public void setNext(Polygon_point next) {
@@ -177,9 +183,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				totalY += cPoint.getYReal();
 				totalZ += cPoint.getZReal();
 			}
-			double centerXX = totalX/points.length;
-			double centerYY = totalY/points.length;
-		
+	
 			//divide by the number of points to get the average
 			centerX = totalX / points.length;
 			centerY = totalY / points.length;
@@ -292,65 +296,32 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	}
 
 
-	private double[] calculateRotation(double x, double y, double angle) {
-		double[] polar = Vector2D.rectangularToPolar(x, y);
-		return Vector2D.polarToRectangular(polar[0], polar[1] + angle);
-	}
-	
+
 	public void updatePoints() { 
 		
 		if (isRotatable){
 	
 			Polygon_point cPoint = polyPointsStart;
 			int pointCounter = 0;
-			double[] rotComponents;
-			
 			
 			double xI = pointOfRotation.getXReal();
 			double yI = pointOfRotation.getYReal();
 			double zI = pointOfRotation.getZReal();
-			
-			double shiftX = (centerX-xI) - initialXDistanceFromPointOfRot;
-			double shiftY = (centerY-yI) - initialYDistanceFromPointOfRot;
-			double shiftZ = (centerZ-zI) - initialZDistanceFromPointOfRot;
-			
-			
-		/*
-			setPos(0,0,0);
-			
-			updateCenter();
-			
-			setPos(xI,yI,zI);
-		*/
-			
-			
-	
 		
 	
 			updatePointOfRotation();
-			
 			
 			updateSize();
 			
 			
 			if (pointOfRotationPlace != pointOfRotationPlaces.center) {
-			//rotation of the center around the point of rotation
+				//Center Rotation (about the point of rotation)
 				center.setPos( (center.getXReal() - xI) , (center.getYReal() - yI) ,(center.getZReal() - zI) );
 				
-				//zRotation
-				rotComponents = calculateRotation(center.getXReal(),center.getYReal(),zRotation - prevZRotation);
-				center.setPos(rotComponents[0],rotComponents[1],center.getZReal() );
+				center.rotate(new double[] {xRotation - prevXRotation,yRotation - prevYRotation,zRotation - prevZRotation});
 				
-				
-				//xRotation
-				rotComponents = calculateRotation(center.getZReal(),center.getYReal(),xRotation - prevXRotation);
-				center.setPos(center.getXReal(),  rotComponents[1], rotComponents[0]);
-				
+				center.setPos(xI + center.getXReal(), yI + center.getYReal(), zI + center.getZReal());	
 			
-				//yRotation
-				rotComponents = calculateRotation(center.getXReal(),center.getZReal(),yRotation - prevYRotation);
-				center.setPos(xI + rotComponents[0]  ,yI + center.getYReal(),zI +  rotComponents[1] );
-				setPos(center.getXReal(), center.getYReal(), center.getZReal());
 			}
 		
 		//points rotation
@@ -361,31 +332,21 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			double yCI = center.getYReal();
 			double zCI = center.getZReal();
 			
-		
-			
-		
-			
-			
 			//rotation of each point around the center of the object 
 			do {
 				try {
 			
-					cPoint.setPos( cPoint.initialXComponent * xSizeAppearance/xSizeInit,cPoint.initialYComponent * ySizeAppearance/ySizeInit,cPoint.initialZComponent * zSizeAppearance/zSizeInit);
-		
-					
-					//zRotation
-					rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getYReal(),zRotation);
-					cPoint.setPos( rotComponents[0],rotComponents[1],cPoint.getZReal() );
+					//rectangularRotation
+					cPoint.setPos( cPoint.initialXComponent * xSizeAppearance/xSizeInit,cPoint.initialYComponent * ySizeAppearance/ySizeInit,cPoint.initialZComponent * zSizeAppearance/zSizeInit);	
+					cPoint.rotate(new double[] {xRotation,yRotation,zRotation});
 					
 					
-					//xRotation
-					rotComponents = calculateRotation(cPoint.getZReal(),cPoint.getYReal(),xRotation);
-					cPoint.setPos(cPoint.getXReal(),  rotComponents[1], rotComponents[0]);
+					//vector Rotation
+					cPoint.rotate(getVectorRotation());
 					
-				
-					//yRotation
-					rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getZReal(),yRotation);
-					cPoint.setPos(xCI + rotComponents[0],yCI + cPoint.getYReal()  , zCI + rotComponents[1] );
+					
+					
+					cPoint.setPos(xCI + cPoint.getXReal(),yCI + cPoint.getYReal()  , zCI + cPoint.getZReal());
 					
 					points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );			
 					
@@ -474,9 +435,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			calculateCenter();
 
 			Polygon_point cPoint = polyPointsStart,nextPoint;
-			int pointCounter = 0;
-			double[] rotComponents;
-			
+
 			double dA,dB,dAB,area,theta,momInertia = 0,r,totalArea = 0;
 			
 			//getting the total area
@@ -501,7 +460,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				
 				cPoint = cPoint.nextPoint;
 				
-				pointCounter++;
 			} while (cPoint != null);
 			
 			
@@ -533,9 +491,6 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 				
 				cPoint = cPoint.nextPoint;
 				
-			
-				
-				pointCounter++;
 			} while (cPoint != null);
 			momentOfInertia = momInertia;
 			
@@ -1033,6 +988,61 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	@Override
 	public double getMaxSize() {
 		return maxSize;
+	}
+	
+	@Override
+	public void setVectorRotation(Vector3D rotVec) {
+		VecRotation = rotVec;
+		if ( (VecRotation.getI() == 0) || (VecRotation.getJ() == 0) || (VecRotation.getK() == 0) ) {
+			VecRotation.setIJK(VecRotation.getI()+0.000001,VecRotation.getJ()+0.000001,VecRotation.getK()+0.000001);
+		}
+	}
+
+	@Override
+	public void setVectorAngularVelocity(Vector3D angVelVec) {
+		VecAngularVelocity = angVelVec;
+		
+	}
+
+	@Override
+	public void setVectorAngularAccel(Vector3D angAccelVec) {
+		VecAngularAccel = angAccelVec;
+		
+	}
+
+	@Override
+	public void addVectorRotation(Vector3D rotVec) {
+		VecRotation.add(rotVec);
+		if ( (VecRotation.getI() == 0) || (VecRotation.getJ() == 0) || (VecRotation.getK() == 0) ) {
+			VecRotation.setIJK(VecRotation.getI()+0.000001,VecRotation.getJ()+0.000001,VecRotation.getK()+0.000001);
+		}
+	}
+
+	@Override
+	public void addVectorAngularVelocity(Vector3D angVelVec) {
+		VecAngularVelocity.add(angVelVec);
+		
+	}
+
+	@Override
+	public void addVectorAngularAccel(Vector3D angAccelVec) {
+		VecAngularAccel.add(angAccelVec);
+		
+	}
+
+	@Override
+	public Vector3D getVectorRotation() {
+		return VecRotation;
+	}
+
+	@Override
+	public Vector3D getVectorAngularVelocity() {
+		return VecAngularVelocity;
+	}
+
+	@Override
+	public Vector3D getVectorAngularAccel() {
+		return VecAngularAccel;
 	}
 
 

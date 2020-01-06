@@ -10,10 +10,10 @@ import Physics_engine.Physics_engine_toolbox.faces;
 
 public class Rectangular_prism extends Physics_3DPolygon {
 	
-	public Rectangular_prism(object_draw drawer1,double x, double y, double z, double e, double f,double zSize, double mass) {
+	public Rectangular_prism(object_draw drawer1,double x, double y, double z, double xSize, double ySize,double zSize, double mass) {
 		super(drawer1);
 		setPos(x,y,z);
-		setSize(e,f,zSize);
+		setSize(xSize,ySize,zSize);
 		
 		
 		updatePos();

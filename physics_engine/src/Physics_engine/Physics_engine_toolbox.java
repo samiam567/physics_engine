@@ -62,16 +62,22 @@ public class Physics_engine_toolbox {
 				}catch(ClassCastException c) {
 					
 				}	
-					//updating angular velocity
+					//updating rectangular angular velocity
 					((rotatable)current_object).setAngularVelocity(((rotatable)current_object).getAngularVelocityX() + ((massive)current_object).getAngularAccelX() * frames,((rotatable)current_object).getAngularVelocityY() + ((massive)current_object).getAngularAccelY() * frames,((rotatable)current_object).getAngularVelocityZ() + ((rotatable)current_object).getAngularAccelZ() * frames );
 
 					
-					//updating rotation
+					//updating rectangular rotation
 					((rotatable)current_object).setRotation( 
 							((rotatable)current_object).getXRotation() +  ((rotatable)current_object).getAngularVelocityX() * frames,
 							((rotatable)current_object).getYRotation() +  ((rotatable)current_object).getAngularVelocityY() * frames,
 							((rotatable)current_object).getZRotation() +  ((rotatable)current_object).getAngularVelocityZ() * frames
 					);
+					
+					//updating vector angular velocity
+					((rotatable)current_object).getVectorAngularVelocity().add(((rotatable)current_object).getVectorAngularAccel());
+					
+					//updating vector rotation
+					((rotatable)current_object).getVectorRotation().add(((rotatable)current_object).getVectorAngularVelocity());
 					
 					((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
 	
@@ -109,6 +115,15 @@ public class Physics_engine_toolbox {
 								((rotatable)current_object).getZRotation() +  ((rotatable)current_object).getAngularVelocityZ() * frames
 						);
 						
+						//updating vector angular velocity
+						((rotatable)current_object).getVectorAngularVelocity().add(((rotatable)current_object).getVectorAngularAccel());
+						
+						//updating vector rotation
+						((rotatable)current_object).getVectorRotation().add(((rotatable)current_object).getVectorAngularVelocity());
+						
+						((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
+		
+					
 				
 					}	
 					

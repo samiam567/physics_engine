@@ -71,14 +71,18 @@ public class Vector3D extends Physics_shape {
 		j = j1;
 		k = k1;
 		super.setSize(i, j, k);
-		rectangularToPolar();
+		calculateR();
+	}
+	
+	private void calculateR() {
+		r = Math.sqrt(i*i + j*j + k*k);
 	}
 	
 	private void rectangularToPolar() {
 		alpha = Math.acos(i / Math.sqrt(i*i + j*j + k*k));
 		beta = Math.acos(j / Math.sqrt(i*i + j*j + k*k));
 		phi = Math.acos(k / Math.sqrt(i*i + j*j + k*k));
-		r = Math.sqrt(i*i + j*j + k*k);
+		calculateR();
 	}
 	
 	public static double[] rectangularToPolar(double i,double j, double k) {
@@ -125,6 +129,7 @@ public class Vector3D extends Physics_shape {
 	
 	public void multiply(double mult) {
 		setIJK(getI() * mult,getJ() * mult,getK() * mult);
+		calculateR();
 	}
 	
 	public static Vector3D multiply(Vector3D u, double mult) {
@@ -133,6 +138,12 @@ public class Vector3D extends Physics_shape {
 	
 	public void divide(double div) {
 		setIJK(getI() / div,getJ() / div,getK() / div);
+		calculateR();
+	}
+	
+	public void add(Vector3D addVec) {
+		setIJK(getI() + addVec.getI(),getJ() + addVec.getJ(), getK() + addVec.getK());
+		rectangularToPolar();
 	}
 	
 	public static Vector3D cross(Vector3D u, Vector3D q) {

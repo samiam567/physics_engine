@@ -12,6 +12,9 @@ public class point extends Physics_drawable {
 	private double r; //distance from the center of rotation
 	private int quadrant; //the quad this point is in (if applicable)
 	
+	//multipurpose lists for rotation
+	private static double[] rotMagsStat = new double[3];
+	private static double[] rotComps = new double[2]; 
 	public point(object_draw drawer1,double[] dimensions,int id1) { //dimensions = {x,y,z}
 		super(drawer1);
 		setPos(dimensions[0],dimensions[1],dimensions[2]);
@@ -48,7 +51,88 @@ public class point extends Physics_drawable {
 	}
 	
 	
+//rotation ~~~~~~~~~~~~~~~~
+	private static double[] calculateRotation(double x, double y, double angle) {
+		long nanoStart1 = System.nanoTime();
+		double[] polar = Vector2D.rectangularToPolar(x, y);
+		return Vector2D.polarToRectangular(polar[0], polar[1] + angle);	
+	}
 	
+	public static double[] rotate(double x, double y, double z,Vector3D rotVector) { //rotates about the given vector, <the length of the vector> radians
+		
+		//rotate to the plane of the vector
+		rotMagsStat[0] = -rotVector.getAlpha();
+		rotMagsStat[1] = -rotVector.getBeta();
+		rotMagsStat[2] = -rotVector.getPhi();
+		double[] rotCoords = point.rotate(x,y,z,rotMagsStat); 
+		
+		//rotate in that vector's plane
+		rotComps = calculateRotation(rotCoords[2],rotCoords[1],rotVector.getR());
+		rotCoords[2] = rotComps[0];
+		rotCoords[1] = rotComps[1];
+		
+		//rotating back to the original plane
+		rotMagsStat[0] = -rotMagsStat[0];
+		rotMagsStat[1] = -rotMagsStat[1];
+		rotMagsStat[2] = -rotMagsStat[2];
+		return point.backwardsRotate(rotCoords[0],rotCoords[1],rotCoords[2],rotMagsStat);
+	}
+	
+	public static double[] rotate(double x, double y, double z, double[] rotMags) {
+		
+		//zRotation
+		rotComps = calculateRotation(x,y,rotMags[2]);
+		x = rotComps[0];
+		y = rotComps[1];
+		
+		//xRotation
+		rotComps = calculateRotation(z,y,rotMags[0]);
+		z = rotComps[0];
+		y = rotComps[1];
+		
+		//yRotation
+		rotComps = calculateRotation(x,z,rotMags[1]);
+		x = rotComps[0];
+		z = rotComps[1];
+		
+		return new double[] {x,y,z};
+	}
+	
+	public static double[] backwardsRotate(double x, double y, double z, double[] rotMags) { //same as rotate, but in the reverse order
+		
+		
+		//yRotation
+		rotComps = calculateRotation(x,z,rotMags[1]);
+		x = rotComps[0];
+		z = rotComps[1];
+				
+		//xRotation
+		rotComps = calculateRotation(z,y,rotMags[0]);
+		z = rotComps[0];
+		y = rotComps[1];
+	
+		//zRotation
+		rotComps = calculateRotation(x,y,rotMags[2]);
+		x = rotComps[0];
+		y = rotComps[1];
+		
+		return new double[] {x,y,z};
+	}
+	
+	public double[] rotate(Vector3D rotMagn) {
+		rotMagsStat = point.rotate(getXReal(),getYReal(),getZReal(),rotMagn);
+		setPos(rotMagsStat[0],rotMagsStat[1],rotMagsStat[2]);
+		return rotMagsStat;
+	}
+	
+	public double[] rotate(double[] rotMags) {
+		rotMagsStat = point.rotate(getXReal(),getYReal(),getZReal(),rotMags);
+		setPos(rotMagsStat[0],rotMagsStat[1],rotMagsStat[2]);
+		return rotMagsStat;
+	}
+	
+	
+//~~~~~~~~~~~~~~~~~~~~~~~~~
 	public boolean isIn(Physics_3DPolygon pObject) { //returns true if the point is inside the passed object
 			
 		return pObject.getAreaXY().contains(getXReal(),getYReal()) && ( Math.abs(getZReal() - pObject.getCenterZ()) < (pObject.getZSize() + drawer.getFrameStep()) );

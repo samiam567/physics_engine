@@ -50,18 +50,16 @@ public class physics_runner extends physicsRunner {
 		
 		
 		
-		Physics_3DShape shape1 = new Shape3D(drawer,Shape3D.shape3dtype.torus,500,500,0,10,10,5,0.05);
-		shape1.setAngularVelocity(0.02, 0.03, 0.04);
-		shape1.setSpeed(0, 0, 0);
+		Rectangular_prism shape1 = new Rectangular_prism(drawer,200,200,0,50,50,50,1);
 		
 		
 		
-	
 		
 		drawer.add(shape1);
 	
 		shape1.setColor(Color.red);
 		
+		shape1.setVectorAngularVelocity(new Vector3D(drawer,0.00002,0.00002,0.00002));
 
 		
 		drawer.start();
@@ -70,7 +68,7 @@ public class physics_runner extends physicsRunner {
 		
 		
 
-		shape1.setRotation(0.5,0.5,0.5);
+		
 		
 	
 		try {
@@ -82,7 +80,6 @@ public class physics_runner extends physicsRunner {
 		
 	
 	
-	System.out.println("drawer paused.");
 
 	drawer.repaint();
 	waitForEnd();

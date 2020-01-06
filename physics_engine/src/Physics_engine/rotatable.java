@@ -15,18 +15,28 @@ public interface rotatable extends movable { //the ability to be rotated
 	& more
 	*/
 	
+	public void setVectorRotation(Vector3D rotVec);
+	public void setVectorAngularVelocity(Vector3D angVelVec);
+	public void setVectorAngularAccel(Vector3D angAccelVec);
+	
+	public void addVectorRotation(Vector3D rotVec);
+	public void addVectorAngularVelocity(Vector3D angVelVec);
+	public void addVectorAngularAccel(Vector3D angAccelVec);
+	
 	public void setRotation(double xRotation1, double yRotation1, double zRotation1);
 	public void setAngularVelocity(double angVX, double angVY, double angVZ);
 	public void setAngularAccel(double angAccelX, double angAccelY, double angAccelZ);
 	public void setPointOfRotation(point newPointOfRotation);
 	public void setPointOfRotationPlace(Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces newPlace);
 	public void updatePointOfRotation();
+	
+	public Vector3D getVectorRotation();
+	public Vector3D getVectorAngularVelocity();
+	public Vector3D getVectorAngularAccel();
+	
 	public double getXRotation();
 	public double getYRotation();
 	public double getZRotation();
-	public point getCenter();
-	public pointOfRotationPlaces getPointOfRotationPlace();
-	public point getPointOfRotation();
 	
 	public double getAngularVelocityX();
 	public double getAngularVelocityY();
@@ -35,6 +45,12 @@ public interface rotatable extends movable { //the ability to be rotated
 	public double getAngularAccelX();
 	public double getAngularAccelY();
 	public double getAngularAccelZ();
+	
+	public point getCenter();
+	public pointOfRotationPlaces getPointOfRotationPlace();
+	public point getPointOfRotation();
+	
+	
 	
 
 	public boolean getIsRotatable();

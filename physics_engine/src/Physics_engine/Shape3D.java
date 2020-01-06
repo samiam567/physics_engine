@@ -12,7 +12,7 @@ public class Shape3D extends Physics_3DShape {
 		super(drawer1);
 		shape = shape1;
 		construct(x1, y1, z1, xSize1, ySize1, zSize1,delta1);
-
+ 
 	}
 
 	protected double[] equation(double t, double q) {
@@ -41,5 +41,7 @@ public class Shape3D extends Physics_3DShape {
 	
 		return  new double[] {x1,y1,z1};
 	}
+
+	
 
 }

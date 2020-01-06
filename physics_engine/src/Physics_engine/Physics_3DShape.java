@@ -29,6 +29,7 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 	
 	private double maxSize; //the distance from the center that the farthest point is 
 	
+	private Vector3D VecRotation, VecAngularVelocity, VecAngularAccel;
 	private double prevXRotation = 0, prevYRotation = 0, prevZRotation = 0;
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
 
@@ -203,6 +204,9 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 	
 	public Physics_3DShape(object_draw drawer1) {
 		super(drawer1);
+		VecRotation = new Vector3D(drawer,0.0000001,0.0000001,0.0000001);
+		VecAngularVelocity = new Vector3D(drawer,0,0,0);
+		VecAngularAccel = new Vector3D(drawer,0,0,0);
 	}
 	
 	public void construct( double x1, double y1, double z1, double xSize1, double ySize1, double zSize1, double delta1) {
@@ -341,33 +345,20 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 		double xI = pointOfRotation.getXReal();
 		double yI = pointOfRotation.getYReal();
 		double zI = pointOfRotation.getZReal();
-		
-
 	
 		updatePointOfRotation();
-		
-			
+				
 		updateSize();
 			
 		
 		if (pointOfRotationPlace != pointOfRotationPlaces.center) {
 		//Center Rotation
 			center.setPos( (center.getXReal() - xI) , (center.getYReal() - yI) ,(center.getZReal() - zI) );
-				
-			//zRotation
-			rotComponents = calculateRotation(center.getXReal(),center.getYReal(),zRotation - prevZRotation);
-			center.setPos(rotComponents[0],rotComponents[1],center.getZReal() );
-				
-				
-			//xRotation
-			rotComponents = calculateRotation(center.getZReal(),center.getYReal(),xRotation - prevXRotation);
-			center.setPos(center.getXReal(),  rotComponents[1], rotComponents[0]);
-			 
 			
-			//yRotation
-			rotComponents = calculateRotation(center.getXReal(),center.getZReal(),yRotation - prevYRotation);
-			center.setPos(xI + rotComponents[0]  ,yI + center.getYReal(),zI +  rotComponents[1] );
-			setPos(center.getXReal(), center.getYReal(), center.getZReal());
+			center.rotate(new double[] {xRotation - prevXRotation,yRotation - prevYRotation,zRotation - prevZRotation});
+			
+			center.setPos(xI + center.getXReal(), yI + center.getYReal(), zI + center.getZReal());	
+			
 		}
 		
 		//points rotation
@@ -381,22 +372,17 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 		try {
 			do {
 				
-				cPoint.setPos( cPoint.initialXComponent * xSizeAppearance/xSizeInit,cPoint.initialYComponent * ySizeAppearance/ySizeInit,cPoint.initialZComponent * zSizeAppearance/zSizeInit);
-		
-					
-				//zRotation
-				rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getYReal(),zRotation);
-				cPoint.setPos( rotComponents[0],rotComponents[1],cPoint.getZReal() );
-				
-					
-				//xRotation
-				rotComponents = calculateRotation(cPoint.getZReal(),cPoint.getYReal(),xRotation);
-				cPoint.setPos(cPoint.getXReal(),  rotComponents[1], rotComponents[0]);
+				//rectangularRotation
+				cPoint.setPos( cPoint.initialXComponent * xSizeAppearance/xSizeInit,cPoint.initialYComponent * ySizeAppearance/ySizeInit,cPoint.initialZComponent * zSizeAppearance/zSizeInit);	
+				cPoint.rotate(new double[] {xRotation,yRotation,zRotation});
 				
 				
-				//yRotation
-				rotComponents = calculateRotation(cPoint.getXReal(),cPoint.getZReal(),yRotation);
-				cPoint.setPos(xCI + rotComponents[0],yCI + cPoint.getYReal()  , zCI + rotComponents[1] );
+				//vector Rotation
+				cPoint.rotate(getVectorRotation());
+				
+				
+				
+				cPoint.setPos(xCI + cPoint.getXReal(),yCI + cPoint.getYReal()  , zCI + cPoint.getZReal());
 				
 				points[pointCounter].setPos(cPoint.getXReal() , cPoint.getYReal(), cPoint.getZReal() );			
 
@@ -407,6 +393,7 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 		
 		}catch(NullPointerException n) {
 			System.out.println("bad point updatePoints");
+			n.printStackTrace();
 		}
 		setPos(xCI,yCI,zCI);
 			
@@ -625,5 +612,61 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 	public boolean getIsRotatable() {
 		return isRotatable;
 	}
+	
+	@Override
+	public void setVectorRotation(Vector3D rotVec) {
+		VecRotation = rotVec;
+		if ( (VecRotation.getI() == 0) || (VecRotation.getJ() == 0) || (VecRotation.getK() == 0) ) {
+			VecRotation.setIJK(VecRotation.getI()+0.000001,VecRotation.getJ()+0.000001,VecRotation.getK()+0.000001);
+		}
+	}
+
+	@Override
+	public void setVectorAngularVelocity(Vector3D angVelVec) {
+		VecAngularVelocity = angVelVec;
+		
+	}
+
+	@Override
+	public void setVectorAngularAccel(Vector3D angAccelVec) {
+		VecAngularAccel = angAccelVec;
+		
+	}
+
+	@Override
+	public void addVectorRotation(Vector3D rotVec) {
+		VecRotation.add(rotVec);
+		if ( (VecRotation.getI() == 0) || (VecRotation.getJ() == 0) || (VecRotation.getK() == 0) ) {
+			VecRotation.setIJK(VecRotation.getI()+0.000001,VecRotation.getJ()+0.000001,VecRotation.getK()+0.000001);
+		}
+	}
+
+	@Override
+	public void addVectorAngularVelocity(Vector3D angVelVec) {
+		VecAngularVelocity.add(angVelVec);
+		
+	}
+
+	@Override
+	public void addVectorAngularAccel(Vector3D angAccelVec) {
+		VecAngularAccel.add(angAccelVec);
+		
+	}
+
+	@Override
+	public Vector3D getVectorRotation() {
+		return VecRotation;
+	}
+
+	@Override
+	public Vector3D getVectorAngularVelocity() {
+		return VecAngularVelocity;
+	}
+
+	@Override
+	public Vector3D getVectorAngularAccel() {
+		return VecAngularAccel;
+	}
+
 
 }
