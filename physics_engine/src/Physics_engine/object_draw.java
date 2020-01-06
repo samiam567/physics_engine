@@ -20,7 +20,7 @@ public class object_draw extends JPanel {
 	
 	private long frameTime = Settings.frameTime;
 	public double frameStep = Settings.frameStep;
-	private double frameStepCalc = 1;
+	
 
 	public double current_frame = 0; //what frame we are on
 	
@@ -28,7 +28,7 @@ public class object_draw extends JPanel {
 	
 	private long frameStartTime,updateStartTime;
 	private long frameEndTime,updateEndTime;
-	private int wait_time = 40000,wait_time_temp,subCalcTime = 100000,repaintTime;
+	private int wait_time = 1000,wait_time_temp,subCalcTime = 100000,repaintTime;
 	
 	private long frameTimeMultiplier = 30000;
 	
@@ -222,40 +222,54 @@ public class object_draw extends JPanel {
 		if (threadState == 1) {
 			try {
 						
-				
-				while ( frameCount < 1) {
-					
-					updateStartTime = System.nanoTime();
+				if (Settings.fixedFPS_FStep) {
 					
 					frameStartTime = System.nanoTime();
-					repaint();
-					frameEndTime = System.nanoTime();		
-				
-					checkForResize();
-					updateObjects(frameStep); //update the objects
-					current_frame += frameStep;
+					for (int i = 0; i < Settings.FPS; i++) {
+						
+						repaint();
+						
+						while(frameCount < 1) {
+							checkForResize();
+							updateObjects(frameStep);
+							current_frame += frameStep;
+							frameCount += frameStep;
+							WaitNanotime(wait_time);
+							
+						}
+						frameCount = 0;
+						
+					}
+					frameEndTime = System.nanoTime();
+					wait_time = (int) (frameStep*(1000000000 - ((frameEndTime-frameStartTime)-(wait_time/frameStep))))/Settings.FPS;
 					
-					frameCount += frameStep;
-					updateEndTime = System.nanoTime();
+				}else {
+					while ( frameCount < 1) {
+						
+						updateStartTime = System.nanoTime();
+						
+						frameStartTime = System.nanoTime();
+						repaint();
+						frameEndTime = System.nanoTime();		
 					
-					subCalcTime = ((int)( (updateEndTime - updateStartTime)));
-
-					frameStep = ((double)subCalcTime/1000000)/(Settings.frameTime);
-				
+						checkForResize();
+						updateObjects(frameStep); //update the objects
+						current_frame += frameStep;
+						
+						frameCount += frameStep;
+						updateEndTime = System.nanoTime();
+						
+						subCalcTime = ((int)( (updateEndTime - updateStartTime)));
+	
+						frameStep = ((double)subCalcTime/1000000)/(Settings.frameTime);
+					
+					}
+																		
+			
+					//System.out.println("fs" + frameStep);
+					//System.out.println("sc" +subCalcTime);
+					frameCount = 0;
 				}
-													
-				
-				
-				
-				
-				
-
-
-				
-		
-				//System.out.println("fs" + frameStep);
-				//System.out.println("sc" +subCalcTime);
-				frameCount = 0;
 			}catch(ConcurrentModificationException c) {	
 			}catch(NullPointerException e) {
 				System.out.println("nullPointer in object_draw.java");
