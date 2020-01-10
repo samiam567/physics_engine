@@ -12,10 +12,10 @@ public abstract class physics_object implements physics_engine_compatible, Seria
 	public enum object_types {none,physics_object,drawable,movable,massive,pointed,rotatable};
 	
 	public String name = "unNamed"; //the name of the object
-
+	private String type = "physics_object";
 	public object_draw drawer;
 
-	public boolean delete = false; //delete is for the garbage collector (not made yet)
+	public boolean delete = false;
 	
 	public physics_object(object_draw drawer1) {
 		drawer = drawer1;
@@ -43,16 +43,31 @@ public abstract class physics_object implements physics_engine_compatible, Seria
 
 	public void setName(String new_name, int i) { //sets the name of the object (this will be shown if Settings.displayNames is true)
 		name = new_name;
+	}
 	
+	public void setName(String new_name) {
+		name = new_name;
+	}
+	
+	public void setType(String newType) {
+		type = newType;
 	}
 
 	public String getObjectName() { //gets the name of the object
 		return name;
 	}
 	
-	//Getter methods
+	public String getName() {
+		return name;
+	}
+	
+
 	public object_draw getDrawer() {
 		return drawer;
+	}
+	
+	public String getType() {
+		return type;
 	}
 	
 	

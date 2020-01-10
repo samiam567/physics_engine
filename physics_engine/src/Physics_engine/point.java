@@ -1,9 +1,11 @@
 package Physics_engine;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 
 public class point extends Physics_drawable {
 	private int id;
@@ -51,7 +53,7 @@ public class point extends Physics_drawable {
 	}
 	
 	
-//rotation ~~~~~~~~~~~~~~~~
+//rotation -------------------------------------------
 	private static double[] calculateRotation(double x, double y, double angle) {
 		long nanoStart1 = System.nanoTime();
 		double[] polar = Vector2D.rectangularToPolar(x, y);
@@ -60,22 +62,46 @@ public class point extends Physics_drawable {
 	
 	public static double[] rotate(double x, double y, double z,Vector3D rotVector) { //rotates about the given vector, <the length of the vector> radians
 		
-		//rotate to the plane of the vector
-		rotMagsStat[0] = -rotVector.getAlpha();
-		rotMagsStat[1] = -rotVector.getBeta();
-		rotMagsStat[2] = -rotVector.getPhi();
-		double[] rotCoords = point.rotate(x,y,z,rotMagsStat); 
+		//rotate to the plane of the vector ~~~~~
+		rotMagsStat[0] = -rotVector.getTheta();
+		rotMagsStat[1] = -rotVector.getPhi();
+		
+		//zRotation (theta)
+		rotComps = calculateRotation(x,y,rotMagsStat[0]);
+		x = rotComps[0];
+		y = rotComps[1];
+		
+		//yRotation (phi)
+		rotComps = calculateRotation(x,z,rotMagsStat[1]);
+		x = rotComps[0];
+		z = rotComps[1];
+		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		
+		
 		
 		//rotate in that vector's plane
-		rotComps = calculateRotation(rotCoords[2],rotCoords[1],rotVector.getR());
-		rotCoords[2] = rotComps[0];
-		rotCoords[1] = rotComps[1];
+		rotComps = calculateRotation(x,y,rotVector.getR());
+		x = rotComps[0];
+		y = rotComps[1];
 		
-		//rotating back to the original plane
-		rotMagsStat[0] = -rotMagsStat[0];
-		rotMagsStat[1] = -rotMagsStat[1];
-		rotMagsStat[2] = -rotMagsStat[2];
-		return point.backwardsRotate(rotCoords[0],rotCoords[1],rotCoords[2],rotMagsStat);
+		
+		
+		//rotating back to the original plane ~~~~
+		rotMagsStat[0] = rotVector.getTheta();
+		rotMagsStat[1] = rotVector.getPhi();
+		
+		//yRotation (phi)
+		rotComps = calculateRotation(x,z,rotMagsStat[1]);
+		x = rotComps[0];
+		z = rotComps[1];
+		
+		//zRotation (theta)
+		rotComps = calculateRotation(x,y,rotMagsStat[0]);
+		x = rotComps[0];
+		y = rotComps[1];
+		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		
+		return (new double[] {x,y,z});
 	}
 	
 	public static double[] rotate(double x, double y, double z, double[] rotMags) {
@@ -98,26 +124,6 @@ public class point extends Physics_drawable {
 		return new double[] {x,y,z};
 	}
 	
-	public static double[] backwardsRotate(double x, double y, double z, double[] rotMags) { //same as rotate, but in the reverse order
-		
-		
-		//yRotation
-		rotComps = calculateRotation(x,z,rotMags[1]);
-		x = rotComps[0];
-		z = rotComps[1];
-				
-		//xRotation
-		rotComps = calculateRotation(z,y,rotMags[0]);
-		z = rotComps[0];
-		y = rotComps[1];
-	
-		//zRotation
-		rotComps = calculateRotation(x,y,rotMags[2]);
-		x = rotComps[0];
-		y = rotComps[1];
-		
-		return new double[] {x,y,z};
-	}
 	
 	public double[] rotate(Vector3D rotMagn) {
 		rotMagsStat = point.rotate(getXReal(),getYReal(),getZReal(),rotMagn);
@@ -132,7 +138,9 @@ public class point extends Physics_drawable {
 	}
 	
 	
-//~~~~~~~~~~~~~~~~~~~~~~~~~
+//-------------------------------------------------------------
+	
+	
 	public boolean isIn(Physics_3DPolygon pObject) { //returns true if the point is inside the passed object
 			
 		return pObject.getAreaXY().contains(getXReal(),getYReal()) && ( Math.abs(getZReal() - pObject.getCenterZ()) < (pObject.getZSize() + drawer.getFrameStep()) );
@@ -211,6 +219,12 @@ public class point extends Physics_drawable {
 	public void paint(Graphics page) {
 		if (Settings.displayObjectNames) page.drawString(name, getX(), getY()); //display the name of the point
 		page.drawLine(getX(), getY(), getX(), getY()); //draw the point
+	}
+
+	public Point get2DPoint() {
+		Point pp = new Point();
+		pp.setLocation(getXReal(),getYReal());
+		return pp;
 	}
 
 	

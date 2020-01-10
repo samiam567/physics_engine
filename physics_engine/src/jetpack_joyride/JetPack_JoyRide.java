@@ -465,6 +465,7 @@ public class JetPack_JoyRide extends physicsRunner {
 		Settings.rotationAlgorithm = 6;
 		Settings.timeOutTime = 5000000;
 		drawer.setFrameTimeMultiplier(100);
+		Settings.fixedFPS_FStep = false;
 	}
 	
 	public static void loadGame() throws ClassNotFoundException, IOException{

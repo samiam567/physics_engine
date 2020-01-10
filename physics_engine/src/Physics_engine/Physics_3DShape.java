@@ -10,7 +10,7 @@ import java.util.Comparator;
 
 import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 
-public abstract class Physics_3DShape extends Physics_drawable implements rotatable, Serializable {
+public abstract class Physics_3DShape extends Physics_shape implements rotatable, Serializable {
 	
 	/**
 	 * 
@@ -29,7 +29,7 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 	
 	private double maxSize; //the distance from the center that the farthest point is 
 	
-	private Vector3D VecRotation, VecAngularVelocity, VecAngularAccel;
+	private Vector3D VecRotation, VecAngularVelocity, VecAngularAccel,prevVectorRotation;
 	private double prevXRotation = 0, prevYRotation = 0, prevZRotation = 0;
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
 
@@ -332,10 +332,7 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 		
 	}
 	
-	private double[] calculateRotation(double x, double y, double angle) {
-		double[] polar = Vector2D.rectangularToPolar(x, y);
-		return Vector2D.polarToRectangular(polar[0], polar[1] + angle);
-	}
+
 	
 	public void updatePoints() {	
 		Polygon_point cPoint = polyPointsStart;
@@ -352,18 +349,23 @@ public abstract class Physics_3DShape extends Physics_drawable implements rotata
 			
 		
 		if (pointOfRotationPlace != pointOfRotationPlaces.center) {
-		//Center Rotation
+
+			//Center Rotation (about the point of rotation)
 			center.setPos( (center.getXReal() - xI) , (center.getYReal() - yI) ,(center.getZReal() - zI) );
 			
-			center.rotate(new double[] {xRotation - prevXRotation,yRotation - prevYRotation,zRotation - prevZRotation});
+			center.rotate(new double[] {(xRotation-prevXRotation) * parallaxValue,(yRotation-prevYRotation) * parallaxValue,(zRotation-prevZRotation) * parallaxValue});
+			
+			center.rotate(Vector3D.multiply(Vector3D.add(getVectorRotation(),Vector3D.multiply(prevVectorRotation, -1)), parallaxValue));
 			
 			center.setPos(xI + center.getXReal(), yI + center.getYReal(), zI + center.getZReal());	
+			
+			prevVectorRotation.setIJK(getVectorRotation().getI(),getVectorRotation().getJ(),getVectorRotation().getK());
 			
 		}
 		
 		//points rotation
 
-		updateCenter();
+		center.updatePos();
 			
 		double xCI = center.getXReal();
 		double yCI = center.getYReal();

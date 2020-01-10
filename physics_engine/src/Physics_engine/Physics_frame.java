@@ -40,8 +40,6 @@ public class Physics_frame extends JFrame{
 
 
 	public void resizeObjects() {
-		Exception e = new Exception();
-		e.printStackTrace();
 		physicsRunner.resize(this);
 		boundingRectangle.setRect(0,0,getWidth(),getHeight());
 	}

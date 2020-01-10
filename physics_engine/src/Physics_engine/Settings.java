@@ -21,8 +21,8 @@ public class Settings {
 	public static long frameTime = 100; //<for auto FPS&Fstep> the time (in milliseconds) we allow for a single unit of game time
 	
 	public static boolean fixedFPS_FStep = true; //if the fps and fstep should be fixed or automatically altered
-	public static int FPS = 30;
-	public static final double frameStep = 0.1; //how many sup-calculations are made in between each frame render (0.1 = 10 calculations)
+	public static int FPS = 50;
+	public static double frameStep = 0.01; //how many sup-calculations are made in between each frame render (0.1 = 10 calculations)
 
 	
 	

@@ -28,7 +28,7 @@ public class object_draw extends JPanel {
 	
 	private long frameStartTime,updateStartTime;
 	private long frameEndTime,updateEndTime;
-	private int wait_time = 1000,wait_time_temp,subCalcTime = 100000,repaintTime;
+	private long wait_time = 1000,wait_time_temp,subCalcTime = 100000,repaintTime;
 	
 	private long frameTimeMultiplier = 30000;
 	
@@ -70,6 +70,8 @@ public class object_draw extends JPanel {
 	}
 	
 	public void start() {
+		frameStep = Settings.frameStep;
+		frameTime = Settings.frameTime;
 		updateThreader.state = 1;
 		threadState = 1;
 		updateThreader.start();
@@ -224,12 +226,12 @@ public class object_draw extends JPanel {
 						
 				if (Settings.fixedFPS_FStep) {
 					
-					frameStartTime = System.nanoTime();
+					
 					for (int i = 0; i < Settings.FPS; i++) {
-						
+						frameStartTime = System.nanoTime();
 						repaint();
 						
-						while(frameCount < 1) {
+						while(frameCount <= 1) {
 							checkForResize();
 							updateObjects(frameStep);
 							current_frame += frameStep;
@@ -238,10 +240,11 @@ public class object_draw extends JPanel {
 							
 						}
 						frameCount = 0;
+						frameEndTime = System.nanoTime();
+						wait_time = (int) (frameStep*(1000000000 - (((double)(frameEndTime-frameStartTime))-(((double)wait_time)/frameStep))))/Settings.FPS;
+						
 						
 					}
-					frameEndTime = System.nanoTime();
-					wait_time = (int) (frameStep*(1000000000 - ((frameEndTime-frameStartTime)-(wait_time/frameStep))))/Settings.FPS;
 					
 				}else {
 					while ( frameCount < 1) {
@@ -266,8 +269,7 @@ public class object_draw extends JPanel {
 					}
 																		
 			
-					//System.out.println("fs" + frameStep);
-					//System.out.println("sc" +subCalcTime);
+				
 					frameCount = 0;
 				}
 			}catch(ConcurrentModificationException c) {	
@@ -288,7 +290,7 @@ public class object_draw extends JPanel {
 		Collections.sort( drawables, new Comparator<drawable>() {
 	     
 	        public int compare(drawable o1, drawable o2) {
-	            return Double.compare(o2.getZReal(), o1.getZReal());
+	            return Double.compare(o2.getCenterZ(), o1.getCenterZ());
 	        }
 
 	
@@ -298,7 +300,7 @@ public class object_draw extends JPanel {
 			for (drawable current_object : drawables) {
 			
 				
-				if ( current_object.getIsVisible() ) {
+				if ( current_object.getIsVisible() && current_object.getCenterZ()+current_object.getZSize() >= 0) {
 					try {
 						
 						if ( frame.checkIsInFrame((pointed) current_object) || ((drawable) current_object).getIsAlwaysVisible()) {
@@ -466,7 +468,7 @@ public class object_draw extends JPanel {
 		frameTimeMultiplier = frameTime;
 	}
 	
-	public int getWaitTime() {
+	public long getWaitTime() {
 		return wait_time;
 	}
 

@@ -15,10 +15,12 @@ public abstract class Physics_drawable extends physics_object implements movable
 	
 	protected double xSpeed,ySpeed,zSpeed,xAccel,yAccel,zAccel,xSize,ySize, zSize,xSizeAppearance,ySizeAppearance,zSizeAppearance;
 	
+	protected double parallaxValue = 1;
+	
 	protected point[] points = null; //there are no points
 	int[] pointRenderOrder = null;
 	
-//    protected int x,y,z;
+//	protected int x,y,z;
 	protected double xReal,yReal,zReal;
 
 
@@ -29,12 +31,16 @@ public abstract class Physics_drawable extends physics_object implements movable
 	
 	public boolean hasParentObject = false, isAnchored = false,isFilled = false, isVisible = true, isAlwaysVisible = false;
 	
-	 
+	@Deprecated
 	public Physics_drawable() {
 		super(physics_runner.drawer);
+		
 	}
+	
+	
 	public Physics_drawable(object_draw drawer1) {
 		super(drawer1);
+		
 	}
 	
 	protected void calculateCenter() {
@@ -60,9 +66,11 @@ public abstract class Physics_drawable extends physics_object implements movable
 	
 	public void updateSize() {
 		//as z gets bigger, the object gets further away from the viewer, and the object appears to be smaller
-		xSizeAppearance = (Settings.distanceFromScreen * xSize ) / (zReal + Settings.distanceFromScreen);
-		ySizeAppearance = (Settings.distanceFromScreen * ySize ) / (zReal + Settings.distanceFromScreen);
-		zSizeAppearance = (Settings.distanceFromScreen * zSize ) / (zReal + Settings.distanceFromScreen);		
+		parallaxValue = (Settings.distanceFromScreen) / (centerZ + Settings.distanceFromScreen);
+		if (Double.isNaN(parallaxValue) ) parallaxValue = 1;
+		xSizeAppearance = parallaxValue * xSize;
+		ySizeAppearance = parallaxValue * ySize;
+		zSizeAppearance = parallaxValue * zSize;
 	}
 	
 	public double getCenterX() { //finds the x coordinate of the object's center
@@ -103,14 +111,26 @@ public abstract class Physics_drawable extends physics_object implements movable
 		zSpeed = zSpeed1;
 	}
 	
+	public void addSpeed(double xSpeed1, double ySpeed1, double zSpeed1) {
+		xSpeed += xSpeed1;
+		ySpeed += ySpeed1;
+		zSpeed += zSpeed1;
+	}
+	
 	public void setAccel(double xAccel1, double yAccel1, double zAccel1) { //sets the acceleration of the object
 		xAccel = xAccel1;
 		yAccel = yAccel1;
 		zAccel = zAccel1;
 	}
 	
+	public void addAccel(double xAccel1, double yAccel1, double zAccel1) { //sets the acceleration of the object
+		xAccel += xAccel1;
+		yAccel += yAccel1;
+		zAccel += zAccel1;
+	}
 	
-	public void setCenter(double centerX1,double centerY1, double centerZ1) {
+	@Deprecated
+	public void setCenter(double centerX1,double centerY1, double centerZ1) { //same as setPos
 		centerX = centerX1;
 		centerY = centerY1;
 		centerZ = centerZ1;

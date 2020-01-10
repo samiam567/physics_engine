@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
 import circle_tessellation.Tessellation_runner;
 import pole_position.Track;
+import zortex.Gun;
 
 public class physics_runner extends physicsRunner {
 
@@ -50,18 +51,25 @@ public class physics_runner extends physicsRunner {
 		
 		
 		
-		Rectangular_prism shape1 = new Rectangular_prism(drawer,200,200,0,50,50,50,1);
+		//Gun shape1 = new Gun(drawer);
+		
+		Rectangular_prism shape1 = new Rectangular_prism(drawer,Settings.width/2, Settings.height/2, 0,50,100,20,1);
+		shape1.setPointOfRotation(new point(drawer,0,0,0));
+		
+		Vector3D vec1 = new Vector3D(drawer,1,1,1);
+		vec1.setName("vec1", 1);
+		vec1.setR(0.1);
+		System.out.println(vec1.getObjectName() + "\ni: " + vec1.getI() + "\nj: " + vec1.getJ() + "\nk: " + vec1.getK() + "\nr: " + vec1.getR());
 		
 		
-		
+		shape1.setVectorAngularVelocity(vec1);	
+		//shape1.setAngularVelocity(0.2,0.1, 0.1);
 		
 		drawer.add(shape1);
 	
-		shape1.setColor(Color.red);
+		shape1.setColor(Color.black);
 		
-		shape1.setVectorAngularVelocity(new Vector3D(drawer,0.00002,0.00002,0.00002));
-
-		
+	
 		drawer.start();
 		
 		resize(frame);
@@ -74,7 +82,6 @@ public class physics_runner extends physicsRunner {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

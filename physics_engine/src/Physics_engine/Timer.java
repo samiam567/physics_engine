@@ -6,13 +6,13 @@ public class Timer extends physics_object {
 	protected double magnatude;
 	protected boolean timerDone = false; 
 	protected long startTime;
-	protected String type;
+	protected String timerType;
 	public Timer(object_draw drawer1, double magnatude1,String type1) {
 		super(drawer1);
 		magnatude = magnatude1;
-		type = type1;
+		timerType = type1;
 	
-		switch(type) {
+		switch(timerType) {
 			case("frames"):
 				break;
 			case("seconds"):
@@ -22,7 +22,7 @@ public class Timer extends physics_object {
 				startTime = System.nanoTime();
 				break;
 			default:
-				Exception e = new Exception("" + type + " is not a vaid unit of time for forceTimer " + name);
+				Exception e = new Exception("" + timerType + " is not a vaid unit of time for forceTimer " + name);
 				e.printStackTrace();
 				break;
 		}
@@ -33,7 +33,7 @@ public class Timer extends physics_object {
 	}
 	
 	public void frameUpdate2(double frames) {
-		switch(type) {
+		switch(timerType) {
 			case("frames"):
 				if (magnatude <= 0) {
 					timerDone = true;
@@ -61,7 +61,7 @@ public class Timer extends physics_object {
 			break;
 				
 			default:
-				Exception e = new Exception("" + type + " is not a vaid unit of time for forceTimer " + name);
+				Exception e = new Exception("" + timerType + " is not a vaid unit of time for forceTimer " + name);
 				e.printStackTrace();
 			break;
 		}

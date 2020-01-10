@@ -17,10 +17,21 @@ public interface physics_engine_compatible {
 	
 	public void frameUpdate3(double frames);
 	
+	public String getName();
+
 	public String getObjectName();
+	
+	public void setName(String newName, int a);
+	
+	public void setName(String newName);
+	
+	public String getType();
+	
+	public void setType(String newType);
 
 	public void Update(double frames);
-
+	
+	
 	
 	
 }

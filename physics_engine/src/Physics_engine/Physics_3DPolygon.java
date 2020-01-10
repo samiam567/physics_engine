@@ -38,7 +38,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	private double maxSize; //the distance from the center that the furthest point is 
 	
-	private Vector3D VecRotation, VecAngularVelocity, VecAngularAccel;
+	private Vector3D VecRotation, VecAngularVelocity, VecAngularAccel,prevVectorRotation;
 	private double prevXRotation = 0, prevYRotation = 0, prevZRotation = 0;
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
 	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,isShaded = false,calculateCenter = true;
@@ -84,7 +84,9 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			this.parent = parent;
 			
+			prevVectorRotation = new Vector3D(drawer,0.0000001,0.0000001,0.0000001);
 			VecRotation = new Vector3D(drawer,0.0000001,0.0000001,0.0000001);
+			VecRotation.setName("rotationVec", 1);
 			VecAngularVelocity = new Vector3D(drawer,0,0,0);
 			VecAngularAccel = new Vector3D(drawer,0,0,0);
 		}
@@ -315,18 +317,25 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 			
 			if (pointOfRotationPlace != pointOfRotationPlaces.center) {
+				
+				
 				//Center Rotation (about the point of rotation)
 				center.setPos( (center.getXReal() - xI) , (center.getYReal() - yI) ,(center.getZReal() - zI) );
 				
-				center.rotate(new double[] {xRotation - prevXRotation,yRotation - prevYRotation,zRotation - prevZRotation});
+				center.rotate(new double[] {(xRotation-prevXRotation) * parallaxValue,(yRotation-prevYRotation) * parallaxValue,(zRotation-prevZRotation) * parallaxValue});
+				
+				
+				center.rotate(Vector3D.multiply(Vector3D.add(getVectorRotation(),Vector3D.multiply(prevVectorRotation, -1)), parallaxValue));
+			
 				
 				center.setPos(xI + center.getXReal(), yI + center.getYReal(), zI + center.getZReal());	
-			
+				
+				prevVectorRotation.setIJK(getVectorRotation().getI(),getVectorRotation().getJ(),getVectorRotation().getK());
 			}
 		
 		//points rotation
-
-			updateCenter();
+			
+			center.updatePos();
 			
 			double xCI = center.getXReal();
 			double yCI = center.getYReal();
@@ -736,7 +745,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 			
 		}
 		
-		if (isShaded) calculateClosestPoints(); // gajhga ghagh reghgoiehg poh opH oPHH HGHSG HSGH SLG SRGHSR GIHRG OIHG WOPHOIGH GO IHWH OG HR GOERG H OHGHG
+		if (isShaded) calculateClosestPoints(); 
 		
 	}
 	
