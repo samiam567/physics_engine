@@ -1,130 +1,86 @@
-package zortex;
+package Alecraft;
 
-import java.awt.Color;
-import java.awt.event.KeyAdapter;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JOptionPane;
-
-import Physics_engine.FCPS_display;
-import Physics_engine.FPS_display;
 import Physics_engine.Physics_drawable;
 import Physics_engine.Physics_engine_toolbox;
-import Physics_engine.Physics_engine_toolbox.pointOfRotationPlaces;
-import Physics_engine.Physics_frame;
-import Physics_engine.Rectangular_prism;
-import Physics_engine.ScoreBoard;
 import Physics_engine.Settings;
 import Physics_engine.Vector3D;
 import Physics_engine.drawable;
 import Physics_engine.movable;
 import Physics_engine.object_draw;
-import Physics_engine.physicsRunner;
 import Physics_engine.point;
-import Physics_engine.pointed;
-import Physics_engine.rectangle;
 import Physics_engine.rotatable;
+import zortex.Enemy;
 
-
-public class Zortex_runner extends physicsRunner {
-	
-public static final String Version = "3.0.0";
-	
-	public static int Score = 0;
-	
-	public static Gun gun;
-	private static ScoreBoard scoreboard;
-
-	public static boolean game_over = false;
-	
-	public static int wallZDist = 200;
-	
+public class Cursor extends Physics_drawable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7871054511354443848L;
+	private object_draw drawer;
 	public static int prevMouseX = Settings.width/2, prevMouseY = Settings.height/2;
 	
-	public static int wallXSize = 2*Settings.width;
-	public static int wallYSize = 2*Settings.height;
-	
-	public static int charSpeed = 100;
-
-	public static double wallZLength = 20500;
-	
-	public static WallRect startWallRect, endWallRect;
-
-	public static double  bodyXSize = Settings.width/4, bodyYSize = Settings.height/4;
-	
-	public static void main(String[] args) {
+	private static int cursorLength = Alecraft_runner.blockSize * 5;
+	public Cursor(object_draw drawer,int size) {
+		super(drawer);
+		this.drawer = drawer;
+		addListeners();
 		
-		frame = new Physics_frame();
-		run();
 		
 	}
 	
-	public static void setDrawer(object_draw drawer1) {
-		frame =  new Physics_frame();
-		drawer = drawer1;
-		drawer.setFrame(frame);
-	
-		
+	public void addBlockAtCursor(BlockTypes blockTypeToAdd) {
+		Block.changeBlockType(getBlockAtCursor(true), blockTypeToAdd);
 	}
 	
-	public static void reset() {
-		resize(); //this resets all of the enemies' positions 
-		Score = 0;
-		game_over = false;
+	public void removeBlockAtCursor() {
+		Block.changeBlockType(getBlockAtCursor(false), BlockTypes.Air);
 	}
 	
-	public static void addObjects() {
+	public Block getBlockAtCursor(boolean addMode) {
+		Block prevBlock = null;
+		point probePoint = new point(drawer,Settings.width/2,Settings.height/2,0);
 		
-		Settings.fixedFPS_FStep = false;
-		Settings.frameStep = 0.01;
-		gun = new Gun(drawer);
-		drawer.add(gun);
-		
-
-		FPS_display fps = new FPS_display(drawer,30,30);
-		fps.setColor(Color.DARK_GRAY);
-		drawer.add(fps);
-
-		FCPS_display fcps = new FCPS_display(drawer,30,50);
-		fcps.setColor(Color.DARK_GRAY);
-		drawer.add(fcps);
-	
-		scoreboard = new ScoreBoard(drawer,Settings.width * 0.9,Settings.height * 0.1,"Score:",0);
-		scoreboard.setColor(Color.green);
-		drawer.add(scoreboard);
-		
-		
+		for (int z = 0; z <= cursorLength; z += Alecraft_runner.blockSize/2) {
+			for (Block cBlock : Alecraft_runner.blockList) {
+				probePoint.setZ(z);
+				try {
+					if (Physics_engine_toolbox.distance(probePoint, cBlock.getCenter()) < Alecraft_runner.blockSize) {
+						if (! cBlock.blockType.equals(BlockTypes.Air)) {
+							if (addMode) {
+								if (prevBlock.equals(null)) System.out.println("cannot add block, out of bounds");
+								return prevBlock;
+							}else {//removeMode
+								return cBlock;
+							}
+						}
+						prevBlock = cBlock;
+					}
+				}catch(NullPointerException n) {System.out.println("nullBlock");}
 				
-		//add walls
-		for (int i = 0; i <= wallZLength; i+= wallZDist) {
-			endWallRect = new WallRect(drawer,i);
-			object_draw.WaitNanotime(20000000);
+				
+				
+			}
 		}
-				
-		drawer.add(new Enemy(drawer,Enemy.zSet));
+		
+		System.out.println("no block found");
+		
+		return null;
 	}
 	
-	public static void run() {
-		
-		drawer = new object_draw(frame);
-		
-		Settings.frameTime = 100;
-		
-		frame.setVisible(true);
-		
-		frame.setTitle("Zortex V" + Version);
-		frame.setColor(Color.black);
-		
-		drawer.start();
-		
-		addObjects();
-				
-		
-				
+	
+	
+	@Override
+	public void paint(Graphics page) {
+		page.drawLine((int)(getCenterX() - getXSize()/2),(int)( getCenterY()),(int)( getCenterX() + getXSize()/2),(int)( getCenterY()));
+	}
+	
+	private void addListeners() {
 		drawer.addMouseMotionListener( new MouseMotionListener() {
 
 			@Override
@@ -135,7 +91,7 @@ public static final String Version = "3.0.0";
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				Vector3D mouseMoveVec = new Vector3D(drawer,prevMouseY-e.getY(),e.getX()-prevMouseX,0);
-				mouseMoveVec.multiply(0.001);
+				mouseMoveVec.multiply(0.01);
 				for (drawable cOb : drawer.getDrawables()) {
 					if (cOb.getType().equals("enviro-move")) {
 						try {
@@ -165,24 +121,7 @@ public static final String Version = "3.0.0";
 			
 		});
 		
-		drawer.addMouseListener(new MouseListener(){
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-			}
-			@Override
-			public void mouseEntered(MouseEvent arg0) {}
-			@Override
-			public void mouseExited(MouseEvent arg0) {}
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				gun.fire();
-			}
-			@Override
-			public void mouseReleased(MouseEvent arg0) {}});
-		
-		frame.addKeyListener(new KeyListener() {
+		drawer.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent m) {
 				System.out.println("keypressed");
 				switch(m.getKeyCode()) {
@@ -195,7 +134,7 @@ public static final String Version = "3.0.0";
 	        	  	case(65): //a
 	        	  		for (drawable cOb : drawer.getDrawables()) {
 	    					if (cOb.getType().equals("enviro-move")) {
-	    						((movable) cOb).setSpeed(charSpeed,((movable) cOb).getYSpeed(),((movable) cOb).getZSpeed());
+	    						((movable) cOb).setSpeed(Alecraft_runner.charSpeed,((movable) cOb).getYSpeed(),((movable) cOb).getZSpeed());
 	    					}
 	    				}
 	        	  	
@@ -218,7 +157,7 @@ public static final String Version = "3.0.0";
 	        	  	case(32): //space
 	        	  		for (drawable cOb : drawer.getDrawables()) {
 	    					if (cOb.getType().equals("enviro-move")) {
-	    						((movable) cOb).setSpeed(((movable) cOb).getXSpeed(),charSpeed,((movable) cOb).getZSpeed());
+	    						((movable) cOb).setSpeed(((movable) cOb).getXSpeed(),Alecraft_runner.charSpeed,((movable) cOb).getZSpeed());
 	    					}
 	    				}
 	        	  	
@@ -238,7 +177,7 @@ public static final String Version = "3.0.0";
 	        	  	case(16): //Shift
 	        	  		for (drawable cOb : drawer.getDrawables()) {
 	    					if (cOb.getType().equals("enviro-move")) {
-	    						((movable) cOb).setSpeed(((movable) cOb).getXSpeed(),-charSpeed,((movable) cOb).getZSpeed());
+	    						((movable) cOb).setSpeed(((movable) cOb).getXSpeed(),-Alecraft_runner.charSpeed,((movable) cOb).getZSpeed());
 	    					}
 	    				}
 		        	  		
@@ -256,13 +195,16 @@ public static final String Version = "3.0.0";
 	        	  	
 	        	  	
 	        	  	case(10): //ENTER
-	        	  		drawer.add(new Enemy(drawer,Enemy.zSet));
+	        	  		addBlockAtCursor(BlockTypes.Ground);
 	        	  	break;
 	        	  	
+	        	  	case(8): //Backspace
+	        	  		removeBlockAtCursor();
+	        	  		break;
 	        	  	case(68): //d
 	        	  		for (drawable cOb : drawer.getDrawables()) {
 	    					if (cOb.getType().equals("enviro-move")) {
-	    						((movable) cOb).setSpeed(-charSpeed,((movable) cOb).getYSpeed(),((movable) cOb).getZSpeed());
+	    						((movable) cOb).setSpeed(-Alecraft_runner.charSpeed,((movable) cOb).getYSpeed(),((movable) cOb).getZSpeed());
 	    					}
 	        	  		}
 	        	  	
@@ -303,7 +245,7 @@ public static final String Version = "3.0.0";
 					case('w'):
 						for (drawable cOb : drawer.getDrawables()) {
 							if (cOb.getType().equals("enviro-move")) {
-								((movable) cOb).addSpeed(0,0,-charSpeed);
+								((movable) cOb).addSpeed(0,0,-Alecraft_runner.charSpeed);
 							}
 						}
 		        	  	for (drawable cOb : drawer.getDrawables()) {
@@ -319,7 +261,7 @@ public static final String Version = "3.0.0";
 					case('s'):
 						for (drawable cOb : drawer.getDrawables()) {
 							if (cOb.getType().equals("enviro-move")) {
-								((movable) cOb).addSpeed(0,0,charSpeed);
+								((movable) cOb).addSpeed(0,0,Alecraft_runner.charSpeed);
 							}
 						}
 		        	  	for (drawable cOb : drawer.getDrawables()) {
@@ -337,48 +279,7 @@ public static final String Version = "3.0.0";
 			
 		});
 		
-		
-	//setting up	
-		
-		resize();
-
-		
-		
-		while(frame.isActive()) {
-			scoreboard.setScore(Score);
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			if (game_over) {
-				drawer.pause();
-				JOptionPane.showMessageDialog(drawer, "GAME OVER\nYour score was " + Score);
-
-				if (JOptionPane.showConfirmDialog(null,"Do you want to play another game?", "Another?", 1, 1, null) == 0) {
-					//playing again
-					reset();
-					resize();
-					drawer.clearObjects();
-					
-					addObjects();
-					drawer.resume();
-				}else { 
-					//ending game
-					frame.dispose();
-					
-					break;			
-				}
-			}
-		}
-		
-		System.exit(1);
 	}
+
 	
-	public static void resize() {
-		physicsRunner.resize(frame);
-		
-		scoreboard.setPos(Settings.width * 0.9,Settings.height * 0.1,0);
-	}
 }

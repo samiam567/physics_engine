@@ -39,9 +39,6 @@ public class Enemy extends Sphere implements resizable, movable {
 		setSize(Settings.width/4,Settings.width/4, Settings.width/4);
 	
 	
-		hasNormalCollisions = true;
-		
-		
 		setHasNormalCollisions(false);
 		setColor(Color.green);
 		setPointOfRotation(new point(drawer,Settings.width/2,Settings.height/2,0));

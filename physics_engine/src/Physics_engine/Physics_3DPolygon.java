@@ -41,7 +41,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	private Vector3D VecRotation, VecAngularVelocity, VecAngularAccel,prevVectorRotation;
 	private double prevXRotation = 0, prevYRotation = 0, prevZRotation = 0;
 	double xRotation,yRotation,zRotation,angularVelocityX, angularVelocityY, angularVelocityZ, angularAccelX, angularAccelY, angularAccelZ;
-	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,isShaded = false,calculateCenter = true;
+	public boolean isRotatable = true,isTangible = true, affectedByBorder = true,calculateCenter = true;
 	protected boolean hasNormalCollisions = true;
 	private int numberOfPoints;
 	
@@ -57,7 +57,7 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	@SuppressWarnings("unused")
 	private double initialXDistanceFromPointOfRot,initialYDistanceFromPointOfRot,initialZDistanceFromPointOfRot;
 	
-	private class Polygon_point extends point {
+	class Polygon_point extends point {
 		/**
 		 * 
 		 */
@@ -112,6 +112,10 @@ public class Physics_3DPolygon extends Physics_shape implements pointed, rotatab
 	
 	public double getMass() {
 		return mass;
+	}
+	
+	protected void updateIsInFrame() {
+		setIsInFrame(drawer.frame.checkIsInFrame(this));
 	}
 	
 	public pointOfRotationPlaces getPointOfRotationPlace() {

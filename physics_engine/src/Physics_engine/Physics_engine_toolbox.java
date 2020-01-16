@@ -79,7 +79,7 @@ public class Physics_engine_toolbox {
 					//updating vector rotation
 					((rotatable)current_object).getVectorRotation().add(Vector3D.multiply(((rotatable)current_object).getVectorAngularVelocity(),frames) );
 					
-					((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
+					if (((drawable)current_object).getIsInFrame()) ((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
 	
 				
 				
@@ -121,7 +121,7 @@ public class Physics_engine_toolbox {
 						//updating vector rotation
 						((rotatable)current_object).getVectorRotation().add(Vector3D.multiply(((rotatable)current_object).getVectorAngularVelocity(),frames) );
 					
-						((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
+						if (((drawable)current_object).getIsInFrame())  ((massive)current_object).updatePoints();//set the points based on the x and y values and calculate rotation
 		
 					
 				

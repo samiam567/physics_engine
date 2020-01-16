@@ -49,6 +49,8 @@ public class Settings {
 	public static final int forceMethod = 1;
 	public static int collision_algorithm = 5; //possibles are 1,2,3, 4, and 5
 
+	public static point lightSourcePoint = new point(null,Settings.lightSource[0],Settings.lightSource[1],Settings.lightSource[2]);
+
 
 
 	

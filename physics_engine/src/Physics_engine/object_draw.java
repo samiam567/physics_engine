@@ -300,10 +300,10 @@ public class object_draw extends JPanel {
 			for (drawable current_object : drawables) {
 			
 				
-				if ( current_object.getIsVisible() && current_object.getCenterZ()+current_object.getZSize() >= 0) {
+				if (((drawable) current_object).getIsAlwaysVisible() || (current_object.getIsVisible() && current_object.getCenterZ()+current_object.getZSize() >= -Settings.distanceFromScreen )) {
 					try {
 						
-						if ( frame.checkIsInFrame((pointed) current_object) || ((drawable) current_object).getIsAlwaysVisible()) {
+						if ( ((drawable) current_object).getIsInFrame() ) {
 							
 							page.setColor(current_object.getColor());
 		

@@ -27,9 +27,13 @@ public abstract class Physics_drawable extends physics_object implements movable
 	protected Color color = Color.BLACK;
 	public String drawMethod = "paint";
 	
+	private boolean isInFrame = true;
+	
 	protected movable parent_object; //this object will move and act relative to it's parent object (useful for making complex objects out of multiple shapes)
 	
-	public boolean hasParentObject = false, isAnchored = false,isFilled = false, isVisible = true, isAlwaysVisible = false;
+	public boolean isShaded = false, hasParentObject = false, isAnchored = false,isFilled = false, isVisible = true, isAlwaysVisible = false;
+	
+	public int transparency = 0;
 	
 	@Deprecated
 	public Physics_drawable() {
@@ -86,8 +90,11 @@ public abstract class Physics_drawable extends physics_object implements movable
 	protected void updatePos() {
 		xReal = centerX - xSize/2;
 		yReal = centerY - ySize/2;
-		zReal = centerZ - zSize/2;
-		
+		zReal = centerZ - zSize/2;	
+	}
+	
+	protected void updateIsInFrame() {
+		setIsInFrame(drawer.frame.contains(getX(),getY()));
 	}
 	
 	public void setSize(double xSize1,double ySize1,double zSize1) { //sets the size of the object
@@ -264,6 +271,25 @@ public abstract class Physics_drawable extends physics_object implements movable
 
 	public movable getParentObject() {
 		return parent_object;
+	}
+
+
+	public boolean getIsInFrame() {
+		return isInFrame;
+	}
+
+
+	public void setIsInFrame(boolean isInFrame) {
+		this.isInFrame = isInFrame;
+	}
+	
+	public void setTransparency(int newTrans) {
+		transparency = newTrans;
+		
+	}
+	
+	public int getTransparency() {
+		return transparency;
 	}
 
 }

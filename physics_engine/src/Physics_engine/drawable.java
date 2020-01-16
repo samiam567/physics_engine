@@ -58,4 +58,7 @@ public interface drawable extends physics_engine_compatible { //the ability to b
 	public double getCenterZ();
 	
 	
+	public boolean getIsInFrame();
+	public void setIsInFrame(boolean isInFrame);
+	
 }

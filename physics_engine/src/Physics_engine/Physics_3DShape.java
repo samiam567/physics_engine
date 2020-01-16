@@ -420,6 +420,8 @@ public abstract class Physics_3DShape extends Physics_shape implements rotatable
 		}
 	}
 
+
+	
 	public void calculatePointValues() { 
 		
 		//pointConstCenterInitial = new point(drawer,centerX,centerY,centerZ);
