@@ -109,6 +109,7 @@ public abstract class Physics_drawable extends physics_object implements movable
 		centerX = centerX1;
 		centerY = centerY1;
 		centerZ = centerZ1;
+		updateCenter();
 		updatePos();
 	}
 	

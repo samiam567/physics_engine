@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class Text extends Physics_drawable {
 	private String text;
-	private Font font = new Font("TimesRoman", Font.BOLD,(int) Math.round(.01 * Settings.height) );
+	private Font font = new Font("TimesRoman", Font.BOLD,(int) Math.round(.015 * Settings.height) );
 	private double fontSize, textLength;
 	private String[] lines;
 	public boolean textWrapping = true;
@@ -25,6 +25,11 @@ public class Text extends Physics_drawable {
 		text = text1;
 		updateFont();
 		isAnchored = true;
+	}
+	
+	public void add(String newText) {
+		text = "" + text + newText + " ";
+		updateFont();
 	}
 	
 	public void setFont(Font font1) {

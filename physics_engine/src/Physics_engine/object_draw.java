@@ -76,6 +76,7 @@ public class object_draw extends JPanel {
 		threadState = 1;
 		updateThreader.start();
 		setSize(Settings.width, Settings.height);
+	
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -183,12 +184,12 @@ public class object_draw extends JPanel {
 			t++;
 	}
 	
-	public static void WaitNanotime(long time) { //more accurate wait method for nanotime
+	public static void WaitNanotime(long d) { //more accurate wait method for nanotime
 		long StartTime = System.nanoTime();
 		long CurrentTime;	
 		do {
 			CurrentTime = System.nanoTime();
-		}while ( (CurrentTime-StartTime) <= time);
+		}while ( (CurrentTime-StartTime) <= d);
 	}
 	
 	
@@ -290,7 +291,7 @@ public class object_draw extends JPanel {
 		Collections.sort( drawables, new Comparator<drawable>() {
 	     
 	        public int compare(drawable o1, drawable o2) {
-	            return Double.compare(o2.getCenterZ(), o1.getCenterZ());
+	            return Double.compare(o1.getCenterZ(), o2.getCenterZ());
 	        }
 
 	
