@@ -10,15 +10,16 @@ public class Robot extends Rectangular_prism {
 
 	private static final double robotPosErrThreshold = 0.02;
 	
-	public static double robSqX = (2) - 0.5;
-	public static double robSqY = (0.5) - 0.3;
-	public double angle = -Math.PI;
-	
-	private static final double robotXSize = 12.25 * Auton_simulator_runner.inchToPixelConversion;
-	private static final double robotYSize = 14.25 * Auton_simulator_runner.inchToPixelConversion;
+	private static final double robotXSize = 13.5 * Auton_simulator_runner.inchToPixelConversion;
+	private static final double robotYSize = 15.25 * Auton_simulator_runner.inchToPixelConversion;
 	private static final double robotZSize = 17.5 * Auton_simulator_runner.inchToPixelConversion;
 	
 	
+	public static double robSqX = (2) - 0.8;
+	public static double robSqY = (6) - 0.3;
+	public double angle = 0;
+	
+	public static double intakeSize = 5.5 * Auton_simulator_runner.inchToPixelConversion;
 	public double xPosTarget, yPosTarget;
 	
 	private int maxCount = 1000;
@@ -27,11 +28,11 @@ public class Robot extends Rectangular_prism {
 	
 	
 	public double getIntakeX() {
-		return getCenterX() + 0.5*robotYSize*Math.sin(getZRotation());
+		return getCenterX() + intakeSize*Math.sin(getZRotation());
 	}
 	
 	public double getIntakeY() {
-		return getCenterY() - 0.5*robotYSize*Math.cos(getZRotation());
+		return getCenterY() - intakeSize*Math.cos(getZRotation());
 	}
 
 	public Robot(object_draw drawer1, double x, double y) {
@@ -41,7 +42,7 @@ public class Robot extends Rectangular_prism {
 		
 		
 		setPos(x,y,0);
-		isTangible = false;
+		isTangible = true;
 		xPosTarget = x;
 		yPosTarget = y;
 		
@@ -119,7 +120,7 @@ public class Robot extends Rectangular_prism {
 	}
 	
 	public void paint(Graphics page) {
-		page.fillRect((int)(getIntakeX()-robotXSize/8),(int)( getIntakeY()-robotXSize/8), (int)(robotXSize/4), (int)(robotXSize/4));
+		page.fillOval((int)(getIntakeX()-intakeSize),(int)( getIntakeY()-intakeSize), (int)(intakeSize*2), (int)(intakeSize*2));
 
 		super.paint(page);
 	}

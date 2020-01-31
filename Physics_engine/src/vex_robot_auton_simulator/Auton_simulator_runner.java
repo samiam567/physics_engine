@@ -106,7 +106,7 @@ public class Auton_simulator_runner extends physicsRunner {
 				switch(m.getKeyCode()) {
 			
 	        	  	case(87): //w
-	        	  		robot.move(2);
+	        	  		robot.move(0.1);
 	        	  		
 	        	  		break;
 	        	  	

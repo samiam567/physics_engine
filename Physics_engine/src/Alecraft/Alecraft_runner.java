@@ -7,7 +7,7 @@ import Physics_engine.physicsRunner;
 
 public class Alecraft_runner extends physicsRunner {
 
-	private static final int xSize = 10, ySize = 10, zSize = 4;
+	private static final int xSize = 5, ySize = 5, zSize = 5;
 	public static final int blockSize = 250;
 	static int charSpeed = 10;
 	public static Block[][][] blocks;

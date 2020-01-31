@@ -61,7 +61,9 @@ public class Cursor extends Physics_drawable {
 						}
 						prevBlock = cBlock;
 					}
-				}catch(NullPointerException n) {System.out.println("nullBlock");}
+				}catch(NullPointerException n) {
+					System.out.println("nullBlock");
+					}
 				
 				
 				
@@ -195,10 +197,12 @@ public class Cursor extends Physics_drawable {
 	        	  	
 	        	  	
 	        	  	case(10): //ENTER
+	        	  		System.out.println("add block requested");
 	        	  		addBlockAtCursor(BlockTypes.Ground);
 	        	  	break;
 	        	  	
 	        	  	case(8): //Backspace
+	        	  		System.out.println("remove block requested");
 	        	  		removeBlockAtCursor();
 	        	  		break;
 	        	  	case(68): //d

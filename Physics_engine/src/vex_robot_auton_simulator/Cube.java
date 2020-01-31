@@ -56,7 +56,7 @@ public class Cube extends rectangle {
 		if (Auton_simulator_runner.robot.isPickingUpCubes == 1) {
 			if (! isPickedUp) {
 				intakePoint.setPos(Auton_simulator_runner.robot.getIntakeX(), Auton_simulator_runner.robot.getIntakeY(), -0.001);
-				if (Physics_engine_toolbox.distance(getCenter(), intakePoint) < cubeSize) {
+				if (Physics_engine_toolbox.distance(getCenter(), intakePoint) < cubeSize/2) {
 					isPickedUp = true;
 					setPos(getX(),getY(),-cubeSize*(cubesStacked));
 					cubesStacked++;

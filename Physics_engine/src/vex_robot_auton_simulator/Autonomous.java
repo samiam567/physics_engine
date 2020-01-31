@@ -7,7 +7,7 @@ import Physics_engine.object_draw;
 
 public class Autonomous {
 	
-	public static String[] auton_names = {"backup","blue left","blue right","red left", "red right","stack"};
+	public static String[] auton_names = {"backup","blue left","blue right","red left", "red right","blue left 8 stak", "red right 8 stak","stack"};
 	public static int auton = 1;
 	
 	private static int SIDE_LEFT = 1, SIDE_RIGHT = -1;
@@ -60,22 +60,17 @@ public class Autonomous {
 	    break;
 	
 	    case(1): //blue left
-	  
-	  	extendRampAndMoveSquares(0.3);
-	  	turn(45 * SIDE_LEFT,100);
-	  	
+	    extendRampAndMoveSquares(0.3);	  	
 	  	left_intake.move(255);
 	  	right_intake.move(255);
-	  	moveSquares(0.5);
-	  	delay(5);
-	  	turn(-45 * SIDE_LEFT,100);
-	  	moveSquares(1);
+	  	moveSquares(1.6);
 	  	left_intake.move(0);
 	  	right_intake.move(0);
-	  	moveSquares(-1.5);
-	  	turn(90 * SIDE_LEFT,100);
-	  	moveSquares(0.8);
+	  	moveSquares(-0.9);
+	  	turn(-135 ,100);
+	  	moveSquares(1.1);
 	  	stack(4);
+	  	
 	    break;
 	
 	    case(2): //blue right
@@ -86,11 +81,15 @@ public class Autonomous {
 	    turn(90,100);
 	    left_intake.move(255);
 	    right_intake.move(255);
-	    moveSquares(2);
+	    moveSquares(1.2);
+	    delay(500);
+	    moveSquares(0.6);
 	    delay(5);
-	    moveSquares(-2);
+	    left_intake.move(0);
+	    right_intake.move(0);
+	    moveSquares(-1.8);
 	    turn(90,100);
-	    moveSquares(1.3);
+	    moveSquares(1.21);
 	    stack(5);
 	 
 
@@ -103,29 +102,94 @@ public class Autonomous {
 	    turn(-90,100);
 	    left_intake.move(255);
 	    right_intake.move(255);
-	    moveSquares(2);
+	    moveSquares(1.2);
+	    delay(500);
+	    moveSquares(0.6);
 	    delay(5);
-	    moveSquares(-2);
+	    left_intake.move(0);
+	    right_intake.move(0);
+	    moveSquares(-1.8);
 	    turn(-90,100);
-	    moveSquares(1.3);
+	    moveSquares(1.21);
 	    stack(5);
 	    break;
 	
 	    case(4): //red right
-	    autonomous(1,0);
-	
-	    case(5): //stack
+	    extendRampAndMoveSquares(0.3);
+        turn(70,100);
+
+        left_intake.move(255);
+        right_intake.move(255);
+        moveSquares(0.39);
+        delay(5);
+        turn(-70 * SIDE_LEFT,100);
+        moveSquares(1.2);
+        left_intake.move(0);
+        right_intake.move(0);
+        moveSquares(-0.8);
+        turn(130 ,100);
+        moveSquares(0.8);
+        stack(4);
+	    break;
+	    
+	    case(5): //blue left 8 stak
+	    extendRampAndMoveSquares(0.3);
+	  	turn(-55 * SIDE_LEFT,100);
+	  	
+	  	left_intake.move(255);
+	  	right_intake.move(255);
+	  	moveSquares(0.5);
+	  	delay(5);
+	  	turn(55 * SIDE_LEFT,100);
+	  	moveSquares(1);
+	  	left_intake.move(0);
+	  	right_intake.move(0);
+	  	moveSquares(-1);
+	  	turn(90,100);
+	  	moveSquares(1);
+	  	turn(-90,100);
+	  	left_intake.move(255);
+	  	right_intake.move(255);
+	  	moveSquares(0.7);
+	  	delay(500);
+	  	moveSquares(0.3);
+	  	turn(-130,100);
+	  	moveSquares(2.2);
+	  	stack(8);
+	    break;
+	    	
+	    case(6): //red right 8 stak
+	    extendRampAndMoveSquares(0.3);
+	  	turn(55 * SIDE_LEFT,100);
+	  	
+	  	left_intake.move(255);
+	  	right_intake.move(255);
+	  	moveSquares(0.5);
+	  	delay(5);
+	  	turn(-55 * SIDE_LEFT,100);
+	  	moveSquares(1);
+	  	left_intake.move(0);
+	  	right_intake.move(0);
+	  	moveSquares(-1);
+	  	turn(-90,100);
+	  	moveSquares(1);
+	  	turn(90,100);
+	  	left_intake.move(255);
+	  	right_intake.move(255);
+	  	moveSquares(0.7);
+	  	delay(500);
+	  	moveSquares(0.3);
+	  	turn(130,100);
+	  	moveSquares(2.2);
+	  	stack(8);
+	    break;
+	    
+	    case(7): //stack
 	      stack(10);
 	      break;
 	
-	    case(6): //experimental left far
 	
-	      break;
-	
-	    case(7): //experimental far right
-	
-	    break;
-	
+	  
 	    case(8): //skills
 	
 	    break;
