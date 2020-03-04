@@ -374,7 +374,7 @@ public static int getIntegerFromUser(JFrame messageAnchor, String message) {
 	public static physics_object loadObjectFromFile(String fileName) {
 		
 		try {
-			System.out.println("Loading object from ile...");
+			System.out.println("Loading object from file...");
 			
 			
 			ObjectInputStream loader = new ObjectInputStream(new FileInputStream(fileName));

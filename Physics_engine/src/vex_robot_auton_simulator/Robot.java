@@ -15,7 +15,7 @@ public class Robot extends Rectangular_prism {
 	private static final double robotZSize = 17.5 * Auton_simulator_runner.inchToPixelConversion;
 	
 	
-	public static double robSqX = (2) - 0.8;
+	public static double robSqX = (2) - 0.86;
 	public static double robSqY = (6) - 0.3;
 	public double angle = 0;
 	

@@ -14,13 +14,14 @@ public class Autonomous {
 	
 	private static int SIDE_LEFT = 1, SIDE_RIGHT = -1;
 	
-	private static motor left_intake = new motor(), right_intake = new motor();
+	private static motor ramp_mtr = new motor("ramp_mtr"), left_intake = new motor("left_intake"), right_intake = new motor("right_intake"), intake_lift_mtr = new motor("intake_lift_mtr");
+
 	private static int getAuton() {
 		return auton;
 	}
 
 	 public static void autonomous() {
-		 autonomous(getAuton(),1);
+		 autonomous(getAuton(),1);	 
 	 }
 
 	 
@@ -51,170 +52,294 @@ public class Autonomous {
 	
 	  switch(auton_sel) {
 	    case(0)://forward-up
-        if (mode ==  1) {
-          extendRampAndMoveSquares(1.2);
-        }else{
-          moveSquares(1.2);
-        }
-        delay(500);
-   	   moveSquares(-1.2);
-	    break;
+	     if (mode ==  1) {
+	       extendRampAndMoveSquares(1.2);
+	     }else{
+	       moveSquares(1.2);
+	     }
+	     delay(500);
+	    moveSquares(-1.2);
+	   break;
 
-	    case(1): //blue left
-	    extendRampAndMoveSquares(0.3);
+	   case(1): //blue left
+	   extendRampAndMoveSquares(0.3);
 
-	  	left_intake.move(255);
-	  	right_intake.move(255);
+	   left_intake.move(255);
+	   right_intake.move(255);
 
-	    //pick up cubes
-	    moveSquares(0.6,90);
-	    moveSquares(0.6,90);
-	    moveSquares(0.4,80);
+	   //pick up cubes
+	   moveSquares(1.6,40);
 
-	    delay(50);
-	    left_intake.move(0);
-	    right_intake.move(0);
-	    delay(100);
-	  	moveSquares(-0.9);
-	  	turn(-130 ,150);
-	  	moveSquares(0.5);
-	  	stack(4);
+	   left_intake.move(0);
+	   right_intake.move(0);
 
+	   moveSquares(-1.25,125);
+	   turn(130,150);
 
-	    break;
+	   left_intake.move(125);
+	   right_intake.move(125);
+	   moveSquares(0.66,125);
+	   left_intake.move(0);
+	   right_intake.move(0);
 
-	    case(2): //blue right
-
-	  	extendRampAndMoveSquares(0.3);
-	    left_intake.move(255);
-	    right_intake.move(255);
-    moveSquares(1.1);
-	    delay(500);
-	    moveSquares(0.6);
-	    delay(5);
-	    left_intake.move(0);
-	    right_intake.move(0);
-	    moveSquares(-1.85);
-	    turn(90,100);
-	    moveSquares(1.21);
-	    stack(5);
+	   stack(4);
 
 
-	    break;
+	   break;
+
+	   case(2): //blue right
+
+	   extendRampAndMoveSquares(0.3);
+	   left_intake.move(255);
+	   right_intake.move(255);
+	   moveSquares(1.1);
+	   delay(500);
+	   moveSquares(0.6);
+	   delay(5);
+	   left_intake.move(0);
+	   right_intake.move(0);
+	   moveSquares(-1.85);
+	   turn(90,100);
+	   moveSquares(1.21);
+	   stack(5);
 
 
-	    case(3): //red left
-    extendRampAndMoveSquares(0.3);
-	    left_intake.move(255);
-	    right_intake.move(255);
-    moveSquares(1.1);
-	    delay(500);
-	    moveSquares(0.6);
-	    delay(5);
-	    left_intake.move(0);
-	    right_intake.move(0);
-	    moveSquares(-1.85);
-	    turn(-90,100);
-	    moveSquares(0.7);
-	    stack(4);
-	    break;
-
-	    case(4): //red right
-	     extendRampAndMoveSquares(0.3);
-
- 	  	left_intake.move(255);
- 	  	right_intake.move(255);
-      moveSquares(1.6);
-      delay(10);
-      left_intake.move(0);
-      right_intake.move(0);
-      delay(10);
- 	  	moveSquares(-0.9);
- 	  	turn(130,130);
- 	  	moveSquares(1.1);
- 	  	stack(5);
-	    break;
-
-	    case(5): //blue left 8 stak
-	    extendRampAndMoveSquares(2.35);
-
-	  	delay(5);
-	  	turn(90 * SIDE_LEFT,255);
-	  	moveSquares(1);
-	  	left_intake.move(0);
-	  	right_intake.move(0);
-	  	turn(90 * SIDE_LEFT,100);
-	  	left_intake.move(255);
-	  	right_intake.move(255);
-	  	moveSquares(2.3);
-	  	turn(90 * SIDE_LEFT,255);
-
-	  	moveSquares(1.7);
-
-	  	stack(8);
-	    break;
-
-	    case(6): //red right 8 stak
-	    	extendRampAndMoveSquares(2.35);
-
-	  	delay(5);
-	  	turn(90 * SIDE_RIGHT,255);
-	  	moveSquares(1);
-	  	left_intake.move(0);
-	  	right_intake.move(0);
-	    turn(90 * SIDE_RIGHT,100);
-	  	left_intake.move(255);
-	  	right_intake.move(255);
-	  	moveSquares(2.3);
-	  	turn(90 * SIDE_RIGHT,255);
-
-	  	moveSquares(1.7);
-
-	  	stack(8);
-	    break;
-
-	    case(7): //stack
-	      stack(10);
-	      break;
+	   break;
 
 
+	   case(3): //red left
+	   extendRampAndMoveSquares(0.3);
+	   left_intake.move(255);
+	   right_intake.move(255);
+	   moveSquares(1.1);
+	   delay(500);
+	   moveSquares(0.6);
+	   delay(5);
+	   left_intake.move(0);
+	   right_intake.move(0);
+	   moveSquares(-1.85);
+	   turn(-90,100);
+	   moveSquares(0.7);
+	   stack(4);
+	   break;
 
-	    case(8): //skills
-	    extendRampAndMoveSquares(0.3);
+	   case(4): //red right
+	   extendRampAndMoveSquares(0.3);
 
-	  	left_intake.move(255);
-	  	right_intake.move(255);
+	   left_intake.move(255);
+	   right_intake.move(255);
 
-	    //pick up cubes
-	    moveSquares(0.6,90);
-	    moveSquares(0.6,90);
-	    moveSquares(0.4,80);
-	    
-	    moveSquares(1);
-	    moveSquares(0.6,90);
-	    moveSquares(0.6,90);
-	    moveSquares(0.4,80);
-	    
-	    delay(50);
-	    left_intake.move(0);
-	    right_intake.move(0);
-	    delay(100);
-	  	
-	  	turn(-45, 100);
-	  	moveSquares(0.5);
-	  	stack(8);
+	   //pick up cubes
+	   moveSquares(1.6,40);
 
-	    break;
+	   left_intake.move(0);
+	   right_intake.move(0);
 
-	    case(9): //calibration
+	   moveSquares(-1.25,125);
+	   turn(130,150);
 
-	    break;
+	   left_intake.move(125);
+	   right_intake.move(125);
+	   moveSquares(0.66,125);
+	   left_intake.move(0);
+	   right_intake.move(0);
 
-	    case(10): //none
+	   stack(4);
+	   break;
+
+	   case(5): //blue left 8 stak
+	   extendRampAndMoveSquares(2.35);
+
+	   delay(5);
+	   turn(90 * SIDE_LEFT,255);
+	   moveSquares(1);
+	   left_intake.move(0);
+	   right_intake.move(0);
+	   turn(90 * SIDE_LEFT,100);
+	   left_intake.move(255);
+	   right_intake.move(255);
+	   moveSquares(2.3);
+	   turn(90 * SIDE_LEFT,255);
+
+	   moveSquares(1.7);
+
+	   stack(8);
+	   break;
+
+	   case(6): //red right 8 stak
+	     extendRampAndMoveSquares(2.35);
+
+	   delay(5);
+	   turn(90 * SIDE_RIGHT,255);
+	   moveSquares(1);
+	   left_intake.move(0);
+	   right_intake.move(0);
+	   turn(90 * SIDE_RIGHT,100);
+	   left_intake.move(255);
+	   right_intake.move(255);
+	   moveSquares(2.3);
+	   turn(90 * SIDE_RIGHT,255);
+
+	   moveSquares(1.7);
+
+	   stack(8);
+	   break;
+
+	   case(7): //stack
+	     stack(10);
+	     break;
 
 
-	    break;
-	  }
+
+	   case(8): //skills
+	   extendRampAndMoveSquares(0.3);
+
+	   left_intake.move(255);
+	   right_intake.move(255);
+
+	   //pick up cubes
+	   moveSquares(1.6,40);
+
+	   moveSquares(1);
+
+	   moveSquares(1.6,40);
+
+	   turn(-45, 155);
+
+	   delay(50);
+	   left_intake.move(50);
+	   right_intake.move(50);
+
+	   delay(100);
+	   moveSquares(0.95);
+	   left_intake.move(0);
+	   right_intake.move(0);
+	   stack(8);
+	   //8 stack stacked
+	   
+	   turn(135,155);
+	   
+	   moveSquares(1.2);
+	  
+	   left_intake.move(155);
+	   right_intake.move(155);
+	   
+	   moveSquares(0.4);
+	   
+	   left_intake.move(0);
+	   right_intake.move(0);
+	   
+	   moveSquares(-0.2);
+	   
+	   setAPIDPosition(ramp_mtr,60*84/12,155);
+	   setAPIDPosition(intake_lift_mtr,90 * 84/12,155);
+
+       
+       left_intake.move(-125);
+       right_intake.move(-125);
+       
+       delay(500);
+       
+       moveSquares(-0.5);     
+       
+       left_intake.move(0);
+       right_intake.move(0);
+       
+       setAPIDPosition(ramp_mtr,0,155);
+       setAPIDPosition(intake_lift_mtr,0,155);
+       //tower gotten
+       
+       moveSquares(-0.36);
+       
+       turn(90,155);
+       
+       moveSquares(1);
+       
+       left_intake.move(255);
+       right_intake.move(255);
+       moveSquares(0.5);
+       left_intake.move(0);
+       right_intake.move(0);
+       
+       moveSquares(-0.2);
+       
+       //lift arms
+	   setAPIDPosition(ramp_mtr,60*84/12,155);
+       setAPIDPosition(intake_lift_mtr,90*84/12,155);
+             
+       left_intake.move(-100);
+       right_intake.move(-100);
+       
+       moveSquares(-0.5);
+       
+       left_intake.move(0);
+       right_intake.move(0);
+       //tower gotten
+      
+       moveSquares(-1);
+       
+       turn(-90,155);
+       
+       moveSquares(0.6);
+       
+       turn(90,155);
+       
+ 
+       left_intake.move(200);
+       right_intake.move(200);
+       moveSquares(4,40);
+       left_intake.move(50);
+       right_intake.move(50);
+       
+       moveSquares(0.5);
+     
+       turn(-90,155);
+       
+       moveSquares(3.2);
+       
+       stack(7);
+       //stack
+       
+       moveSquares(-0.5);
+       
+       turn(-90,155);
+       
+       left_intake.move(200);
+       right_intake.move(200);
+       moveSquares(0.35);
+       left_intake.move(0);
+       right_intake.move(0);
+       turn(-90,155);
+       
+       moveSquares(0.6);
+       
+       moveSquares(-0.2);
+       
+       //lift arms
+	   setAPIDPosition(ramp_mtr,60*84/12,155);
+       setAPIDPosition(intake_lift_mtr,90*84/12,155);
+             
+       left_intake.move(-100);
+       right_intake.move(-100);
+       
+       moveSquares(-0.5);
+       
+       left_intake.move(0);
+       right_intake.move(0);
+       //tower gotten
+       
+       
+	   break;
+
+	   case(9): //calibration
+
+	   break;
+
+	   case(10): //none
+
+
+	   break;
+	 }
 	    
 	  
 	  }
@@ -285,6 +410,11 @@ public class Autonomous {
 	  public static void consoleLogN(String stfToPrint) {
 		  Auton_simulator_runner.console.add(stfToPrint + "\n");
 		  System.out.println(stfToPrint);
+	  }
+	  
+	  public static void setAPIDPosition(motor mtr, double degs, double speed) {
+		  consoleLogN("moving " + mtr.name + " to " + degs + " degrees " + " at " + speed + " speed with PID.");
+		  
 	  }
 	  
 }
