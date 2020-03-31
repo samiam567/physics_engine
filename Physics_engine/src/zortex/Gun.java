@@ -10,7 +10,7 @@ import calculator.Settings;
 
 public class Gun extends Rectangular_prism {
 	public Gun(object_draw drawer1) {
-		super(drawer1, Settings.width*.45,Settings.height*.71,100,Settings.width/100,Settings.width/50,Settings.width/3,1);
+		super(drawer1, Settings.width*.45,Settings.height*.71,0,Settings.width/100,Settings.width/50,Settings.width/3,1);
 		isAnchored = true;
 		setType("gun");
 		
@@ -24,7 +24,7 @@ public class Gun extends Rectangular_prism {
 		
 		isFilled = true;
 		setColor(Color.LIGHT_GRAY);
-		
+		setPos(centerX,centerY,0);
 	}
 	
 	public void fire() {

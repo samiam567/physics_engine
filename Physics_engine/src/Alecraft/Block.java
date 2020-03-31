@@ -23,7 +23,7 @@ public class Block extends Rectangular_prism {
 		isFilled = true;
 		
 		isShaded = true;
-		transparency = 3;
+		transparency = 1;
 		Block.setSettings(this);
 		drawer.add(this);
 	}
